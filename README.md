@@ -1,4 +1,4 @@
-# Missing Data Diagnostics for Meta-Anaylses
+# Missing Data Diagnostics for Meta-Analyses
 
 This repository contains files relevant for a tutorial on diagnosing missing data issues in a meta-analysis.
 
