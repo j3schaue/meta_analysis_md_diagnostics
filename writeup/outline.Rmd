@@ -1,0 +1,39 @@
+---
+title: "Outline"
+output: word_document
+---
+
+1. Describe data and prior analysis of these data.
+2. Primer on missing data terms and why missingness can matter.
+3. Issue 1: What data is missing and how much? Knowing which and how much data is missing is important for at least two reasons. First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data are missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.
+
+     - Plots
+
+        i. Whole-data plots
+        ii. Bivariate (or sets of variables)
+        iii. Comparison with effect size and error variances
+    
+    - Numerical summaries
+
+        i. Raw counts/percents
+        
+             - Raw counts are useful in telling us how many effects went into fitting a model.
+             
+        ii. Precision averages
+        
+             - Precision averages are useful in telling us whether the big or small studies are used to fit a model.
+             - Potential sticking points: dependent effect sizes and study-level predictors. If a study has several effect estimates (as in the data), and the predictor is at the study level (and not effect size level), then precision averages (and percents) may count this multiple times. But that doesn't seem right.
+    
+    - Practical guidance for reporting
+   
+          
+4. Issue 2: Why is the data missing?
+
+    - Assumptions of MAR, MCAR, MNAR, MAAR
+    - Illustration in data
+    - Potential tests
+     
+5. Potential corrections, and what is known about them in meta-analysis
+
+
+     
