@@ -3,7 +3,10 @@ title: "Outline"
 output: word_document
 ---
 
-1. Describe data and prior analysis of these data.
+1. Describe data and prior analysis of these data. As part of this tutorial we use data analyzed by Tanner-Smith et al. (2016) on substance abuse inverventions for adolescents. These data were extracted from 61 unique randomized trials and quasi-experiments, and include 95 different effects. These effects include contrasts between a given treatment condition and a control condition within a study, or between two different treatement conditions in the same study. 
+
+There are  a range of intervention types and venues that have been studied on individuals who use different substances and who differ in a variety of ways. For instance, interventions might focus on cognitive behavioral therapy (CBT), family therapy, or pharmacological therapy. Interventions could be in- or out-patient. Individuals might present using marijuana, which is most common among adolescents, or alcohol or opioids. THey may come from wealthy families or poor families. Thus, Tanner-Smith et al. examined how treatment effects varied according to the type of therapies and individuals studied. They found...
+
 2. Primer on missing data terms and why missingness can matter.
 3. Issue 1: What data is missing and how much? Knowing which and how much data is missing is important for at least two reasons. First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data are missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.
 
