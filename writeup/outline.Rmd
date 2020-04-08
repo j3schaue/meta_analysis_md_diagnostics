@@ -30,13 +30,20 @@ There are  a range of intervention types and venues that have been studied on in
     - Practical guidance for reporting
    
           
-4. Issue 2: Why is the data missing?
+4. Issue 2: Why are data missing?
 
-    - Assumptions of MAR, MCAR, MNAR, MAAR
+    - Assumptions of MAR, MCAR, MNAR, MAAR, ignorability
     - Illustration in data
     - Potential tests
      
 5. Potential corrections, and what is known about them in meta-analysis
+
+     - Likelihood-based approaches like EM, FIML
+     - Imputation-based approaches like MI, SI, LVCF
+     - Selection models
+
+
+     
 
 
      
