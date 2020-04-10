@@ -1,0 +1,47 @@
+---
+title: "Meta-Analyses with Incomplete Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In a meta-analysis, we are interested in the conditional distribution of effect estimates given some covariates and estimation error variances:
+\[
+f(T | X, v, \eta)
+\]
+where $T$ denotes an effect estimate, $X$ denotes the covariate(s), $v$ is the estimation error variance, and $\eta \in \mathcal{H}$ is the parameters of the meta-analysis model. 
+For example, if this is a random effects meta-regression $\eta = (\beta_0, \ldots \beta_{p-1}, \tau^2)$.
+
+Suppose some $X$ are missing and let $R$ be an indicator for whether an $X$ is observed.
+In general, we have to consider the joint distribution of $R$ and the data. 
+Ibrahim et al. (1996, 2000) suggest an approach that considers the joint distribution of $R,T, X, v$.
+To do so, suppose the parameter $\eta$ indexes the substantive meta-analysis model as above, $\gamma$ indexes the distribution of $X, v$ and $\kappa$ indexes the distribution of $R | T, X, v$.
+Then we can write a selection model as:
+\[
+f(T, X, v, R | \eta, \gamma, \kappa) = f(T | X, v, \eta, \gamma, \kappa) f(X, v | \eta, \gamma, \kappa) f(R | T, X, v, \eta, \gamma, \kappa)
+\]
+Assuming that the parameters $\eta, \gamma, \kappa$ are distinct, then this spimlifies to
+\[
+f(T, X, v, R | \eta, \gamma, \kappa) = f(T | X, v, \eta) f(X, v | \gamma) f(R | T, X, v, \kappa)
+\]
+Note that this joint distribution depends on a few conditional distributions. It depends on the substantive complete-data model $f(T | X, v, \eta)$ and the marginal joint distribution of $X, v$. It also depends on the distribution of $R$ given the complete data $T, X, v$.
+
+If we let $\psi$ index the marginal distribution of $R$, then a pattern mixture model can be written as:
+\[
+f(T, X, v, R | \eta, \psi) = f(T, X, v | R, \eta, \psi)f(R | \eta, \psi)
+\]
+Assuming that $\eta$ and $\psi$ are independent, then we can write
+\[
+f(T, X, v, R | \eta, \psi) = f(T, X, v | R, \eta)f(R | \psi)
+\]
+In essence, the joint distribution of $T, X, v, R$ is a mixture of the joint distributions of $T, X, v$ for different levels of $R$, and the mixture proportions are the probabilitites of $R$.
+This is analogous to saying that for different $R$, there are different regressions (i.e., $R$ stratifies the data into populations that each have different regression coefficients and variance components), and the joint distribution is a mixture of them.
+
+**Example: One covariate** Suppse $X_i$ is univariate so that $R_i$ is univariate. Then for a given value of $R_i = r \in \{0, 1\}$ pattern mixture model can be written
+\[
+f(T_i, X_i, v_i, R_i = r | \eta, \psi) = f(T_i, X_i, v_i | R_i = r) P[R_i = r | \psi] = f(T_i | X_i, v_i, R_i = r, \eta)f(X_i, v_i | R_i = r)P[R_i = r | \psi] 
+\]
+
+Note to self, in the joint distribution mixture model, we said that it is "like" having a mixutre of regressions for each value of $R$, but here, we see that the mixing components depend on $R$ and how $R$ affects $X, v$. How do we reconcile that?
