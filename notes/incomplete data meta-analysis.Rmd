@@ -11,12 +11,14 @@ In a meta-analysis, we are interested in the conditional distribution of effect 
 \[
 f(T | X, v, \eta)
 \]
-where $T$ denotes an effect estimate, $X$ denotes the covariate(s), $v$ is the estimation error variance, and $\eta \in \mathcal{H}$ is the parameters of the meta-analysis model. 
+where $T$ denotes the effect estimate(s), $X$ denotes the covariate(s), $v$ is the estimation error variance(s), and $\eta \in \mathcal{H}$ indexes the parameters of the meta-analysis model. 
 For example, if this is a random effects meta-regression $\eta = (\beta_0, \ldots \beta_{p-1}, \tau^2)$.
 
 Suppose some $X$ are missing and let $R$ be an indicator for whether an $X$ is observed.
-In general, we have to consider the joint distribution of $R$ and the data. 
-Ibrahim et al. (1996, 2000) suggest an approach that considers the joint distribution of $R,T, X, v$.
+For instance, if $X$ is a vector of predictors for a given effect, then $R$ is a vector of 0s and 1s of the same length.
+
+In general, analyses with incomplete data requires us to consider the joint distribution of $R$ and the data. 
+Ibrahim et al. (1996, 2000) suggest an approach that considers the joint distribution of $R, T, X, v$.
 To do so, suppose the parameter $\eta$ indexes the substantive meta-analysis model as above, $\gamma$ indexes the distribution of $X, v$ and $\kappa$ indexes the distribution of $R | T, X, v$.
 Then we can write a selection model as:
 \[
@@ -41,7 +43,20 @@ This is analogous to saying that for different $R$, there are different regressi
 
 **Example: One covariate** Suppse $X_i$ is univariate so that $R_i$ is univariate. Then for a given value of $R_i = r \in \{0, 1\}$ pattern mixture model can be written
 \[
-f(T_i, X_i, v_i, R_i = r | \eta, \psi) = f(T_i, X_i, v_i | R_i = r) P[R_i = r | \psi] = f(T_i | X_i, v_i, R_i = r, \eta)f(X_i, v_i | R_i = r)P[R_i = r | \psi] 
+f(T_i, X_i, v_i, R_i | \eta, \psi) = f(T_i, X_i, v_i | R_i) P[R_i | \psi] = f(T_i | X_i, v_i, R_i, \eta)f(X_i, v_i | R_i, \gamma)P[R_i| \psi] 
 \]
+Here $\gamma$ indexes the conditional distribution of $X_i, v_i$ given $R_i$. 
+Note that since $R_i = 0$ or 1, then there are two joint distributions here: one where the $X_i$ are observed and $R_i = 1$ and one where the $X_i$ are missing and $R_i = 0$.
+These reduce to two conditional distributions.
+The first is the meta-regression model for the data points with observed $X_i$ (call that $\eta_{obs}$) and the distribution of the observed $X_i, v_i$. 
+The second is the meta-regression model for the data points with missing $X_i$ (call that $\eta_{mis}$) and the distribution of the missing $X_i, v_i$ (had we observed them).
 
-Note to self, in the joint distribution mixture model, we said that it is "like" having a mixutre of regressions for each value of $R$, but here, we see that the mixing components depend on $R$ and how $R$ affects $X, v$. How do we reconcile that?
+Seen this way, missingness can affect the $X_i, v_i$ we oberve (i.e., the $X_i, v_i$ we don't observe may be systematically different from those we do observe), as well as the meta-regression model (i.e., $\eta_{obs}$ vs $\eta_{mis}$).
+Suppose there $X_i, v_i \perpto R_i$. 
+In that case, 
+\[
+f(T_i, X_i, v_i, R_i | \eta, \psi) = f(T_i | X_i, v_i, R_i = 1, \eta_1) P[R_i = 1| \psi] + 
+ f(T_i | X_i, v_i, R_i = 0, \eta_0) P[R_i = 0 | \psi] + 
+\]
+Note that the notation $\eta_j$ above denotes that there may be a different relationship between effects and covariates for the observed data versus the unobserved data.
+
