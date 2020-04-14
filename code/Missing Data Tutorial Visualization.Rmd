@@ -24,7 +24,11 @@ library(naniar)
 library(ggplot2)
 library(visdat)
 library(tidyverse)
-adt_data<- readRDS("adt_data.rds")
+library(gridExtra)
+library(grid)
+library(cowplot)
+#adt_data<- readRDS("adt_data.rds")
+adt_data <- readRDS("~/Documents/Columbia University/Measurement and Evaluation PhD/Northwestern/Missing Data/Meta_Analysis_MissingData/data/adt_data.RDS")
 ```
 
 ##Looking at missing data with visdat
@@ -35,22 +39,25 @@ The package visdat allows visualizing the entire data frame at once.
 vis_dat(adt_data)
 #summary of whether the data is missing or not
 vis_miss(adt_data)
+
 ```
 
 
-Both plots show how none of the effect estimates are missing, but that there is missingness on some 18 other variables of interest.
+The first plot presents a summary of our dataset structure while highlighting variables with missing data; we can initially identify 18 variables of interest with some missingness. Further, we get a better idea of how much data is missing by looking at the second plot (6.2%). 
 
 ##Looking at missing data with naniar
 
 Naniar package also provides an approach to visualizing overall missingness of the dataset.
 
-For example, we can identify variables that present a greater number (percentage) of missing cases
+For example, we can identify variables that present a greater number/percentage of missing cases
 ```{r}
 #summary of missing variables
-gg_miss_var(adt_data) + labs(y="Look at all the missing ones")
+p1<- gg_miss_var(adt_data) + labs(y="Look at all the missing ones")
 
 #summary of missing variables (percentage)
-gg_miss_var(adt_data, show_pct=TRUE)
+p2<- gg_miss_var(adt_data, show_pct=TRUE)
+
+grid.arrange(p1, p2, ncol = 2)
 
 ```
 
@@ -61,16 +68,17 @@ gg_miss_case(adt_data, order_cases=TRUE) + labs(x="Number of Cases")
 ```
 
 
-Then, the cumulative sum of missing values by reading the rows of the dataset from the top to the bottom.
-```{r}
+```{r, echo=FALSE}
+#Then, the cumulative sum of missing values by reading the rows of the dataset from the top to the bottom.
 #cumulative sum of missing values
-gg_miss_case_cumsum(adt_data)
+#gg_miss_case_cumsum(adt_data)
 ```
 
-Cumulative sum of missing values reading columns from the left to the right of your dataframe
-```{r}
+
+```{r, echo=FALSE}
+#Cumulative sum of missing values reading columns from the left to the right of your dataframe
 #cumulative sum of missing values
-gg_miss_var_cumsum(adt_data)
+#gg_miss_var_cumsum(adt_data)
 ```
 
 
@@ -91,15 +99,11 @@ We then look at the number of missings in each column, broken down by a factor v
 gg_miss_fct(x=adt_data, fct=g2loc)
 ```
 
+For instance, in this case, we can identify the Inpatient category having 100% missing values in at least 12 variables. 
+
 ##Combinations of missingness across cases
 
-Further, we can create an upset plot to examine the combinations of missingness across cases
-```{r}
-gg_miss_upset(adt_data)
-```
-
-
-We could also set the number of sets to 11, which is the number of variables that have at least 5 missing points. 
+Further, we can create an upset plot to examine the combinations of missingness across cases. We set the number of sets to 11, which is the number of variables that have at least 5 missing points. 
 ```{r}
 gg_miss_upset(adt_data, nsets=11, nintersects=NA)
 ```
@@ -111,41 +115,88 @@ We can now explore variables that have larger percentage of missing data and the
 
 Start with Treatment Contact (hours per week) for group 1 and 2
 ```{r}
-#Treatment contact for group 1 and 2 
-#ES and Group 1 Treatment contact (Hours per week)
-ggplot(adt_data, 
-       aes(x= g1hrsperweek, 
-           y=es_g)) + 
-  geom_miss_point()
+#Point size to be 1/SE
+psize=1/adt_data$se_g
 
-#ES and Group 2 Treatment contact (Hours per week)
-ggplot(adt_data, 
-       aes(x= g2hrsperweek, 
-           y=es_g)) + 
-  geom_miss_point()
+#Treatment contact for group 1
+#ES/SE vs Group 1 Treatment contact (Hours per week)
+p3<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g1hrsperweek)) + 
+  geom_miss_point(size=psize) 
+p3
+
+#p4<- ggplot(adt_data, 
+       #aes(x= se_g , 
+           #y=g1hrsperweek)) + 
+  #geom_miss_point() 
+
+#grid.arrange(p3 + labs(x="Effect Size (Hedges' g)", y= "Group 1 Treatment contact (Hours per week)"), p4 + labs(x="Effect Size Standard Error",y= "Group 1 Treatment contact (Hours per week)" ), nrow=1)
+
+
+#Treatment contact for group 1 include SE bar
+#ES/SE vs Group 1 Treatment contact (Hours per week)
+#ggplot(adt_data, 
+       #aes(x= es_g , 
+          # y=g1hrsperweek)) + 
+  #geom_errorbarh(aes(xmax = es_g-se_g, xmin = es_g+se_g, height = .2))+
+  #geom_miss_point() 
+
+
+#Treatment contact for group 2
+#ES/SE vs Group 2 Treatment contact (Hours per week)
+p5<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g2hrsperweek)) + 
+  geom_miss_point(size=psize) 
+p5
+
+
+#p6<- ggplot(adt_data, 
+       #aes(x= se_g , 
+          #y=g2hrsperweek)) + 
+  #geom_miss_point() 
+
+#prow<- plot_grid(p5 + labs(x="Effect Size (Hedges' g)", y= "Group 2 Treatment contact (Hours per week)") + theme(legend.position = "none"), p6 + labs(x="Effect Size Standard Error",y= "Group 2 Treatment contact (Hours per week)" ) + theme(legend.position = "none"), nrow=1)
+
+#legend<- get_legend(p5 + theme(legend.position = "bottom"))
+#plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2))
+
 ```
 
 
 Duration of Treatment (days) for group 1 and 2
 ```{r}
 #Treatment Duration for group 1 and 2
-#ES and Group 1 Duration of Treatment (Days)
-ggplot(adt_data, 
-       aes(x= g1txdays, 
-           y=es_g)) + 
-  geom_miss_point()
+#ES/SE vs Group 1 Duration of Treatment (Days)
+p7<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g1txdays)) + 
+  geom_miss_point(size=psize) 
+p7
 
-#ES and Group 2 Duration of Treatment (Days)
-ggplot(adt_data, 
-       aes(x= g2txdays, 
-           y=es_g)) + 
-  geom_miss_point()
+#p8<- ggplot(adt_data, 
+      #aes(x= se_g , 
+           #y=g1txdays)) + 
+  #geom_miss_point() 
 
-#se and Group 2 Duration of Treatment (Days)
-ggplot(adt_data, 
-       aes(x= g2txdays, 
-           y=se_g)) + 
-  geom_miss_point()
+#grid.arrange(p7 + labs(x="Effect Size (Hedges' g)", y= "Group 1 Duration of Treatment (Days)"), p8 + labs(x="Effect Size Standard Error",y= "Group 1 Duration of Treatment (Days)" ), nrow=1)
+
+
+#ES/SE vs Group 2 Duration of Treatment (Days)
+p9<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g2txdays)) + 
+  geom_miss_point(size=psize)
+p9
+
+#p10<- ggplot(adt_data, 
+       #aes(x= se_g , 
+           #y=g2txdays)) + 
+  #geom_miss_point() 
+
+#grid.arrange(p9 + labs(x="Effect Size (Hedges' g)", y= "Group 2 Duration of Treatment (Days)"), p10 + labs(x="Effect Size Standard Error",y= "Group 2 Duration of Treatment (Days)" ), nrow=1)
+
 
 ```
 
@@ -153,27 +204,54 @@ ggplot(adt_data,
 Frequency of treatment contact per week (number of sessions) for group 2
 ```{r}
 #Frequency of treatment contact per week (number of sessions)
-#ES and group 2 number of sessions
-ggplot(adt_data, 
-       aes(x= g2numsessions, 
-           y=es_g)) + 
-  geom_miss_point()
+#ES/SE vs group 2 number of sessions
+p11<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g2numsessions)) + 
+  geom_miss_point(size=psize) 
+p11
+
+#p12<- ggplot(adt_data, 
+       #aes(x= se_g , 
+           #y=g2numsessions)) + 
+  #geom_miss_point() 
+
+#grid.arrange(p11 + labs(x="Effect Size (Hedges' g)", y= "Group 2 Number of Sessions"), p12 + labs(x="Effect Size Standard Error",y= "Group 2 Number of Sessions" ), nrow=1)
+
 ```
 
 
-Percentage of male participants for group 1 and 2
+Percentage of black participants for group 1 and 2
 ```{r}
-#ES and group 1 male percentage
-ggplot(adt_data, 
-       aes(x= g1perblack, 
-           y=es_g )) + 
-  geom_miss_point()
+#ES/SE vs group 1 black percentage
+p13<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g1perblack)) + 
+  geom_miss_point(size=psize) 
+p13
 
-#ES and group 2 male percentage
-ggplot(adt_data, 
-       aes(x= g2perblack, 
-           y=es_g )) + 
-  geom_miss_point()
+#p14<- ggplot(adt_data, 
+       #aes(x= se_g , 
+           #y=g1perblack)) + 
+  #geom_miss_point() 
+
+#grid.arrange(p13 + labs(x="Effect Size (Hedges' g)", y= "Group 1 Black Percentage"), p14 + labs(x="Effect Size Standard Error",y= "Group 1 Black Percentage" ), nrow=1)
+
+
+#ES/SE vs group 2 black percentage
+p15<- ggplot(adt_data, 
+       aes(x= es_g , 
+           y=g2perblack)) + 
+  geom_miss_point(size=psize) 
+p15
+
+#p16<- ggplot(adt_data, 
+       #aes(x= se_g , 
+           #y=g2perblack)) + 
+  #geom_miss_point() 
+
+#grid.arrange(p15 + labs(x="Effect Size (Hedges' g)", y= "Group 2 Black Percentage"), p16 + labs(x="Effect Size Standard Error",y= "Group 2 Black Percentage" ), nrow=1)
+
 ```
 
 
@@ -189,34 +267,140 @@ adt_shadow <- bind_shadow(adt_data)
 
 Start by looking at the distribution of ES, plotting for values of ES when Treatment Contact (Hours per week) is missing, and when it is not missing
 ```{r}
-#ES and Group 1 Treatment contact (Hours per week)
-ggplot(adt_shadow,
+#ES/SE vs Group 1 Treatment contact (Hours per week)
+p17<- ggplot(adt_shadow,
        aes(x =  es_g,
            colour =g1hrsperweek_NA )) + 
   geom_density()
 
+p18<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g1hrsperweek_NA )) + 
+  geom_density()
 
-#ES and Group 2 Treatment contact (Hours per week)
-ggplot(adt_shadow,
+prow<- plot_grid(p17 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Treatment contact")+ theme(legend.position = "none") , p18 + labs(x="Effect Size Standard Error", colour="Group 1 \n Treatment contact") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p17 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+
+##Set a limit to zoom in 
+p17<- ggplot(adt_shadow,
+       aes(x =  es_g,
+           colour =g1hrsperweek_NA )) + 
+  geom_density() + ylim(0,8)
+
+prow<- plot_grid(p17 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Treatment contact")+ theme(legend.position = "none") , p18 + labs(x="Effect Size Standard Error", colour="Group 1 \n Treatment contact") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p17 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+
+#ES/SE vs Group 2 Treatment contact (Hours per week)
+p19<- ggplot(adt_shadow,
        aes(x =  es_g,
            colour =g2hrsperweek_NA )) + 
   geom_density()
+
+p20<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g2hrsperweek_NA )) + 
+  geom_density()
+
+prow<- plot_grid(p19 + labs(x="Effect Size (Hedges' g)", colour="Group 2 \n Treatment contact")+ theme(legend.position = "none") , p20 + labs(x="Effect Size Standard Error", colour="Group 2 \n Treatment contact") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p19 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+
+
 ```
 
 
 Now the distribution of ES, plotting for values of ES when Duration of Treatment (days) is missing, and when it is not missing
 ```{r}
-#ES and Group 1 Duration of Treatment (Days)
-ggplot(adt_shadow, 
-       aes(x= es_g, 
-           colour=g1txdays_NA)) + 
-    geom_density()
+#ES/SE vs Group 1 Duration of Treatment (Days)
+p21<- ggplot(adt_shadow,
+       aes(x =  es_g,
+           colour =g1txdays_NA )) + 
+  geom_density() 
 
-#ES and Group 2 Duration of Treatment (Days)
-ggplot(adt_shadow, 
-       aes(x=es_g , 
-           colour=g2txdays_NA)) + 
-    geom_density()
+p22<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g1txdays_NA )) + 
+  geom_density()
+
+prow<- plot_grid(p21 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Treatment Duration")+ theme(legend.position = "none") , p22 + labs(x="Effect Size Standard Error", colour="Group 1 \n Treatment Duration") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p21 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+##Set a limit to zoom in 
+p22<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g1txdays_NA )) + 
+  geom_density() + ylim(0,10)
+
+prow<- plot_grid(p21 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Treatment Duration")+ theme(legend.position = "none") , p22 + labs(x="Effect Size Standard Error", colour="Group 1 \n Treatment Duration") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p21 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+
+#ES/SE vs Group 2 Duration of Treatment (Days)
+p23<- ggplot(adt_shadow,
+       aes(x =  es_g,
+           colour =g2txdays_NA )) + 
+  geom_density()
+
+p24<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g2txdays_NA )) + 
+  geom_density()
+
+prow<- plot_grid(p23 + labs(x="Effect Size (Hedges' g)", colour="Group 2 \n Treatment Duration")+ theme(legend.position = "none") , p24 + labs(x="Effect Size Standard Error", colour="Group 2 \n Treatment Duration") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p23 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+```
+
+
+Distribution of ES, plotting for values of ES when Percentage Black is missing, and when it is not missing
+```{r}
+#ES/SE vs Group 1 Percetange Black
+p25<- ggplot(adt_shadow,
+       aes(x =  es_g,
+           colour =g1perblack_NA )) + 
+  geom_density()
+
+p26<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g1perblack_NA )) + 
+  geom_density()
+
+prow<- plot_grid(p25 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Percentage Black")+ theme(legend.position = "none") , p26 + labs(x="Effect Size Standard Error", colour="Group 1 \n Percentage Black") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p25 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
+
+#ES/SE vs Group 2 Percentage Black
+p27<- ggplot(adt_shadow,
+       aes(x =  es_g,
+           colour =g2perblack_NA )) + 
+  geom_density()
+
+p28<- ggplot(adt_shadow,
+       aes(x =se_g,
+           colour =g2perblack_NA )) + 
+  geom_density()
+
+prow<- plot_grid(p27 + labs(x="Effect Size (Hedges' g)", colour="Group 2 \n Percentage Black")+ theme(legend.position = "none"), p28 + labs(x="Effect Size Standard Error", colour="Group 2 \n Percentage Black") + theme(legend.position = "none") , nrow=1)
+
+legend<- get_legend(p27 + theme(legend.position = "bottom"))
+plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
+
 ```
 
 
@@ -227,7 +411,6 @@ Finally, we explore numerical summaries using this package
 
 First, determine number, proportion, and percentage of missing and complete observations
 ```{r}
-
 #Total number of missing observations
 n_miss(adt_data)
 
