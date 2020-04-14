@@ -1,0 +1,56 @@
+---
+title: "Quantifying Missingness"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+There are a handful of ways you could potentially quantify missing data for a meta-regression.
+
+1. Total number or percentage of complete cases (among the variables you're going to use in the analysis). The raw count can be informative in light of the model you're trying to fit. For instance, if you only have 10 complete cases, but want to fit a model with 4 parameters, that feels like you'd be spreading your data pretty thin (even with EM or other adjustments). The percent is also pretty informative assuming you'd have enough cases to comfortably and precisely estimate the model assuming no missingness.
+2. Total number or percentage of rows by missingness pattern. This can tell you if you have a lot of cases that are missing only 1-2 variables, versus cases that are missing most of the variables. 
+3. Total number or percentage of missingness by column. This can tell you which variables might be troublesome for analyses.
+
+Note that we can define these mathematically as follows. 
+Denote $Y_i, i = 1, \ldots, k$ as the vector of data for a given effect, which includes the effect estimate $T_i$, variance $v_i$, and any covariates $X_i$. 
+Let $R_i$ be a vector of the same dimension as $Y_i$ such that $R_{ij} = 1$ indicates that $Y_{ij}$ is observed and $R_{ij} = 0$ indicates that $Y_{ij}$ is missing. 
+
+Then, for (1), we would report:
+\[
+\sum_{i=1}^k \frac{\mathbf{1}\{\sum_{j=1}^p R_{ij} < p\}}{k}
+\]
+
+For (2), let $\mathcal{R}_m$ denote a specific missingness pattern (i.e., a specific value that the $R_i$ might take).
+\[
+\sum_{i:R_i = \mathcal{R}_m} \frac{1}{k}
+\]
+
+Finally for (3) we can write
+\[
+\sum_{i=1}^k \frac{1 - R_{ij}}{k}
+\]
+
+
+A potentially useful adjustment to 1-3 above is to use a weighted percentage rather than a raw percentage. 
+Assume that $v_i$, the estimation error variance of each effect estimate is observed in the data. 
+We know that the precision of many estimators in meta-anlaysis is related to the precision of individual studies $w_i = 1/v_i$. 
+Thus, instead of a missingness percentage $\sum (1 - R_i)/k$, we could report $\sum w_i(1 - R_i) / \sum w_i$. 
+This gives you some idea of the fraction of the precision affected by missingness.
+For example, if large studies with smaller $v_i$ happen to be the studies that are missing covariates, then the weighted percentage will be larger than the raw percentage.
+
+Note that if we have correlated effects, we might be tempted to use the trace of the precision matrix (assuming we know the estimation correlations). This will be larger than the sum of the marginal precisions (NOTE: check this).
+It would seem more intuitive to stick to the sum of marginal precisions than the trace of the precision matrix because the latter may greatly overstate the amount of information missing.
+
+Finally, it appears that the upset() function and variants of it are useful in visualizing patterns (2). However, they don't have an easy way to include weights.
+
+
+## Tutorial
+
+
+
+
+
+
+
