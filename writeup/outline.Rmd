@@ -63,22 +63,21 @@ Thus, it is usually a good idea to conduct some exploratory analyses to help und
 
 3. **Issue 1: What data is missing and how much? Knowing which and how much data is missing is important for at least two reasons.** First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data are missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.
 
-
-Using and extending naniar and visdat R's packages we demonstrate how visualizations typically used with datasets outside of meta-analysis can be adapted to the realities of meta-analytic data (Tierney, 2019)
+Using naniar and visdat R's packages we demonstrate how visualizations typically used with datasets outside of meta-analysis can be adapted to the realities of meta-analytic data (Tierney, 2019) and contribute to understanding a dataset missingness structure. 
 
 3.1 Whole-data plots
 
-Aggregation plots are a useful tool for identifying in which variables observations are missing and how many. We can visualize overall missingness using vis_dat and vis_miss functions from the visdat R package. 
+Aggregation plots are useful tools for identifying in which variables observations are missing and how frequently. We can visualize overall missingness using vis_dat and vis_miss functions from the visdat R package. 
 
 (Insert plot 1 - 2)
 
 This simple analysis allows determining how severe the level of data loss is within our dataset. In this example, plot 1 highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot 2, represents 6.2% of the total dataset. 
 
-Naniar package provides a different approach to visualizing overall missingness. Function gg_miss_var, clearly identifies variables with a greater number or percentage of missing cases. 
+Similarly, function gg_miss_var from naniar package provides an approach to visualizing overall missingness by identifying variables with a greater number or percentage of missing cases. 
 
 (Insert plot 3)
 
-Plot 3 presents variables in order of number/percentage of missing cases. For this particular dataset, there are 10 variables with at least 10% of missing cases. 
+Plot 3 presents variables in order of number/percentage of missing cases. For this particular dataset, there are 10 variables with at least 10% of missing cases. This tool could be useful when deciding which variable to include in the analysis. 
 
 3.2 Bivariate
 
@@ -101,23 +100,26 @@ We now explore variables that have larger percentage of missing data and their r
 Later, we examine these relationships by looking at the distribution of effect size/error variance, plotting for values of effect size/error variance when some covariates are missing, and when they are not. We explore three different covariates to illustrate different patterns.  
 
 Clear relationship
-(Insert plot 16)
 
 (Insert plot 19)
+
+The above distribution shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. 
+
+
+(Insert plot 17)
+
+This figure illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present. 
+
 
 No relationship
 (Insert plot 18)
 
+In this example, both the effect size and its standard errors have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not. 
 
 
 
 
-     - Plots
 
-        i. Whole-data plots
-        ii. Bivariate (or sets of variables)
-        iii. Comparison with effect size and error variances
-    
     - Numerical summaries
 
         i. Raw counts/percents
