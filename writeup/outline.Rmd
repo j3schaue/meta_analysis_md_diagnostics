@@ -63,6 +63,55 @@ Thus, it is usually a good idea to conduct some exploratory analyses to help und
 
 3. **Issue 1: What data is missing and how much? Knowing which and how much data is missing is important for at least two reasons.** First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data are missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.
 
+
+Using and extending naniar and visdat R's packages we demonstrate how visualizations typically used with datasets outside of meta-analysis can be adapted to the realities of meta-analytic data (Tierney, 2019)
+
+3.1 Whole-data plots
+
+Aggregation plots are a useful tool for identifying in which variables observations are missing and how many. We can visualize overall missingness using vis_dat and vis_miss functions from the visdat R package. 
+
+(Insert plot 1 - 2)
+
+This simple analysis allows determining how severe the level of data loss is within our dataset. In this example, plot 1 highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot 2, represents 6.2% of the total dataset. 
+
+Naniar package provides a different approach to visualizing overall missingness. Function gg_miss_var, clearly identifies variables with a greater number or percentage of missing cases. 
+
+(Insert plot 3)
+
+Plot 3 presents variables in order of number/percentage of missing cases. For this particular dataset, there are 10 variables with at least 10% of missing cases. 
+
+3.2 Bivariate
+
+Once identified, we could take a closer look at these covariates by exploring missingness in cases over some factor variable. We would like to determine if there is any relationship between observed values and missingness condition. 
+
+(Insert plot 7)
+
+Plot 4 highlights the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. The inpatient category has 100% of missing values in at least 12 different variables, suggesting that this category could impose a problem when fitting a regression model. 
+
+We could also be interested in the combinations of missingness across cases. Using the function gg_miss_upset in the naniar package, we explore the combinations among the variables with higher percentage of missing cases in an upset plot. 
+
+(Insert plot 8)
+
+Plot 5 details those variables that are missing together. For instance, there are a large number of cases where Group 2 Level of Care, Number of Sessions, Treatment Contact (hours per week) and Duration of Treatment (days) are missing together. This simple exploration provides valuable information for imputation. 
+
+3.3 Comparison with effect size and error variances
+
+We now explore variables that have larger percentage of missing data and their relationship with effect size and error variances. First, we use the shadow function to keep track of missing values. Creating a data frame with the same set of columns, but with the column names added a suffix_NA. 
+
+Later, we examine these relationships by looking at the distribution of effect size/error variance, plotting for values of effect size/error variance when some covariates are missing, and when they are not. We explore three different covariates to illustrate different patterns.  
+
+Clear relationship
+(Insert plot 16)
+
+(Insert plot 19)
+
+No relationship
+(Insert plot 18)
+
+
+
+
+
      - Plots
 
         i. Whole-data plots
