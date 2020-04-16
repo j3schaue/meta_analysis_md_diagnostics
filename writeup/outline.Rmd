@@ -71,7 +71,7 @@ Aggregation plots are useful tools for identifying the number of missings in eac
 
 (Insert plot 1 - 2)
 
-These simple visualizations allow determining how severe the level of data loss is within our dataset. In this example, Plot A highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot B, represents 6.2% of the total dataset. 
+These simple visualizations demonstrate how severe the level of data loss is within our dataset. In this example, Plot A highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot B, represents 6.2% of the total dataset. 
 
 Similarly, function gg_miss_var from naniar package provides an approach to visualizing overall missingness by identifying variables with a greater number or percentage of missing cases, ordering by missingness (see Figure 2 below). 
 
@@ -139,9 +139,9 @@ Plot C shows that both, the effect size and its standard errors, have a similar 
           
 4. Issue 2: Why are data missing?
 
-    - Assumptions of MAR, MCAR, MNAR, MAAR, ignorability
+    - Relate back to assumptions of MAR, MCAR, MNAR, MAAR, ignorability
     - Illustration in data
-    - Potential tests
+    - Potential tests and their limitations
      
 5. Potential corrections, and what is known about them in meta-analysis
 
