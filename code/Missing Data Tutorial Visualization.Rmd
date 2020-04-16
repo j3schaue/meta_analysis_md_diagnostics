@@ -27,8 +27,8 @@ library(tidyverse)
 library(gridExtra)
 library(grid)
 library(cowplot)
-#adt_data<- readRDS("adt_data.rds")
-adt_data <- readRDS("~/Documents/Columbia University/Measurement and Evaluation PhD/Northwestern/Missing Data/Meta_Analysis_MissingData/data/adt_data.RDS")
+adt_data <- readRDS("../data/adt_data.RDS")
+# adt_data <- readRDS("~/Documents/Columbia University/Measurement and Evaluation PhD/Northwestern/Missing Data/Meta_Analysis_MissingData/data/adt_data.RDS")
 ```
 
 ##Looking at missing data with visdat
@@ -39,7 +39,6 @@ The package visdat allows visualizing the entire data frame at once.
 vis_dat(adt_data)
 #summary of whether the data is missing or not
 vis_miss(adt_data)
-
 ```
 
 
@@ -267,16 +266,91 @@ adt_shadow <- bind_shadow(adt_data)
 
 Start by looking at the distribution of ES, plotting for values of ES when Treatment Contact (Hours per week) is missing, and when it is not missing
 ```{r}
+# Function to plot distribution of ES or SE colored by whether a covariate is missing
+gg_es_covariate_miss <- function(shadow, es_col, covariate, adjust = 1){
+  
+  cov_na <- paste0(covariate, "_NA")
+  
+  p_es <- ggplot(shadow) +
+    aes_string(x = es_col,
+               colour = cov_na) + 
+    stat_density(geom = "line", # Use stat_density to avoid x-axis lines
+                 position = "identity", 
+                 adjust = adjust, # adjust smoothing bandwidth
+                 size = 1)
+  
+  return(p_es)
+}
+
+# Funciton to plot ES and SE plots in a grid
+gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c(1, 1), 
+                                   colors = c("#E69F00", "#56B4E9"), ymax = NULL, label = NULL){
+  
+  # Sterilize input
+  if(length(adjust) == 1){ adjust = rep(adjust, 2) }
+  if(is.null(label)){ label <- covariate }
+  if(!is.null(ymax)){ ymax <- ylim(0, ymax) }
+  
+  ## ES plot
+  p_es <- gg_es_covariate_miss(shadow, es_col, covariate, adjust[1]) + 
+    scale_color_manual(label, values = colors, labels = c("Missing", "Not Missing")) +
+    ymax + 
+    labs(x = "Effect Size", y = "Density") +
+    theme_bw() + 
+     guides(color = guide_legend(override.aes = list(size = 1.2)))
+  
+  ## SE plot
+  p_se <- gg_es_covariate_miss(shadow, se_col, covariate, adjust[2]) + 
+    scale_color_manual(label, values = colors, labels = c("Missing", "Not Missing")) +
+    ymax + 
+    labs(x = "Standard Error of Effect Size") +
+    theme_bw()
+  
+  # Extract legend
+  legend <- get_legend(p_es + theme(legend.position = "bottom"))
+  
+  # Arrange plots in a grid
+  prow <- plot_grid(p_es + 
+                     theme(legend.position = "none"), 
+                   #
+                   p_se + 
+                     theme(legend.position = "none") + 
+                     labs(y = ""), # second y-label is superfluous
+                   nrow=1)
+
+  # Create grid plot
+  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .08)) 
+  
+  return(out)
+}
+
+# Example
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g", 
+                       se_col = "se_g", 
+                       covariate = "g1hrsperweek", 
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 1 Hrs Per Week")
+
+
+
 #ES/SE vs Group 1 Treatment contact (Hours per week)
 p17<- ggplot(adt_shadow,
        aes(x =  es_g,
            colour =g1hrsperweek_NA )) + 
-  geom_density()
+  geom_density() +
+  scale_color_manual("", values = c("#E69F00", "#56B4E9"), 
+                     labels = c("Missing", "Not Missing")) +
+  theme_bw()
 
 p18<- ggplot(adt_shadow,
        aes(x =se_g,
            colour =g1hrsperweek_NA )) + 
-  geom_density()
+  geom_density()  +
+  scale_color_manual("", values = c("#E69F00", "#56B4E9"), 
+                     labels = c("Missing", "Not Missing")) +
+  theme_bw()
+
 
 prow<- plot_grid(p17 + labs(x="Effect Size (Hedges' g)", colour="Group 1 \n Treatment contact")+ theme(legend.position = "none") , p18 + labs(x="Effect Size Standard Error", colour="Group 1 \n Treatment contact") + theme(legend.position = "none") , nrow=1)
 
