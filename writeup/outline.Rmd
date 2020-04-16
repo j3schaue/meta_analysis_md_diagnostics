@@ -103,19 +103,16 @@ To explore the relationship of variables presenting a large percentage of missin
 Later, the distribution of effect size/error variance is visualized when some covariates are missing, and when they are not using the ggplot function. Figure 5 shows three scenarios with different relevant covariates. 
 
 (A) Clear relationship
-
 (Insert plot 19)
 
 Plot A shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. 
 
 (B) Some relationship
-
 (Insert plot 17)
 
 Plot B illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present. 
 
 (C) No relationship
-
 (Insert plot 18)
 
 Plot C shows that both, the effect size and its standard errors, have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not. 
