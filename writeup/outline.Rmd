@@ -69,7 +69,7 @@ This section examines different visualizations using naniar (Tierney, 2018), vis
 
 Aggregation plots are useful tools for identifying the number of missings in each variable and case. Overall missingness is visualized with a heatmap style using vis_dat and vis_miss functions from the visdat package (see Figure 1 below). 
 
-(Insert plot 1 - 2)
+(Insert plots 1 - 2)
 
 These simple visualizations allow determining how severe the level of data loss is within our dataset. In this example, Plot A highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot B, represents 6.2% of the total dataset. 
 
