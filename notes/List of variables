@@ -1,0 +1,20 @@
+#List of 14 variables
+#Consider 2 characteristics:
+1.	Missing proportion
+2.	Theoretical importance
+
+
+Greater missingness proportion:
+g1 & g2 hrs per week
+g2 tx days
+g1 & g2 N of sessions
+g2 loc
+g1 & g2 percentage black
+g1 & g2 percentage hisp
+
+
+
+Not missing but relevant:
+g1 loc
+g1 & g2 attrition
+g1 tax days 
