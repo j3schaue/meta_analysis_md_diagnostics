@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction
+## Introduction
 
 Systematic reviews of substance abuse literature hold great promise for unpacking correlates of effective substance abuse interventions. 
 Methodological tools such as meta-regression can formally test relationships between the type or implementation of an  intervention and how effective it is.
@@ -30,4 +30,32 @@ This is inherently an exploratory data anlysis (EDA), wherein the analyst seeks 
 As such, there is no single procedure or silver bullet for a given dataset. 
 Instead, analysts...
 
+
+
+## Missing Data and Meta-Analysis
+
+In the context of meta-analysis, "missing data" is a broad term that can be  used to describe several different types of scenarios.
+For instance, data could be missing on individual participants within studies, including their outcomes in the study or other characterisitcs (e.g., their age, race, prior substance use).
+"Missing data" could also refer to scenarios where information cannot be extracted from a completed study by a meta-analyst. 
+This might occur if a study fails to report enough detail for analysts to back out effect estimates, standard errors, or study-level characteristics.
+Finally, entire studies or effects may be missing from a meta-analytic dataset. 
+This might occur if effects (or entire studies) are not reported or published. 
+There is empirical evidence that statistically significant results are more likely to be published and hence wind up in a meta-analysis, which can induce *publication bias*, a well-known problem in the field.
+The studies or effects that are not reported, and thus are not included in a meta-analysis, can be considered missing data.
+
+Precisely how to examine, diagnose, and adjust for missing data will be different depending on what scenario we mean when we say "missing data."
+For instance, meta-analysts have used "funnel plots" to examine if their systematic review is missing studies or effects due to publication bias.
+Our focus will be on the second scenario, where information cannot be extracted from some studies. 
+This is a common problem in meta-analysis and one that that can limit the accuracy of any statistical inferences.
+
+Assume we have data on $k$ effect estimates and $p$ variables (including the estimate itself).
+This can be summarized and stored in a $k \times p$ table where rows correspond to effect estimates and columns correspond to variables concerning those estimates. 
+One column would contain the effect estimates themselves, and another would contain the standard error or estimation error variance of those estimates.
+The remaining $p-2$ columns could contain effect- or study-level covariates, including summary demographics (e.g., the percent of a study's sample that were minorities), treatment type (e.g., behavioral therapy versus pharacological interventions), or dosage/duration of an intervention.
+Some of the cells in this table may be missing values, and the analyses presented in this article provide ways to summarize and examine patterns of missingness.
+
+
+## Data
+
+To highlight the principles of exploring missingness, we use data from...
 
