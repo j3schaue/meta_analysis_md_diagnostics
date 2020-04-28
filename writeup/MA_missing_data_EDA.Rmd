@@ -1,14 +1,27 @@
 ---
 title: "Exploratory Analyses for Missing Data in Meta-Analyses"
-output: 
+output:
   pdf_document:
-    includes: 
+    fig_caption: yes
+    includes:
       in_header: ./addons/style.sty
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r, message=FALSE, echo=FALSE}
+library(naniar)
+library(ggplot2)
+library(visdat)
+library(tidyverse)
+library(gridExtra)
+library(grid)
+library(cowplot)
+adt_data <- readRDS("../data/adt_data.RDS")
+```
+
 
 # Introduction
 
@@ -26,8 +39,107 @@ A key assumption of most missing data methods is that the analyst has some idea 
 However, while much of the literature has focused on the implications of that assumption, considerably less attention is paid to approaches to examining it in a dataset.
 In fact, most work on summarizing missingness in a dataset and examining its sources arises in literature on graphical summaries of data.
 
-This is inherently an exploratory data anlysis (EDA), wherein the analyst seeks to identify patterns of missing variables in their data and what those may be correlated with.
+This is inherently an exploratory data analysis (EDA), wherein the analyst seeks to identify patterns of missing variables in their data and what those may be correlated with.
 As such, there is no single procedure or silver bullet for a given dataset. 
-Instead, analysts...
+Instead, analysts...$\pagebreak$
+
+# Visualizations
+
+First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data is missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.\newline
+
+This section examines different visualizations using `naniar` (Tierney, 2018), `visdat` (Tierney, 2017) and `ggplot2` (Wickham, 2009) R’s packages. We demonstrate how visualizations typically used with datasets outside of meta-analysis can be adapted to the realities of meta-analytic data and contribute to understanding a dataset structure. Three types of visualization of missing data are discussed: whole-data plot; bivariate plots; and comparison with effect size and error variance plots. 
 
 
+## 1. Whole-data plots
+
+Aggregation plots are useful tools for identifying the number of missing in each variable and case. Overall missingness is visualized with a "heatmap" style using `vis_dat()` and `vis_miss()` functions from the `visdat` package (see Figure \ref{fig:figs1} below).
+
+
+
+```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *Demonstrate how severe the level of data loss is within the Substance Abuse data. Plot (A) highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot (B), represent 6.2% of the total dataset.*", fig.pos='h'}
+source("../code/wrappers.R")
+gg_summary_covariate_miss(adt_data)
+```
+
+\
+
+Similarly, function `gg_miss_var()` from naniar package provides an approach to visualizing overall missingness by identifying variables with a greater number or percentage of missing cases, ordering by missingness (see Figure \ref{fig:figs2} below).\newline
+
+```{r figs2, echo=FALSE,fig.width=6,fig.height=3,fig.cap="\\label{fig:figs2} *Graphical summaries of missingness in variables, ordered by missingness, for the Substance Abuse data. There are 10 variables with at least 10% of missing cases. This visualization becomes relevant when deciding which variable to include in the analysis.*", fig.pos='h'}
+#summary of missing variables
+p1<- gg_miss_var(adt_data) + 
+                            labs(y="Missing Cases")+
+                            theme(axis.title.x = element_text(size =10),
+                                  axis.text.y = element_text(size=6))
+                          
+
+#summary of missing variables (percentage)
+p2<- gg_miss_var(adt_data, show_pct=TRUE)+
+                                          labs(y="Percentage Missing")+
+                                          theme(axis.title.x = element_text(size =10),
+                                                axis.text.y = element_text(size=6))
+                                                
+grid.arrange(p1, p2 + 
+                    labs(x=""),
+                    ncol = 2)
+```
+
+\
+
+Different combinations of missingness across cases can be visualized using an “upset plot” (Conway et al. 2017) with the `gg_miss_upset()` function in the `naniar` package; thus providing the number of times certain variables go missing together.  
+We explore the combinations among variables with higher percentage of missing (see Figure \ref{fig:figs3} below).
+
+```{r figs3, echo=FALSE,fig.width=6,fig.height=4, fig.cap="\\label{fig:figs3} *Details those variables that are missing together. For instance, there are a large number of cases where Group 2 Level of Care, Number of Sessions, Treatment Contact (hours per week) and Duration of Treatment (days) are missing together. This simple exploration provides valuable information for imputation.*", fig.pos='h'}
+gg_miss_upset(adt_data, nsets=11, nintersects=NA)
+```
+
+\
+
+## 2. Bivariate plots 
+
+Variable missingness in cases over some other factor variable is visualized with a "heatmap" style using the `gg_miss_fct()` function from the `naniar`package (see Figure \ref{fig:figs4} below). This provides information regarding any relationship between observed values and missingness condition. 
+
+```{r figs4, echo=FALSE,fig.width=6,fig.height=4, fig.cap="\\label{fig:figs4} *Highlights the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. The inpatient category has 100% of missing values in at least 12 different variables, suggesting that this category could impose a problem when fitting a regression model.*", fig.pos='h'}
+#Level of care group 2
+gg_miss_fct(x=adt_data, fct=g2loc)  + 
+                                    labs(x="Group 2 Level of Care")+
+                                    theme(axis.text.y = element_text(size=7))
+```
+
+\
+
+## 3. Comparison with effect size and error variances plots
+
+To explore the relationship of variables presenting a large percentage of missing data with effect size and error variances, the original data is transform in order to create a data structure that keeps track of missing values (Tierney, 2018). Using the `as_shadow` and `bind_shadow` functions from the `naniar` package a data frame with the same set of columns, but with the column names added a `suffix_NA`, is bound to the original dataset. 
+
+Later, the distribution of effect size and error variance are visualized when some covariates are missing, and when they are not using the ggplot function. Figure  \ref{fig:figs5} shows three scenarios with different relevant covariates. 
+
+```{r figs5, echo=FALSE,fig.width=6,fig.height=7, fig.cap="\\label{fig:figs5} *Plot (A) shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. Plot (B) illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present.Plot (C) shows that both, the effect size and its standard errors, have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not.*", fig.pos='h'}
+adt_shadow <- bind_shadow(adt_data)
+source("../code/wrappers.R")
+PlotA<- gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g1hrsperweek",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 1 Hrs Per Week")
+
+PlotB<- gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g1txdays",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 1 Duration of Treatment (Days)")
+
+PlotC<- gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g2hrsperweek",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 2 Hrs Per Week")
+
+plot_grid(PlotA, PlotB, PlotC, 
+          labels=c('A','B', 'C'),
+          nrow=3)
+
+```
