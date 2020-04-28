@@ -35,10 +35,9 @@ adt_data <- readRDS("../data/adt_data.RDS")
 
 The package visdat allows visualizing the entire data frame at once.
 ```{r, message=FALSE}
-#Visualize whole dataframe at once
-vis_dat(adt_data)
-#summary of whether the data is missing or not
-vis_miss(adt_data)
+#summary plots using vis_dat and vis_miss
+source("../code/wrappers.R")
+gg_summary_covariate_miss(adt_data)
 ```
 
 
@@ -51,12 +50,21 @@ Naniar package also provides an approach to visualizing overall missingness of t
 For example, we can identify variables that present a greater number/percentage of missing cases
 ```{r}
 #summary of missing variables
-p1<- gg_miss_var(adt_data) + labs(y="Look at all the missing ones")
+p1<- gg_miss_var(adt_data) + 
+                            labs(y="Missing Cases")+
+                            theme(axis.title.x = element_text(size =10),
+                                  axis.text.y = element_text(size=6))
+                          
 
 #summary of missing variables (percentage)
-p2<- gg_miss_var(adt_data, show_pct=TRUE)
-
-grid.arrange(p1, p2, ncol = 2)
+p2<- gg_miss_var(adt_data, show_pct=TRUE)+
+                                          labs(y="Percentage Missing")+
+                                          theme(axis.title.x = element_text(size =10),
+                                                axis.text.y = element_text(size=6))
+                                                
+grid.arrange(p1, p2 + 
+                    labs(x=""),
+                    ncol = 2)
 
 ```
 
@@ -95,7 +103,11 @@ gg_miss_case(adt_data, facet=g2loc)
 We then look at the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. 
 ```{r}
 #Level of care group 2
-gg_miss_fct(x=adt_data, fct=g2loc)
+gg_miss_fct(x=adt_data, fct=g2loc)  + 
+                                    labs(x="Group 2 Level of Care")+
+                                    theme(axis.text.y = element_text(size=7))
+                                          
+
 ```
 
 For instance, in this case, we can identify the Inpatient category having 100% missing values in at least 12 variables. 
@@ -258,7 +270,7 @@ We could also examine these relationships by looking at the distribution of ES, 
 
 First, we will use the shadow function to keep track of missing values. Create a dataframe with the same set of columns, but with the column names added a suffix_NA
 ```{r}
-as_shadow(adt_data)
+#as_shadow(adt_data)
 #Attach a shadow to the current dataframe
 adt_shadow <- bind_shadow(adt_data)
 ```
@@ -317,9 +329,6 @@ prow<- plot_grid(p19 + labs(x="Effect Size (Hedges' g)", colour="Group 2 \n Trea
 
 legend<- get_legend(p19 + theme(legend.position = "bottom"))
 plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2)) 
-
-
-
 ```
 
 
@@ -415,13 +424,33 @@ plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2))
 This code chunk creates the grids above with a helper function.
 ```{r}
 source("../code/wrappers.R")
+#Group 1 Hrs. Per Week
 gg_esse_covariate_miss(adt_shadow,
                        es_col = "es_g",
                        se_col = "se_g",
                        covariate = "g1hrsperweek",
                        adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
                        label = "Group 1 Hrs Per Week")
+
+#Group 1 Duration of Treatment 
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g1txdays",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 1 Duration of Treatment (Days)")
+
+
+#Group 2 Hrs. Per Week
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g2hrsperweek",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 2 Hrs Per Week")
+
 ```
+
 
 This chunk does forest plots shaded by missingness
 ```{r}
