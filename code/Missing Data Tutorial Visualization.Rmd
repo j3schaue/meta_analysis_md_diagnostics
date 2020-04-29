@@ -272,7 +272,7 @@ p17<- ggplot(adt_shadow,
            colour =g1hrsperweek_NA )) + 
   geom_density() +
   scale_color_manual("", values = c("#E69F00", "#56B4E9"), 
-                     labels = c("Missing", "Not Missing")) +
+                     labels = c("Not Missing", "Missing")) +
   theme_bw()
 
 p18<- ggplot(adt_shadow,
@@ -280,7 +280,7 @@ p18<- ggplot(adt_shadow,
            colour =g1hrsperweek_NA )) + 
   geom_density()  +
   scale_color_manual("", values = c("#E69F00", "#56B4E9"), 
-                     labels = c("Missing", "Not Missing")) +
+                     labels = c("Not Missing", "Missing")) +
   theme_bw()
 
 
@@ -293,6 +293,11 @@ plot_grid(prow, legend, ncol=1, rel_heights=c(1, .2))
 ##Set a limit to zoom in 
 p17<- ggplot(adt_shadow,
        aes(x =  es_g,
+           colour =g1hrsperweek_NA )) + 
+  geom_density() + ylim(0,8)
+
+p18<- ggplot(adt_shadow,
+       aes(x =  se_g,
            colour =g1hrsperweek_NA )) + 
   geom_density() + ylim(0,8)
 

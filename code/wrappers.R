@@ -58,7 +58,7 @@ gg_es_covariate_miss <- function(shadow, es_col, covariate, adjust = 1){
 #'         colored according to if the covariate is missing or not
 #' ###---------------------------------------------------------------------------------------###   
 gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c(1, 1), 
-                                   colors = c("#E69F00", "#56B4E9"), ymax = NULL, label = NULL){
+                                   colors = c("#56B4E9", "#E69F00"), ymax = NULL, label = NULL){
   
   # Sterilize input
   if(length(adjust) == 1){ adjust <- rep(adjust, 2) }
@@ -67,7 +67,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
   
   ## ES plot
   p_es <- gg_es_covariate_miss(shadow, es_col, covariate, adjust[1]) + 
-    scale_color_manual(label, values = colors, labels = c("Missing", "Not Missing")) +
+    scale_color_manual(label, values = colors, labels = c("Not Missing", "Missing")) +
     ymax + 
     labs(x = "Effect Size", y = "Density") +
     theme_bw() + 
@@ -75,7 +75,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
   
   ## SE plot
   p_se <- gg_es_covariate_miss(shadow, se_col, covariate, adjust[2]) + 
-    scale_color_manual(label, values = colors, labels = c("Missing", "Not Missing")) +
+    scale_color_manual(label, values = colors, labels = c("Not Missing", "Missing")) +
     ymax + 
     labs(x = "Standard Error of Effect Size") +
     theme_bw()
@@ -182,7 +182,7 @@ mis_ma_var_summary <- function(data, se_col, truncate = TRUE){
   if(!is.null(se_col)){
     
     wpctab <- data %>% 
-      summarize_all(.funs = function(x) wt_miss_fun(x, 1/se_vals^2))
+      summarize_all(.funs = function(x) wt_miss_fun(x, (1/se_vals)^2))
     
     sums <- bind_rows(sums, wpctab)
     row.names(sums) <- c("n_miss", "pct_miss", "wtpct_miss")
