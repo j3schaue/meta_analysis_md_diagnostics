@@ -71,7 +71,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
     ymax + 
     labs(x = "Effect Size", y = "Density") +
     theme_bw() + 
-    guides(color = guide_legend(override.aes = list(size = 1.2)))
+    guides(color = guide_legend(override.aes = list(size = 0.8)))
   
   ## SE plot
   p_se <- gg_es_covariate_miss(shadow, se_col, covariate, adjust[2]) + 
@@ -79,21 +79,24 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
     ymax + 
     labs(x = "Standard Error of Effect Size") +
     theme_bw()
-  
+
   # Extract legend
-  legend <- get_legend(p_es + theme(legend.position = "bottom"))
+  legend <- get_legend(p_es + theme(legend.position = "bottom",
+                                   legend.title = element_text(size = 9)))
   
   # Arrange plots in a grid
   prow <- plot_grid(p_es + 
-                      theme(legend.position = "none"), 
+                      theme(legend.position = "none",
+                            axis.title.x = element_text(size=7)),
                     #
                     p_se + 
-                      theme(legend.position = "none") + 
+                      theme(legend.position = "none",
+                            axis.title.x = element_text(size=7)) + 
                       labs(y = ""), # second y-label is superfluous
                     nrow=1)
   
   # Create grid plot
-  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .08)) 
+  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .08))
   
   # Return grid plot
   return(out)
@@ -203,3 +206,39 @@ mis_ma_var_summary <- function(data, se_col, truncate = TRUE){
 }
 
 # mis_ma_var_summary(adt_data, "se_g", truncate = FALSE)
+
+###-----------------------------------------------------------------------------------###
+#' # Function to plot whole-data summaries in one grid
+#' @name gg_summary_covariate_miss
+#' @param data: original dataset
+#' @return plot two different whole-data summaries side by side
+#' ###--------------------------------------------------------------------------------###
+
+gg_summary_covariate_miss <- function(data){
+
+  #Visualize whole dataframe at once
+  visdat<- vis_dat(data)
+  #summary of whether the data is missing or not
+  vismiss<-vis_miss(data)
+  
+  # Arrange plots in a grid
+  prow <- plot_grid(visdat +
+                    theme(legend.position = "bottom",
+                          legend.title = element_text(size = 8),
+                          legend.text = element_text(size = 7),
+                          legend.key.size = unit(.4, "cm"),
+                          axis.text.x = element_text(size=4)),
+                  vismiss+
+                    theme(legend.text = element_text(size = 7),
+                          legend.key.size = unit(.5, "cm"),
+                          axis.text.x = element_text(size=4)) +
+                    labs(y = ""),
+                  labels=c('A','B'),
+                  nrow=1)
+
+# Create grid plot
+out_1 <- plot_grid(prow, ncol=1, rel_heights=c(1, 0.03)) 
+return(out_1)
+}
+
+

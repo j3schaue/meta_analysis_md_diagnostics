@@ -69,22 +69,23 @@ This section examines different visualizations using naniar (Tierney, 2018), vis
 
 Aggregation plots are useful tools for identifying the number of missings in each variable and case. Overall missingness is visualized with a heatmap style using vis_dat and vis_miss functions from the visdat package (see Figure 1 below). 
 
-(Insert plot 1 - 2)
+(Insert plot 1 y 2)
 
-These simple visualizations demonstrate how severe the level of data loss is within our dataset. In this example, Plot A highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot B, represents 6.2% of the total dataset. 
+Figure 1: Demonstrate how severe the level of data loss is within the Substance Abuse data. Plot (A) highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot (B), represent 6.2% of the total dataset.
 
 Similarly, function gg_miss_var from naniar package provides an approach to visualizing overall missingness by identifying variables with a greater number or percentage of missing cases, ordering by missingness (see Figure 2 below). 
 
 (Insert plot 3)
 
-Figure 2 presents variables ordered by missingness. For this particular dataset, there are 10 variables with at least 10% of missing cases. This visualization becomes relevant when deciding which variable to include in the analysis. 
+Figure 2: Graphical summaries of missingness in variables, ordered by missingness, for the Substance Abuse data. There are 10 variables with at least 10% of missing cases. This visualization becomes relevant when deciding which variable to include in the analysis.
+
 
 Different combinations of missingness across cases can be visualized using an “upset plot” (Conway et al. 2017) with the gg_miss_upset function in the naniar package; thus providing the number of times certain variables go missing together.  
 We explore the combinations among variables with higher percentage of missing (see Figure 3 below). 
 
 (Insert plot 8)
 
-Figure 3 details those variables that are missing together. For instance, there are a large number of cases where Group 2 Level of Care, Number of Sessions, Treatment Contact (hours per week) and Duration of Treatment (days) are missing together. This simple exploration provides valuable information for imputation. 
+Figure 3: Details those variables that are missing together. For instance, there are a large number of cases where Group 2 Level of Care, Number of Sessions, Treatment Contact (hours per week) and Duration of Treatment (days) are missing together. This simple exploration provides valuable information for imputation. 
 
 
 3.2 Bivariate plots 
@@ -93,8 +94,7 @@ Variable missingness in cases over some other factor variable is visualized with
 
 (Insert plot 7)
 
-Figure 4 highlights the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. The inpatient category has 100% of missing values in at least 12 different variables, suggesting that this category could impose a problem when fitting a regression model. 
-
+Figure 4: Highlights the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. The inpatient category has 100% of missing values in at least 12 different variables, suggesting that this category could impose a problem when fitting a regression model.
 
 3.3 Comparison with effect size and error variances plots
 
@@ -106,21 +106,21 @@ Later, the distribution of effect size/error variance is visualized when some co
 
 (Insert plot 19)
 
-Plot A shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. 
+Plot A: Shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. 
 
 
 (B) Some relationship
 
 (Insert plot 17)
 
-Plot B illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present. 
+Plot B: Illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present. 
 
 
 (C) No relationship
 
 (Insert plot 18)
 
-Plot C shows that both, the effect size and its standard errors, have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not. 
+Plot C: Shows that both, the effect size and its standard errors, have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not. 
 
 
     - Numerical summaries
