@@ -1,0 +1,60 @@
+---
+title: "State of the Art of Missing Data in Meta-analysis"
+author: ""
+date: "4/29/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Aims to answer 3 questions:
+
+1. What are people talking about theory of missing data in meta-regression?
+2. What are they doing in practice? Why?
+3. What should they be doing?
+
+
+## 1. Methods for Handling missing data in research synthesis
+
+This section will attempt to answer question 1. But will be mostly focused on missing predictor variables. 
+
+    - 1.1 "Ad Hoc" methods:
+        1.1.1 Complete Case Analysis or listwise deletion
+        1.1.2 Available Case Analysis
+        1.1.3 Single-Value Imputation Methods
+          3.1 Complete Case Mean
+          3.2 With Conditional means (regression model)
+    - 1.2 "Model Based" Methods:
+        1.2.1 Maximun Likelihood Methods Using EM Algorithm
+        1.2.2 Multiple Imputation for Multivariate Normal Data
+    
+## 2. Current Practices in meta-analysis
+
+This section will try to summarized current practices for handling missing data in meta-anylisis.(What methods are prefered and why?)
+
+        - 2.1 Commonly used methods: 
+          "45% of studies report missing data problems. When missing data were found, the majority (86%) of synteses reported using ad hoc approach to handle missingess. Only 3% reported using multiple imputation."[2] (Tipton et al., 2019).
+        - 2.2 Fundamental problems of ad hoc approaches
+        - 2.3 Advantages of using Model based methods 
+        - 2.4 Remaining work needed 
+              "Remains a need for translational work on missing data methods, including compelling cases studies, examples of software implementation, and simulation studies on the comparative performance of current practies versus methods such as multiple imputation."[3] (Tipton et al., 2019)
+              
+              
+              
+## References
+
+[1] Pigott, T. (2019). Missing data in Meta-analysis. In Cooper H., Hedges L., & Valentine J. (Eds.) The Handbook of Research Synthesis and Meta-Analysis  (pp. 367-382). NEW YORK: Russell Sage Foundation. Retrieved April 29, 2020, from www.jstor.org/stable/10.7758/9781610448864.20
+
+[2] Tipton E, Pustejovsky JE, Ahmadi H. A history of meta‐regression: Technical, conceptual, and practical developments between 1974 and 2018. Res Syn Meth. 2019;10:161–179. https://doi.org/10.1002/jrsm.1338 
+
+[3] Tipton E, Pustejovsky JE, Ahmadi H. Current practices in meta‐ regression in psychology, education, and medicine. Res Syn Meth. 2019;10:180‐194. https://doi.org/ 10.1002/jrsm.1339 
+
+
+
+          
+    
+
+
+
