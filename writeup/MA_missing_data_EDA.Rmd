@@ -114,7 +114,6 @@ grid.arrange(p1, p2 +
                     ncol = 2)
 ```
 
-\
 
 Different combinations of missingness across cases can be visualized using an “upset plot” (Conway et al. 2017) with the `gg_miss_upset()` function in the `naniar` package; thus providing the number of times certain variables go missing together.  
 We explore the combinations among variables with higher percentage of missing (see Figure \ref{fig:figs3} below).
