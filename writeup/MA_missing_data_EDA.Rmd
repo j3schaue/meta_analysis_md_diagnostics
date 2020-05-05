@@ -27,7 +27,7 @@ adt_data <- readRDS("../data/adt_data.RDS")
 ## Introduction
 
 
-Systematic reviews of substance abuse research hold great promise for identifying effective substance abuse interventions and examining what makes them effective. 
+Systematic reviews of substance abuse research hold great promise for examining what makes different substance abuse interventions effective. 
 Methodological tools such as meta-regression can formally test relationships between how effective an intervention is and how or on whom it is implemented.
 However, such tools must contend with the real-world difficulties of modern research syntheses, including the fact that it is often impossible to extract all relevant information from the literature to conduct such analyses.
 
@@ -36,12 +36,13 @@ Issues with missing data are not new.
 There is a large literature on methods for handling missing data in primary studies, as well as work on related issues in meta-analysis.
 This literature highlights the ways that missingness can bias an analysis, examines conditions under which these biases can be corrected, and proposes various statistical procedures to adjust for bias.
 
-Diagnosing missing data issues remains an important aspect of any research where data are missing.
-Understanding which data is missing, how much of it, and how problematic that is will often be crucual for contextualizing the results of a meta-analysis.
-As well, a key assumption of analyses involving missing data is that the analyst has some idea about what data is missing and why.
+Diagnosing missing data issues remains an important aspect of any statistical analysis of incomplete data (i.e., data with missing values).
+Understanding what and how much data is missing, and how problematic that is crucial for contextualizing the results of a meta-analysis.
+As well, a key assumption of analyses involving missing data is that the analyst has some idea about why data is missing.
 While much of the literature has focused on the implications of that assumption, considerably less attention is paid to approaches to examining it in a dataset.
 
-Recent research has suggested analysts can better understand missingness in their data through exploratory analyses, including visual and numerical summaries akin to classical exploratory data anlyses.
+Recent research has suggested analysts can better understand missingness in their data through exploratory analyses, including visual and numerical summaries akin to classical exploratory data analyses.
+These explorations, which occur before conducting the formal meta-analysis, can shed greater light on key issues relevant to missingness.
 Tools for doing so are only now emerging, but these tools have yet to gain broader traction in quantitative disciplines. 
 Nor has this approach seemingly made its way into modern meta-analyses, where missing data is a common problem. 
 
@@ -49,15 +50,15 @@ This tutorial discusses tools for exploring and diagnosing missing data problems
 The following section clarifies the types of missing data for which these tools are appropriate.
 We then describe principles of missing data that can guide exploratory analyses. 
 Finally, we demonstrate some of these tools on data from a meta-analysis on substance abuse interventions for adolescents.
-In addition, our supplementary material expands on these results with a vingette that contains additional visualizaitons and executable code.
+In addition, our supplementary material expands on these results with a vignette that contains additional visualizations and executable code.
 
 
 
 ## Missing Data and Meta-Analysis
 
-In the context of meta-analysis, "missing data" is a broad term that can be used to describe several different types of scenarios.
-For instance, data could be missing on individual participants within studies, including their outcomes in the study or other characterisitcs (e.g., their age, race, prior substance use).
-"Missing data" could also refer to scenarios where information cannot be extracted from a completed study by a meta-analyst. 
+Because a meta-analysis involves a series of primary studies, "missing data" in meta-analysis can be seen as a broad term that could refer to several different scenarios.
+For instance, data could be missing on individual participants within studies, including their outcomes in the study or other characteristics (e.g., their age, race, prior substance use).
+"Missing data" could also refer when information cannot be extracted from a completed study by a meta-analyst. 
 This might occur if a study fails to report enough detail for analysts to back out effect estimates, standard errors, or study-level characteristics.
 Finally, entire studies or effects may be missing from a meta-analytic dataset. 
 This might occur if effects (or entire studies) are not reported or published. 
@@ -65,38 +66,41 @@ There is empirical evidence that statistically significant results are more like
 The studies or effects that are not reported, and thus are not included in a meta-analysis, can be considered missing data.
 
 Precisely how to examine, diagnose, and adjust for missing data will be different depending on what scenario we mean when we say "missing data."
-For instance, meta-analysts have used "funnel plots" to examine if their systematic review is missing studies or effects due to publication bias.
+For instance, meta-analysts have used *funnel plots* to examine if their systematic review is missing studies or effects due to publication bias.
 Our focus will be on the second scenario, where information cannot be extracted from some studies. 
 This is a common problem in meta-analysis and one that that can limit the accuracy of any statistical inferences.
 
 Assume we have data on $k$ effect estimates and $p$ variables (including the estimate itself).
 This can be summarized and stored in a $k \times p$ table where rows correspond to effect estimates and columns correspond to variables concerning those estimates. 
 One column would contain the effect estimates themselves, and another would contain the standard error or estimation error variance of those estimates.
-The remaining $p-2$ columns could contain effect- or study-level covariates, including summary demographics (e.g., the percent of a study's sample that were minorities), treatment type (e.g., behavioral therapy versus pharacological interventions), or dosage/duration of an intervention.
+The remaining $p-2$ columns could contain effect- or study-level covariates, including summary demographics (e.g., the percent of a study's sample that were minorities), treatment type (e.g., behavioral therapy versus pharmacological interventions), or dosage/duration of an intervention.
 Some of the cells in this table may be missing values, and the analyses presented in this article provide ways to summarize and examine patterns of missingness.
 
 
 
 ## Data
 
-To better illustrate the concepts discussed in this tutorial, we use data from Tanner-Smith et al. (2016), who examined the effects of substance abuse inverventions for adolescents on subsequent substance use. These data were extracted from 61 randomized trials and quasi-experiments, and include $k = 95$ different effects of or contrasts between interventions.  These effects include contrasts between a given treatment condition and a control condition within a study, or between two different treatement conditions in the same study. 
+A prime example of this type of missingness can be seen in data from Tanner-Smith et al. (2016), who examined the effects of substance abuse interventions for adolescents on subsequent substance use. 
+These data were extracted from 61 randomized trials and quasi-experiments, and include $k = 95$ different effect size estimates.  
+These estimates include contrasts between a given treatment condition and a control condition within a study, or between two different treatment conditions in the same study. 
+These data will be used to illustrate key concepts of missingness and some useful tools to exploring missingness in this tutorial.
 
-There are  a range of intervention types and venues that have been studied on individuals who use different substances and who differ in a variety of ways. For instance, interventions might focus on cognitive behavioral therapy (CBT), family therapy, or pharmacological therapy. 
-Interventions could be in- or out-patient. 
-Individuals in studies might present using marijuana, which is most common among adolescents, or alcohol or opioids. 
-They may come from wealthy families or poor families. 
+Tanner-Smith et al. found a range of intervention types and venues that have been studied on individuals who use different substances and who differ in a variety of ways. 
+Some interventions in their data focus on cognitive behavioral therapy (CBT), family therapy, or pharmacological therapy. 
+Some interventions are in-patient, and others are out-patient. 
+Individuals in studies might present using marijuana, which is most common among adolescents, or alcohol or opioids, and they may come from wealthy families or poor families. 
 Finally, some effects reported in studies contrasted a given intervention with some control condition, while others contrasted two alternative interventions or implementations.
 
 To explore relevant relationships, Tanner-Smith et al. extracted a considerable amount of information from the studies they found. 
 Their raw data included some $p = 46$ variables per study.
 In addition to estimated effects and their standard errors, they documented the types of interventions being contrasted, as well as their intensity and context.
-This included where interventions occured, and how much time subjects spent in the intervention. 
+This included where interventions occurred, and how much time subjects spent in the intervention. 
 For instance, if a study contrasted two interventions that involved behavioral therapy, Tanner-Smith et al. documented how many hours per week subjects in each intervention (referred to in this article as *groups*) spent in therapy.
 They also documented the demographics of subjects in the studies, such as the percentage of subjects who were minorities, as well as the substances that subjects reported using.
 
 Tanner-Smith et al. then fit a series of meta-regression models to their data in order to examine how treatment effects varied according to the type of therapies and individuals studied. 
 They found that assertive continuing care (ACC), behavioral therapy, CBT, motivational enhancement therapy (MET), and family therapy tended to be more effective than generic "practice as usual" interventions that often involved referrals to community services.
-However, they did not find strong relationships between the characterisitcs of adolescents in the studies and the effectiveness of interventions (net of intervention type).
+However, they did not find strong relationships between the characteristics of adolescents in the studies and the effectiveness of interventions (net of intervention type).
 
 A complicating factor in conducting these analyses was that some of the data were missing. 
 Not every study reported the requisite information for extracting covariates for every effect size.
@@ -112,7 +116,12 @@ Thus, when it came time to run meta-regressions, Tanner et al. were faced with a
 Tanner-Smith et al. ultimately opted for a sophisticated statistical procedure called the expectation-maximization (EM) algorithm to estimate their models, which has been an important tool for analyzing data with missing values.
 However, that was not their only option.
 A common approach in meta-analysis is a *complete-case* analysis that excludes effects for which any of the relevant covariates in the meta-regression model are missing.
-Alternatively they could have resorted to imputating missing values, or using some other statistical adjustment.
+
+An alternative to complete-case analysis that has gained broad use in various fields is to impute (i.e., fill in) missing values.
+Pigott (2019) discusses the use of single-value imputations in meta-analysis. 
+A more common approach to missingness in primary studies is to use multiple imputations for a missing value, which can better reflect the uncertainty introduced by filling in unknown values.
+Often imputations are based on predictive models that can better inform what values we might have observed had a given field not been missing.
+These predictive models typically leverage information from other variables in the data.
 
 Analyses involving incomplete data will be impacted by which variables are missing in a dataset and how frequently they are missing, as well as relationships between variables.
 In this section we provide an overview of principles of missing data that apply to meta-analysis, and list some potential statistical approaches to handling missing data.
@@ -120,18 +129,91 @@ In this section we provide an overview of principles of missing data that apply 
 
 ### Notation
 
+As noted above, we can describe the datasets commonly used in meta-analysis as tables with $k$ rows and $p$ columns. 
+Each row corresponds to an effect size, and each column corresponds to some variable related to that effect.
+These are the types of tables used in most standard meta-analysis software, including Comprehensive Meta-Analysis, the `metafor` library, or OpenMeta[Analyst].
+The structure of these tables is shown in the matrix below. 
+In the matrix, $T_i$ denote the effect size estimates and $\sigma_i$ are their standard errors. 
+The $X_{ij}$ refer to additional variables collected that pertain to a given effect size and that might be used in an analysis.
 
+\[
+\left[
+\begin{array}{ccccc}
+T_1 & \sigma_1 & X_{11} & ... & X_{1,p-2}\\
+T_2 & \sigma_2 & X_{21} & ... & \textbf{NA}\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+T_k & \sigma_k & \textbf{NA} & ... & X_{k,p-2}\\
+\end{array}
+\right]
+\]
+
+Missing values in the matrix are denoted as **NA**. 
+Most missing data literature augments the traditional table above with a table $\mathbf{R}$ of response indicators $R_{ij}$.
+These indicators take a value of $R_{ij} = 1$ if entry $i, j$ in the table is observed, and $R_{ij} = 0$ if it is missing.
+For instance, $R_{21} = 1$ because the first element of row 2 ($T_2$) is observed, but $R_{2p} = 0$ because the last element of row 2 is missing (NA).
+
+In the matrix above, there are both *observed* and *unobserved* data.
+The observed data comprises all of the entries in the table above for which $R_{ij} = 1$.
+For instance, the observed data would include the effect estimates $T_i$ and standard errors $\sigma_i$.
+The unobserved data comprises all of the entries for which $R_{ij} = 0$, including $X_{2, p-2}$ and $X_{k, 1}$.
+Note that the entire matrix above, and hence the incomplete data on which we conduct an analysis, is simply the union of the observed and unobserved data.
 
 
 ### Missingness Mechanisms
 
-Define MAR/MNAR/MCAR.
+A key assumption that underpins how to analyze a dataset with missing values involves why those values are missing, typically referred to as the missingness *mechanism*.
+Rubin (1976) classified three different possible types of mechanisms based on the probability that a value is missing.
+Rubin noted that data could be missing completely at random (MCAR), which means that the probability that a given value is missing is independent of all of the observed or unobserved data.
+This can be expressed as $P[R | \text{observed data}, \text{unobserved data}] = P[R]$, and intuitively means the fact that a given value is missing is unrelated to anything; it is as if it were deleted on the basis of a coin flip.
+
+Values could be missing at random (MAR), which occurs if the probability that a value is missing depends only on the observed data.
+This can be expressed as $P[R | \text{observed data}, \text{unobserved data}] = P[R | | \text{observed data}]$. 
+Note that this differs from MCAR in that missingness might be related to observed values. 
+For instance, suppose studies with larger standard errors are less likely to report the racial composition of their samples. 
+Then, assuming the standard errors are observed, this might constitute MAR. 
+It would not constitute MCAR, because missingness is related to an observed value, the standard error of an effect estimate.
+
+
+Finally, data are said to be missing not at random (MNAR) if the probability that a value is missing depends on the unobserved data in some way.
+This differs from MAR in that missingness depends on unobserved data.
+As an example, suppose that studies with larger standard errors and a greater proportion of minorities are less likely to report the racial composition of their samples.
+Then missingness of racial categories in the data would depend on an observed value (the standard error), but also the racial composition that could itself be missing.
 
 
 
-### Missingness Patterns and Frequencies
+### Missingness Patterns
 
-Describe why we would want to do an exploratory analysis 
+In addition to the mechanism, it is often useful to understand which variables are missing together from the same rows.
+For instance, some rows in the Tanner-Smith et al. data might be missing the hours of therapy per week for one of the groups, while other row may be missing the hours of therapy per week *and* the percentage of study participants who were minorities.
+In other words, different rows may exhibit different *missingness patterns*.
+Understanding these patterns can give some insight into missingness mechanisms, but it can also help identify variables that might be more or less useful in dealing with issues that arise from missingness.
+For instance, it will be difficult to build imputation models for a variable if it is frequently missing alongside several other variables in the data.
+It would also seem useful to examine how missingness in one variable is related to observed values of other variables. 
+If missingness in one column (e.g., therapy hours per week) occurs more frequently with low values of another column (e.g., the effect estimate), that might be cause to re-assess any MCAR assumptions.
+
+
+## Exploratory Analyses
+
+The tools discussed in the remainder of this article facilitate exploratory analyses of missingness in a meta-analytic dataset.
+Exploratory missingness analyses (EMA) are difficult for several reasons.
+First, they are not always wholly conclusive. 
+It will often be difficult to draw ironclad inferences about missingness mechanisms based on exploratory analyses.
+Even proposed tests for missingness mechanisms can have misleading results.
+Instead, EMA can provide support for or help generate theories that explain missingness in ways that are consistent with the mechanisms described above. 
+Some of these theories may require consultation with data curators and other individuals who extracted information from the studies reviewed.
+
+Second, there is no single visualization or set of metrics guaranteed to provide a complete picture of missingness for all datasets. 
+A plot that is tremendously useful for one dataset may be of less interest in others. 
+
+Third, EMA differs from traditional exploratory data analyses because the focus on the unobserved data.
+Many software tools, including most graphics software actually deletes observations with missing values, which would eliminate the information EMA seek to understand.
+Thus, a new and emerging suite of tools that differ from traditional exploratory data analyses are required.
+Moreover, as with the case with much general-use statistical software, adaptations of these tools may be necessary to tailor EMA for meta-analytic datasets.
+
+In the following sections, we show and discuss different types of visualizations and numerical summaries relevant to EMA. 
+These are rooted in an approach to understand the scope and correlates of missingness problems in a dataset described in the previous section.
+However, they are not exhaustive, and so as part of the supplementary material to this tutorial, we have included a vignette that presents and describes alternative visualization and numerical summaries of missingness.
+Like the plots presented in this article, this vignette is implemented in the `R` software language and draws heavily on the `naniar` library with some custom extensions developed specifically for meta-analysis.
 
 
 
