@@ -26,6 +26,8 @@ gg_es_covariate_miss <- function(shadow, es_col, covariate, adjust = 1){
   
   # Make sure we get the missingness indicator
   cov_na <- paste0(covariate, "_NA")
+  shadow[[cov_na]] = sapply(shadow[[cov_na]], 
+                            FUN = function(x) ifelse(x == "!NA", "Not Missing", "Missing"))
   
   # Construct plot
   p_es <- ggplot(shadow) +
@@ -65,9 +67,10 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
   if(is.null(label)){ label <- covariate }
   if(!is.null(ymax)){ ymax <- ylim(0, ymax) }
   
+  
   ## ES plot
   p_es <- gg_es_covariate_miss(shadow, es_col, covariate, adjust[1]) + 
-    scale_color_manual(label, values = colors, labels = c("Not Missing", "Missing")) +
+    scale_color_manual(label, values = colors) +
     ymax + 
     labs(x = "Effect Size", y = "Density") +
     theme_bw() + 
@@ -75,7 +78,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
   
   ## SE plot
   p_se <- gg_es_covariate_miss(shadow, se_col, covariate, adjust[2]) + 
-    scale_color_manual(label, values = colors, labels = c("Not Missing", "Missing")) +
+    scale_color_manual(label, values = colors) +
     ymax + 
     labs(x = "Standard Error of Effect Size") +
     theme_bw()
@@ -96,7 +99,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
                     nrow=1)
   
   # Create grid plot
-  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .08))
+  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .1))
   
   # Return grid plot
   return(out)
