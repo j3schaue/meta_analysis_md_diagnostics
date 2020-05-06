@@ -16,16 +16,68 @@ Aims to answer 3 questions:
 3. What should they be doing?
 
 
+## Introduction
+
+This section will..
+
+Missing data can take three different forms in meta-analysis: missing complete studies, missing effect sizes or information needed to compute effect sizes, and missing study descriptors that could be used in an effect-size model. This section will focus on missing data in the meta-analysis of stud-level data, specifically of meta-analysis results when missing data appears in predictors of effect-size models. 
+
+
 ## 1. Methods for Handling missing data in research synthesis
 
 This section will attempt to answer question 1. But will be mostly focused on missing predictor variables. 
 
-    - 1.1 "Ad Hoc" methods:
-        1.1.1 Complete Case Analysis or listwise deletion
-        1.1.2 Available Case Analysis
+    - 1.1 "Ad-hoc" methods:
+        1.1.1 Listwise deletion or Complete Case Analysis
+        
+In a listwise deletion (Complete Case Analysis), all cases with one or more missing values on the analysis variables are eliminated. Thus, only those cases with all variables fully observed are used. 
+
+Default procedure for handling incomplete data in many statistical packages, such as SPSS, SAS and Stata. 
+
+This procedure is one of the most common methods used when missing data on predictors occurs. In meta-analysis, researchers typically use only those studies reporting on a given predictor when estimating a model of effect-size variation. However, selecting only complete cases can limit the number of observations available for the analysis. 
+
+If the data are MCAR, listwise deletion produces unbiased estimates of means, variances and regression weights. If the data are not MCAR, listwise deletion can bias estimates (Little and Rubin 2002, pp.41-44)
+
+        
+        1.1.2 Pairwise deletion or Available-case Analysis
+    
+A pairwise deletion, also named available-case analysis, calculates the means and variances on all observed data. 
+
+Under MCAR produces consistent estimates of mean, correlation and covariances (Little and Rubin, 2002, p.55). However, if the data are MAR it will produce biased estimates.
+
+Further, the covariance and/or correlation matrix may not be positive definite, which is requirement for mot multivariate procedures. 
+
         1.1.3 Single-Value Imputation Methods
+        
           3.1 Complete Case Mean
+          
+Replace the missing value with the mean of the observed cases in each variable.
+
+In meta-analysis, researchers may fill in the complete case mean for a missing predictor value. 
+
+Fast and simple fix for the missing data. 
+
+Underestimate the variance, disturb the relations between variables, bias almost any estimate other than the mean and bias the estimate of the mean when data are not MCAR. 
+
+          
           3.2 With Conditional means (regression model)
+          
+ Regression imputation also known as conditional mean imputation, includes information of other variables with the idea of constructing improved imputations. Under this procedure, each missing value is imputed with the predicted value from a regression model using the observed variables as predictors and the missing variable as the outcome. 
+
+Under MCAR regression imputation generates unbiased estimates of the means and the regression weights. Additionally, the regression weights are unbiased under MAR if the factors that influence the missingness are part of the regression model. 
+
+However, regression imputation artificially strengthens the relations in the data. Correlations are biased upwards. Variability is underestimated. 
+         
+          
+          3.3 LOC and BOCF
+          
+Last observation carried forward (LOCF) and baseline observation carried forward (BOCF) use the previous observed value as a replacement for the missing data and are usually implemented with longitudinal data. 
+
+LOCF can produce biased estimates even under MCAR (Molenberghs and Kenward, 2007, p. 47-50).
+      
+ 
+ "Any single-value imputation strategy that does not adjust standard errors for the uncertainty caused by missing data will produce biased estimates no matter what mechanism leads to the missing observations”(Pigott, 2019)      
+          
     - 1.2 "Model Based" Methods:
         1.2.1 Maximun Likelihood Methods Using EM Algorithm
         1.2.2 Multiple Imputation for Multivariate Normal Data
@@ -44,24 +96,17 @@ This section will attempt to answer question 1. But will be mostly focused on mi
 This section will try to summarized current practices for handling missing data in meta-anylisis.(What methods are prefered and why?)
 
         - 2.1 Commonly used methods: 
-          "45% of studies report missing data problems. When missing data were found, the majority (86%) of synteses reported using ad hoc approach to handle missingess. Only 3% reported using multiple imputation."[2] (Tipton et al., 2019).
+          "45% of studies report missing data problems. When missing data were found, the majority (86%) of synteses reported using ad hoc approach to handle missingess. Only 3% reported using multiple imputation." (Tipton et al., 2019).
         - 2.2 Fundamental problems of ad hoc approaches
         - 2.3 Advantages of using Model based methods 
         - 2.4 Remaining work needed 
-              "Remains a need for translational work on missing data methods, including compelling cases studies, examples of software implementation, and simulation studies on the comparative performance of current practies versus methods such as multiple imputation."[3] (Tipton et al., 2019)
+              "Remains a need for translational work on missing data methods, including compelling cases studies, examples of software implementation, and simulation studies on the comparative performance of current practies versus methods such as multiple imputation."(Tipton et al., 2019)
               
 **NOTE FROM JAKE:** Per point 2.1, are they talking about missingness within studies (i.e., we're missing individual participant data in a given study) or missingness from the meta-analytic dataset itself? That would be an important thing to know.
 
 **NOTE FROM JAKE:** A key thing to keep in mind is that missing data corrections are all about assumptions. There's the standard assumptions about why data are missing, which we refer to as MNAR/MAR/MCAR. But, there's also assumptions about what we *would have* observed. That is, model-based methods make assumptions about *why* data are missing and *what we would likely have seen* if there was no data missing. Neither of those are particularly testable in an explicit sense. However, we can think about ways to examine if they are feasible (e.g., from a Bayesian perspective we could look at posterior predictive distributions).
               
 ## References
-
-[1] Pigott, T. (2019). Missing data in Meta-analysis. In Cooper H., Hedges L., & Valentine J. (Eds.) The Handbook of Research Synthesis and Meta-Analysis  (pp. 367-382). NEW YORK: Russell Sage Foundation. Retrieved April 29, 2020, from www.jstor.org/stable/10.7758/9781610448864.20
-
-[2] Tipton E, Pustejovsky JE, Ahmadi H. A history of meta‐regression: Technical, conceptual, and practical developments between 1974 and 2018. Res Syn Meth. 2019;10:161–179. https://doi.org/10.1002/jrsm.1338 
-
-[3] Tipton E, Pustejovsky JE, Ahmadi H. Current practices in meta‐ regression in psychology, education, and medicine. Res Syn Meth. 2019;10:180‐194. https://doi.org/ 10.1002/jrsm.1339 
-
 
 
           
