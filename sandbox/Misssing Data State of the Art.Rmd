@@ -105,7 +105,9 @@ This section will try to summarized current practices for handling missing data 
 **NOTE FROM JAKE:** Per point 2.1, are they talking about missingness within studies (i.e., we're missing individual participant data in a given study) or missingness from the meta-analytic dataset itself? That would be an important thing to know.
 
 **NOTE FROM JAKE:** A key thing to keep in mind is that missing data corrections are all about assumptions. There's the standard assumptions about why data are missing, which we refer to as MNAR/MAR/MCAR. But, there's also assumptions about what we *would have* observed. That is, model-based methods make assumptions about *why* data are missing and *what we would likely have seen* if there was no data missing. Neither of those are particularly testable in an explicit sense. However, we can think about ways to examine if they are feasible (e.g., from a Bayesian perspective we could look at posterior predictive distributions).
-              
+
+
+           
 ## References
 
 

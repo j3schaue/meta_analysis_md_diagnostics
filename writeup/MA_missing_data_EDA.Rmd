@@ -158,6 +158,29 @@ For instance, the observed data would include the effect estimates $T_i$ and sta
 The unobserved data comprises all of the entries for which $R_{ij} = 0$, including $X_{2, p-2}$ and $X_{k, 1}$.
 Note that the entire matrix above, and hence the incomplete data on which we conduct an analysis, is simply the union of the observed and unobserved data.
 
+It is often of interest how much data is missing.
+This could refer to several different quantitites.
+For instance, we could be interested in the total amount of cells with missing values:
+\[
+\sum_{i=1}^k \sum_{j = 1}^p \frac{1 - R_{ij}}{kp}
+\]
+We might also be interested in how many observations are missing a given variable (i.e., how much of each column is missing):
+\[
+\sum_{i=1}^k \frac{1 - R_{ij}}{k}
+\]
+
+While such percentages are somewhat intuitive and can be used in exploratory analyses of missingness, they are not the only numerical summary of missingness.
+In a meta-analysis, models are often estimated by weighting effect size estimates in a way that those estimates that are most precisely estimated (i.e., that have the smallest standard errors) receive the most weight.
+This means that the precision with which we estimate important quantities in a meta-analysis, including meta-regression coefficients, will therefore depend on the precision of the studies included in an analysis.
+That is, we will have better estimates of a meta-regression model if the precision of each effect $w_i = 1/\sigma_i^2$ is large.
+Missing a variable for an effect estimate with a large standard error (and thus low precision $w_i$) can potentially be less detrimental than missing the same variable for an effect estimate with a small standard error (i.e., a large $w_i$).
+When standard errors of effect sizes are fully observed, an alternative way to quantify the extent of missingness is with a precision-weighted percentage:
+\[
+\sum_{i=1}^k \frac{w_i (1 - R_{ij})}{\sum_{i=1}^k w_i}
+\]
+This describes the percentage of the total precision of effects for which a covariate is missing. 
+If this is greater than the raw percentage, that would indicate that the missingness problem may be more acute because larger studies might be missing important covariates.
+
 
 ### Missingness Mechanisms
 
@@ -172,7 +195,6 @@ Note that this differs from MCAR in that missingness might be related to observe
 For instance, suppose studies with larger standard errors are less likely to report the racial composition of their samples. 
 Then, assuming the standard errors are observed, this might constitute MAR. 
 It would not constitute MCAR, because missingness is related to an observed value, the standard error of an effect estimate.
-
 
 Finally, data are said to be missing not at random (MNAR) if the probability that a value is missing depends on the unobserved data in some way.
 This differs from MAR in that missingness depends on unobserved data.
@@ -213,30 +235,40 @@ Moreover, as with the case with much general-use statistical software, adaptatio
 In the following sections, we show and discuss different types of visualizations and numerical summaries relevant to EMA. 
 These are rooted in an approach to understand the scope and correlates of missingness problems in a dataset described in the previous section.
 However, they are not exhaustive, and so as part of the supplementary material to this tutorial, we have included a vignette that presents and describes alternative visualization and numerical summaries of missingness.
-Like the plots presented in this article, this vignette is implemented in the `R` software language and draws heavily on the `naniar` library with some custom extensions developed specifically for meta-analysis.
+Both the demonstration presented in this article and the supplementary vignette are implemented in the `R` software language and draw heavily on the `visdat` and `naniar` libraries with some custom extensions developed specifically for meta-analysis.
 
 
 
-## Visualizations
+## Aggregation Plots
 
-First, any potential biases are related to the amount of missing data. When a greater amount of data are missing and excluded from an analysis, then any potential biases can be larger. Conversely, if only a small amount of data is missing, then any potential biases will be small. Second, any corrections one might make will depend on and be limited by which variables are missing and how frequently. Strategies that impute missing values for variable X tend to perform better if imputations can make use of important related variables. If those related variables are also likely to be missing when X is missing, this can limit how "good" imputations are.
+Aggregation plots can be a useful starting point when exploring missingness in a meta-analytic dataset.
+They visualize the entire dataset as a "heatmap" that indicates which values are missing from which rows.
+Two examples of aggregation plots are given in Figure \ref{fig:figs1} below.
+The plots in Figure \ref{fig:figs1} are laid out exactly like the data: the columns correspond to variables in the data, and rows correspond to effect sizes.
+Figure \ref{fig:figs1}A colors each column according to the type of variable (e.g., numeric, categorical, etc.) they represent, and gray spots indicate that a value in a given row and column is missing.
+Figure \ref{fig:figs1}B does not indicate the type of variables in the data, but instead shows the total number of cells that contain missing values. 
+That is, out of all of the $k \times p$ cells in the data, 6.2% are missing values.
 
-This section examines different visualizations using `naniar` (Tierney, 2018), `visdat` (Tierney, 2017) and `ggplot2` (Wickham, 2009) R’s packages. We demonstrate how visualizations typically used with datasets outside of meta-analysis can be adapted to the realities of meta-analytic data and contribute to understanding a dataset structure. Three types of visualization of missing data are discussed: whole-data plot; bivariate plots; and comparison with effect size and error variance plots. 
-
-
-## Whole-data plots
-
-Aggregation plots are useful tools for identifying the number of missing in each variable and case. Overall missingness is visualized with a "heatmap" style using `vis_dat()` and `vis_miss()` functions from the `visdat` package (see Figure \ref{fig:figs1} below).
+Aggregation plots provide a high-level picture of missingness in a dataset. 
+They can show which columns are complete, such as the columns corresponding to the effect size estimates and standard errors, as well as which columns or groups of columns have a lot of missingness.
+In particularly, Figure \ref{fig:figs1} shows that there are groups of variables regarding one of the treatment arms (group 2) in studies that are missing fairly frequently.
 
 
 
-```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *Demonstrate how severe the level of data loss is within the Substance Abuse data. Plot (A) highlights variables with missing data. While none of the effect estimates are missing, it is clear that missing values appear in other 18 variables of interest, which, as shown in plot (B), represent 6.2% of the total dataset.*", fig.pos='h'}
+```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *These plots indicate the severity of missingness in the adolescent substance abuse intervention data. Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a gray dash in plot (A) and a black dash in plot (b). Plot (A) also colors columns according to the type of variables they store. Plot (B) indicates that 6.2% of the total dataset (i.e., 6.3% of all cells in the table) are missing values.*", fig.pos='h'}
 source("../code/wrappers.R")
 gg_summary_covariate_miss(adt_data)
 ```
 
 
-Similarly, function `gg_miss_var()` from naniar package provides an approach to visualizing overall missingness by identifying variables with a greater number or percentage of missing cases, ordering by missingness (see Figure \ref{fig:figs2} below). 
+## Univariate Explorations
+
+While aggregation plots can provide a good overview, typically we want more detailed information about how many observations are missing a given variable. 
+Variable missing plots can provide a convenient way to explore this. 
+These plots display the overall missingness in each column of a dataset and present the results in order of which column has the most missingness.  
+Figure \ref{fig:figs2} shows two approaches to making these plots. 
+Figure \ref{fig:figs2}A shows the raw count missing values in each column, while Figure \ref{fig:figs2}B shows the percent of each column missing.
+For example, Figure \ref{fig:figs2} shows that the hours per week that the contrast group spent in their assigned condition (`g2hrsperweek`) is missing for almost half of the effects in the data. 
 
 ```{r figs2, echo=FALSE,fig.width=6,fig.height=3,fig.cap="\\label{fig:figs2} *Graphical summaries of missingness in variables, ordered by missingness, for the Substance Abuse data. There are 10 variables with at least 10% of missing cases. This visualization becomes relevant when deciding which variable to include in the analysis.*", fig.pos='h'}
 #summary of missing variables
@@ -258,6 +290,21 @@ grid.arrange(p1, p2 +
 ```
 
 
+From variable missing plots, it is often easy to identify variables that might be driving any missing data problems, and they can quantify the extent to which a given column has missing values on the scale of raw percentages.
+Previously, we argued that precision-weighted percentages may be more informative in describing the extent of missingness in a meta-analysis.
+A comparison of raw percentages and precision-weighted percentages is given below:
+```{r tab2, echo=FALSE,table.cap="\\label{tab:pcts} *.*", fig.pos='h'}
+tab1 <- mis_ma_var_summary(adt_data, se_col = "se_g", truncate = TRUE) %>%
+  mutate_if(is.double, round, digits = 1) %>%
+  rename(`# Missing` = n_miss, `% Missing` = pct_miss, `Weighted % Missing` = wtpct_miss)
+tab1 %>% knitr::kable()
+```
+
+
+
+
+## Exploring Patterns of Missingness
+
 Different combinations of missingness across cases can be visualized using an “upset plot” (Conway et al. 2017) with the `gg_miss_upset()` function in the `naniar` package; thus providing the number of times certain variables go missing together.  
 We explore the combinations among variables with higher percentage of missing (see Figure \ref{fig:figs3} below).
 
@@ -266,7 +313,7 @@ gg_miss_upset(adt_data, nsets=11, nintersects=NA)
 ```
 
 
-## Bivariate plots 
+## Relating Missingness to Observed Values 
 
 Variable missingness in cases over some other factor variable is visualized with a "heatmap" style using the `gg_miss_fct()` function from the `naniar`package (see Figure \ref{fig:figs4} below). This provides information regarding any relationship between observed values and missingness condition. 
 
@@ -277,8 +324,6 @@ gg_miss_fct(x=adt_data, fct=g2loc)  +
                                     theme(axis.text.y = element_text(size=7))
 ```
 
-
-## Comparison with effect size and error variances plots
 
 To explore the relationship of variables presenting a large percentage of missing data with effect size and error variances, the original data is transform in order to create a data structure that keeps track of missing values (Tierney, 2018). Using the `as_shadow` and `bind_shadow` functions from the `naniar` package a data frame with the same set of columns, but with the column names added a `suffix_NA`, is bound to the original dataset. 
 
