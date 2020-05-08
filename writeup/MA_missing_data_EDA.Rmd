@@ -305,8 +305,17 @@ tab1 %>% knitr::kable()
 
 ## Exploring Patterns of Missingness
 
-Different combinations of missingness across cases can be visualized using an “upset plot” (Conway et al. 2017) with the `gg_miss_upset()` function in the `naniar` package; thus providing the number of times certain variables go missing together.  
-We explore the combinations among variables with higher percentage of missing (see Figure \ref{fig:figs3} below).
+When diagnosing potential missing data problems, it also matters which variables are missing together. 
+Certain patterns of missingness can be indicative of the missingness mechanism, and patterns can also point to potential issues for analytic methods with incomplete data, such as multiple imputation or the EM algorithm.
+
+One approach to visualizing missingness patterns is with an *upset plot* (Conway et al., 2017).
+Upset plots show the frequency with which different combinations of variables are missing together. 
+Figure \ref{fig:figs3} shows an example of an upset plot. 
+The bottom of Figure \ref{fig:figs3} shows different variables, how many rows each of those variables is missing from, and then describes various missingness patterns.
+For example, the first missingness pattern corresponds to rows where information about the location (`g2loc_NA`), number of sessions (`g2numsessions_NA`), number of days (`g2txdays_NA`), and hours per week (`g2hrsperweek_NA`) that one of the groups in the study (refered to in the data as "group 2" or `g2` in the plot) spent in treatment are all missing.
+The top part of Figure \ref{fig:figs3} shows how frequently those patterns occur in the data.
+For instance, the first pattern, wherein much of the information about the treatment implementation is missing for one group in a study occurs for 38 effects.
+
 
 ```{r figs3, echo=FALSE,fig.width=6,fig.height=4, fig.cap="\\label{fig:figs3} *Details those variables that are missing together. For instance, there are a large number of cases where Group 2 Level of Care, Number of Sessions, Treatment Contact (hours per week) and Duration of Treatment (days) are missing together. This simple exploration provides valuable information for imputation.*", fig.pos='h'}
 gg_miss_upset(adt_data, nsets=11, nintersects=NA)
@@ -315,7 +324,19 @@ gg_miss_upset(adt_data, nsets=11, nintersects=NA)
 
 ## Relating Missingness to Observed Values 
 
-Variable missingness in cases over some other factor variable is visualized with a "heatmap" style using the `gg_miss_fct()` function from the `naniar`package (see Figure \ref{fig:figs4} below). This provides information regarding any relationship between observed values and missingness condition. 
+Explorations of missingness can also examine whether missingness in one variable is related to observed values in another variable. 
+This can highlight potential biases in the observed data.
+It can also clarify whether data are truly MCAR. 
+The idea behind this is that MCAR assumes that the probability that a value is missing is independent of both observed and unobserved values. 
+However, if missingness in a column in the data is correlated with values in another column, that would be an indication that data are not MCAR.
+
+Since covariates in a meta-regression are often categorical, visualizations like the heatmap in Figure \ref{fig:figs4} can be useful.
+Figure \ref{fig:figs4} shows how missingness in various columns is related to the type of care received in one the study's treatment arms.
+The figure is grouped into tiles or cells. 
+The columns of the figure correspond to the different types of care provided shown along the bottom of the graph: inpatient, outpatient, and continuing care, and some of those values are themselves missing (NA).
+The rows of the figure correspond to other variables in the dataset.
+Each cell is shaded according to how frequently those variables are missing for each level of care provided.
+For example, the percent of subjects who are black or hispanic (`g2perblack` and `g2perhisp`) are much more frequently missing from effects with inpatient treatments than outpatient or continuing care interventions.
 
 ```{r figs4, echo=FALSE,fig.width=6,fig.height=4, fig.cap="\\label{fig:figs4} *Highlights the number of missings in each column, broken down by a factor variable, in this case the Level of Care for group 2. The inpatient category has 100% of missing values in at least 12 different variables, suggesting that this category could impose a problem when fitting a regression model.*", fig.pos='h'}
 #Level of care group 2
@@ -325,9 +346,20 @@ gg_miss_fct(x=adt_data, fct=g2loc)  +
 ```
 
 
-To explore the relationship of variables presenting a large percentage of missing data with effect size and error variances, the original data is transform in order to create a data structure that keeps track of missing values (Tierney, 2018). Using the `as_shadow` and `bind_shadow` functions from the `naniar` package a data frame with the same set of columns, but with the column names added a `suffix_NA`, is bound to the original dataset. 
 
-Later, the distribution of effect size and error variance are visualized when some covariates are missing, and when they are not using the ggplot function. Figure  \ref{fig:figs5} shows three scenarios with different relevant covariates. 
+Two crucial variables that are in nearly all modern meta-analyses are the effect size estimates and their estimation error variances or standard errors $\sigma_i$. 
+If missingness in a covariate is more likely to occur with smaller or larger effect estimates or smaller or larger standard errors, this is likely to impact the analytic results.
+Therefore, it will typically be a good idea to explore such relationships.
+Because both effect estimates and standard errors are continous, density plots may be useful tools.
+
+Density plots show the distribution of effect estimates and standard errors among effects for which a covariate is missing versus when the covariate is observed.
+Figure \ref{fig:figs5} shows several density plot pairs for different variables.
+For each pair of plots we see the distribution of effect estimates (left) and standard errors (right), each colored according to whether a given covariate is missing.
+In Figure \ref{fig:figs5}A, we see that effects for which information the hours of treatment received per week is missing tend to be a little smaller on average than those for which the hours per week were reported. 
+As well, the effects that are not missing the hours per week covariate tend to have larger standard errors.
+These differences are more pronounced for the covariate indicating the days of treatment received (plot B).
+Bot plots A and B strongly suggest that missingness of information about treatment dosage will be related to the size of effects found and how precisely those effects were estimated.
+
 
 ```{r figs5, echo=FALSE,fig.width=6,fig.height=7, fig.cap="\\label{fig:figs5} *Plot (A) shows that the covariance Duration of Treatment (days) for Group 1 is mostly missing for larger effect size values. Further, the effect size has larger standard error, when this covariate is missing. Plot (B) illustrates a case where the effect size tends to be closer to zero when a particular covariate is missing. Specifically, when Treatment Contact (hours per week) for group 1 is missing, both the effect size and its standard errors tend to be smaller than when the covariate is present.Plot (C) shows that both, the effect size and its standard errors, have a similar distribution either when the covariate Treatment Contact (hours per week) for group 2 is present or not.*", fig.pos='h'}
 adt_shadow <- bind_shadow(adt_data)
