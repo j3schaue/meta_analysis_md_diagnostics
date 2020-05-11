@@ -20,7 +20,7 @@ Aims to answer 3 questions:
 
 This section will..
 
-Missing data can take three different forms in meta-analysis: missing complete studies, missing effect sizes or information needed to compute effect sizes, and missing study descriptors that could be used in an effect-size model. This section will focus on missing data in the meta-analysis of stud-level data, specifically of meta-analysis results when missing data appears in predictors of effect-size models. 
+Missing data can take three different forms in meta-analysis: missing complete studies, missing effect sizes or information needed to compute effect sizes, and missing study descriptors that could be used in an effect-size model. This section will focus on missing data in the meta-analysis of study-level data, specifically of meta-analysis results when missing data appears in predictors of effect-size models. 
 
 
 ## 1. Methods for Handling missing data in research synthesis
