@@ -52,11 +52,17 @@ The first is the meta-regression model for the data points with observed $X_i$ (
 The second is the meta-regression model for the data points with missing $X_i$ (call that $\eta_{mis}$) and the distribution of the missing $X_i, v_i$ (had we observed them).
 
 Seen this way, missingness can affect the $X_i, v_i$ we oberve (i.e., the $X_i, v_i$ we don't observe may be systematically different from those we do observe), as well as the meta-regression model (i.e., $\eta_{obs}$ vs $\eta_{mis}$).
-Suppose there $X_i, v_i \perpto R_i$. 
+Suppose there $X_i, v_i \perp R_i$. 
 In that case, 
 \[
 f(T_i, X_i, v_i, R_i | \eta, \psi) = f(T_i | X_i, v_i, R_i = 1, \eta_1) P[R_i = 1| \psi] + 
  f(T_i | X_i, v_i, R_i = 0, \eta_0) P[R_i = 0 | \psi] + 
 \]
 Note that the notation $\eta_j$ above denotes that there may be a different relationship between effects and covariates for the observed data versus the unobserved data.
+
+
+Alternatively, we can write a selection model as:
+\[
+f(T_i, X_i, v_i, R_i | \eta, \psi) = P[R_i | T_i, X_i, v_i, \eta, \psi] f(T_i, X_i, v_i | \eta, \psi) = P[R_i | T_i, X_i, v_i, \eta, \psi] f(T_i | X_i, v_i, \eta) f(X_i, v_i | \gamma)
+\]
 
