@@ -253,6 +253,8 @@ Aggregation plots provide a high-level picture of missingness in a dataset.
 They can indicate which columns are complete, such as the columns corresponding to the effect size estimates and standard errors, as well as which columns or groups of columns present plenty of missingness.
 In particularly, Figure \ref{fig:figs1} illustrates that there are groups of variables regarding one of the treatment arms (group 2) in studies that are missing fairly frequently.
 
+Complementing these plots, there are numerical summaries that reveal the number of studies or effect sizes, that contain missing covariates and the percentage of potential data lost, when using methods such as complete-case analysis for addressing missing covariates in a meta-regression analysis. Specifically, 74% of the effect sizes showed missingness in at least one of their corresponding covariates. 
+
 
 
 ```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *These plots indicate the severity of missingness in the adolescent substance abuse intervention data. Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a gray dash in plot (A) and a black dash in plot (b). Plot (A) additionally colors columns according to the type of variables they store. Plot (B) indicates that 6.2% of the total dataset (i.e., 6.2% of all cells in the table) are missing values.*", fig.pos='h'}
@@ -392,3 +394,13 @@ plot_grid(PlotA, PlotB, PlotC,
           nrow=3)
 
 ```
+
+
+## Discussion
+
+This tutorial has described methods for exploring and diagnosing missing data. Diverse approaches were defined and demonstrated on data from a meta-analysis on substance abuse interventions for adolescents. These tools proved to be useful not only for identifying and quantifying how much data is missing but also as a first step to understanding why data is missing.  
+
+Particularly, findings in our demonstration suggest that missingness of information about some relevant covariates in the data will be related to the size of effects found and how precisely those effects were estimated. Further, 74% of the effect sizes presented missingness in at least one of their corresponding covariates. These kinds of patterns point out potential issues with the missing completely at random assumption and thus methods such as complete-case analysis would not be recommended for addressing missing covariates in a meta-regression analysis. Instead, procedures such as Expectation maximization (EM) algorithm, implemented by Tanner-Smith et al. or imputations methods would be more appropriate for this data. 
+
+The methodology discussed in this tutorial could be used to create different visualizations than were presented in this paper. Our complementary material develops on these results with a vignette that contains further visualizations and executable code. Moreover, even though the data on substance abuse interventions for adolescents has a particular structure with information at the effect size level for each study, the tools exposed in this tutorial can be easily applied to other dataset structures. 
+
