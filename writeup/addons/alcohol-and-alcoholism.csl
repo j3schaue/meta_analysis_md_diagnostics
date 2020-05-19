@@ -56,7 +56,7 @@
   </macro>
   <macro name="author-short">
     <names variable="author">
-      <name form="short" and="text" initialize-with=". "/>
+      <name form="short" and="symbol" initialize-with=". "/>
       <et-al font-style="italic"/>
       <substitute>
         <names variable="editor"/>
@@ -81,7 +81,7 @@
         <text variable="container-title" font-style="italic" suffix=". "/>
         <choose>
           <if variable="URL">
-            <text variable="URL" text-case="capitalize-first"/>
+            <text variable="URL" text-case="lower"/>
             <group prefix=" [" suffix="]">
               <text term="accessed" suffix=" "/>
               <date variable="accessed">

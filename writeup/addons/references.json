@@ -917,7 +917,7 @@
 		"author": [
 			{
 				"family": "Tierney",
-				"given": "Nicholas"
+				"given": "Nicholas J."
 			}
 		],
 		"accessed": {
@@ -2133,7 +2133,7 @@
 		"id": "borensteinComprehensiveMetaAnalysisVersion2012",
 		"type": "article",
 		"title": "Comprehensive Meta-Analysis Version 3.0",
-		"URL": "https://www.meta-analysis.com/downloads/Meta-Analysis%20Manual%20V3.pdf",
+		"URL": "https://www.meta-analysis.com/downloads/Meta-Analysis Manual V3.pdf",
 		"author": [
 			{
 				"family": "Borenstein",
@@ -2211,6 +2211,59 @@
 			"date-parts": [
 				[
 					"2012"
+				]
+			]
+		}
+	},
+	{
+		"id": "conwayUpSetRPackageVisualization2017",
+		"type": "article-journal",
+		"container-title": "Bioinformatics",
+		"DOI": "10.1093/bioinformatics/btx364",
+		"ISSN": "1367-4803, 1460-2059",
+		"issue": "18",
+		"language": "en",
+		"page": "2938-2940",
+		"source": "DOI.org (Crossref)",
+		"title": "UpSetR: an R package for the visualization of intersecting sets and their properties",
+		"title-short": "UpSetR",
+		"URL": "https://academic.oup.com/bioinformatics/article/33/18/2938/3884387",
+		"volume": "33",
+		"author": [
+			{
+				"family": "Conway",
+				"given": "Jake R"
+			},
+			{
+				"family": "Lex",
+				"given": "Alexander"
+			},
+			{
+				"family": "Gehlenborg",
+				"given": "Nils"
+			}
+		],
+		"editor": [
+			{
+				"family": "Hancock",
+				"given": "John"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					9,
+					15
 				]
 			]
 		}

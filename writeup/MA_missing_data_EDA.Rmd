@@ -23,7 +23,7 @@ library(tidyselect)
 library(gridExtra)
 library(grid)
 library(cowplot)
-adt_data <- readRDS("../data/adt_data.RDS")
+adt_data <- readRDS("../data/adt_data.RDS") 
 ```
 
 
@@ -153,7 +153,7 @@ T_k & \sigma_k & \textbf{NA} & ... & X_{k,p-2}\\
 Missing values in the matrix are denoted as **NA**. 
 Most missing data literature augments the traditional table above with a table $\mathbf{R}$ of response indicators $R_{ij}$.
 These indicators take a value of $R_{ij} = 1$ if entry $i, j$ in the table is observed, and $R_{ij} = 0$ if it is missing.
-For instance, $R_{21} = 1$ because the first element of row 2 ($T_2$) is observed, but $R_{2p} = 0$ because the last element of row 2 is missing (NA).
+For instance, $R_{21} = 1$ because the first element of row 2 ($T_2$) is observed, but $R_{2p} = 0$ because the last element of row 2 is missing (**NA**).
 
 In the matrix above, there are both *observed* and *unobserved* data.
 The observed data comprises all of the entries in the table above for which $R_{ij} = 1$.
@@ -190,7 +190,7 @@ If this is greater than the raw percentage, that would indicate that the missing
 A key assumption that underpins analyses of a dataset with missing values involves why those values are missing, typically referred to as the missingness *mechanism*.
 @rubinInferenceMissingData1976 classified three different possible types of mechanisms.
 Rubin noted that data could be missing completely at random (MCAR), which means that the probability that a given value is missing is independent of all of the observed or unobserved data.
-This can be expressed as $P[R | \text{observed data}, \text{unobserved data}] = P[R]$, and intuitively means the fact that a given value is missing is unrelated to anything; it is as if it were deleted on the basis of a coin flip.
+This can be expressed as $P[R | \text{observed data}, \text{unobserved data}] = P[R]$, and means the probability that a given value is missing is unrelated to anything observed or unobserved.
 
 Values could be missing at random (MAR), which occurs if the probability that a value is missing depends only on the observed data.
 This can be expressed as $P[R | \text{observed data}, \text{unobserved data}] = P[R | | \text{observed data}]$. 
@@ -211,7 +211,7 @@ Then missingness of racial categories in the data would depend on an observed va
 In addition to the mechanism, it is often useful to understand which variables are missing together from the same rows.
 For instance, some rows in the Tanner-Smith et al. data might be missing the hours of therapy per week for one of the groups, while other row may be missing the hours of therapy per week *and* the percentage of study participants who were minorities.
 In other words, different rows may exhibit different *missingness patterns*.
-Understanding these patterns can give some insight into missingness mechanisms, but it can also help identify variables that might be more or less useful in dealing with issues that arise from missingness.
+Understanding these patterns can give some insight into missingness mechanisms, but it can also help identify variables that might be more or less useful in dealing with issues that arise from missingness  [@vanbuurenFlexibleImputationMissing2018].
 For instance, it will be difficult to build imputation models for a variable if it is frequently missing alongside several other variables in the data.
 It would also seem useful to examine how missingness in one variable is related to observed values of other variables. 
 If missingness in one column (e.g., therapy hours per week) occurs more frequently with low values of another column (e.g., the effect estimate), that might be cause to re-assess any MCAR assumptions.
@@ -223,7 +223,7 @@ The tools discussed in the remainder of this article facilitate exploratory anal
 Exploratory missingness analyses (EMA) are difficult for several reasons.
 First, they are not always wholly conclusive. 
 It will often be difficult to draw ironclad inferences about missingness mechanisms based on exploratory analyses.
-Even proposed tests for missingness mechanisms can have misleading results.
+Even proposed tests for missingness mechanisms can have misleading results [@molenberghsEveryMissingnessNot2008; @rhoadsProblemsTestsMissingness2012; @seamanWhatMeantMissing2013].
 Instead, EMA can provide support for or help generate theories that explain missingness in ways that are consistent with the mechanisms described above. 
 Some of these theories may require consultation with data curators and other individuals who extracted information from the studies reviewed.
 
@@ -231,14 +231,14 @@ Second, there is no single visualization or set of metrics guaranteed to provide
 A plot that is tremendously useful for one dataset may be of less interest in others. 
 
 Third, EMA differs from traditional exploratory data analyses because the focus on the unobserved data.
-Many software tools, including most graphics software actually deletes observations with missing values, which would eliminate the information EMA seek to understand.
-Thus, a new and emerging suite of tools that differ from traditional exploratory data analyses are required.
+Many software tools, including most graphics software actually deletes observations with missing values, which would eliminate the information EMA seek to understand [@tierneyVisdatVisualisingWhole2017].
+Thus, a new and emerging suite of tools that differ from traditional exploratory data analyses are required [@tierneyExpandingTidyData2018].
 Moreover, as with the case with much general-use statistical software, adaptations of these tools may be necessary to tailor EMA for meta-analytic datasets.
 
 In the following sections, we show and discuss different types of visualizations and numerical summaries relevant to EMA. 
 These are rooted in an approach to understand the scope and correlates of missingness problems in a dataset described in the previous section.
 However, they are not exhaustive, and so as part of the supplementary material to this tutorial, we have included a vignette that presents and describes alternative visualization and numerical summaries of missingness.
-Both the demonstration presented in this article and the supplementary vignette are implemented in the `R` software language and draw heavily on the `visdat` and `naniar` libraries with some custom extensions developed specifically for meta-analysis.
+Both the demonstration presented in this article and the supplementary vignette are implemented in the `R` software language and draw heavily on the `visdat` and `naniar` libraries with some custom extensions developed specifically for meta-analysis [@tierneyExpandingTidyData2018; @tierneyVisdatVisualisingWhole2017].
 
 
 
@@ -313,7 +313,7 @@ tab1 %>% knitr::kable()
 When diagnosing potential missing data problems, it also matters which variables are missing together. 
 Certain patterns of missingness can be indicative of the missingness mechanism, and patterns can also point to potential issues for analytic methods with incomplete data, such as multiple imputation or the EM algorithm.
 
-One approach to visualizing missingness patterns is with an *upset plot* (Conway et al., 2017).
+One approach to visualizing missingness patterns is with an *upset plot* [@conwayUpSetRPackageVisualization2017].
 Upset plots indicate the frequency with which different combinations of variables are missing together. 
 Figure \ref{fig:figs3} exemplifies an upset plot. 
 The bottom of Figure \ref{fig:figs3} presents different variables, how many rows each of those variables is missing from, and then describes various missingness patterns.
@@ -331,9 +331,10 @@ gg_miss_upset(adt_data, nsets=11, nintersects=NA)
 
 Explorations of missingness can also examine whether missingness in one variable is related to observed values in another variable. 
 This can highlight potential biases in the observed data.
-It can also clarify whether data are truly MCAR. 
+It can also clarify whether data appear to meet the MCAR assumption. 
 The idea behind this is that MCAR assumes that the probability that a value is missing is independent of both observed and unobserved values. 
 However, if missingness in a column in the data is correlated with values in another column, that would be an indication that data are not MCAR.
+A similar logic underpins the test for MCAR proposed by [@littleTestMissingCompletely1988].
 
 Since covariates in a meta-regression are often categorical, visualizations like the heatmap in Figure \ref{fig:figs4} can be useful.
 Figure \ref{fig:figs4} demonstrates how missingness in various columns is related to the type of care received in one of the study's treatment arms.
@@ -410,3 +411,8 @@ The methodology discussed in this tutorial could be used to create different vis
 \newpage
 
 ## References
+
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\noindent
