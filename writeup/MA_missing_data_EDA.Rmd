@@ -1,12 +1,15 @@
 ---
 title: "Exploratory Analyses for Missing Data in Meta-Analyses"
+csl: ./addons/alcohol-and-alcoholism.csl
 output:
-  pdf_document:
+  bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ./addons/style.sty
-bibliography: "./addons/references.json"
-csl: ./addons/alcohol-and-alcoholism.csl
+    toc: false
+    number_sections: no
+  bookdown::word_document2: default
+bibliography: ./addons/references.json
 ---
 
 ```{r setup, include=FALSE}
@@ -246,14 +249,14 @@ Both the demonstration presented in this article and the supplementary vignette 
 
 Aggregation plots can be a useful starting point when exploring missingness in a meta-analytic dataset.
 They visualize the entire dataset as a "heatmap" that indicates which values are missing from which rows.
-Two examples of aggregation plots are given in Figure \ref{fig:figs1} below. These plots are laid out exactly like the data: the columns correspond to variables in the data, and rows correspond to effect sizes.
-Figure \ref{fig:figs1}A colors each column according to the type of variable (e.g., numeric, categorical, etc.) they represent, and gray spots indicate that a value in a given row and column is missing.
-Figure \ref{fig:figs1}B does not specify the type of variables in the data, but instead shows the total number of cells that contain missing values. 
+Two examples of aggregation plots are given in Figure \@ref(fig:figs1) below. These plots are laid out exactly like the data: the columns correspond to variables in the data, and rows correspond to effect sizes.
+Figure \@ref(fig:figs1)A colors each column according to the type of variable (e.g., numeric, categorical, etc.) they represent, and gray spots indicate that a value in a given row and column is missing.
+Figure \@ref(fig:figs1)B does not specify the type of variables in the data, but instead shows the total number of cells that contain missing values. 
 That is, out of all of the $k \times p$ cells in the data, 6.2% are missing values.
 
 Aggregation plots provide a high-level picture of missingness in a dataset. 
 They can indicate which columns are complete, such as the columns corresponding to the effect size estimates and standard errors, as well as which columns or groups of columns present plenty of missingness.
-In particularly, Figure \ref{fig:figs1} illustrates that there are groups of variables regarding one of the treatment arms (group 2) in studies that are missing fairly frequently.
+In particularly, Figure \@ref(fig:figs1) illustrates that there are groups of variables regarding one of the treatment arms (group 2) in studies that are missing fairly frequently.
 
 Complementing these plots, there are numerical summaries that reveal the number of studies or effect sizes, that contain missing covariates and the percentage of potential data lost, when using methods such as complete-case analysis for addressing missing covariates in a meta-regression analysis. Specifically, 74% of the effect sizes showed missingness in at least one of their corresponding covariates. 
 
@@ -270,9 +273,9 @@ gg_summary_covariate_miss(adt_data)
 While aggregation plots can provide a noble overview, typically we want more detailed information about how many observations are missing a given variable. 
 Variable missing plots can yield a convenient way to explore this. 
 These plots display the overall missingness in each column of a dataset and present the results in order of which column has the most missingness.  
-Figure \ref{fig:figs2} presents two approaches to making these plots. 
-Figure \ref{fig:figs2}A displays the raw count missing values in each column, while Figure \ref{fig:figs2}B displays the percent of each column missing.
-For example, Figure \ref{fig:figs2} suggests that the hours per week that the contrast group spent in their assigned condition (`g2hrsperweek`) is missing for almost half of the effects in the data. 
+Figure \@ref(fig:figs2) presents two approaches to making these plots. 
+Figure \@ref(fig:figs2)A displays the raw count missing values in each column, while Figure \@ref(fig:figs2)B displays the percent of each column missing.
+For example, Figure \@ref(fig:figs2) suggests that the hours per week that the contrast group spent in their assigned condition (`g2hrsperweek`) is missing for almost half of the effects in the data. 
 
 ```{r figs2, echo=FALSE,fig.width=6,fig.height=3,fig.cap="\\label{fig:figs2} *These plots summary missingness in variables, ordered by missingness, in the adolescent substance abuse intervention data. Plot (B) indicates that there are 10 variables with at least 10% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.*", fig.pos='h'}
 #summary of missing variables
@@ -315,10 +318,10 @@ Certain patterns of missingness can be indicative of the missingness mechanism, 
 
 One approach to visualizing missingness patterns is with an *upset plot* [@conwayUpSetRPackageVisualization2017].
 Upset plots indicate the frequency with which different combinations of variables are missing together. 
-Figure \ref{fig:figs3} exemplifies an upset plot. 
-The bottom of Figure \ref{fig:figs3} presents different variables, how many rows each of those variables is missing from, and then describes various missingness patterns.
+Figure \@ref(fig:figs3) exemplifies an upset plot. 
+The bottom of Figure \@ref(fig:figs3) presents different variables, how many rows each of those variables is missing from, and then describes various missingness patterns.
 For example, the first missingness pattern corresponds to rows where information about the location (`g2loc_NA`), number of sessions (`g2numsessions_NA`), number of days (`g2txdays_NA`), and hours per week (`g2hrsperweek_NA`) that one of the groups in the study (referred to in the data as "group 2" or `g2` in the plot) spent in treatment are all missing.
-The top part of Figure \ref{fig:figs3} describes how frequently those patterns occur in the data.
+The top part of Figure \@ref(fig:figs3) describes how frequently those patterns occur in the data.
 For instance, the first pattern, in which much of the information about the treatment implementation is missing for one group in a study, occurs for 38 effects.
 
 
@@ -336,8 +339,8 @@ The idea behind this is that MCAR assumes that the probability that a value is m
 However, if missingness in a column in the data is correlated with values in another column, that would be an indication that data are not MCAR.
 A similar logic underpins the test for MCAR proposed by [@littleTestMissingCompletely1988].
 
-Since covariates in a meta-regression are often categorical, visualizations like the heatmap in Figure \ref{fig:figs4} can be useful.
-Figure \ref{fig:figs4} demonstrates how missingness in various columns is related to the type of care received in one of the study's treatment arms.
+Since covariates in a meta-regression are often categorical, visualizations like the heatmap in Figure \@ref(fig:figs4) can be useful.
+Figure \@ref(fig:figs4) demonstrates how missingness in various columns is related to the type of care received in one of the study's treatment arms.
 The figure is grouped into tiles or cells. 
 The columns of the figure correspond to the different types of care provided shown along the bottom of the graph: inpatient, outpatient, and continuing care, and some of those values are themselves missing (NA).
 The rows of the figure correspond to other variables in the dataset.
@@ -359,10 +362,10 @@ Therefore, it will typically be a good idea to explore such relationships.
 Because both effect estimates and standard errors are continuous, density plots may be useful tools.
 
 Density plots present the distribution of effect estimates and standard errors among effects for which a covariate is missing versus when the covariate is observed.
-Figure \ref{fig:figs5} displays several density plot pairs for different variables.
+Figure \@ref(fig:figs5) displays several density plot pairs for different variables.
 For each pair of plots we see the distribution of effect estimates (left) and standard errors (right), each colored according to whether a given covariate is missing.
 
-Figure \ref{fig:figs5}A, indicates that effects for which information on hours of treatment received per week is missing tend to be a little smaller on average than those for which the hours per week were reported. 
+Figure \@ref(fig:figs5)A, indicates that effects for which information on hours of treatment received per week is missing tend to be a little smaller on average than those for which the hours per week were reported. 
 Moreover, the effects that are not missing the hours per week covariate tend to have larger standard errors.
 These differences are more pronounced for the covariate indicating the days of treatment received (plot B).
 Bot plots A and B strongly suggest that missingness of information about treatment dosage will be related to the size of effects found and how precisely those effects were estimated.
