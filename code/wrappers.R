@@ -221,7 +221,7 @@ mis_ma_var_summary <- function(data, se_col, truncate = TRUE){
 gg_summary_covariate_miss <- function(data){
 
   #Visualize whole dataframe at once
-  visdat<- vis_dat(data)
+  visdat<- vis_dat(data) 
   #summary of whether the data is missing or not
   vismiss<-vis_miss(data)
   

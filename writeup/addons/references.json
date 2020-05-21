@@ -2267,5 +2267,564 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "murrayMultipleImputationReview2018",
+		"type": "article-journal",
+		"abstract": "Multiple imputation is a straightforward method for handling missing data in a principled fashion. This paper presents an overview of multiple imputation, including important theoretical results and their practical implications for generating and using multiple imputations. A review of strategies for generating imputations follows, including recent developments in flexible joint modeling and sequential regression/chained equations/fully conditional specification approaches. Finally, we compare and contrast different methods for generating imputations on a range of criteria before identifying promising avenues for future research.",
+		"container-title": "arXiv:1801.04058 [stat]",
+		"note": "arXiv: 1801.04058",
+		"source": "arXiv.org",
+		"title": "Multiple imputation: A review of practical and theoretical findings",
+		"title-short": "Multiple Imputation",
+		"URL": "http://arxiv.org/abs/1801.04058",
+		"author": [
+			{
+				"family": "Murray",
+				"given": "Jared S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					20
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					1,
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "newbury-birchSystematicReviewEfficacy2018",
+		"type": "article-journal",
+		"container-title": "Alcohol and Alcoholism",
+		"DOI": "10.1093/alcalc/agy032",
+		"ISSN": "0735-0414, 1464-3502",
+		"issue": "4",
+		"language": "en",
+		"page": "412-425",
+		"source": "DOI.org (Crossref)",
+		"title": "A systematic review of the efficacy of alcohol interventions for incarcerated people",
+		"URL": "https://academic.oup.com/alcalc/article/53/4/412/4994601",
+		"volume": "53",
+		"author": [
+			{
+				"family": "Newbury-Birch",
+				"given": "Dorothy"
+			},
+			{
+				"family": "Ferguson",
+				"given": "Jennifer"
+			},
+			{
+				"family": "Landale",
+				"given": "Sarah"
+			},
+			{
+				"family": "Giles",
+				"given": "Emma L"
+			},
+			{
+				"family": "McGeechan",
+				"given": "Grant J"
+			},
+			{
+				"family": "Gill",
+				"given": "Charlotte"
+			},
+			{
+				"family": "Stockdale",
+				"given": "Kelly J"
+			},
+			{
+				"family": "Holloway",
+				"given": "Aisha"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					7,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "whiteOnlineAlcoholInterventions2010",
+		"type": "article-journal",
+		"container-title": "Journal of Medical Internet Research",
+		"DOI": "10.2196/jmir.1479",
+		"ISSN": "1438-8871",
+		"issue": "5",
+		"journalAbbreviation": "J Med Internet Res",
+		"language": "en",
+		"page": "e62",
+		"source": "DOI.org (Crossref)",
+		"title": "Online alcohol Interventions: A systematic review",
+		"title-short": "Online Alcohol Interventions",
+		"URL": "http://www.jmir.org/2010/5/e62/",
+		"volume": "12",
+		"author": [
+			{
+				"family": "White",
+				"given": "Angela"
+			},
+			{
+				"family": "Kavanagh",
+				"given": "David"
+			},
+			{
+				"family": "Stallman",
+				"given": "Helen"
+			},
+			{
+				"family": "Klein",
+				"given": "Britt"
+			},
+			{
+				"family": "Kay-Lambkin",
+				"given": "Frances"
+			},
+			{
+				"family": "Proudfoot",
+				"given": "Judy"
+			},
+			{
+				"family": "Drennan",
+				"given": "Judy"
+			},
+			{
+				"family": "Connor",
+				"given": "Jason"
+			},
+			{
+				"family": "Baker",
+				"given": "Amanda"
+			},
+			{
+				"family": "Hines",
+				"given": "Emily"
+			},
+			{
+				"family": "Young",
+				"given": "Ross"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					12,
+					19
+				]
+			]
+		}
+	},
+	{
+		"id": "ramseyTechnologybasedAlcoholInterventions2019",
+		"type": "article-journal",
+		"container-title": "Journal of Medical Internet Research",
+		"DOI": "10.2196/10859",
+		"ISSN": "1438-8871",
+		"issue": "4",
+		"journalAbbreviation": "J Med Internet Res",
+		"language": "en",
+		"page": "e10859",
+		"source": "DOI.org (Crossref)",
+		"title": "Technology-based alcohol interventions in primary care: Systematic review",
+		"title-short": "Technology-Based Alcohol Interventions in Primary Care",
+		"URL": "https://www.jmir.org/2019/4/e10859/",
+		"volume": "21",
+		"author": [
+			{
+				"family": "Ramsey",
+				"given": "Alex T"
+			},
+			{
+				"family": "Satterfield",
+				"given": "Jason M"
+			},
+			{
+				"family": "Gerke",
+				"given": "Donald R"
+			},
+			{
+				"family": "Proctor",
+				"given": "Enola K"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					4,
+					8
+				]
+			]
+		}
+	},
+	{
+		"id": "yuvarajEffectivenessWorkplaceIntervention2019",
+		"type": "article-journal",
+		"container-title": "Alcohol and Alcoholism",
+		"DOI": "10.1093/alcalc/agz024",
+		"ISSN": "0735-0414, 1464-3502",
+		"issue": "3",
+		"language": "en",
+		"page": "264-271",
+		"source": "DOI.org (Crossref)",
+		"title": "Effectiveness of workplace intervention for reducing alcohol consumption: A systematic review and meta-analysis",
+		"title-short": "Effectiveness of Workplace Intervention for Reducing Alcohol Consumption",
+		"URL": "https://academic.oup.com/alcalc/article/54/3/264/5430493",
+		"volume": "54",
+		"author": [
+			{
+				"family": "Yuvaraj",
+				"given": "K"
+			},
+			{
+				"family": "Eliyas",
+				"given": "Salin K"
+			},
+			{
+				"family": "Gokul",
+				"given": "S"
+			},
+			{
+				"family": "Manikandanesan",
+				"given": "S"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					5,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "tukeyFutureDataAnalysis1962",
+		"type": "article-journal",
+		"container-title": "The Annals of Mathematical Statistics",
+		"DOI": "10.1214/aoms/1177704711",
+		"ISSN": "0003-4851",
+		"issue": "1",
+		"journalAbbreviation": "Ann. Math. Statist.",
+		"language": "en",
+		"page": "1-67",
+		"source": "DOI.org (Crossref)",
+		"title": "The future of data analysis",
+		"URL": "http://projecteuclid.org/euclid.aoms/1177704711",
+		"volume": "33",
+		"author": [
+			{
+				"family": "Tukey",
+				"given": "John W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1962",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "dempsterMaximumLikelihoodIncomplete1977",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series B (Methodological)",
+		"DOI": "10.1111/j.2517-6161.1977.tb01600.x",
+		"ISSN": "00359246",
+		"issue": "1",
+		"journalAbbreviation": "Journal of the Royal Statistical Society: Series B (Methodological)",
+		"language": "en",
+		"page": "1-22",
+		"source": "DOI.org (Crossref)",
+		"title": "Maximum likelihood from incomplete data via the EM algorithm",
+		"URL": "http://doi.wiley.com/10.1111/j.2517-6161.1977.tb01600.x",
+		"volume": "39",
+		"author": [
+			{
+				"family": "Dempster",
+				"given": "A. P."
+			},
+			{
+				"family": "Laird",
+				"given": "N. M."
+			},
+			{
+				"family": "Rubin",
+				"given": "D. B."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1977",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "grahamMethodsHandlingMissing2003",
+		"type": "chapter",
+		"container-title": "Handbook of Psychology",
+		"event-place": "Hoboken, NJ, USA",
+		"ISBN": "978-0-471-26438-5",
+		"language": "en",
+		"note": "DOI: 10.1002/0471264385.wei0204",
+		"page": "wei0204",
+		"publisher": "John Wiley & Sons, Inc.",
+		"publisher-place": "Hoboken, NJ, USA",
+		"source": "DOI.org (Crossref)",
+		"title": "Methods for handling missing data",
+		"URL": "http://doi.wiley.com/10.1002/0471264385.wei0204",
+		"editor": [
+			{
+				"family": "Weiner",
+				"given": "Irving B."
+			}
+		],
+		"author": [
+			{
+				"family": "Graham",
+				"given": "John W."
+			},
+			{
+				"family": "Cumsille",
+				"given": "Patricio E."
+			},
+			{
+				"family": "Elek-Fisk",
+				"given": "Elvira"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					4,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "bakerClosedformEstimatesMissing1992",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.4780110509",
+		"ISSN": "02776715, 10970258",
+		"issue": "5",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "643-657",
+		"source": "DOI.org (Crossref)",
+		"title": "Closed-form estimates for missing counts in two-way contingency tables",
+		"URL": "http://doi.wiley.com/10.1002/sim.4780110509",
+		"volume": "11",
+		"author": [
+			{
+				"family": "Baker",
+				"given": "Stuart G."
+			},
+			{
+				"family": "Rosenberger",
+				"given": "William F."
+			},
+			{
+				"family": "Dersimonian",
+				"given": "Rebecca"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "troxelAnalysisLongitudinalData2002",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series C (Applied Statistics)",
+		"DOI": "10.1111/1467-9876.00119",
+		"ISSN": "00359254, 14679876",
+		"issue": "3",
+		"language": "en",
+		"page": "425-438",
+		"source": "DOI.org (Crossref)",
+		"title": "Analysis of longitudinal data with non-ignorable non-monotone missing values",
+		"URL": "http://doi.wiley.com/10.1111/1467-9876.00119",
+		"volume": "47",
+		"author": [
+			{
+				"family": "Troxel",
+				"given": "A. B."
+			},
+			{
+				"family": "Harrington",
+				"given": "D. P."
+			},
+			{
+				"family": "Lipsitz",
+				"given": "S. R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					1,
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "molenberghsAnalysisLongitudinalOrdinal1997",
+		"type": "article-journal",
+		"container-title": "Biometrika",
+		"DOI": "10.1093/biomet/84.1.33",
+		"ISSN": "0006-3444, 1464-3510",
+		"issue": "1",
+		"journalAbbreviation": "Biometrika",
+		"language": "en",
+		"page": "33-44",
+		"source": "DOI.org (Crossref)",
+		"title": "The analysis of longitudinal ordinal data with nonrandom drop-out",
+		"URL": "https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/84.1.33",
+		"volume": "84",
+		"author": [
+			{
+				"family": "Molenberghs",
+				"given": "G"
+			},
+			{
+				"family": "Kenward",
+				"given": "Michael G."
+			},
+			{
+				"family": "Lesaffre",
+				"given": "E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					3,
+					1
+				]
+			]
+		}
 	}
 ]
