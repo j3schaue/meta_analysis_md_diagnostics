@@ -284,8 +284,8 @@ They visualize the entire dataset as a "heatmap" that indicates which values are
 Two examples of aggregation plots are given in Figure \@ref(fig:figs1) below. These plots are laid out exactly like the data: the columns correspond to variables in the data, and rows correspond to effect sizes.
 Figure \@ref(fig:figs1)A colors each column according to the type of variable (e.g., numeric, categorical, etc.) they represent, and gray spots indicate that a value in a given row and column is missing.
 Figure \@ref(fig:figs1)B does not specify the type of variables in the data, but instead shows the total number of cells that contain missing values. 
-That is, out of all of the $k \times p$ cells in the data, 6.2% are missing values.
-**[NOTE TO KARINA: Maybe we choose just one of these to present, or remove some unecessary columns like pk_es or studyid or _referencesummary?]**
+That is, out of all of the $k \times p$ cells in the data, 8.2% are missing values.
+
 
 Aggregation plots provide a high-level picture of missingness in a dataset. 
 They can indicate which columns are complete, such as the columns corresponding to the effect size estimates and standard errors (`es_g` and `se_g`: left side of the `numeric` columns in plot A, left-center in plot B).
@@ -294,9 +294,12 @@ In particular, Figure \@ref(fig:figs1) illustrates that there are groups of vari
 In all, 74% of the effect sizes were missing values for at least one variable (i.e., in at least one column).
 
 
-```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *These plots indicate the severity of missingness in the adolescent substance abuse intervention data. Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a gray dash in plot (A) and a black dash in plot (b). Plot (A) additionally colors columns according to the type of variables they store. Plot (B) indicates that 6.2% of the total dataset (i.e., 6.2% of all cells in the table) are missing values.*", fig.pos='h'}
+```{r figs1, echo=FALSE,fig.width=6,fig.height=3, fig.cap="\\label{fig:figs1} *These plots indicate the severity of missingness in the adolescent substance abuse intervention data. Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a gray dash in plot (A) and a black dash in plot (b). Plot (A) additionally colors columns according to the type of variables they store. Plot (B) indicates that 8.2% of the total dataset (i.e., 8.2% of all cells in the table) are missing values.*", fig.pos='h'}
 source("../code/wrappers.R")
-gg_summary_covariate_miss(adt_data)
+myvars <- names(adt_data) %in% c("pk_es", "studyid", "_referencesummary","authoryear","varid", "state",
+                                 "dvsucat", "dvmicro", "estimingpost", "esctobnpost","estxobnpost" )
+data <- adt_data[!myvars]
+gg_summary_covariate_miss(data)
 ```
 
 
@@ -304,28 +307,16 @@ gg_summary_covariate_miss(adt_data)
 
 While aggregation plots can provide a good overview, we typically want more detailed information about how many observations are missing a given variable. 
 Variable missing plots display the overall missingness in each column of a dataset and present the results in order of which column has the most missingness.  
-Figure \@ref(fig:figs2) presents two approaches to making these plots. 
-Figure \@ref(fig:figs2)A displays the raw count missing values in each column, while Figure \@ref(fig:figs2)B displays the percent of each column missing.
+Figure \@ref(fig:figs2) displays the percent of each column missing.
 For example, Figure \@ref(fig:figs2) suggests that the hours per week that the contrast group spent in their assigned condition (`g2hrsperweek`) is missing for almost half of the effects in the data. 
-**[NOTE TO KARINA: Thoughts on dropping the raw count plot? They're visually redundant, but I'd be open to keeping both.]**
 
-```{r figs2, echo=FALSE,fig.width=6,fig.height=3,fig.cap="\\label{fig:figs2} *These plots summary missingness in variables, ordered by missingness, in the adolescent substance abuse intervention data. Plot (B) indicates that there are 10 variables with at least 10% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.*", fig.pos='h'}
-#summary of missing variables
-p1<- gg_miss_var(adt_data) + 
-                            labs(y="Missing Cases")+
-                            theme(axis.title.x = element_text(size =10),
-                                  axis.text.y = element_text(size=6))
-                          
-
+```{r figs2, echo=FALSE,fig.width=6,fig.height=3,fig.cap="\\label{fig:figs2} *This plot summaries missingness in variables, ordered by missingness, in the adolescent substance abuse intervention data. Indicating that there are 10 variables with at least 10% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.*", fig.pos='h'}
 #summary of missing variables (percentage)
-p2<- gg_miss_var(adt_data, show_pct=TRUE)+
-                                          labs(y="Percentage Missing")+
-                                          theme(axis.title.x = element_text(size =10),
-                                                axis.text.y = element_text(size=6))
-                                                
-grid.arrange(p1, p2 + 
-                    labs(x=""),
-                    ncol = 2)
+gg_miss_var(adt_data, show_pct=TRUE)+
+                                      labs(y="Percentage Missing")+
+                                      theme(axis.title.x = element_text(size =10),
+                                            axis.text.y = element_text(size=6))
+                                              
 ```
 
 
