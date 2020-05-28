@@ -2826,5 +2826,60 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "rubinMultipleImputationNonresponse1987",
+		"type": "book",
+		"call-number": "HA31.2 .R83 1987",
+		"collection-title": "Wiley series in probability and mathematical statistics",
+		"event-place": "New York",
+		"ISBN": "978-0-471-08705-2",
+		"number-of-pages": "258",
+		"publisher": "Wiley",
+		"publisher-place": "New York",
+		"source": "Library of Congress ISBN",
+		"title": "Multiple imputation for nonresponse in surveys",
+		"author": [
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1987"
+				]
+			]
+		}
+	},
+	{
+		"id": "cooperSynthesizingResearchGuide1998",
+		"type": "book",
+		"call-number": "H62 .C5859 1998",
+		"collection-number": "v. 2",
+		"collection-title": "Applied social research methods series",
+		"edition": "3rd ed",
+		"event-place": "Thousand Oaks, Calif",
+		"ISBN": "978-0-7619-1347-4",
+		"number-of-pages": "201",
+		"publisher": "Sage Publications",
+		"publisher-place": "Thousand Oaks, Calif",
+		"source": "Library of Congress ISBN",
+		"title": "Synthesizing research: A guide for literature reviews",
+		"title-short": "Synthesizing research",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
 	}
 ]

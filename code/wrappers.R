@@ -7,6 +7,7 @@
 ###---Dependencies
 library(tidyverse)
 library(tidyselect)
+library(cowplot)
 
 ###---Functions
 
@@ -61,7 +62,9 @@ gg_es_covariate_miss <- function(shadow, es_col, covariate, adjust = 1){
 #'         colored according to if the covariate is missing or not
 #' ###---------------------------------------------------------------------------------------###   
 gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c(1, 1), 
-                                   colors = c("#56B4E9", "#E69F00"), ymax = NULL, label = NULL){
+                                   colors = c("#56B4E9", "#E69F00"), 
+                                   ymax = NULL, label = NULL,
+                                   legend_pos = "bottom"){
   
   # Sterilize input
   if(length(adjust) == 1){ adjust <- rep(adjust, 2) }
@@ -100,7 +103,11 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
                     nrow=1)
   
   # Create grid plot
-  out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .1))
+  if(legend_pos == "bottom"){
+    out <- plot_grid(prow, legend, ncol=1, rel_heights=c(1, .1))
+  } else {
+    out <- plot_grid(legend, prow, ncol=1, rel_heights=c(.1, 1))
+  }
   
   # Return grid plot
   return(out)
@@ -231,11 +238,13 @@ gg_summary_covariate_miss <- function(data){
                           legend.title = element_text(size = 8),
                           legend.text = element_text(size = 7),
                           legend.key.size = unit(.4, "cm"),
-                          axis.text.x = element_text(size=4)),
+                          axis.text.x = element_text(size = 5, 
+                                                     angle = 75)),
                   vismiss+
                     theme(legend.text = element_text(size = 7),
                           legend.key.size = unit(.5, "cm"),
-                          axis.text.x = element_text(size=4)) +
+                          axis.text.x = element_text(size = 5, 
+                                                     angle = 75)) +
                     labs(y = ""),
                   labels=c('A','B'),
                   nrow=1)
