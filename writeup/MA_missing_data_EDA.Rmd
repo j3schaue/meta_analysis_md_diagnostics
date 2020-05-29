@@ -27,6 +27,8 @@ library(tidyselect)
 library(gridExtra)
 library(grid)
 library(cowplot)
+library(viridisLite)
+library(tidyr)
 adt_data <- readRDS("../data/adt_data.RDS") 
 
 source("../code/wrappers.R")
@@ -117,7 +119,7 @@ There is a vast literature on methods for handling missing data in primary studi
 This literature highlights the ways that missingness can bias an analysis, examines conditions under which these biases can be corrected, and proposes various statistical procedures to adjust for bias or accurately compute uncertainty.
 
 Diagnosing missing data issues remains an important aspect of any analysis of incomplete data (i.e., data with missing values).
-Understanding which and how much data is missing, and how problematic that can be, is crucial in determining how to proceed in a meta-analysis and how to to contextualize the results.
+Understanding which and how much data is missing, and how problematic that can be, is crucial in determining how to proceed in a meta-analysis and how to contextualize the results.
 A key assumption of many analysis methods for incomplete data is that the analyst has some idea about *why* data is missing.
 Much of the literature on missing data has focused on the implications of that assumption [@littleStatisticalAnalysisMissing2002; @pigottHandlingMissingData2019]. Outside of some statistical tests [e.g., @littleTestMissingCompletely1988], considerably less attention is paid to how to form and examine theories about missingness   [@tierneyExpandingTidyData2018].
 
@@ -209,7 +211,7 @@ Some interventions are in-patient, and others are out-patient.
 Individuals in studies might present using marijuana, alcohol, or opioids, and they may come from wealthy families or poor families. 
 While each effect involves the difference between two groups of study participants (referred to here as *Group 1* and *Group 2*), some reported effects contrasted a given intervention with some control or "business as usual" condition, while others contrasted two alternative interventions or implementations.
 Finally, Tanner-Smith et al. were able to extract effect estimates at different time points after intake.
-In all, their raw data totalled some $k = 328$ effect estimates and $p = 43$ variables for each effect.
+In all, their raw data totaled some $k = 328$ effect estimates and $p = 43$ variables for each effect.
 
 In addition to estimated effects and their standard errors, Tanner-Smith et al. documented the types of interventions being contrasted, as well as their intensity and context.
 This included where interventions occurred, and how much time subjects spent in the intervention. 
@@ -217,7 +219,7 @@ For instance, if a study contrasted two interventions, Tanner-Smith et al. docum
 They also documented the demographics of subjects in the studies, such as the percentage of subjects who were minorities, as well as the substances that subjects reported using.
 
 Tanner-Smith et al. then fit a series of meta-regression models to their data in order to examine how treatment impacts varied according to the type of therapies and individuals studied. 
-They found that assertive continuing care (ACC), behavioral therapy, CBT, motivational enhancement therapy (MET), and family therapy tended to be more effective than generic "practice as usual" interventions that often involved referrals to community services.
+They found that assertive continuing care (ACC), behavioral therapy, (CBT), motivational enhancement therapy (MET), and family therapy tended to be more effective than generic "practice as usual" interventions that often involved referrals to community services.
 However, they did not find strong relationships between the characteristics of adolescents in the studies and the effectiveness of interventions (net of intervention type).
 
 A complicating factor in conducting these analyses was that some of the data were missing. 
@@ -252,7 +254,7 @@ These principles can be used to guide exploratory analyses of missingness.
 ### Quantifying the Amount of Missingness
 
 One issue with missingness involves how much data is missing.
-This could refer to several different quantitites.
+This could refer to several different quantities.
 First, we could be interested in the total fraction of cells with missing values:
 \begin{equation}
 \sum_{i=1}^k \sum_{j = 1}^p \frac{1 - R_{ij}}{kp}
@@ -333,11 +335,11 @@ However, if a variable to be imputed is frequently missing alongside many other 
 There has been a large amount of research into methods for analyzing incomplete data [see @grahamMissingData2012; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018]. 
 @pigottHandlingMissingData2019 provides a comprehensive overview of methods for handling missing data in a meta-analysis.
 A common approach in meta-analysis is to conduct a complete-case analysis that excludes effects that are missing any variables [@tiptonCurrentPracticesMetaregression2019].
-Meta-analysts also make regulare use of *available-case* analyses, which attempts to use all observed data, even rows that may be missing variables. 
+Meta-analysts also make regular use of *available-case* analyses, which attempts to use all observed data, even rows that may be missing variables. 
 Typically, this will involve running regression models that involve one or two covariates at a time, and is sometimes referred to as "shifting units of analysis" [@cooperSynthesizingResearchGuide1998].
 As an example, one might regress the intervention effects on the intervention type in one model, and then on intervention duration in a second model using Tanner-Smith's et al. data.
 A related approach is the EM algorithm, which makes use of all the observed data when estimating parameters in a meta-regression using an iterative procedure to obtain maximum likelihood estimates.
-Finally, imputing missing values has become increasingly common for statistical analyses of incomplete data in many fieds. 
+Finally, imputing missing values has become increasingly common for statistical analyses of incomplete data in many fields. 
 The standard approach is to use a method call multiple imputation, where missing fields are filled in with several values that the missing field might have contained had it not been missing.
 This creates several "complete" datasets, each of which are analyzed and the results of those analyses are then pooled [@littleStatisticalAnalysisMissing2002; @rubinMultipleImputationNonresponse1987].
 
@@ -350,7 +352,7 @@ When data are MNAR, the mechanism that produces missingness will typically need 
 ## Exploratory Analyses
 
 The tools discussed in the remainder of this article facilitate exploratory analyses of missingness in a meta-analytic dataset.
-Exploratory missingness analyses (EMA) combine numerical and visual summaries of in order to better understand the extent and sources of missingness in a dataset [@bujaInteractiveHighdimensionalData1996; @chengVisuallyExploringMissing2015; @tierneyExpandingTidyData2018].
+Exploratory missingness analyses (EMA) combine numerical and visual summaries in order to better understand the extent and sources of missingness in a dataset [@bujaInteractiveHighdimensionalData1996; @chengVisuallyExploringMissing2015; @tierneyExpandingTidyData2018].
 EMA differ from traditional exploratory data analyses (EDA) because they focus on missingness indicators in $\mathbf{R}$, as well as the relationship between those indicators and the observed data in $\mathbf{D}$.
 Many software tools, including most graphics software used to conduct a standard EDA actually delete observations with missing values, which would eliminate  information about missingness [@tierneyVisdatVisualisingWhole2017].
 
@@ -365,7 +367,7 @@ A plot that is tremendously useful for one dataset may be of less interest for o
 Any EMA must rely on knowledge of how data were collected and extracted, and can help leverage that knowledge to examine and propose theories about missingness.
 
 In the following sections, we present and discuss an example EMA of Tanner-Smith's et al. data on substance abuse interventions for adolescents.
-To simplify presentation, we focus on $p = 20$ variables relevant to the anlayses conducted by Tanner-Smith et al.
+To simplify presentation, we focus on $p = 20$ variables relevant to the analyses conducted by Tanner-Smith et al.
 This example serves to highlight some potential techniques and tools, but it is not exhaustive, and so as part of the supplementary material to this tutorial, we have included a vignette that presents and describes alternative visualizations and numerical summaries of missingness.
 Both the demonstration presented in this article and the supplementary vignette are implemented in the `R` software language and draw heavily on the `visdat` and `naniar` libraries with some custom extensions developed specifically for meta-analysis [@tierneyExpandingTidyData2018; @tierneyVisdatVisualisingWhole2017].
 Executable code is included with the supplementary materials.
@@ -430,7 +432,7 @@ any_sum = any_na_tab %>%
 ```
 
 
-Figure \@ref(fig:figs1) also displays some numerical summaries regaring the extent of missingness in the data. 
+Figure \@ref(fig:figs1) also displays some numerical summaries regarding the extent of missingness in the data. 
 In the legend, we see that over 11% of all cells are missing values in the table. 
 Figure \@ref(fig:figs1) also reports the percent of each column that is missing.
 Overall, `r round(any_sum %>% pull(raw_pct), 1)`% of rows are missing at least one value, and effects that are missing any covariate make up roughly `r round(any_sum %>% pull(wt_pct), 1)`% of the total precision in the data.
@@ -525,7 +527,7 @@ The idea behind this is that MCAR assumes that the probability that a value is m
 However, if missingness in one column of the data is correlated with observed values in another column, that would be an indication that data are not MCAR.
 A similar logic underpins the test for MCAR proposed by [@littleTestMissingCompletely1988].
 
-Since covariates in a meta-regression are often categorical, visualizations like the heatmap in Figure \@ref(fig:hmg1) can be useful.
+Since covariates in a meta-regression are often categorical, visualizations like the *heatmap* in Figure \@ref(fig:hmg1) can be useful.
 Figure \@ref(fig:hmg1) plots the missingness rate for each variable as it relates to Group 1's treatment location.
 The figure is grouped into tiles. 
 The columns of the figure correspond to the different types of care provided to Group 1, shown along the bottom of the graph: inpatient, outpatient, or continuing care.
@@ -619,10 +621,10 @@ Figure \@ref(fig:esseg1)A, shows the relationship between the missingness in Gro
 Effects are on the scale of Cohen's $d$.
 From Figure \@ref(fig:esseg1)A, we can see that effect estimates for which Group 1's treatment intensity is missing tend to be slightly smaller than the effect estimates for which Group 1's treatment intensity is observed. 
 Effect estimates tend to have smaller standard errors when Group 1's treatment intensity is missing than when it is reported.
-This is consistent with the weighted percentages reported in Table 1, which found that missingness in Group 1's treatment intensity occured with studies with greater precision.
+This is consistent with the weighted percentages reported in Table 1, which found that missingness in Group 1's treatment intensity occurred with studies with greater precision.
 
-Contrast that with Figure \@ref(fig:esseg1)B, which focuses on whether Group 1's treamtment duration (in days) is missing or not. 
-Figure \@ref(fig:esseg1)B shows that effect estimates for which Group 1's treatment duration is missing tend to be larger and have and have larger standard errors than effects for which duration of treatment is reported.
+Contrast that with Figure \@ref(fig:esseg1)B, which focuses on whether Group 1's treatment duration (in days) is missing or not. 
+Figure \@ref(fig:esseg1)B shows that effect estimates for which Group 1's treatment duration is missing tend to be larger and have larger standard errors than effects for which duration of treatment is reported.
 Plots A and B suggest that missingness of information about treatment dosage will be related to the size of effects found and how precisely those effects were estimated.
 
 
@@ -652,7 +654,7 @@ plot_grid(PlotA, PlotB,
 ```
 
 Figure \@ref(fig:esseg2) shows an analogous set of plots, only it compares the effect size estimate and standard error distributions for when Group 2's treatment intensity (in hours per week) and duration (in days) are missing or observed.
-Figure \@ref(fig:esseg2)A shows that when Group 2's treatment intensity is ovserved, effect sizes and standard errors are slighly smaller, though not drastically different than when Group 2's treatment intensity is missing.
+Figure \@ref(fig:esseg2)A shows that when Group 2's treatment intensity is observed, effect sizes and standard errors are slightly smaller, though not drastically different than when Group 2's treatment intensity is missing.
 As well, Figure \@ref(fig:esseg2)B suggests that effect estimates and standard errors are slightly smaller, though not particularly different, when Group 2's treatment duration is observed compared to when it is missing.
 
 ```{r esseg2, echo = F, message = F, warning = F, fig.width=6,fig.height=5, fig.cap="\\label{fig:esseg2} *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 2 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 2 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 2 treatment duration (in days) is observed versus missing.*", fig.pos='p'}
@@ -693,7 +695,7 @@ We found `r round(any_sum %>% pull(raw_pct), 1)`% of the effect sizes were missi
 This was driven by some variables that were missing frequently (e.g., Group 2 hours of treatment per week).
 Our analysis also revealed that missingness in some variables may be more severe than was obvious from first glance (e.g., Group 1 hours of treatment per week).
 Variables quantifying the intensity and duration of treatment in a study were frequently missing together.
-Finally, we identified some variables whose missingness appeard to be related to the size and standard errors of effect size estimates (e.g., Group 1 hours of treatment per week and treatment duration in days), which suggests that missingess was not MCAR.
+Finally, we identified some variables whose missingness appears to be related to the size and standard errors of effect size estimates (e.g., Group 1 hours of treatment per week and treatment duration in days), which suggests that missingness was not MCAR.
 
 How to proceed from an EMA will depend on what is known about the data collection and missingness.
 Based on our analysis, we would be cautious of using analysis methods that assume data are MCAR, such as complete-case analysis or shifting units of analysis.
