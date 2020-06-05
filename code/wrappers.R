@@ -228,30 +228,35 @@ mis_ma_var_summary <- function(data, se_col, truncate = TRUE){
 gg_summary_covariate_miss <- function(data){
 
   #Visualize whole dataframe at once
-  visdat<- vis_dat(data) 
+  visdat<- vis_dat(data) +
+    theme(
+      legend.position = "bottom",
+      legend.title = element_text(size = 8),
+      legend.text = element_text(size = 7),
+      legend.key.size = unit(.4, "cm"),
+      axis.text.x = element_text(size = 7, 
+                                 angle = 77.5)
+    )
   #summary of whether the data is missing or not
-  vismiss<-vis_miss(data)
+  vismiss<-vis_miss(data) +
+    theme(
+      legend.text = element_text(size = 7),
+      legend.key.size = unit(.5, "cm"),
+      axis.text.x = element_text(size = 7, 
+                                 angle = 77.5)
+    )
   
   # Arrange plots in a grid
-  prow <- plot_grid(visdat +
-                    theme(legend.position = "bottom",
-                          legend.title = element_text(size = 8),
-                          legend.text = element_text(size = 7),
-                          legend.key.size = unit(.4, "cm"),
-                          axis.text.x = element_text(size = 5, 
-                                                     angle = 75)),
-                  vismiss+
-                    theme(legend.text = element_text(size = 7),
-                          legend.key.size = unit(.5, "cm"),
-                          axis.text.x = element_text(size = 5, 
-                                                     angle = 75)) +
-                    labs(y = ""),
-                  labels=c('A','B'),
-                  nrow=1)
+  prow <- plot_grid(
+    visdat,
+    vismiss + labs(y = ""),
+    labels=c('A','B'),
+    align="h"
+  
+  )
+ 
+  return(prow)
 
-# Create grid plot
-out_1 <- plot_grid(prow, ncol=1, rel_heights=c(1, 0.03)) 
-return(out_1)
 }
 
 
