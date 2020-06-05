@@ -2,14 +2,14 @@
 title: "Exploratory Analyses for Missing Data in Meta-Analyses"
 csl: ./addons/alcohol-and-alcoholism.csl
 output:
+  bookdown::word_document2: 
+    reference_docx: addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ./addons/style.sty
     toc: false
     number_sections: no
-  bookdown::word_document2: 
-    reference_docx: addons/styles_word.docx
 bibliography: ./addons/references.json
 ---
 
@@ -280,7 +280,7 @@ The weighted percentage
 \begin{equation}
 \sum_{i=1}^k \frac{\left(1 - \prod_{j = 1}^p R_{ij}\right)/\sigma_i^2}{\sum_{i=1}^k 1/\sigma_i^2}
 \end{equation}
-gives (approximately) the fraction of information in a meta-analysis associated with effects that are missing any data.
+gives the fraction of information in a meta-analysis associated with effects that are missing any data.
 The quantity
 \begin{equation}
 \sum_{i=1}^k \frac{(1 - R_{ij})/\sigma_i^2}{\sum_{i=1}^k 1/\sigma_i^2}
@@ -483,7 +483,6 @@ tab1 <- mis_ma_var_summary(data, se_col = "se_g", truncate = TRUE) %>%
 # t1
 knitr::kable(tab1, format = "pandoc", caption = "\\label{tab:pcts} \\textit{This table displays the total number, percentage, and precision-weighted percentage of effect sizes that are missing a given variable.}")
 ```
-
 
 
 

@@ -1,0 +1,81 @@
+---
+title: "Notes on Complete- and Available-Case Analyses"
+output: html_document
+---
+
+Let $T_i$ be the estimate of $\theta_i$, $v_i$ be its variance, and $\mathbf{X}_i$ be the vector of covariates. Then we can write the regression model as
+\[
+T_i | X_i, v_i,  \eta = \beta_0 + \mathbf{X}_i^T \beta + r_i + e_i
+\]
+here, $r_i \perp e_i$ and $r_i$ is the effect of study $i$ such that $V[r_i] = \tau^2$ and $e_i$ is the estimation error for study $i$ and $V[e_i] = v_i$. 
+
+Let $R_i$ be a vector of response indicators for study $i$. 
+For instance if $\mathbf{X}_i = X_i \in \mathbb{R}$, then $R_i = 1$ if $X_i$ is observed, and 0 if it is missing.
+Only including certain data points in an analysis conditional on the missingness pattern is a common approach in meta-regression.
+For instance, a complete case analysis involves $T | X, v, R = \mathbf{1}$. 
+
+Note that we can relate the distribution of $p(T | X, v, R = r)$ to the complete-data distribution $p(T | X, v)$ in a few ways. 
+Let $\psi$ parametrize the distribution of $R$.
+We can write a selection model:
+\[
+p(T | X, v, R = r, \eta, \psi) 
+  = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)}
+\]
+
+Alternatively, we see the distribution of $p(T | X, v, \eta)$ can be written as a mixture over the missingness patterns:
+\[
+p(T | X, v, \eta) = \sum_{r \in \mathcal{R}} p(T | X, v, R = r) p(R = r | X, v)
+\]
+
+## Complete-Case Analyses
+
+Note that when covariates are MCAR, so that 
+\[
+P[R | T, X, v, \psi] = \psi
+\]
+then 
+\[
+p(T | X, v, R = r) 
+  = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)} 
+  = \frac{\psi p(T | x, v, \eta)}{\psi}
+  = p(T | x, v, \eta)
+\]
+Thus, likelihood-based estimation should be consistent, assuming it can be done when $X$ is MCAR.
+
+However, it would appear that a complete-case analysis is also valid under a slightly less restrictive assumption. 
+Suppose that $R \perp (X, T) | v$, then 
+\[
+p(T | X, v, R = r) 
+  = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)} 
+  = \frac{p(R = r | v, \psi) p(T | x, v, \eta)}{p(R = r | v, \psi)}
+  = p(T | x, v, \eta)
+\]
+Note that this is less restrictive than MCAR, which requires $R \perp (T, X, v)$.
+
+When the data are MAR, then the complete-case analysis can be inaccurate. 
+There are two ways to study this. 
+First, we derive the distribution under the selection model.
+As a simple example, suppose that $p(R = r | T, X, v) = f(T)$. 
+Then, 
+\[
+p(T | X, v, R = r) 
+  = \frac{f(T) p(T | X, v, R = r)}{\int p(T | X, v, R = r) f(T) dT}
+\]
+
+**Example:** $\mathbf{X} \in \mathbb{R}$, $f(T) \propto \exp\{\psi_0  + \psi_1 T\}$
+Then 
+\[
+p(R = 1 | X, v) 
+  = \int p(T | X, v, R = 1) f(T) dT \\
+  = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = \int \frac{\exp\left\{-\frac{T^2 - 2\beta_0 T - 2\beta_1 X T + 2\phi_1 T (v + \tau^2) + (\beta_0 - \beta_1 X)^2 + 2\psi_0 (v + \tau^2)}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = e^{\psi_0 + \frac{(\beta_0 + \beta_1 X) \psi_1(v + \tau^2)}{(v + \tau^2)} - \psi_1^2(v + \tau^2)/2}\int \frac{\exp\left\{-\frac{T^2 - 2 T [\beta_0 + \beta_1 X - \psi_1 (v + \tau^2)] + (\beta_0 + \beta_1 X - \psi_1(v + \tau^2))^2}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = e^{\psi_0 + (\beta_0 + \beta_1 X) \psi_1 - \psi_1^2(v + \tau^2)/2} \\
+  = g(X, v, \psi, \eta)
+\]
+Therefore, 
+\[
+E[T | X, v, R = 1] 
+  = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta)} dT\\
+  = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta)} dT\\
+\]
