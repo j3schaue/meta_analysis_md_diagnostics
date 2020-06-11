@@ -140,19 +140,20 @@ p(R = 1 | X, v)
 \end{align*}
 
 Therefore, 
-\[
+\begin{align*}
 E[T | X, v, R = 1] 
-  = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta) (1 + \exp\{\psi_0 + \psi_1 T\}} dT \\
-  = \int T \frac{\exp\left\{-\frac{\left[T - \left(\beta_0 + \beta_1 X - \psi_1(v + \tau^2)\left(1 - \frac{e^{\psi_0}}{1 + e^{\psi_0}}\right)\right)\right]^2}{2(v + \tau^2)} \right\}}
+  & = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta) (1 + \exp\{\psi_0 + \psi_1 T\}} dT \\
+  & = \int T \frac{\exp\left\{-\frac{\left[T - \left(\beta_0 + \beta_1 X - \psi_1(v + \tau^2)\left(1 - \frac{e^{\psi_0}}{1 + e^{\psi_0}}\right)\right)\right]^2}{2(v + \tau^2)} \right\}}
   {\sqrt{2 \pi (v + \tau^2)}}  dT \\
-  = \beta_0 + \beta_1 X - \psi_1(v + \tau^2)\left(1 - \frac{e^{\psi_0}}{1 + e^{\psi_0}}\right)
-\]
+  & = \beta_0 + \beta_1 X - \psi_1(v + \tau^2)\left(1 - \frac{e^{\psi_0}}{1 + e^{\psi_0}}\right)
+\end{align*}
 
 Suppose the first $m$ effects have $X_i = 0$ with $R_i = 1$, then the ML and least squares estimator for $\beta_0$ is given by 
 \[
 \hat{\beta}_0 = \frac{\sum_{i = 1}^m T_i/(v_i + \tau^2)}{\sum_{i = 1}^m 1/(v_i + \tau^2)}
 \]
-Given the expectation of $T | X, R, v$ we see that
+This would imply that the complete-case estimator of $\beta_0$ under the missing data model specified would have expectation:
 \[
 \hat{\beta}_0 = \beta_0 - \frac{\psi_1\left(1 - \frac{e^{\psi_0}}{1 + e^{\psi_0}}\right)}{\sum_{i = 1}^m m/(v_i + \tau^2)}
 \]
+Note that the second term on the right hand side constitutes the biase of $\hat{\beta}_0$.
