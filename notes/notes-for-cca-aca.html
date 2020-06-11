@@ -366,41 +366,66 @@ summary {
 </div>
 
 
-<p>Let <span class="math inline">\(T_i\)</span> be the estimate of <span class="math inline">\(\theta_i\)</span>, <span class="math inline">\(v_i\)</span> be its variance, and <span class="math inline">\(\mathbf{X}_i\)</span> be the vector of covariates. Then we can write the regression model as <span class="math display">\[
-T_i | X_i, v_i,  \eta = \beta_0 + \mathbf{X}_i^T \beta + r_i + e_i
-\]</span> here, <span class="math inline">\(r_i \perp e_i\)</span> and <span class="math inline">\(r_i\)</span> is the effect of study <span class="math inline">\(i\)</span> such that <span class="math inline">\(V[r_i] = \tau^2\)</span> and <span class="math inline">\(e_i\)</span> is the estimation error for study <span class="math inline">\(i\)</span> and <span class="math inline">\(V[e_i] = v_i\)</span>.</p>
-<p>Let <span class="math inline">\(R_i\)</span> be a vector of response indicators for study <span class="math inline">\(i\)</span>. For instance if <span class="math inline">\(\mathbf{X}_i = X_i \in \mathbb{R}\)</span>, then <span class="math inline">\(R_i = 1\)</span> if <span class="math inline">\(X_i\)</span> is observed, and 0 if it is missing. Only including certain data points in an analysis conditional on the missingness pattern is a common approach in meta-regression. For instance, a complete case analysis involves <span class="math inline">\(T | X, v, R = \mathbf{1}\)</span>.</p>
-<p>Note that we can relate the distribution of <span class="math inline">\(p(T | X, v, R = r)\)</span> to the complete-data distribution <span class="math inline">\(p(T | X, v)\)</span> in a few ways. Let <span class="math inline">\(\psi\)</span> parametrize the distribution of <span class="math inline">\(R\)</span>. We can write a selection model: <span class="math display">\[
+<p>Let <span class="math inline">\(T_i\)</span> be the estimate of <span class="math inline">\(\theta_i\)</span>, <span class="math inline">\(v_i\)</span> be its variance, and <span class="math inline">\(X_i =[1, X_{i1}, \ldots, X_{i,p-1}]^T\)</span> be the vector of covariates. Then we can write the regression model as <span class="math display">\[
+T_i | X_i, v_i, \eta = X_i^T \beta + r_i + e_i
+\]</span> here, <span class="math inline">\(\beta \in \mathbb{R}^p\)</span> is the vector of regression coefficients, <span class="math inline">\(r_i \perp e_i\)</span> and <span class="math inline">\(r_i\)</span> is the random effect of study <span class="math inline">\(i\)</span> such that <span class="math inline">\(V[r_i] = \tau^2\)</span>. The term <span class="math inline">\(e_i\)</span> is the estimation error for study <span class="math inline">\(i\)</span> and <span class="math inline">\(V[e_i] = v_i\)</span>. This is the standard meta-regression model, and also describes subgroup analysis models. The parameter <span class="math inline">\(\eta = [\beta, \tau^2]\)</span> refers to the parameters of model. Note that a under a fixed-effects model, it is assumed that <span class="math inline">\(\tau^2 = 0\)</span>, in which case <span class="math inline">\(\eta = \beta\)</span>.</p>
+<p>A common assumption in random effects meta-regression is that the random effects <span class="math inline">\(r_i\)</span> are independent and normally distributed with mean zero and variance <span class="math inline">\(\tau^2\)</span>: <span class="math inline">\(r_i \sim N(0, \tau^2)\)</span>. In that case, the distribution <span class="math inline">\(p(T | X, v, \eta)\)</span> can be written as <span class="math display">\[
+p(T | X, v, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v)}} e^{-\frac{(T - X^T \beta)^2}{2(\tau^2 + v)}}
+\]</span> Note that this assumes that all covariates are observed, and is referred to as the complete data likelihood function.</p>
+<p>Let <span class="math inline">\(R_i\)</span> be a vector of response indicators for study <span class="math inline">\(i\)</span> of the same dimension as <span class="math inline">\(X_i\)</span>, so that <span class="math inline">\(R_{ij} = 1\)</span> if <span class="math inline">\(X_{ij}\)</span> is observed and 0 if <span class="math inline">\(X_{ij}\)</span> is missing. For instance if <span class="math inline">\(X_i \in \mathbb{R}\)</span>, then <span class="math inline">\(R_i = 1\)</span> if <span class="math inline">\(X_i\)</span> is observed, and 0 if it is missing. Denote <span class="math inline">\(O = \{(i, j): R_{ij} = 1\}\)</span> be the set of covariates that are observed and <span class="math inline">\(M = \{(i, j): R_{ij} = 0\}\)</span> be the set of unobserved covariates. Then, the complete data model can be written as <span class="math inline">\(p(T | X, v, \eta) = p(T | X_O, X_M, v, \eta)\)</span>.</p>
+<p>Only including certain data points in an analysis conditional on the missingness pattern is a common approach in meta-regression. Thus inferences are based on the conditional distribution of <span class="math inline">\(T | X, v, R = r\)</span> for some missing data pattern <span class="math inline">\(r \in \{0,1\}^p\)</span>. For instance, a complete case analysis involves <span class="math inline">\(T | X, v, R = \mathbf{1}\)</span>, where <span class="math inline">\(\mathbf{1} = [1, \ldots, 1] \in \{0,1\}^p\)</span>.</p>
+<p>There are a few ways to relate the the complete data model and the model that conditions on a missingness pattern in a few ways. Let <span class="math inline">\(\psi\)</span> parametrize the distribution of <span class="math inline">\(R\)</span> given the observed and unobserved data. We can write a selection model: <span class="math display">\[
 p(T | X, v, R = r, \eta, \psi) 
   = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)}
+\]</span> Note that the complete data model appears in the numerator of the right hand size of the equation. The denominator on the right hand side can be written as <span class="math display">\[
+p(R = r | X, v, \psi) = \int p(R = r | T, X, v, \psi)p(T | X, v, \eta) dT
 \]</span></p>
-<p>Alternatively, we see the distribution of <span class="math inline">\(p(T | X, v, \eta)\)</span> can be written as a mixture over the missingness patterns: <span class="math display">\[
-p(T | X, v, \eta) = \sum_{r \in \mathcal{R}} p(T | X, v, R = r) p(R = r | X, v)
+<p>Alternatively, the complete data model <span class="math inline">\(p(T | X, v, \eta)\)</span> can be written as a mixture over the missingness patterns: <span class="math display">\[
+p(T | X, v, \eta) = \sum_{r \in \mathcal{R}} p(T | X, v, R = r, \eta) p(R = r | X, v, \eta, \psi)
+\]</span></p>
+<p>Thus, for a specific <span class="math inline">\(R = \tilde{r}\)</span>, we can write <span class="math display">\[
+p(T | X, v, R = \tilde{r}, \eta) 
+  = \frac{p(T | X, v, \eta)}{p(R = \tilde{r} | X, v, \eta, \psi)} - \sum_{r \neq \tilde{r}} p(T | X, v, R = r, \eta) \frac{p(R = r | X, v, \eta, \psi)}{p(R = \tilde{r} | X, v, \eta, \psi)}
 \]</span></p>
 <div id="complete-case-analyses" class="section level2">
 <h2>Complete-Case Analyses</h2>
-<p>Note that when covariates are MCAR, so that <span class="math display">\[
+<p>A common approach in meta-regression with missing covariates is to use a complete-case analysis. There are conditions under which the complete case analysis will lead to unbiased estimates. First, if the covariates are MCAR, so that <span class="math display">\[
 P[R | T, X, v, \psi] = \psi
 \]</span> then <span class="math display">\[
-p(T | X, v, R = r) 
+p(T | X, v, R = r, \eta) 
   = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)} 
   = \frac{\psi p(T | x, v, \eta)}{\psi}
   = p(T | x, v, \eta)
 \]</span> Thus, likelihood-based estimation should be consistent, assuming it can be done when <span class="math inline">\(X\)</span> is MCAR.</p>
-<p>However, it would appear that a complete-case analysis is also valid under a slightly less restrictive assumption. Suppose that <span class="math inline">\(R \perp (X, T) | v\)</span>, then <span class="math display">\[
+<p>However, it would appear that a complete-case analysis is also valid under slightly less restrictive assumptions. Suppose that <span class="math inline">\(R \perp (X, T) | v\)</span>, then <span class="math display">\[
 p(T | X, v, R = r) 
   = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)} 
   = \frac{p(R = r | v, \psi) p(T | x, v, \eta)}{p(R = r | v, \psi)}
   = p(T | x, v, \eta)
 \]</span> Note that this is less restrictive than MCAR, which requires <span class="math inline">\(R \perp (T, X, v)\)</span>.</p>
-<p>When the data are MAR, then the complete-case analysis can be inaccurate. There are two ways to study this. First, we derive the distribution under the selection model. As a simple example, suppose that <span class="math inline">\(p(R = r | T, X, v) = f(T)\)</span>. Then, <span class="math display">\[
+<p>Finally, if <span class="math inline">\(R \perp T | (X, v)\)</span> then <span class="math display">\[
+p(T | X, v, R = r) 
+  = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)} 
+  = \frac{p(R = r | X, v, \psi) p(T | X, v, \eta)}{p(R = r | X, v, \psi)}
+  = p(T | x, v, \eta)
+\]</span></p>
+<p>Question: What does this mean about MAR/MCAR/MNAR?</p>
+<p>First, we derive the distribution under the selection model. As a simple example, suppose that <span class="math inline">\(p(R = r | T, X, v) = f(T)\)</span>. Then, <span class="math display">\[
 p(T | X, v, R = r) 
   = \frac{f(T) p(T | X, v, R = r)}{\int p(T | X, v, R = r) f(T) dT}
 \]</span></p>
-<p><strong>Example:</strong> <span class="math inline">\(\mathbf{X} \in \mathbb{R}\)</span>, <span class="math inline">\(f(T) \propto \exp{\psi_0 + \psi_1 T}\)</span> Then <span class="math display">\[
+<p><strong>Example:</strong> <span class="math inline">\(\mathbf{X} \in \mathbb{R}\)</span>, <span class="math inline">\(f(T) \propto \exp\{\psi_0 + \psi_1 T\}\)</span> Then <span class="math display">\[
 p(R = 1 | X, v) 
   = \int p(T | X, v, R = 1) f(T) dT \\
-  = \left\int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)}\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT\right.
+  = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = \int \frac{\exp\left\{-\frac{T^2 - 2\beta_0 T - 2\beta_1 X T + 2\phi_1 T (v + \tau^2) + (\beta_0 - \beta_1 X)^2 + 2\psi_0 (v + \tau^2)}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = e^{\psi_0 + \frac{(\beta_0 + \beta_1 X) \psi_1(v + \tau^2)}{(v + \tau^2)} - \psi_1^2(v + \tau^2)/2}\int \frac{\exp\left\{-\frac{T^2 - 2 T [\beta_0 + \beta_1 X - \psi_1 (v + \tau^2)] + (\beta_0 + \beta_1 X - \psi_1(v + \tau^2))^2}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
+  = e^{\psi_0 + (\beta_0 + \beta_1 X) \psi_1 - \psi_1^2(v + \tau^2)/2} \\
+  = g(X, v, \psi, \eta)
+\]</span> Therefore, <span class="math display">\[
+E[T | X, v, R = 1] 
+  = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta)} dT\\
+  = \int T \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 T\right\}}{\sqrt{2 \pi (v + \tau^2)} g(X, v, \psi, \eta)} dT\\
 \]</span></p>
 </div>
 
