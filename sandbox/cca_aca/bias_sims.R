@@ -1,13 +1,14 @@
+setwd("sandbox/cca_aca/")
 library(metafor)
 library(tidyverse)
-source("cca_bias_sim_helperfns.R")
+source("cca_bias_sims_helperfns.R")
 
 bd <- metafor::dat.bangertdrowns2004
 
 bd %>% summarize_all(.funs = function(x) sum(is.na(x)))
 
 dat <- bd %>% select(yi, vi, x = feedback) %>% na.omit() %>% as_tibble()
-df = tibble(x = rbinom(nrow(dat), 1, .65), 
+df = tibble(x = runif(nrow(dat), -1, 1), #rbinom(nrow(dat), 1, .65), 
             v = dat$vi)
 
 fm = rma(yi, vi, mods = ~x, data = dat)
@@ -22,16 +23,16 @@ se_tau2 = fm$se.tau2
 gamma = c(-1.65, 0, 1.5, 0)
 
 
-
+beta0 = 0.1; beta1 = 0.8
 simmed_mods <- list()
-nsims <-  1000
+nsims <-  5000
 for(i in 1:nsims){
   df_sim = df %>%
     mutate(y = rnorm(nrow(df), beta0 + beta1 * x, sqrt(tau2 + v)))
 
   ad <- ampute_linear(df_sim, gamma)
   
-  if(length(unique(ad$x)) == 3 & nrow(ad) > 4){
+  if(length(unique(ad$x)) > 3 & nrow(ad) > 4){
     
       mod <- rma(y, v, mods = ~ x, data = ad, method = "PM")
     
@@ -53,39 +54,17 @@ mean(sim$beta1) - beta1
 bias_fun(df, 0, c(beta0, beta1), tau2, gamma)
 
 
-## Beta 0
-d0 = df %>% filter(x == 0)
-vv = mean(tau2 + dat$vi)
-vv = nrow(d0) / sum(1/(tau2 + d0$vi))
-H = exp(gamma0 + gamma2 * (beta0))/(1 + exp(gamma0 + gamma2 * (beta0 + beta1)))
-M = H/(1 + exp(gamma0 + gamma2 * (beta0))) * (gamma2)^2
-vv * (1 - H) * gamma2
 
 
+X = matrix(c(rep(1, nrow(df)), df$x), ncol = 2)
+Sig = diag(1/(df$v + tau2))
+VV = df$v + tau2
+Xb = X %*% c(beta0, beta1)
+Y = rnorm(nrow(X), Xb[,1], sqrt(df$v + tau2))
+solve(t(X) %*% Sig %*% X) %*% t(X) %*% Y
 
-ymn = list()
-nr = 100
-mu = -.1; sigma = .2
-gamma0 = -1.5; gamma1 = 2.5
-for(i in 1:nsims){
-  y = rnorm(nr, mu, sigma)
-  
-  num = exp(gamma0 + gamma1 * y)
-  denom = 1 + num
-  
-  probs = num/denom
-  
-  nas = rbinom(nr, 1, probs)
-  
-  y_obs = y[nas == 1]
-  if(length(y_obs) > 0){
-    ymn[[i]] = mean(y_obs)
-  }
-  
-}
- 
-H = exp(gamma0 + gamma1 * mu)/(1 + exp(gamma0 + gamma1 * mu))
-M = H/(1 + exp(gamma0 + gamma1 * mu)) * gamma1^2
-sigma^2 * (1 - H) * gamma1
-mean(unlist(ymn)) - mu
-
+Sx2 = sum((X[,2] - weighted.mean(X[,2], 1/VV))^2/(VV))
+Sy2 = sum((Y - weighted.mean(Y, 1/VV))^2/(VV))
+Sxy = sum((Y - weighted.mean(Y, 1/VV)) * (X[,2] - weighted.mean(X[,2], 1/VV))/VV)
+Sxy
+Sxy/sqrt(Sx2 * Sy2) * sqrt(sum(1/VV))/sum(1/VV)
