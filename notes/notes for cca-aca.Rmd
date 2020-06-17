@@ -16,63 +16,75 @@ Here, $\beta \in \mathbb{R}^p$ is the vector of regression coefficients, $r_i \p
 A common assumption in random effects meta-regression is that the random effects $r_i$ are independent and normally distributed with mean zero and variance $\tau^2$: $r_i \sim N(0, \tau^2)$. 
 In that case, the distribution $p(T | X, v, \eta)$ can be written as
 \[
-p(T | X, v, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v)}} e^{-\frac{(T - X^T \beta)^2}{2(\tau^2 + v)}}
+p(T_i | X_i, v_i, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v_i)}} e^{-\frac{(T_i - X_i^T \beta)^2}{2(\tau^2 + v_i)}}
 \]
 Note that this assumes that all covariates are observed, and is referred to as the complete data likelihood function.
 
-Let $R_i$ be a vector of response indicators for effect $i$. The elements $R_{ij}$ of $R_i$ take values of either 1, indicating a given variable is observed, or 0, indicating that a given variable is not observed.
+Let $R_i$ be a vector of response indicators for effect $i$. Each element $R_{ij}$ of $R_i$ corresponds to a variable in a meta-analytic dataset. The $R_{ij}$ take a value of either 0 or 1: $R_{ij} = 1$ indicates a given variable is observed and $R_{ij} = 0$, indicates  a given variable is not observed.
 For the data $[T_i, v_i, X_i]$, $R_i \in \{0,1\}^{p + 1}$ is a vector of 0s and 1s of length $p+1$.
 If $v_i$ were missing for some effect, then $R_{i2} = 0$.
 
 Our focus is on missing covariates, and thus, this article assumes that $T_i$ and $v_i$ are observed for every effect of interest in a meta-analysis. 
 Thus, we amend the notation so that $R_i \in \{0, 1\}^{p-1}$ and $R_{ij} = 1$ if $X_{ij}$ is observed and $R_{ij} = 0$ if $X_{ij}$ is missing.
-For instance if $X_i \in \mathbb{R}$, then $R_i$ is a scalar such that $R_i = 1$ if $X_i$ is observed, and $R_i = 0$ if it is missing.
-Denote $O = \{(i, j): R_{ij} = 1\}$ be the set of covariates that are observed and $M = \{(i, j): R_{ij} = 0\}$ be the set of unobserved covariates. 
-Then, the complete-data model can be written as $p(T | X, v, \eta) = p(T | X_O, X_M, v, \eta)$.
+Note that this omits the intercept term described above.
+For instance if $X_i = [1, X_{i1}]$ with $X_{i1} \in \mathbb{R}$, then $R_i$ is a scalar such that $R_i = 1$ if $X_{i1}$ is observed, and $R_i = 0$ if it is missing.
+Denote $O = \{(i, j): R_{ij} = 1\}$ as the indices of covariates that are observed and $M = \{(i, j): R_{ij} = 0\}$ be the set of indices for unobserved covariates. 
+Then, the complete-data model can be written as $p(T_i | X_i, v_i, \eta) = p(T_i | X_{iO}, X_{iM}, v_i, \eta)$.
+Note that the complete-data model depends on $X_{iM}$, which are unobserved. 
 
 
 
-## Conditional Meta-Regression
+## Conditional Incomplete Data Meta-Regression
 
-Only including certain data points in an analysis conditional on the missingness pattern is a common approach in meta-regression.
-For instance, complete-case analyses involve only effects for which all covariates of interest are observed, which means that $R_i = [1, \ldots, 1] = \mathbf{1}$ for all effects included in the analysis.
-In such cases, inferences are based on the conditional distribution of $T | X, v, R = r$ for some missing data pattern $r \in \{0,1\}^{p-1}$.
+When meta-analytic datasets are missing covariates, analyses involve incomplete data. 
+In practice, meta-regressions of incomplete data have largely relied on one of two approaches: complete-case analyses and available case analyses. 
+A complete-case analysis includes only effects for which all covariates of interest are observed, which means that $R_i = [1, \ldots, 1] = \mathbf{1}$ for all effects included in the analysis.
+In such cases, inferences are based on the conditional distribution of $T_i | X_i, v_i, R_i = \mathbf{1}$ for some missing data pattern $r \in \{0,1\}^{p-1}$.
+As we argue in a later section, available-case meta-regressions typically amount to including a subset of relevant covariates that are completely observed. This is equivalent to including observations for which $R_i$ fall into some set of missingness patterns $\mathcal{R}_0$. 
+In this formulation, available-case inferences are based on the distribution of $T_i | X_i, v_i, R_i \in \mathcal{R}$.
 
-There are a few ways to relate the the complete-data model and the model that conditions on a missingness pattern in a few ways.
+Note that both complete- and available-case analyses condition on the value of $R_i$. 
+In that sense, we can see both of these approaches as *conditional on missingness* (COM). Because both models above are conditional, they are not necessarily identical to the complete-data model, which is the model of interest.
+Yet, the analytic approaches of complete- and available-case analyses proceed as if the complete-data and COM models are equivalent. 
+Doing so ignores the sources and impacts of missingness, and can lead to inaccurate results.
+
+
+The complete-data model can be related to the COM models by through the distribution of missingness. 
+This approach is referred to as a *selection model* in the missing data literature.
 Let $\psi$ parametrize the distribution of $R$ given the observed and unobserved data.
-We can write a **selection model**:
+We can write a selection model as:
 \[
-p(T | X, v, R = r, \eta, \psi) 
-  = \frac{p(R = r | T, X, v, \psi)p(T | X, v, \eta)}{p(R = r | X, v, \psi)}
+p(T_i | X_i, v_i, R_i = r, \eta, \psi) 
+  = \frac{p(R_i = r | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta)}{p(R_i = r | X_i, v_i, \psi, \eta)}
 \]
-This describes the conditional model as a function of the complete-data model $p(T | X, v, \eta)$ and a selection model $p(R = r | T, X, v, \psi)$ that gives the probability that a given effect and its covariates are used in the analysis.
-The denominator on the right hand side is the probability of a missingness pattern $r$ given the estimation error variance $v$ and the observed and unobserved covariates in the vector $X$, and can be written as
+This describes the conditional model as a function of the complete-data model $p(T | X, v, \eta)$ and a selection model $p(R_i = r | T_i, X_i, v_i, \psi)$ that gives the probability that a given effect and its covariates are used in the analysis.
+The denominator on the right hand side is the probability of a missingness pattern $r$ given the estimation error variance $v_i$ and the observed and unobserved covariates in the vector $X_i$, and can be written as
 \[
-p(R = r | X, v, \psi) = \int p(R = r | T, X, v, \psi)p(T | X, v, \eta) dT
+p(R_i = r | X_i, v_i, \psi, \eta) = \int p(R_i = r | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta) dT
 \]
 
-A standard approach for modelling missingness in covariates is to assume $R$ follows some log-linear distribution. 
+A standard approach for modelling missingness in covariates is to assume $R_i$ follows some log-linear distribution. 
 Suppose we can write 
 \[
-\text{logit} P[R = r | T, X, v] = \sum_{j = 0}^n \psi_j f_j(T, X, v)
+\text{logit} P[R_i = r | T_i, X_i, v_i] = \sum_{j = 0}^n \psi_j f_j(T_i, X_i, v_i)
 \]
-Typically, it is assumed that $f_0(T, X, v) = 1$.
-While this is not necessary to model missingness, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate.
+where $f_0(T_i, X_i, v_i) = 1$, so that $\psi_0$ would be the intercept term for this logit model.
+While log-linear models are not the only applicable or appropriate model for missingness, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate, and how inaccurate they can be.
 
 
-Alternatively, the complete data model $p(T | X, v, \eta)$ can be expressed as a mixture over the missingness patterns:
-\[
-p(T | X, v, \eta) = \sum_{r \in \{0, 1\}^{p - 1}} p(T | X, v, R = r, \eta) p(R = r | X, v, \eta, \psi)
-\]
+<!-- Alternatively, the complete data model $p(T | X, v, \eta)$ can be expressed as a mixture over the missingness patterns: -->
+<!-- \[ -->
+<!-- p(T | X, v, \eta) = \sum_{r \in \{0, 1\}^{p - 1}} p(T | X, v, R = r, \eta) p(R = r | X, v, \eta, \psi) -->
+<!-- \] -->
 
-Thus, for a specific $R = \tilde{r}$, we can write
-\[
-p(T | X, v, R = \tilde{r}, \eta) 
-  = \frac{p(T | X, v, \eta)}{p(R = \tilde{r} | X, v, \eta, \psi)} - \sum_{r \neq \tilde{r}} p(T | X, v, R = r, \eta) \frac{p(R = r | X, v, \eta, \psi)}{p(R = \tilde{r} | X, v, \eta, \psi)}
-\]
+<!-- Thus, for a specific $R = \tilde{r}$, we can write -->
+<!-- \[ -->
+<!-- p(T | X, v, R = \tilde{r}, \eta)  -->
+<!--   = \frac{p(T | X, v, \eta)}{p(R = \tilde{r} | X, v, \eta, \psi)} - \sum_{r \neq \tilde{r}} p(T | X, v, R = r, \eta) \frac{p(R = r | X, v, \eta, \psi)}{p(R = \tilde{r} | X, v, \eta, \psi)} -->
+<!-- \] -->
 
-- PMM and selection models can be shown to be equivalent.
-- Under certain conditions, we can write the expectation of PMM models as (approximately) linear combinations of covariates analogous to the linear model of interest. 
+<!-- - PMM and selection models can be shown to be equivalent. -->
+<!-- - Under certain conditions, we can write the expectation of PMM models as (approximately) linear combinations of covariates analogous to the linear model of interest.  -->
 
 
 ## Issues with Conditional Inference on Incomplete Data
@@ -81,43 +93,41 @@ There are various concerns about the accuracy of inferences that condition on a 
 Estimates based on a given missingness pattern may be biased. 
 As well, because conditioning on a missingness pattern often invovles excluding data points, it is likely that estimates are also more variable (i.e., have higher standard errors).
 
-It is possible to derive a somewhat general result for the bias of conditional meta-regressions when $R | T, X, v$ follows a log-linear distribution as described in the previous section. 
-We must further assume that $f_j(T, X, v)$ in that model either do not depend on $T$ or are linear in $T$. 
-Thus, for some $f_j(T, X, v)$ we have $f_j = T f_j(X, v)$ and for other $f_j$ that do not depend on $T$, we can write $f_j = f_j(X, v)$.
-Let $\mathcal{T} = \{j: f_j(T, X, v) = Tf_j(X, v)\}$ and  $G = P[R = r | T, X, v] \rvert_{T = X\beta}$.
-
-Then an approximation for $E[T | X, v, R = r]$ is as follows:
-\begin{align*}
-E[T | X, v, R = r] 
-  & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(T, X, v)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)} \log\left(A + e^{\sum_j \psi_j f_j(T, X, v)}\right)} dT \\
-  & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(T, X, v) - \log\left(A + e^{\sum_j \psi_j f_j(X\beta, X, v)}\right)\right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\
-  & \qquad\qquad \frac{\left.- G(\sum_{j \in \mathcal{T}} \psi_j f_j(X, v))(T - X\beta) + O(T^2)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\
-  & \approx \int \frac{T \exp\left\{-\frac{1}{2(\tau^2 + v)}\left(T^2 - 2TX\beta - 2T (\tau^2 + v)\sum_{j \in \mathcal{T}} \psi_j f_j(X, v)\right.\right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\
-  & \qquad\qquad \frac{\left.\left.+ 2T(\tau^2 + v) G(\sum_{j \in \mathcal{T}} \psi_j f_j(X, v)) + \ldots\right)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\
-  & = X\beta + (1 - G)(\tau^2 + v)\sum_{j \in \mathcal{T}} \psi_j f_j(X, v)
-\end{align*}
-
-Note that this uses a first order Taylor expansion of the denominator in the log-linear model.
-
-Given this result, we can express the expected weighted least squares estimators to be:
-\begin{align*}
-\hat{\beta} 
-  & = (X^T W X)^{-1} X^T W E[T | X, v, R = r] \\
-  & = (X^T W X)^{-1} X^T W \left(X\beta + \left[(1 - G_i)(\tau^2 + v_i)\sum_{j \in \mathcal{T}} \psi_j f_j(X_i, v_i)\right]\right) \\
-  & = \beta + (X^T W X)^{-1} X^T W \left[(1 - G_i)(\tau^2 + v_i)\sum_{j \in \mathcal{T}} \psi_j f_j(X_i, v_i)\right]
-\end{align*}
-Thus, the bias of the regression coefficients is given by 
+Note that the bias induced by complete- or available-case analyses will depend on the expectation $E[T_i | X_i, v_i, R_i = r]$. 
+It is possible to derive an approximation for $E[T_i | X_i, v_i, R_i = r]$ when $R_i | T_i, X_i, v_i$ follows a log-linear distribution as described in the previous section. 
+Let $\mathcal{J} = \{j: f_j \text{ depends on } T_i\}$ so that we can write $f_j(T, X, v)$ for $j \in \mathcal{J}$ and $f_j(T, X, v) = f_j(X, v)$ for $j \notin \mathcal{J}$.
+Further, denote
 \[
-(X^T W X)^{-1} X^T W \left[(1 - G_i)(\tau^2 + v_i)\sum_{j \in \mathcal{T}} \psi_j f_j(X_i, v_i)\right]
+G(X_i, v_i) = P[R_i = r | T_i, X_i, v_i] \rvert_{T_i = X_i^T\beta}
 \]
+Then an approximation for $E[T_i | X_i, v_i, R_i = r]$ is as follows:
+\begin{align*}
+  & \text{omitting subscripts, Taylor series for exponents in } P[R_i = r | T_i, X_i, v_i] \text{ at } T = X^T\beta\\
+E[T_i | X_i, v_i, R_i = r] 
+  & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(T, X, v)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)} \log\left(1 + e^{\sum_j \psi_j f_j(T, X, v)}\right)} dT \\
+  & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(X^T\beta, X, v) + \sum_j \psi_j f_j'(X^T\beta, X, v)(T - X^T\beta) \right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\
+  & \qquad\qquad \frac{\left.- \log\left(1 + e^{\sum_j \psi_j f_j(X^T \beta, X, v)}\right) - G(X, v)(\sum_{j} \psi_j f_j'(X^T \beta, X, v))(T - X\beta) + O(T^2)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\
+  & \approx \int \frac{T \exp\left\{-\frac{1}{2(\tau^2 + v)}\left(T^2 - 2TX\beta - 2T (\tau^2 + v)\sum_{j \in \mathcal{J}} \psi_j f_j'(X^T\beta, X, v)\right.\right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\
+  & \qquad\qquad \frac{\left.\left.+ 2T(\tau^2 + v) G(X, v)(\sum_{j \in \mathcal{J}} \psi_j f_j'(X^T \beta, X, v)) + \ldots\right)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\
+  & = X\beta + (1 - G(X, v))(\tau^2 + v)\sum_{j \in \mathcal{J}} \psi_j f_j'(X^T \beta, X, v)
+\end{align*}
 
-- Refine for matrix notation.
-- Set up as proposition and proof.
+
+<!-- Then an approximation for $E[T | X, v, R = r]$ is as follows: -->
+<!-- \begin{align*} -->
+<!-- E[T | X, v, R = r]  -->
+<!--   & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(T, X, v)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)} \log\left(A + e^{\sum_j \psi_j f_j(T, X, v)}\right)} dT \\ -->
+<!--   & = \int \frac{T \exp\left\{-\frac{(T - X\beta)^2}{2(\tau^2 + v)} + \sum_j \psi_j f_j(T, X, v) - \log\left(A + e^{\sum_j \psi_j f_j(X\beta, X, v)}\right)\right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\ -->
+<!--   & \qquad\qquad \frac{\left.- G(\sum_{j \in \mathcal{T}} \psi_j f_j(X, v))(T - X\beta) + O(T^2)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\ -->
+<!--   & \approx \int \frac{T \exp\left\{-\frac{1}{2(\tau^2 + v)}\left(T^2 - 2TX\beta - 2T (\tau^2 + v)\sum_{j \in \mathcal{T}} \psi_j f_j(X, v)\right.\right.}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} \\ -->
+<!--   & \qquad\qquad \frac{\left.\left.+ 2T(\tau^2 + v) G(\sum_{j \in \mathcal{T}} \psi_j f_j(X, v)) + \ldots\right)\right\}}{g(X, v)\sqrt{2 \pi (\tau^2 + v)}} dT \\ -->
+<!--   & = X\beta + (1 - G)(\tau^2 + v)\sum_{j \in \mathcal{T}} \psi_j f_j(X, v) -->
+<!-- \end{align*} -->
+
+Note that this uses a first order Taylor expansion of the exponentiated terms of the log-linear model.
+However, if it is assumed that the $f_j$ are linear in $T$, then only a Taylor expansion of the denominator of the log-linear model is required.
 
 
-- If the likelihood for conditional inference can be written free of $R$ then conditional inference may be appropriate.
-- If we're worried about bias, then the PMM or selection model can help us understand bias. PMM may be most useful for this. Show formulas.
-- If we're worried about uncertainty, selection models can help unpack that.
 
 
 ## Complete-Case Analyses
@@ -168,32 +178,57 @@ This may be true, for instance, if smaller studies are less likely to report mor
  
 However, when $R$ is not independent of $X$ or $T$ (given $v$), then analyses can be biased. 
 Precisely how biased will depend on the distribution of $R$ and its relationship to effect estimates $T$ and their covariates $X$.
-While a more general result is provided in the previous section, some of that expression will be difficult to intuit. 
-Thus, here we present some examples of models where a complete-case analysis that ignores the missingness mechanism can induce bias.
-
-
-**Example:** Suppose there is only one covariate $X \in \mathbb{R}$, and that $p(R = 1 | T, X, v) \propto \frac{\exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}{1 + exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}$
-Then 
+A general result based on the approximation in the previous section follows from the fact that a complete-case analysis involves $R = \mathbf{1}$. 
+Further, denote $\mathbf{X}_R$ as the matrix of covariates such $R_i = \mathbf{1}$. 
+If we denote $\mathbf{W}_R = diag(v_i + \tau^2): R_i = \mathbf{1}$, the complete-case analysis will estimate coefficients as:
 \begin{align*}
-p(R = 1 | X, v) 
-  & = \int p(T | X, v, R = 1) f(T) dT \\
-  & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)} (1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\})} dT \\
-  & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T - \log(1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\}) \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
-  & G(X) = G = \frac{e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}}{1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}} \\
-  & B = \beta_0 + \beta_1 X\\
-\therefore  
-  & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
-  & \qquad + \int \frac{\exp\left\{-\log(1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}) - G\psi_1 X - G\psi_2 B - G\psi_3 XB + O(T^2)\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
-   & \approx \int \frac{\exp\left\{-\frac{T^2 - 2 T \left[B + (v + \tau^2)\psi_2 + (v + \tau^2) \psi_3 X  - (v + \tau^2) G \psi_2 - (v + \tau^2) G \psi_3 X\right]}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\
-   & = g(X, v, \psi, \eta)
+\hat{\beta} 
+  & = (\mathbf{X}_R^T W_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R E[T | X, v, R = r] \\
+  & = (\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R \left[X_i^T\beta + \left((1 - G(X_i, v_i))(\tau^2 + v_i)\sum_{j \in \mathcal{J}} \psi_j f_j'(X_i^T \beta, X_i, v_i)\right)\right] \\
+  & = \beta + (\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R \left[(1 - G(X_i, v_i))(\tau^2 + v_i)\sum_{j \in \mathcal{J}} \psi_j f_j'(X_i^T \beta, X_i, v_i)\right]
 \end{align*}
+Thus, the bias of the regression coefficients is given by 
+\[
+(\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R \left[(1 - G(X_i, v_i))(\tau^2 + v_i)\sum_{j \in \mathcal{J}} \psi_j f_j'(X_i^T \beta, X_i, v_i)\right]
+\]
+
+- Refine for matrix notation. Let $\mathbf{I}$ be the identity matrix, $\mathbf{G} = diag(G(X_i, v_i))$ and $Y = [\sum_{j \in \mathcal{J}} \psi_j f_j'(X_i^T \beta, X_i, v_i), i = 1, \ldots]^T$. Then we can write:
+\[
+(\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R \mathbf{W}_R^{-1}(\mathbf{I} - \mathbf{G})Y
+  = (\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T (\mathbf{I} - \mathbf{G})Y
+\]
+
+- Set up as proposition and proof.
+
+
+- If the likelihood for conditional inference can be written free of $R$ then conditional inference may be appropriate.
+- If we're worried about bias, then the PMM or selection model can help us understand bias. PMM may be most useful for this. Show formulas.
+- If we're worried about uncertainty, selection models can help unpack that.
+
+*Example:* Suppose there is only one covariate $X_{i1} \equiv X_i \in \mathbb{R}$, and that $p(R = 1 | T, X, v) \propto \frac{\exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}{1 + exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}$
+Note that $G(X, v) \equiv G(X)$. 
+Further, $\mathcal{J} = \{2, 3\}$ and $f_j(T, X, v) = Tf_j(X, v)$, and hence $f_j'(T, X, v) = f_j(X, v)$ for $j \in \mathcal{J}$. 
+Thus,  
+\begin{align*}
+E[T_i | X_i, v_i, R_i = 1] 
+  & = \beta_0 + \beta_1 X_i + (1 - G(X_i))(v_i + \tau^2)(\psi_2 + \psi_3 X_i)
+\end{align*}
+<!-- Then  -->
+<!-- \begin{align*} -->
+<!-- p(R = 1 | X, v)  -->
+<!--   & = \int p(T | X, v, R = 1) f(T) dT \\ -->
+<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)} (1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\})} dT \\ -->
+<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T - \log(1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\}) \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
+<!--   & G(X) = G = \frac{e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}}{1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}} \\ -->
+<!--   & B = \beta_0 + \beta_1 X\\ -->
+<!-- \therefore   -->
+<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
+<!--   & \qquad + \int \frac{\exp\left\{-\log(1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}) - G\psi_1 X - G\psi_2 B - G\psi_3 XB + O(T^2)\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
+<!--    & \approx \int \frac{\exp\left\{-\frac{T^2 - 2 T \left[B + (v + \tau^2)\psi_2 + (v + \tau^2) \psi_3 X  - (v + \tau^2) G \psi_2 - (v + \tau^2) G \psi_3 X\right]}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
+<!--    & = g(X, v, \psi, \eta) -->
+<!-- \end{align*} -->
 
  
-Therefore, 
-\begin{align*}
-E[T | X, v, R = 1] 
-  & = \beta_0 + \beta_1 X + (1 - G)(v + \tau^2)(\gamma_2 + \gamma_3 X)
-\end{align*}
 
 Suppose $X$ is a binary variable, so that $X \in \{0,1\}^{p-1}$, and that $X$ is observed for $M \leq k$ effects. Denote $m_0$ as the nubmer of observed $X_i = 0$ and $m_1$ be the observed $X_i = 1$ so that $M = m_0 + m_1$.
 Further, assume that $X_i = 0$ (but $R_i = 1$) for $i = 1, \ldots m_0$ and $X_i = 1$ (and $R_i = 1$) for $m_0 + 1, \ldots, M$. Then then the ML and least squares estimator for $\beta_0$ is given by 
@@ -236,5 +271,18 @@ E[\hat{\beta}_1]
 
 When there are multiple covariates of interest, each of which has some missing data, it may be that there are only a few effects for which all covariates of interest are observed. When that happens, a complete case analysis may be infeasible. A common solution to this in meta-analysis is to use an available-case analysis.
 
-In meta-anlaysis, an **available-case analysis** typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. 
+In meta-anlaysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. This "sifting units of analysis" (SUA) inherently conditions on a set of missingness patterns: $R \in \{\tilde{r}_1, \ldots, \tilde{r}_n\}$. 
+To see this, note that SUA amounts to a complete-case analysis on a subset of covariates. Thus $R_j = 1$ for those covariates $X_j$ that are observed and included in the analyses, but $R_k \in \{0, 1\}$ for covariates $X_k$ that are excluded; that is, excluded covariates may be observed or unobserved. 
+
+Let $O_S = \{i,j: R_{ij} = 1 \text{ and } X_j \text{ included in model}\}$, and let $M_S$ be all of the indices $i, j$ not in $O_S$. The set $M_S$ would indicate observations $i$ for which an $X_{ij}$ would have been included in an analysis had it been observed, or covariates $j$ that are excluded. 
+Then, the SUA model can be written as:
+\[
+p(T | X_{O_S}, v, R \in \mathcal{R}) = \frac{P[R \in \mathcal{R} | T, X_{O_S}, v] p(T | X_{O_S}, v)}{P[R \in \mathcal{R} | X_{O_S}, v]}
+\]
+Note that $p(T | X_{O_S}, v)$ is not necessarily the same as $p(T | X, v)$, which includes all covariates of interest. Thus, the complete-SUA likelihood function is only equal to the complete-data likelihood if $T \perp X_E | X_I, v$. That is, the two models are equivalent only if the coefficients $\beta_j = 0$ for all excluded covariates (given the excluded covariates). 
+
+*Example:* Suppose $X = [1, X_1, X_2]$ and that there is missingness in both $X_1$ and $X_2$. Then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only the first covariate is observed. 
+
+If missingness is such that $R = [1, 1]$ for very few effect estimates, then a shifting units analysis might involve regressing $T$ on the observed values of $X_1$ and then on the observed values of $X_2$. 
+
 
