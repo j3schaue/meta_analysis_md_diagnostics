@@ -267,7 +267,7 @@ E[\hat{\beta}_1]
 
 
 
-## Available-Cases and Shifting Units of Analysis
+## Available Cases and Shifting Units of Analysis
 
 When there are multiple covariates of interest, each of which has some missing data, it may be that there are only a few effects for which all covariates of interest are observed. When that happens, a complete case analysis may be infeasible. A common solution to this in meta-analysis is to use an available-case analysis.
 
