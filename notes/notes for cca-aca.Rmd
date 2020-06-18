@@ -205,10 +205,18 @@ Thus, the bias of the regression coefficients is given by
 - If we're worried about bias, then the PMM or selection model can help us understand bias. PMM may be most useful for this. Show formulas.
 - If we're worried about uncertainty, selection models can help unpack that.
 
-*Example:* Suppose there is only one covariate $X_{i1} \equiv X_i \in \mathbb{R}$, and that $p(R = 1 | T, X, v) \propto \frac{\exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}{1 + exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}$
+*Example:* Suppose there is only one covariate $X_{i1} \equiv X_i \in \mathbb{R}$, so that the complete data model is 
+\[
+T_i = \beta_0 + \beta_1 X_i + r_i + e_i
+\]
+where $\beta_0, \beta_1$ are the regression coefficients of interest.
+Assume that the model for missingness is log-linear: 
+\[
+p(R = 1 | T, X, v) \propto \frac{\exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}{1 + exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}
+\]
 Note that $G(X, v) \equiv G(X)$. 
 Further, $\mathcal{J} = \{2, 3\}$ and $f_j(T, X, v) = Tf_j(X, v)$, and hence $f_j'(T, X, v) = f_j(X, v)$ for $j \in \mathcal{J}$. 
-Thus,  
+Thus,   
 \begin{align*}
 E[T_i | X_i, v_i, R_i = 1] 
   & = \beta_0 + \beta_1 X_i + (1 - G(X_i))(v_i + \tau^2)(\psi_2 + \psi_3 X_i)
@@ -265,24 +273,94 @@ E[\hat{\beta}_1]
 - Plots?
 - Continuous covariates?
 
+For a single continuous covariate, note that 
+\[
+\hat{\beta}_1 = \frac{\sum w_i (T_i - \bar{T}_\cdot)(X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
+\]
+Given the selection model above, the bias of $\hat{\beta}_1$ can be expressed as:
+\[
+\psi_2 \frac{\sum (1 - G(X_i))(X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
++ \psi_3 \frac{\sum (1 - G(X_i)) X_i (X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
+\]
+
+It is not immediately clear that these simplify. Perhaps we leave this result out?
+
 
 
 ## Available Cases and Shifting Units of Analysis
 
-When there are multiple covariates of interest, each of which has some missing data, it may be that there are only a few effects for which all covariates of interest are observed. When that happens, a complete case analysis may be infeasible. A common solution to this in meta-analysis is to use an available-case analysis.
+When there are multiple covariates of interest, each of which has some missing data, there may only be a few effects for which all covariates of interest are observed. When that happens, a complete case analysis can be infeasible. A common solution to this in meta-analysis is to use an available-case analysis.
 
-In meta-anlaysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. This "sifting units of analysis" (SUA) inherently conditions on a set of missingness patterns: $R \in \{\tilde{r}_1, \ldots, \tilde{r}_n\}$. 
+In meta-anlaysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. Referred to as "sifting units of analysis" (SUA), this approach inherently conditions on a set of missingness patterns: $R \in \{\tilde{r}_1, \ldots, \tilde{r}_n\}$. 
 To see this, note that SUA amounts to a complete-case analysis on a subset of covariates. Thus $R_j = 1$ for those covariates $X_j$ that are observed and included in the analyses, but $R_k \in \{0, 1\}$ for covariates $X_k$ that are excluded; that is, excluded covariates may be observed or unobserved. 
 
-Let $O_S = \{i,j: R_{ij} = 1 \text{ and } X_j \text{ included in model}\}$, and let $M_S$ be all of the indices $i, j$ not in $O_S$. The set $M_S$ would indicate observations $i$ for which an $X_{ij}$ would have been included in an analysis had it been observed, or covariates $j$ that are excluded. 
+Let $U = \{j: X_j \text{ included in model}\}$ denote the covariates included in a SUA model.
+Let $E$ be the complement of $U$ so that it indexes all of the covariates excluded from the SUA model.
+Further, let $\mathcal{R} = \{R: R_{j} = 1, \forall j \in U\}$. 
+Note that $\mathcal{R}$ contains missingness patterns $R$ such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
 Then, the SUA model can be written as:
 \[
-p(T | X_{O_S}, v, R \in \mathcal{R}) = \frac{P[R \in \mathcal{R} | T, X_{O_S}, v] p(T | X_{O_S}, v)}{P[R \in \mathcal{R} | X_{O_S}, v]}
+p(T | X_{U}, v, R \in \mathcal{R}) = \frac{P[R \in \mathcal{R} | T, X_{U}, v] p(T | X_{U}, v)}{P[R \in \mathcal{R} | X_{U}, v]}
 \]
-Note that $p(T | X_{O_S}, v)$ is not necessarily the same as $p(T | X, v)$, which includes all covariates of interest. Thus, the complete-SUA likelihood function is only equal to the complete-data likelihood if $T \perp X_E | X_I, v$. That is, the two models are equivalent only if the coefficients $\beta_j = 0$ for all excluded covariates (given the excluded covariates). 
 
-*Example:* Suppose $X = [1, X_1, X_2]$ and that there is missingness in both $X_1$ and $X_2$. Then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only the first covariate is observed. 
+The model above is slightly different from the models in the previous sections. 
+Note that all of the functions involved condition only on the included covariates $X_U$. 
+Thus, the function $p(T | X_U, v)$ is analogous to the complete-data likelihood $p(T | X, v)$, however it is important to note that the two functions are not necessarily equivalent because the former conditions only on $X_U$ and not the full set of covariates $X$.
+
+There are two sources of bias that arise in SUA models. 
+The first is due to the fact that $p(T | X_U, v)$ need not be equivalent to  $p(T | X, v)$. 
+These models would only be equivalent of $T \perp X_E | X_U, v$. 
+That is, unless the excluded covariates are completely unrelated to effect size (given the covariates included in the SUA model), then even if none of the included covariates had any missingness, there would be bias in an SUA model.
+
+The second source arises from the fact that SUA approaches omit effects for which any of the included covariates are missing. 
+That is, if any $X_{ij}$ is missing for $j \in U$, then SUA ignores the effect $T_i$ and its associated covariates. 
+
+Taken together, these two facets of the conditional SUA model in the expression above suggest a very strict set of conditions for which SUA analyses are unbiased. 
+First, $R \perp (T, X_U) | v$, so that missingness must be independent of effect size estimates and any included covariates conditional on the (completely observed) estimation error variances.
+This is a similar, though slightly weaker assumption as that made for unbiased complete-case analyses. 
+Second, $T \perp X_E | X_U, v$, which means that any excluded covariates must be completely irrelevant given the included covariates. 
+This amounts to $\beta_j = 0$ for all $j \in E$.
+Alternatively, we may write $(T, X_U) \perp X_E | v$, which would imply that the complete data likelihood involves no interactions between $X_U, X_E$ and that $X_U$ and $X_E$ are completely orthogonal.
+
+When assumptions about both the missingness mechanism and the relevance of $X_E$ doe not hold, then SUA will be biased. 
+Just how biased will depend on a number of factors, including the amount of missingness, the missingness mechanism, and the relevance of any excluded covariates.
+
+The matrix representation of the bias when no data are missing is:
+\begin{align*}
+E[(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{T}] 
+  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{X}\beta \\
+  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} (\mathbf{X}_U \beta_U + \mathbf{X}_E \beta_E) \\
+  & = \beta_U + (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
+\end{align*}
+Thus, the bias of excluding covariates is given by:
+\[
+(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
+\]
+
+
+*Example:* Suppose $X = [1, X_1, X_2]$ and that there is missingness in both $X_1$ and $X_2$. Then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only $X_1$ is observed. 
 
 If missingness is such that $R = [1, 1]$ for very few effect estimates, then a shifting units analysis might involve regressing $T$ on the observed values of $X_1$ and then on the observed values of $X_2$. 
 
+The first regression would take only rows for which $X_1$ is observed. 
+It would use the following estimates:
+\[
+\hat{\beta}_0 = \frac{\sum_{X_i = 0} w_i T_i}{\sum_{X_i = 0}} = \bar{T}_{10}, 
+\qquad \hat{\beta}_1 = \frac{\sum_{X_i = 1} w_i T_i}{\sum_{X_i = 1}} - \hat{\beta}_0
+= \bar{T}_{11} - \bar{T}_{10}
+\]
 
+Note that if no $X_1$ were missing then the bias of these estimates is given by
+\[
+
+\]
+
+However, suppose that some of the $X_1$ and $X_2$ are missing, and that $R$ follows a log-linear model:
+\[
+
+\]
+
+Then the bias is given by
+\[
+
+\]
