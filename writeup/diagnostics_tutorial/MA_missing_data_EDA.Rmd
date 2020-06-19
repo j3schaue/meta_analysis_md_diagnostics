@@ -1,16 +1,16 @@
 ---
 title: "Exploratory Analyses for Missing Data in Meta-Analyses"
-csl: ./addons/alcohol-and-alcoholism.csl
+csl: ../addons/alcohol-and-alcoholism.csl
 output:
-  bookdown::word_document2: 
-    reference_docx: addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
-      in_header: ./addons/style.sty
+      in_header: ../addons/style.sty
     toc: false
     number_sections: no
-bibliography: ./addons/references.json
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
+bibliography: ../addons/references.json
 ---
 
 ```{r setup, include=FALSE}
@@ -29,9 +29,9 @@ library(grid)
 library(cowplot)
 library(viridisLite)
 library(tidyr)
-adt_data <- readRDS("../data/adt_data.RDS") 
+adt_data <- readRDS("../../data/adt_data.RDS") 
 
-source("../code/wrappers.R")
+source("../../code/wrappers.R")
 # myvars <- names(adt_data) %in% c("pk_es", "studyid", "_referencesummary","authoryear","varid", "state",
 #                                  "dvsucat", "dvmicro", "estimingpost", "esctobnpost","estxobnpost" )
 data_named <- adt_data %>%
@@ -92,7 +92,7 @@ data <- adt_data %>%
       g2perhisp,
       g2permale)
 
-key <- read_csv("../code/keys_names.csv")
+key <- read_csv("../../code/keys_names.csv")
 raw_to_named <- function(x){
   out = key %>% filter(raw == x) %>%
     pull(named)
@@ -629,7 +629,6 @@ Plots A and B suggest that missingness of information about treatment dosage wil
 
 ```{r esseg1, echo=FALSE, fig.width=6,fig.height=5, fig.cap="\\label{fig:esseg1} *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 1 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 1 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 1 treatment duration (in days) is observed versus missing.*", fig.pos='p'}
 adt_shadow <- bind_shadow(data)
-source("../code/wrappers.R")
 PlotA<- gg_esse_covariate_miss(adt_shadow,
                        es_col = "es_g",
                        se_col = "se_g",
