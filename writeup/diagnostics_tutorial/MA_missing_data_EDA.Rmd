@@ -356,6 +356,8 @@ Exploratory missingness analyses (EMA) combine numerical and visual summaries in
 EMA differ from traditional exploratory data analyses (EDA) because they focus on missingness indicators in $\mathbf{R}$, as well as the relationship between those indicators and the observed data in $\mathbf{D}$.
 Many software tools, including most graphics software used to conduct a standard EDA actually delete observations with missing values, which would eliminate  information about missingness [@tierneyVisdatVisualisingWhole2017].
 
+The point of conducting an EMA is to better understand the pattern and potential impact of the missing data in a meta-analysis, which can aid researchers to make appropriate choices about an analysis strategy. Researchers can explore whether assumptions about the missingness mechanism are defensible and can also highlight areas where evidence is sparse. For example, meta-analysts may hypothesize that average age of the study sample may relate to the effectiveness of an intervention but find that studies report average age in various ways. Looking closely at the data collected in a meta-analysis affords opportunities to create moderators based on information reported more frequently across studies [[@pigottMethodologicalGuidancePaper2020]. EMAs can also highlight gaps in the evidence base by showing what information (e.g., on treatment frequency or setting) is missing from a systematic review.
+
 While the following sections present an example of an EMA, it is worth noting two aspects about EMA to better contextualize this process.
 First, it will often be difficult to draw very strong inferences about missingness mechanisms based on exploratory analyses.
 Even proposed tests for missingness mechanisms can have misleading results [@molenberghsEveryMissingnessNot2008; @rhoadsProblemsTestsMissingness2012; @seamanWhatMeantMissing2013].
@@ -436,14 +438,13 @@ Figure \@ref(fig:figs1) also displays some numerical summaries regarding the ext
 In the legend, we see that over 11% of all cells are missing values in the table. 
 Figure \@ref(fig:figs1) also reports the percent of each column that is missing.
 Overall, `r round(any_sum %>% pull(raw_pct), 1)`% of rows are missing at least one value, and effects that are missing any covariate make up roughly `r round(any_sum %>% pull(wt_pct), 1)`% of the total precision in the data.
-Thus, a complete-case analysis of all variables would require dropping nearly `r ceiling(100 - any_sum %>% pull(raw_pct))`% of the rows in the data. 
+Thus, a complete-case analysis of all variables would require dropping over `r floor(100 - any_sum %>% pull(raw_pct))`% of the rows in the data. 
 
 
 ## Univariate Explorations
 
 While aggregation plots can provide a good overview, we typically want more detailed information about how many observations are missing a given variable. 
-*Variable missing plots* display the overall missingness in each column of a dataset and present the results in order of which column has the most missingness.  
-From variable missing plots, it is often easy to identify variables that might be driving any missing data problems, and they can quantify the extent to which a given column has missing values on the scale of raw percentages.
+*Variable missing plots* display the overall missingness in each column of a dataset and present the results in order of which column has the most missingness. From variable missing plots, it is often easy to identify variables that might be driving any missing data problems, and they can quantify the extent to which a given column has missing values on the scale of raw percentages.
 
 Figure \@ref(fig:figs2) shows a variable missing plot for the Tanner-Smith et al. data. 
 Each variable is listed on the $y$-axis, and the line extending along the $x$-axis indicates the fraction of rows for which a variable is missing.
@@ -467,11 +468,11 @@ We would discourage interpreting the size of the differences between the raw and
 For example, the raw percentage column and Figure \@ref(fig:figs2) would suggest missingness in the hours per week that Group 1 spent  in treatment (24% missing) may be much less acute than missingness in the hours per week Group 2 spent in treatment (over 46% missing).
 But the weighted percentage indicates that the effects for which Group 1's hours per week variable is missing make up nearly 37% of the total precision of effect estimates. 
 Hence, excluding those effects in a complete-case or available-case analysis would reduce how accurately the relationship between Group 1's treatment intensity and the intervention's impact can be assessed.
-This reduction in accuracy would likely be greater what is indicated by the raw percentages.
+This reduction in accuracy would likely be greater than what is indicated by the raw percentages.
 
 
 
-```{r tab1, echo=FALSE, message = F, fig.pos = 'h'}
+```{r pcts, echo=FALSE, message = F, fig.pos = 'h'}
 tab1 <- mis_ma_var_summary(data, se_col = "se_g", truncate = TRUE) %>%
   arrange(desc(wtpct_miss)) %>%
   mutate_if(is.double, round, digits = 1) %>%
@@ -676,7 +677,7 @@ plot_grid(PlotC, PlotD,
           nrow=2)
 ```
 
-Comparing Figures \@ref(fig:esseg1) and \@ref(fig:esseg2) reveals that missingness in variables pertaining to Group 1's treatment has a stronger relationship the effect size estimates and standard errors than does missingness in variables pertaining to Group 2's treatment. 
+Comparing Figures \@ref(fig:esseg1) and \@ref(fig:esseg2) reveals that missingness in variables pertaining to Group 1's treatment has a stronger relationship with the effect size estimates and standard errors than does missingness in variables pertaining to Group 2's treatment. 
 Omitting effects for which Group 1's treatment duration or intensity are missing would seemingly have a stronger impact on an analysis. 
 
 
@@ -695,6 +696,8 @@ Our analysis also revealed that missingness in some variables may be more severe
 Variables quantifying the intensity and duration of treatment in a study were frequently missing together.
 Finally, we identified some variables whose missingness appears to be related to the size and standard errors of effect size estimates (e.g., Group 1 hours of treatment per week and treatment duration in days), which suggests that missingness was not MCAR.
 
+Conducting an EMA as outlined here provides insight into the evidence base in a meta-analysis. In the example, we have scant information about the duration and intensity of Group 2 interventions and thus can make limited inferences about how treatment effectiveness varies as a function of the comparison group’s treatment. Presenting EMA results can highlight both the gaps and the areas where effect size models are best supported by the data. 
+
 How to proceed from an EMA will depend on what is known about the data collection and missingness.
 Based on our analysis, we would be cautious of using analysis methods that assume data are MCAR, such as complete-case analysis or shifting units of analysis.
 Tanner-Smith et al. used the EM algorithm to estimate their meta-regression models, which assumes data are MAR.
@@ -702,14 +705,15 @@ This is consistent with our findings, and it is a common assumption made in anal
 
 The analyses presented, while suggestive, do have several limitations. 
 First, data curators and analysts who extract data for a meta-analysis can and perhaps should play a larger role in EMA. 
-While our post-hoc analysis had limited input from these individuals, they will almost certainly have some insight about what made particular variables difficult to extract from the literature, and why that may have occurred 
+While our post-hoc analysis had limited input from these individuals, they will almost certainly have some insight about what made particular variables difficult to extract from the literature, and why that may have occurred.
+Data curators and analysts can also use the information from EMA to consider alternative ways to create variables from the data that is provided.
 
 Second, it will be impossible to distinguish between data that are MAR or MNAR using the methods demonstrated in this article.
 This is because MNAR assumes that missingness is related to data that is not actually observed. 
 Thus, in order to study or confirm whether data are MNAR would require some knowledge of the unobserved data.
 Analogous limitations have been noted in tests for whether data are MAR or MNAR [@molenberghsEveryMissingnessNot2008; @rhoadsProblemsTestsMissingness2012].
 
-The methodology discussed in this tutorial could be used to create different visualizations than were presented in this paper. Our complementary material develops on these results with a vignette that contains further visualizations and executable code implemented in the `R` computing language. Moreover, even though the data on substance abuse interventions for adolescents has a particular structure with information at the effect size level for each study, the tools exposed in this tutorial can be easily applied to other dataset structures. 
+The methodology discussed in this tutorial could be used to create different visualizations than were presented in this paper. Our complementary material develops on these results with a vignette that contains further visualizations and executable code implemented in the `R` computing language. Even though the data on substance abuse interventions for adolescents has a particular structure with information at the effect size level for each study, the tools exposed in this tutorial can be easily applied to other dataset structures. 
 
 
 \newpage

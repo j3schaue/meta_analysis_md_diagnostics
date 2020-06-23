@@ -1,5 +1,6 @@
 ---
-title: "Notes on Complete- and Available-Case Analyses"
+title: "Some Properties of Complete- and Available-Case Meta-Regressions with Missing Covariates"
+csl: ../addons/apa.csl
 output:
   bookdown::pdf_document2: 
     fig_caption: yes
@@ -8,6 +9,7 @@ output:
     toc: false
   bookdown::word_document2: 
     reference_docx: ../addons/styles_word.docx
+bibliography: ../addons/cca_references.json
 ---
 
 # Writing Notes {-}
@@ -46,11 +48,11 @@ T_i | X_i, v_i, \eta = X_i^T \beta + u_i + e_i
 \end{equation}
 Here, $\beta \in \mathbb{R}^p$ is the vector of regression coefficients. The term $e_i$ is the estimation error for effect $i$ and $V[e_i] = v_i$, and $u_i$ is the random effect such that $u_i \perp e_i$ and $V[u_i] = \tau^2$. 
 
-This is the standard random effects meta-regression model, and it is also consistent with subgroup analysis models. 
+This is the standard random effects meta-regression model, and it is also consistent with subgroup analysis models [@hedgesFixedRandomeffectsModels1998; @cooperHandbookResearchSynthesis2019]. 
 The parameter $\eta = [\beta, \tau^2]$ refers to the parameters of model. 
 Under a fixed-effects model, it is assumed that $\tau^2 = 0$, in which case $\eta = \beta$, and $u_i \equiv 0$.
 
-A common assumption in random effects meta-regression is that the random effects $u_i$ are independent and normally distributed with mean zero and variance $\tau^2$: 
+A common assumption in random effects meta-regression is that the random effects $u_i$ are independent and normally distributed with mean zero and variance $\tau^2$ [@hedgesFixedRandomeffectsModels1998; @hedgesRandomEffectsModel1983; @lairdStatisticalMethodsCombining1990; @viechtbauerBiasEfficiencyMetaanalytic2005]: 
 \[
 u_i \sim N(0, \tau^2).
 \]
@@ -59,71 +61,100 @@ In that case, the distribution $p(T | X, v, \eta)$ can be written as
 p(T_i | X_i, v_i, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v_i)}} e^{-\frac{(T_i - X_i^T \beta)^2}{2(\tau^2 + v_i)}}
 \label{eq:full_data_prob}
 \end{equation}
-Note that this assumes that all covariates are observed, and is referred to as the *complete-data likelihood function*.
+Thus, the joint likelihood for all $k$ effects can be wrtiten as:
+\begin{equation}
+p(\mathbf{T} | \mathbf{X}, \mathbf{v}, \eta) = [2\pi(\tau^2 + v_i)]^-{k/2} e^{-\sum_{i=1}^k \frac{(T_i - X_i^T \beta)^2}{2(\tau^2 + v_i)}}
+\label{eq:full_data_prob_vec}
+\end{equation}
+where $\mathbf{T} \in \mathbb{R}^k$ is the vector of effect estimates, $\mathbf{v} \in \mathbb{R}^k$ is the vector of estimation variances, and $\mathbf{X} \in \mathbb{R}^{k \times p}$ is the matrix of covariates. 
+Note that the functions in both (\ref{eq:full_data_prob}) and (\ref{eq:full_data_prob_vec}) assume that *all* of the $p-1$ covariates are observed. 
+Equation (\ref{eq:full_data_prob_vec}) is referred to as the *complete-data likelihood function* [@gelmanBayesianDataAnalysis2014; @littleStatisticalAnalysisMissing2002].
 We note that a meta-regression with no missing data will be accurate if the complete-data model is correctly specified. 
 Thus, to illustrate the properties of incomplete data meta-regression, we assume that the complete-data model is correctly specified.
+
+Regression coefficient estimates for the complete-data model when there is no missing data is given by
+\begin{equation}
+\hat{\beta} = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{T}
+\label{eq:betahat_cd}
+\end{equation}
+Here, $\mathbf{W} = diag(v_i + \tau^2)$ is the diagonal matrix of weights.
+The covariance matrix of $\hat{\beta}$ is given by
+\begin{equation}
+V[\hat{\beta}] = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} 
+\label{eq:v_betahat_cd}
+\end{equation}
+
 
 Let $R_i$ be a vector of response indicators for effect $i$. 
 Each element $R_{ij}$ of $R_i$ corresponds to a variable in a meta-analytic dataset. 
 The $R_{ij}$ take a value of either 0 or 1: $R_{ij} = 1$ indicates the corresponding variable in the meta-analysis is observed and $R_{ij} = 0$, indicates a that the corresponding variable is not observed.
-For the data $[T_i, v_i, X_i]$, $R_i \in \{0,1\}^{p + 1}$ is a vector of 0s and 1s of length $p+1$.
+For the data $[T_i, v_i, X_i]$, $R_i \in \mathcal{R} \equiv \{0,1\}^{p + 1}$ is a vector of 0s and 1s of length $p+1$.
 If $v_i$ were missing, then $R_{i2} = 0$.
 
+
 Our focus in this article is on missing covariates, and we assume that $T_i$ and $v_i$ are observed for every effect of interest in a meta-analysis. 
-Thus, we amend the notation so that $R_i \in \{0, 1\}^{p-1}$ and $R_{ij} = 1$ if $X_{ij}$ is observed and $R_{ij} = 0$ if $X_{ij}$ is missing.
+Thus, we amend the notation so that $R_i \in \mathcal{R} \equiv \{0, 1\}^{p-1}$ and $R_{ij} = 1$ if $X_{ij}$ is observed and $R_{ij} = 0$ if $X_{ij}$ is missing.
+The set $\mathcal{R}$ contains any possible missingness pattern for missing covariates.
 Note that this omits the intercept term described above.
 For instance if $X_i = [1, X_{i1}]$ with $X_{i1} \in \mathbb{R}$, then $R_i$ is a scalar such that $R_i = 1$ if $X_{i1}$ is observed, and $R_i = 0$ if $X_{i1}$ is missing.
+Note that $R_i$ can take one of many values of $r \in \mathcal{R} \equiv \{0, 1\}^{p-1}$.
+
+The mechanism by which missingness arises is typically modelled through the distribution of $R$. Let $\psi$ denote the parameters that index the distribution of $R$ so that the probability mass function of $R$ can be written as $p(R | T, X, v, \psi)$.
+Analyses of incomplete data usually depend on some assumptions about $p(R | T, X, v, \psi)$, which are discussed in the following sections.
 
 Denote $O = \{(i, j): R_{ij} = 1\}$ as the indices of covariates that are observed and $M = \{(i, j): R_{ij} = 0\}$ be the set of indices for missing covariates. 
 Then, the complete-data model can be written as 
 \begin{equation}
-p(T_i | X_i, v_i, \eta) = p(T_i | X_{iO}, X_{iM}, v_i, \eta). 
+p(\mathbf{T} | \mathbf{X}, \mathbf{v}, \eta) = p(\mathbf{T} | \mathbf{X}_{O}, \mathbf{X}_{M}, \mathbf{v}, \eta). 
 \label{eq:full_data_prob_mis}
 \end{equation}
-Note that the complete-data model depends on $X_{iM}$, which are unobserved. 
+Note that the complete-data model depends on entries of $\mathbf{X}_{M}$, which are unobserved. 
 
+In the context of a complete meta-analytic dataset, $\mathbf{X} = [X_1, X_2, \ldots, X_k]^T$ would describe the complete matrix of predictors, where $\mathbf{X}_O$ would indicate the entries of $\mathbf{X}$ that are observed and not missing.
+As argued below, common approaches in meta-regression with incomplete data involve using a matrix that omits rows and/or columns of the complete covariate matrix $\mathbf{X}$.
+Denote $\mathbf{X}_A$ as the matrix of covariates used in the analysis, where $\mathbf{X}_A$ is generated by removing rows and/or columns from $\mathbf{X}$ so that no entry of $\mathbf{X}_A$ is missing.
 
 
 # Conditional Incomplete Data Meta-Regression
 
 When meta-analytic datasets are missing covariates, analyses involve incomplete data. 
-In practice, meta-regressions of incomplete data have largely relied on one of two approaches: complete-case analyses and available case analyses. 
-A complete-case analysis (CCA) includes only effects for which all covariates of interest are observed, which means that $R_i = [1, \ldots, 1] = \mathbf{1}$ for all effects included in the analysis.
-In such cases, inferences are based on the conditional distribution of $T_i | X_i, v_i, R_i = \mathbf{1}$ for some missing data pattern $r \in \{0,1\}^{p-1}$.
+In practice, meta-regressions of incomplete data have largely relied on one of two approaches: complete-case analyses and available-case analyses [@pigottHandlingMissingData2019; @pigottMissingPredictorsModels2001; @tiptonCurrentPracticesMetaregression2019; @tiptonHistoryMetaregressionTechnical2019]. 
+A complete-case analysis (CCA) includes only effects for which all covariates of interest are observed, which means that $R_i = [1, \ldots, 1] = \mathbf{1}$ for all effects included in the analysis [@vanbuurenFlexibleImputationMissing2018].
+Therefore, complete-case analyses provide inferences for the conditional distribution of $T_i | X_i, v_i, R_i = \mathbf{1}$.
 
-Available-case meta-regressions typically amount to including a subset of relevant covariates that are completely observed. 
+Available-case meta-regressions typically amount to including a subset of relevant covariates that are completely observed [@pigottHandlingMissingData2019; @tiptonCurrentPracticesMetaregression2019]. 
 For instance, if two covariates $X_1$ and $X_2$ are of interest, an available-case analysis often involves regressing effects on $X_1$ (excluding $X_2$) and then on $X_2$ (excluding $X_1$). 
-Analyses of this sort have been referred to as *shifting units of analysis* in the meta-analytic literature, and in this article we refer to them as *shifting-cases analyses* (SUA).
+Analyses of this sort have been referred to as *shifting units of analysis* in the meta-analytic literature [@cooperResearchSynthesisMetaanalysis2017]. In this article we refer to this analytic approach as a *shifting-cases analysis* (SCA).
 
-A shifting-cases analysis is equivalent to including observations for which $R_i$ fall into some set of missingness patterns $\mathcal{R}_j$.
-For instance, including effects for which $X_1$ is observed and omitting $X_2$ from the model means that the analysis include effects for which both $X_1$ and $X_2$ are observed (i.e., $R = [1, 1]$), as well as effects for which $X_1$ is observed, but $X_2$ is missing (i.e., $R = [1, 0]$).
-In this formulation, available-case inferences are based on the distribution of $T_i | X_i, v_i, R_i \in \mathcal{R}_j$ for some $\mathcal{R}_j \subset \mathcal{R}$.
+A shifting-cases analysis is equivalent to including observations for which $R_i$ falls into some set of missingness patterns $\mathcal{R}_j$. In this formulation, available-case inferences are based on the distribution of $T_i | X_i, v_i, R_i \in \mathcal{R}_j$ for some $\mathcal{R}_j \subset \mathcal{R}$.
+For instance, including effects for which $X_1$ is observed and omitting $X_2$ from the model means that the analysis incorporates effects for which both $X_1$ and $X_2$ are observed (i.e., $R = [1, 1]$), as well as effects for which $X_1$ is observed, but $X_2$ is missing (i.e., $R = [1, 0]$). This would imply that $\mathcal{R}_j = \{[1, 1], [1, 0]\}$.
 
-Note that both complete- and available-case analyses condition on the value of $R_i$. 
-In that sense, we can see both of these approaches as *conditional on missingness*. Because both models above are conditional, they are not necessarily identical to the complete-data model, which is the model of interest, because the complete-data model does not condition on $R_i$.
+Because both complete- and available-case analyses condition on the value of $R_i$, they can be viewed as *conditional on missingness*. 
+Models that are conditional on missingness are not necessarily identical to the complete-data model, which is the model of interest, because the complete-data model does not condition on $R_i$.
 Yet, the analytic approaches of complete- and available-case analyses proceed as if the complete-data and conditional models are equivalent. 
 Doing so ignores the sources and impacts of missingness, and can lead to inaccurate results.
 
 The complete-data model can be related to the conditional models through the distribution of missingness $R_i$. 
-This approach is referred to as a *selection model* in the missing data literature.
-Let $\psi$ parameterize the distribution of $R$ given the observed and unobserved data.
+This approach is referred to as a *selection model* in the missing data literature [@gelmanBayesianDataAnalysis2014; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018].
 We can write a selection model as:
 \begin{equation}
 p(T_i | X_i, v_i, R_i = r, \eta, \psi) 
   = \frac{p(R_i = r | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta)}{p(R_i = r | X_i, v_i, \psi, \eta)} 
 \label{eq:selection_model}
 \end{equation}
-This describes the conditional model as a function of the complete-data model $p(T | X, v, \eta)$ and a selection model $p(R_i = r | T_i, X_i, v_i, \psi)$ that gives the probability that a given effect and its covariates are used in the analysis.
-The denominator on the right hand side of (\ref{eq:selection_model}) is the probability of a missingness pattern $r$ given the estimation error variance $v_i$ and the observed and unobserved covariates in the vector $X_i$, and can be written as
+where $\psi$ indexes the distribution of $R | T, X, v$. 
+This describes the conditional model as a function of the complete-data model $p(T | X, v, \eta)$ and a selection model $p(R_i = r | T_i, X_i, v_i, \psi)$ that gives the probability that a given set of covariates are observed.
+The denominator on the right hand side of (\ref{eq:selection_model}) is the probability of observing the missingness pattern $r$ given the estimation error variance $v_i$ and the observed and unobserved covariates in the vector $X_i$, and can be written as
 \begin{equation}
 p(R_i = r | X_i, v_i, \psi, \eta) = \int p(R_i = r | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta) dT 
 \label{eq:pr_xv}
 \end{equation}
-Note that $R_i$ can take one of many values of $r \in \mathcal{R} \equiv \{0, 1\}^{p-1}$.
 
-A standard approach for modelling missingness in covariates is to assume $R_i$ follows some log-linear distribution. 
+A standard approach for modelling missingness in covariates is to assume $R_i$ follows some log-linear distribution [@agrestiCategoricalDataAnalysis2013]. 
+Various authors have described approaches to modelling $R$ for missing covariates in generalized linear models that include logistic and multinomial logistic models [@ibrahimIncompleteDataGeneralized1990; @ibrahimMissingCovariatesGeneralized1999; @lipsitzConditionalModelIncomplete1996]. 
+Thus one class of models for missingness would involve the logit probability of observing some missingness pattern $R_i = r_j \in \mathcal{R}$:
 \begin{equation}
-\text{logit} P[R_i = r_j | T_i, X_i, v_i] = \sum_{i = 0}^n \psi_{ij} f_{ij}(T_i, X_i, v_i) 
+\text{logit} P[R_i = r_j | T_i, X_i, v_i] = \sum_{m = 0}^n \psi_{mj} f_{mj}(T_i, X_i, v_i) 
 \label{eq:r_loglinear}
 \end{equation}
 where $f_{0j}(T_i, X_i, v_i) = 1$, so that $\psi_{0j}$ would be the intercept term for the logit model for missingness pattern $r_j$.
@@ -146,21 +177,59 @@ While log-linear models are not the only applicable or appropriate model for mis
 
 # Missingness Mechanisms
 
-[HOLD FOR DISCUSSION OF MCAR, MAR, MNAR, AND IGNORABILITY]
+Analyses of incomplete data often require some assumption about why data are missing, which is referred to as the missingness *mechanism*.
+@rubinInferenceMissingData1976 defined three types of mechanisms in terms of the distribution of $R$.
+Data could be missing completely at random (MCAR), which means that the probability that a given value is missing is independent of all of the observed or unobserved data:
+\[
+  p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) \propto \psi
+\]
+MCAR implies that probability that a given value is missing is unrelated to anything observed or unobserved.
+
+Covariates could be missing at random (MAR), which implies the distribution of missingness $R$ depends only on observed data:.
+\[
+  p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) = 
+  p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O,\mathbf{v}, \psi)
+\]
+MAR differs from MCAR in that missingness might be related to observed values. 
+As an example, if with larger standard errors are less likely to report the racial composition of their samples, then missingness would depend on the (observed) estimation error variances. 
+Data missing according to this mechanism would violate an assumption of MCAR, since missingness is related to an observed value.
+
+Finally, data are said to be missing not at random (MNAR) if the distribution of $R$ depends on unobserved data in some way.
+In the context of the meta-regression data, this would imply that $R$ is related to $\mathbf{X}_M$, so that the probability of a covariate not being observed depends on the value of the covariate itself.
+For instance, data would be MCAR if studies with larger standard errors and a greater proportion of minorities are less likely to report the racial composition of their samples because the likelihood that racial composition is not reported will depend on the composition itsef.
+
+A related concept in missing data is that of *ignorability*, which means that the missingness pattern does not contribute any additional information.
+When missing data are ignorable, it is not necessary to know (or estimate) $\psi$ in order to conduct inference on $\eta$ [@gelmanBayesianDataAnalysis2014; @grahamMissingData2012; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018].
+In practice, missing data are ignorable if they are MAR and if $\psi$ and $\eta$ are distinct.
+
+
 
 # Issues with Conditional Inference on Incomplete Data
 
-Both complete- and shifting-case ignore information, which can lead to biased meta-regression estimates. 
-Complete-case analyses omit missing data.
-Shifting-case analyses omit covariates *and* missing data.
-Neither typically make any adjustments for the information they exclude, which is an approach known to induce bias in a variety of statistical analyses.
+Both complete- and shifting-case analyses ignore information, which can lead to biased meta-regression estimates. 
+Complete-case analyses omit effects with missing covariates, so that $\mathbf{X}_R \equiv \mathbf{X}_A$ is a matrix containing the rows of $\mathbf{X}$ that are not missing any covariates.
+Shifting-case analyses omit covariates *and* missing data, so that $\mathbf{X}_U \equiv \mathbf{X}_A$ contains a subset of the columns of $\mathcal{X}$ and only rows from that subset that are not missing any variables.
 
-The bias induced by complete- or shifting-case analyses will depend on the conditional expectation $E[T_i | X_i, v_i, R_i = r]$, and how it differs from $E[T_i | X_i, v_i] = X_i^T\beta$.
-It is possible to derive an approximation for $E[T_i | X_i, v_i, R_i = r]$ when $R_i | T_i, X_i, v_i$ follows a log-linear distribution as described in the previous section. 
-
-**Proposition:** Suppose $p(T_i | X_i, v_i)$ is the standard fixed- or random effects meta-regression model in equation (\ref{eq:full_data_prob}), and suppose $p(R_i = r_j | T_i, X_i, v_i) = G_j(T_i, X_i, v_i)$ follows the log-linear model in (\ref{eq:r_loglinear}). If we denote $\mathcal{D}_j = \{k: f_{kj} \text{ depends on } T_i\}$, then 
+Neither analytic approach typically makes any adjustments for the information they exclude. 
+They therefore estimate regression coefficients by 
+\[
+\hat{\beta} = (\mathbf{X}_A^T \mathbf{W}_A \mathbf{X}_A)^{-1} \mathbf{X}_A^T \mathbf{W}_A \mathbf{T}_A
+\]
+These estimates will be biased under many conditions, and that bias can be expressed by:
 \begin{equation}
-E[T_i | X_i, v_i, R_i = r] \approx X_i^T\beta + (1 - G_j(X_i^T\beta, X_i, v_i))(\tau^2 + v_i)\sum_{k \in \mathcal{D}} \psi_{kj} f_{kj}'(X_i^T \beta, X_i, v) 
+(\mathbf{X}_A^T \mathbf{W}_A \mathbf{X}_A)^{-1} \mathbf{X}_A^T \mathbf{W}_A E[\mathbf{T}_A | \mathbf{X}, \mathbf{v}, \mathcal{R}] - \beta
+\label{eq:bias_gen}
+\end{equation}
+where $\mathbf{T}_A$ is a subset of effects from $\mathbf{T}$ that are included in the analysis, and $\mathbf{W}_A$ is an analogous subset of $\mathbf{W}$.
+
+Equation (\ref{eq:bias_gen}) shows that the bias induced by complete- or shifting-case analyses will depend on the conditional expectation $E[T_i | X_i, v_i, R_i = r]$, and how it differs from $E[T_i | X_i, v_i] = X_i^T\beta$.
+The expectation $E[T_i | X_i, v_i, R_i = r]$ will depend on the selection model given in equation (\ref{eq:selection_model}), which in turn depends on the missingness mechanism $p(R | T, X, v)$.
+
+It is possible to derive an approximation for $E[T_i | X_i, v_i, R_i = r]$ when $R_i | T_i, X_i, v_i$ follows a log-linear distribution as described in equation (\ref{eq:r_loglinear}). 
+
+**Proposition:** Suppose $p(T_i | X_i, v_i)$ is the standard fixed- or random effects meta-regression model in equation (\ref{eq:full_data_prob}), and suppose $p(R_i = r_j | T_i, X_i, v_i) = G_j(T_i, X_i, v_i)$ follows the log-linear model in (\ref{eq:r_loglinear}). If we denote $\mathcal{D}_j = \{m: f_{mj} \text{ depends on } T_i\}$, then 
+\begin{equation}
+E[T_i | X_i, v_i, R_i = r] \approx X_i^T\beta + (1 - G_j(X_i^T\beta, X_i, v_i))(\tau^2 + v_i)\sum_{m \in \mathcal{D}} \psi_{mj} f_{mj}'(X_i^T \beta, X_i, v) 
 \label{eq:conditional_expectation}
 \end{equation}
 
@@ -205,6 +274,9 @@ In that case only a Taylor expansion of the denominator of the log-linear model 
 # Complete-Case Analyses
 
 A common approach in meta-regression with missing covariates is to use a complete-case analysis. 
+This approach simply omits rows in the data for which any covariate is missing. 
+Thus, this analysis method only uses effects and covariates for which $R = [1, \ldots, 1] = \mathbf{1}$. 
+
 There are conditions under which the complete case analysis will lead to unbiased estimates. 
 First, if the covariates are MCAR, so that $R \perp T, X, v$, then 
 \[
@@ -272,8 +344,7 @@ Thus, the bias of the regression coefficients is given by
 
 
 - If the likelihood for conditional inference can be written free of $R$ then conditional inference may be appropriate.
-- If we're worried about bias, then the PMM or selection model can help us understand bias. PMM may be most useful for this. Show formulas.
-- If we're worried about uncertainty, selection models can help unpack that.
+
 
 
 ## Example: Complete-Case Analysis with a Single Binary Covariate 
@@ -343,7 +414,7 @@ E[\hat{\beta}_1]
   & = \beta_1 + \left[\frac{1 - G(1)}{w_{1\cdot}} - \frac{1 - G(0)}{w_{0\cdot}}\right]\psi_2 + \frac{1 - G(1)}{w_{1\cdot}}\psi_3
 \end{align*}
 
-- Plots?
+- Plots? [NOTE: How do relate the $\psi$ parameters to the $\beta$ parameters?]
 - Continuous covariates?
 
 For a single continuous covariate, note that 
@@ -362,53 +433,53 @@ It is not immediately clear that these simplify. Perhaps we leave this result ou
 
 # Available Cases and Shifting Units of Analysis
 
-When there are multiple covariates of interest, each of which has some missing data, there may only be a few effects for which all covariates of interest are observed. When that happens, a complete case analysis can be unfeasible. A common solution to this in meta-analysis is to use an available-case analysis.
+When there are multiple covariates of interest, each of which has some missingness, there may only be a few effects for which all covariates of interest are observed. When that happens, a complete case analysis can be unfeasible. A common solution to this in meta-analysis is to use an available-case analysis [@pigottHandlingMissingData2019].
 
-In meta-analysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. Referred to as "sifting units of analysis" (SUA), this approach inherently conditions on a set of missingness patterns: $R \in \{\tilde{r}_1, \ldots, \tilde{r}_n\}$. 
-To see this, note that SUA amounts to a complete-case analysis on a subset of covariates. Thus $R_j = 1$ for those covariates $X_j$ that are observed and included in the analyses, but $R_k \in \{0, 1\}$ for covariates $X_k$ that are excluded; that is, excluded covariates may be observed or unobserved. 
+In meta-analysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest [@cooperResearchSynthesisMetaanalysis2017; @tiptonCurrentPracticesMetaregression2019]. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. Referred to as "shifting units of analysis"---and referred to in this article as a shifting-case analysis---this approach inherently conditions on a set of missingness patterns $R \in \mathcal{R}_j$ where $mathcal{R}_j \subset \mathcal{R}$.
+To see this, note that a shifting-case analysis amounts to a complete-case analysis on a subset of covariates. 
+Thus $R_{ij} = 1$ for those covariates $X_{ij}$ that are observed and included in the analyses, but $R_{ik} \in \{0, 1\}$ for covariates $X_{ik}$ that are excluded; that is, excluded covariates may be observed or unobserved. 
 
-Let $U = \{j: X_j \text{ included in model}\}$ denote the covariates included in a SUA model.
-Let $E$ be the complement of $U$ so that it indexes all of the covariates excluded from the SUA model.
-Further, let $\mathcal{R} = \{R: R_{j} = 1, \forall j \in U\}$. 
-Note that $\mathcal{R}$ contains missingness patterns $R$ such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
-Then, the SUA model can be written as:
+Let $U = \{j: X_j \text{ in SCA model}\}$ index the covariates included in a SCA model.
+Let $E$ be the complement of $U$ so that it indexes all of the covariates excluded from the SCA model.
+Let $O(U) = \{i: R_{ij} = 1, j \in U\}$ be the effect sizes for which $X_{iU}$ are observed, and $M(U)$ be the effect sizes for which $X_{iU}$ are missing.
+Further, let $\mathcal{R}_j = \{R \in \mathcal{R}: R_{ij} = 1, \forall j \in U\}$. 
+Note that $\mathcal{R}_j$ contains missingness patterns $R$ such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
+Then, the shifting-case model can be written as:
 \[
-p(T | X_{U}, v, R \in \mathcal{R}) = \frac{P[R \in \mathcal{R} | T, X_{U}, v] p(T | X_{U}, v)}{P[R \in \mathcal{R} | X_{U}, v]}
+p(T_{ij} | X_{iU}, v_i, R_i \in \mathcal{R}_j) = \frac{p(R_i \in \mathcal{R}_j | T_i, X_{iU}, v_i) p(T_i | X_{iU}, v_i)}{p(R_i \in \mathcal{R}_j | X_{iU}, v_i)}
 \]
 
 The model above is slightly different from the models in the previous sections. 
-Note that all of the functions involved condition only on the included covariates $X_U$. 
-Thus, the function $p(T | X_U, v)$ is analogous to the complete-data likelihood $p(T | X, v)$, however it is important to note that the two functions are not necessarily equivalent because the former conditions only on $X_U$ and not the full set of covariates $X$.
+Note that all of the functions involved condition only on the included covariates $X_{iU}$. 
+Thus, the function $p(T_i | X_{iU}, v_i)$ is analogous to the complete-data likelihood $p(T | X, v)$, however it is important to note that the two functions are not necessarily equivalent because the former conditions only on $X_{iU}$ and not the full set of covariates $X_i$.
 
-There are two sources of bias that arise in SUA models. 
-The first is due to the fact that $p(T | X_U, v)$ need not be equivalent to  $p(T | X, v)$. 
+There are two sources of bias that arise in SCA models. 
+The first is due to the fact that $p(T_i | X_{iU}, v_i)$ need not be equivalent to  $p(T_i | X_i, v_i)$. 
 These models would only be equivalent of $T \perp X_E | X_U, v$. 
 That is, unless the excluded covariates are completely unrelated to effect size (given the covariates included in the SUA model), then even if none of the included covariates had any missingness, there would be bias in an SUA model.
 
-The second source arises from the fact that SUA approaches omit effects for which any of the included covariates are missing. 
-That is, if any $X_{ij}$ is missing for $j \in U$, then SUA ignores the effect $T_i$ and its associated covariates. 
+The second source arises from the fact that SCA approaches omit effects for which any of the included covariates are missing. 
+That is, if any $X_{ij}$ is missing for $j \in U$, then a SCA ignores the effect $T_i$ and its associated covariates. 
 
-Taken together, these two facets of the conditional SUA model in the expression above suggest a very strict set of conditions for which SUA analyses are unbiased. 
+Taken together, these two facets of the conditional SUA model in the expression above suggest a very strict set of conditions for which SCAs are unbiased. 
 First, $R \perp (T, X_U) | v$, so that missingness must be independent of effect size estimates and any included covariates conditional on the (completely observed) estimation error variances.
 This is a similar, though slightly weaker assumption as that made for unbiased complete-case analyses. 
 Second, $T \perp X_E | X_U, v$, which means that any excluded covariates must be completely irrelevant given the included covariates. 
 This amounts to $\beta_j = 0$ for all $j \in E$.
 Alternatively, we may write $(T, X_U) \perp X_E | v$, which would imply that the complete data likelihood involves no interactions between $X_U, X_E$ and that $X_U$ and $X_E$ are completely orthogonal.
+Note that both of these conditions must hold in order for a SCA to be unbiased.
 
-When assumptions about both the missingness mechanism and the relevance of $X_E$ doe not hold, then SUA will be biased. 
+When assumptions about both the missingness mechanism and the relevance of $X_E$ do not hold, then SCAs will be biased. 
 Just how biased will depend on a number of factors, including the amount of missingness, the missingness mechanism, and the relevance of any excluded covariates.
 
-The matrix representation of the bias when no data are missing is:
+When no data are missing from $X_U$, then all effects are included in the analysis and the bias is given by:
 \begin{align*}
-E[(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{T}] 
-  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{X}\beta \\
-  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} (\mathbf{X}_U \beta_U + \mathbf{X}_E \beta_E) \\
-  & = \beta_U + (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
+E[(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{T}] - \beta_U
+  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{X}\beta - \beta_U\\
+  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} (\mathbf{X}_U \beta_U + \mathbf{X}_E \beta_E) - \beta_U\\
+  & = \beta_U + (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E - \beta_U \\
+  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
 \end{align*}
-Thus, the bias of excluding covariates is given by:
-\[
-(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
-\]
 
 This bias arises even if no data are missing. 
 When data are missing, there is a second source of bias that can arise due to missingness. This bias will depend on $E[T | X, v, R \in \mathcal{R}_j]$.
@@ -421,29 +492,43 @@ p(T | X, v, R \in \mathcal{R}_j)
 
 Using the approximation from the proposition above, we can write:
 \[
-E[T | X, v, R \in \mathcal{R}_j] = \frac{\sum_{r \in \mathcal{R}_j}p(R = r | X, v) \left[X^T \beta + (1 - G_j(X, v))\right]}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)}
+E[T | X, v, R \in \mathcal{R}_j] = \frac{\sum_{r \in \mathcal{R}_j}p(R = r | X, v) \left[X^T \beta + (1 - G_j(X, v))\sum_{m \in \mathcal{D}_j} \psi_{mj} f_{mj}'(X_i^T \beta, X_i, v)\right]}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)}
 \]
+
+Therefore, the total bias of an SCA estimator can be written as
+\begin{align*}
+& E[(\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \mathbf{T}_O] - \beta_U \\
+  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O E[\mathbf{T}_O | \mathbf{X}_O, \mathbf{v}, \mathbf{R}] - \beta_U \\
+  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \left(X_O \beta + \left[\frac{\sum_{j:R_j \in \mathcal{R}} \pi_{ij} (1 - G_j(X_i^T \beta, X_i, v_i)) (\tau^2 + v_i) \sum_{\mathcal{D}_j} \psi_{kj} f_{kj}'}{\sum_{j:R_j \in \mathcal{R}} \pi_{ij}}\right]\right) - \beta_U \\
+  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \left(X_E \beta_E + \left[\frac{\sum_{j:R_j \in \mathcal{R}} \pi_{ij} (1 - G_j(X_i^T \beta, X_i, v_i)) (\tau^2 + v_i) \sum_{\mathcal{D}_j} \psi_{kj} f_{kj}'}{\sum_{j:R_j \in \mathcal{R}} \pi_{ij}}\right]\right) \\
+\end{align*}
 
 
 
 ## Example: Shifting-Cases Analysis with Two Binary Covariates
 
-Suppose $X = [1, X_1, X_2]$ and that there is missingness in both $X_1$ and $X_2$. Then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only $X_1$ is observed. 
-
+Suppose $X = [1, X_1, X_2]$ and $X_1$ and $X_2$ are binary covariates such that 
+\[
+T = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + u_i + e_i
+\]
+If there is missingness in both $X_1$ and $X_2$, then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only $X_1$ is observed. 
 If missingness is such that $R = [1, 1]$ for very few effect estimates, then a shifting units analysis might involve regressing $T$ on the observed values of $X_1$ and then on the observed values of $X_2$. 
 
 The first regression would take only rows for which $X_1$ is observed. 
 It would use the following estimates:
 \[
-\hat{\beta}_0 = \frac{\sum_{X_i = 0} w_i T_i}{\sum_{X_i = 0}} = \bar{T}_{10}, 
-\qquad \hat{\beta}_1 = \frac{\sum_{X_i = 1} w_i T_i}{\sum_{X_i = 1}} - \hat{\beta}_0
+\hat{\beta}_0 = \frac{\sum_{X_1 = 0} w_i T_i}{\sum_{X_1 = 0} w_i} = \bar{T}_{10}, 
+\qquad \hat{\beta}_1 = \frac{\sum_{X_1 = 1} w_i T_i}{\sum_{X_1 = 1} w_i} - \hat{\beta}_0
 = \bar{T}_{11} - \bar{T}_{10}
 \]
 
-Note that if no $X_1$ were missing then the bias of these estimates is given by
-\[
-
-\]
+Note that if no data were missing then the bias of these estimates is given by
+\begin{align*}
+Bias(\hat{\beta}_0) 
+  & = \beta_2 \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i} = \frac{w_{10}}{w_0} \\
+Bias(\hat{\beta}_1)
+  & = \beta_2 \left(\frac{\sum_{X_1 = 1, X_2 = 1} w_i}{\sum_{X_i = 1} w_i} - \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i}\right) = \beta_2\left(\frac{w_{11}}{w_1} - \frac{w_{10}}{w_0}\right) +\beta_3 \frac{w_{11}}{w_1}
+\end{align*}
 
 However, suppose that some of the $X_1$ and $X_2$ are missing, and that $R$ follows a log-linear model:
 \[
@@ -457,3 +542,13 @@ Then the bias is given by
 
 
 # Discussion
+
+\clearpage
+
+
+# References
+
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\noindent

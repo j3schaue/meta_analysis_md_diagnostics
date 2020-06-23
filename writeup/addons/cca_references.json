@@ -3249,5 +3249,142 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "lairdStatisticalMethodsCombining1990",
+		"type": "article-journal",
+		"abstract": "Advances in science and technology are generally the product of multiple investigations. This article discusses statistical methods for combining empirical results from a series of different experiments or clinical investigations. We delineate the steps an assessor might take in combining data from different studies and provide references for topics not discussed in detail. The article reviews some of the most commonly used statistical techniques for combining results in the medical and social sciences.\n            \n              The expression\n              meta-analysis\n              refers to the practice of using statistical methods to combine the outcomes of a series of different experiments or investigations. The terminology arises because a meta-analysis uses a study as the unit of observation, and, thus, the data point for each study is itself a statistical summary based on an analysis of primary data.",
+		"container-title": "International Journal of Technology Assessment in Health Care",
+		"DOI": "10.1017/S0266462300008916",
+		"ISSN": "0266-4623, 1471-6348",
+		"issue": "1",
+		"journalAbbreviation": "Int J Technol Assess Health Care",
+		"language": "en",
+		"page": "5-30",
+		"source": "DOI.org (Crossref)",
+		"title": "Some statistical methods for combining experimental results",
+		"URL": "https://www.cambridge.org/core/product/identifier/S0266462300008916/type/journal_article",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Laird",
+				"given": "Nan M."
+			},
+			{
+				"family": "Mosteller",
+				"given": "Frederick"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1990",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "cooperResearchSynthesisMetaanalysis2017",
+		"type": "book",
+		"call-number": "H62 .C5859 2017",
+		"edition": "Fifth Edition",
+		"event-place": "Los Angeles",
+		"ISBN": "978-1-4833-3115-7",
+		"number-of-pages": "360",
+		"publisher": "SAGE",
+		"publisher-place": "Los Angeles",
+		"source": "Library of Congress ISBN",
+		"title": "Research synthesis and meta-analysis: a step-by-step approach",
+		"title-short": "Research synthesis and meta-analysis",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
+	},
+	{
+		"id": "agrestiCategoricalDataAnalysis2013",
+		"type": "book",
+		"abstract": "\"A classic in its own right, this book continues to provide an introduction to modern generalized linear models for categorical variables. The text emphasizes methods that are most commonly used in practical application, such as classical inferences for two- and three-way contingency tables, logistic regression, loglinear models, models for multinomial (nominal and ordinal) responses, and methods for repeated measurement and other forms of clustered, correlated response data. Chapter headings remain essentially with the exception of a new one on Bayesian inference for parametric models. Other major changes include an expansion of clustered data, new research on analysis of data sets with robust variables, extensive discussions of ordinal data, more on interpretation, and additional exercises throughout the book. R and SAS are now showcased as the software of choice. An author web site with solutions, commentaries, software programs, and data sets is available\"--",
+		"call-number": "QA278 .A353 2013",
+		"collection-number": "792",
+		"collection-title": "Wiley series in probability and statistics",
+		"edition": "3rd ed",
+		"event-place": "Hoboken, NJ",
+		"ISBN": "978-0-470-46363-5",
+		"number-of-pages": "714",
+		"publisher": "Wiley",
+		"publisher-place": "Hoboken, NJ",
+		"source": "Library of Congress ISBN",
+		"title": "Categorical data analysis",
+		"author": [
+			{
+				"family": "Agresti",
+				"given": "Alan"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2013"
+				]
+			]
+		}
+	},
+	{
+		"id": "viechtbauerBiasEfficiencyMetaanalytic2005",
+		"type": "article-journal",
+		"container-title": "Journal of Educational and Behavioral Statistics",
+		"DOI": "10.3102/10769986030003261",
+		"ISSN": "1076-9986, 1935-1054",
+		"issue": "3",
+		"journalAbbreviation": "Journal of Educational and Behavioral Statistics",
+		"language": "en",
+		"page": "261-293",
+		"source": "DOI.org (Crossref)",
+		"title": "Bias and efficiency of meta-analytic variance estimators in the random-effects model",
+		"URL": "http://journals.sagepub.com/doi/10.3102/10769986030003261",
+		"volume": "30",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2005",
+					9
+				]
+			]
+		}
 	}
 ]
