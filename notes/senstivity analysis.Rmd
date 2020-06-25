@@ -1,0 +1,9 @@
+---
+title: "Sensitivity Analysis"
+output: pdf_document
+---
+
+- Simple sensitivity analysis: $E[T] = \beta_0 + \beta_1 X$. 
+If you're missing some $X$, how would you fill them in to get really differnt estimates of $\beta$ than you get from a CCA?
+
+- General approach: hill climbing.

@@ -1,0 +1,337 @@
+---
+title: "Exploratory Analyses of Missingness in Meta-Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: yeti
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This vignette demonstrates some numerical and visualization tools to summarize and explore missingness in a meta-analytic dataset. 
+The code used in this vignette is implemented in the `R` software language and is based on the `naniar` and `visdat` libraries.
+Additional functions are stored in the `wrappers.R` library.
+
+The purpose of this vignette is to demonstrate used to conduct an exploratory missingness analysis (EMA) as described by [AUTHORS].
+Thus, this vignette can be seen as a companion to that article.
+However, it is important to note that while the tools presented here can be useful for many datasets, they are not exhaustive.
+
+
+# Data
+
+This vignette uses data on substance abuse interventions for adolescents (Tanner-Smith et al., 2016). 
+These data comprise 328 distinct effects of substance abuse interventions on future substance use. 
+Effects arise from 46 studies, and are accompanied by information about estimated treatment effects and variances, as well as over three dozen variables describing how and where the intervention was implemented. 
+While none of the effect estimates are missing, there is missingness on some 18 other variables of interest, including the sample composition of studies and the duration and intensity of the intervention.
+
+Each effect is a contrast between two groups in the study, which are referred to as *Group 1* and *Group 2* in this vignette. 
+Variables corresponding to Group 1 in the data have names that start with *g1*, while variables corresponding to Group 2 have names that start with *g2*.
+
+ 
+# Load Data and Relevant Libraries
+
+We start by loading the necessary packages and the data:
+```{r, message=FALSE}
+# libraries for visualizations
+library(naniar)
+library(visdat)
+
+# code to extend libraries for meta-analysis
+source("wrappers.R")
+
+# library for data wrangling and plotting
+library(tidyverse)
+
+# read in data
+adt_data <- readRDS("adt_data.RDS")
+```
+
+Rows of the data correspond to intervention impacts---referred to in this vignette as *cases*---and columns refer to variables about those impacts, including the estimated effect, the standard error of that estimate, and several other variables regarding effects, several of which are listed in the table below. 
+It is important to note that this vignette includes a greater number of variables than was used in the example EMA in the article, so some of the plots and numerical summaries will differ in this vignette.
+<br>
+
+```{r echo = FALSE, message = FALSE}
+kn <- read_csv("keys_names.csv") %>% 
+  select(Variable = named, 
+         `Variable Name` = raw)
+kable(kn) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br><br>
+
+
+# Summary Visualizations with `visdat`
+
+The `visdat` library visualizes the entire data frame at once.
+The plots below are laid out in tiles that mirror the structure of the data: Rows correspond to cases and columns correspond to variables concerning each case. 
+Missing cells are indicated by black tiles.
+```{r, message=FALSE}
+# summary plots using vis_dat and vis_miss
+gg_summary_covariate_miss(adt_data)
+```
+<br>
+
+The left plot presents a summary of the dataset structure while highlighting variables with missing data; we can initially identify 18 variables of interest with some missingness. Further, we get a better idea of how much data is missing by looking at the second plot (6.2%). 
+
+
+# Summarizing Missingness with `naniar`
+
+The `naniar` package also provides an approach to visualizing overall missingness of the dataset.
+
+We can plot the number of cases missing for each variable.
+In the plot below, variable names appear along the $y$-axis, and lines indicate the number of cases for which each variable is missing.
+```{r}
+# summary of missing variables
+gg_miss_var(adt_data) +
+  labs(y="Missing Cases", 
+       title = "Total Missingness by Variable") +
+  theme(axis.title.x = element_text(size =10),
+        axis.text.y = element_text(size=6))
+```
+<br><br>
+
+Missingness can also be shown as proportions for each variable:
+```{r}
+# summary of missing variables (percentage)
+gg_miss_var(adt_data, show_pct=TRUE) +
+  labs(y="Percentage Missing", 
+       title = "Percent Missingness by Variable") +
+  theme(axis.title.x = element_text(size =10),
+        axis.text.y = element_text(size=6))
+```
+<br><br>
+
+We can also look at the number of missing values in each case. 
+In the plot below, the $y$-axis refers to each case in the data, and the $x$-axis indicates the number of variables that cases are missing.
+```{r}
+# number of missing values in each case
+gg_miss_case(adt_data, order_cases=TRUE) + 
+  labs(x="Number of Cases",
+       title = "Total Missingness by Case")
+```
+<br><br>
+
+Other summary plots show cumulative counts of cells in the data that are missing data on the $y$-axis. 
+The plot below shows the cumulative count of missing fields as a function of case number (i.e., by reading the data from the top row to the bottom).
+```{r}
+#cumulative sum of missing values
+gg_miss_case_cumsum(adt_data) +
+  labs(title = "Cumulative Missingness by Case")
+```
+<br><br>
+
+A similiar plot (below) shows the cumulative count of missing cells ($y$-axis) as a function of the variables in the data (i.e., by reading the data from left to right).
+```{r, echo=FALSE}
+#cumulative sum of missing values
+gg_miss_var_cumsum(adt_data) +
+  labs(title = "Cumulative Missingness by Variable")
+```
+<br><br>
+
+# Explore Missingness Across Categorical Variables
+
+It will often be of interest whether missingness is correlated with the value of observed variables. 
+The following plots show the number of missing cases versus the level of care given to Group 1 (top figure) and Group 2 (bottom figure) in the data.
+Each plot in the figures corresponds to a level of care. The $y$-axis of the plots refer to the cases, and the $x$-axis shows how many variables are missing for each case. 
+In the plot for Group 1, we see that cases where Group 1 received inpatient care are seldom missing other variables.
+```{r, message=FALSE, message = FALSE, warning = FALSE}
+# level of care group 1
+gg_miss_case(adt_data, facet=g1loc) +
+  labs(title = "Missingess vs. Group 1 Level of Care")
+
+# level of care group 2
+gg_miss_case(adt_data, facet=g2loc) +
+  labs(title = "Missingess vs. Group 2 Level of Care")
+```
+<br><br>
+
+An alternative visualization shows the percentage of rows missing data as a function of the levels of a given variable.
+In the plot below, we see missingness in other variables as a function of Group 2's level of care. 
+The plot is laid out in tiles with rows corresponding to variables and columns corresponding to the level of care received by Group 2. 
+Cells are shaded according to the amount of missingness for each variable.
+```{r}
+# level of care group 2
+gg_miss_fct(x=adt_data, fct=g2loc) +
+  labs(x="Group 2 Level of Care") +
+  theme(axis.text.y = element_text(size=7)) +
+  labs(title = "Missingess vs. Group 2 Level of Care")
+```
+<br><br>
+
+
+# Missingness Patterns
+
+A key tool in examining missingness patterns is the upset plot. 
+The upset plot reveals which combinations of variables are often missing from the same cases. 
+The plot below has two panes, one on top, and one on the bottom.
+The bottom pane shows a collection of variables and the dots indicate that a set of variables are missing from the same cases.
+The top pane shows how frequently each pattern of missingness occurs.
+```{r}
+gg_miss_upset(adt_data, nsets=11, nintersects=NA)
+```
+<br><br>
+
+# Missingness and Effect Size Estimates
+
+A key relationship to examine is the correlation of missingness with observed effect sizes or standard errors of effect size estimates. 
+There are several visualizations that can help unpack these relationships.
+
+## Density Plots
+
+A useful object for studying this is a `shadow` data frame that includes columns that indicate whether a variable is missing.
+These columns, which contain a suffix `_NA` to variable names, can be thought of as the response indicator matrix described in the article.
+```{r}
+# build shadow data frame
+adt_shadow <- bind_shadow(adt_data)
+```
+
+Using the shadow data frame, the following code, implemented in the `wrappers.R` script visualizes potential relationships between missingness and effect size estimates. 
+Each figure contains a pair of plots, and each plot shows the density of the effect sizes or standard errors colored according to whether a specified covariate is missing.
+
+```{r}
+# missingness in group 1 hours per week
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g1hrsperweek",
+                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
+                       label = "Group 1 Hrs Per Week")
+
+# missingness in group 1 duration of treatment 
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g1txdays",
+                       adjust = c(1.3, 1.2), 
+                       label = "Group 1 Duration of Treatment (Days)")
+
+
+# missingness in group 2 hours per week
+gg_esse_covariate_miss(adt_shadow,
+                       es_col = "es_g",
+                       se_col = "se_g",
+                       covariate = "g2hrsperweek",
+                       adjust = c(1.3, 1.2), 
+                       label = "Group 2 Hrs Per Week")
+```
+<br><br>
+
+## Forest Plots
+
+An alternative to the above plots is to build more traditional forest plots, common in most meta-analyses, that shade effects according to whether a covariate is missing. 
+The plot below shows a forest plot where effects are shaded by whether Group 1's treatment intensity (in hours per week) is missing.
+Effects are arranged according to missingness of the treatment intensity, and by their standard errors in the plot below.
+Note that this only includes a subset of the the data to better demonstrate these plots. 
+```{r}
+# forest plot
+gg_forest_covariate_miss(
+    adt_shadow %>% sample_frac(.5), # subset of the data
+    es_col = "es_g",
+    se_col = "se_g",
+    covariate = "g1hrsperweek",
+    label = "Group 1 Hrs \nPer Week",
+    arrange_by = "SE"
+    ) +
+labs(title = "Forest Plot vs. Missing Group 1 Treatment Intensity")
+```
+
+
+## Scatterplots
+
+Finally, it may be helpful to view the distribution of missingness in a potential moderator of effects (i.e., a covariate) relative to the relationshpi between that moderator and effects. 
+In the plot below, effect estimates ($y$-axis) are plotted against Group 1's treatment intensity (in hours per week) on the $x$-axis.
+Effects that are missing the treatment intensity variable are shown on the left side of the plot. 
+Each point corresponds to a single effect estimate.
+In the second plot below, those points are sized according to the standard error of each effect estimate.
+```{r}
+# effect size vs group 1 hours per week
+ggplot(adt_data) +
+  aes(x = g1hrsperweek,
+      y = es_g) +
+  geom_miss_point(alpha = .8) +
+  scale_color_manual("Group 1 Hrs Per Week", 
+                     values = c("#56B4E9", "#E69F00")) +
+  labs(title = "Effect Size vs. Group 1 Treatment Intensity")
+
+
+# effect size vs group 1 hours per week
+# points sized by SE
+pointsize <- (1/adt_data$se_g^2) / mean(1/adt_data$se_g^2) * 2
+ggplot(adt_data) +
+  aes(x = g1hrsperweek,
+      y = es_g) +
+  geom_miss_point(alpha = .5, 
+                  size = pointsize) +
+  scale_color_manual("Group 1 Hrs Per Week", 
+                     values = c("#56B4E9", "#E69F00")) +
+  labs(title = "Effect Size vs. Group 1 Treatment Intensity")
+```
+<br><br>
+
+
+# Numerical Summaries
+
+Finally, there are various numerical summaries of missingness.
+There are a series of statistics, including the number and proportion of cells in the data that are missing values. 
+```{r}
+# total number of missing cells
+miss_cells <- n_miss(adt_data) 
+paste("Number of missing cells is", miss_cells)
+
+# total number of complete cells
+comp_cells <- n_complete(adt_data)
+paste("Number of complete cells is", comp_cells)
+
+# proportion of missing cells
+pct_miss_cells <- prop_miss(adt_data)
+paste0("The % of missing cells is ", 
+      100 * round(pct_miss_cells, 3), 
+      "%")
+
+
+# proportion of complete cells
+pct_comp_cells <- prop_complete(adt_data)
+paste0("The % of complete cells is ", 
+      100 * round(pct_comp_cells, 3), 
+      "%")
+```
+
+<br><br>
+It is also useful to compute missingness by variable. 
+The following table shows the number and proportion of cases missing a given variable.
+```{r}
+#Percentage missing by variable
+miss_var_summary(adt_data) %>% 
+  kable(digits = 2) %>% 
+  kable_styling() %>%
+  scroll_box(width = "100%", height = "200px")
+```
+
+<br><br>
+The following table, implemented in `wrappers.R` computes the precision-weighted percentage of missingness in addition to the raw count and proportion of missingness for each variable:
+```{r}
+# same thing, but with a wrapper function for weighted percents
+mis_ma_var_summary(adt_data, "se_g", truncate = TRUE) %>% 
+  kable(digits = 2) %>% 
+  kable_styling() %>%
+  scroll_box(width = "100%", height = "200px")
+```
+<br><br>
+
+Finally, we can tabulate the total number and percentage of variables that are missing for each case:
+```{r}
+# percentage missing by case (Study)
+miss_case_summary(adt_data) %>%
+  kable(digits = 2) %>% 
+  kable_styling() %>%
+  scroll_box(width = "100%", height = "200px")
+```
