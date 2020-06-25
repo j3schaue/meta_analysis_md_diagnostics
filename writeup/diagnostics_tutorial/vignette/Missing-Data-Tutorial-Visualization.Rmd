@@ -24,7 +24,7 @@ This vignette demonstrates some numerical and visualization tools to summarize a
 The code used in this vignette is implemented in the `R` software language and is based on the `naniar` and `visdat` libraries.
 Additional functions are stored in the `wrappers.R` library.
 
-The purpose of this vignette is to demonstrate used to conduct an exploratory missingness analysis (EMA) as described by [AUTHORS].
+The purpose of this vignette is to illustrate how to conduct an exploratory missingness analysis (EMA) as described by [AUTHORS].
 Thus, this vignette can be seen as a companion to that article.
 However, it is important to note that while the tools presented here can be useful for many datasets, they are not exhaustive.
 
