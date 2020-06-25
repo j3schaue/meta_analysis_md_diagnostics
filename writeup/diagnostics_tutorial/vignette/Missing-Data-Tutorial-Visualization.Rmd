@@ -1,11 +1,15 @@
 ---
 title: "Exploratory Analyses of Missingness in Meta-Analysis"
+author: "AUTHOR NAMES REDACTED"
+bibliography: ../../addons/references.json
+csl: ../../addons/alcohol-and-alcoholism.csl
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: yeti
     code_folding: hide
+    number_sections: true
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +31,7 @@ However, it is important to note that while the tools presented here can be usef
 
 # Data
 
-This vignette uses data on substance abuse interventions for adolescents (Tanner-Smith et al., 2016). 
+This vignette uses data on substance abuse interventions for adolescents [@tanner-smithAdolescentSubstanceUse2016]. 
 These data comprise 328 distinct effects of substance abuse interventions on future substance use. 
 Effects arise from 46 studies, and are accompanied by information about estimated treatment effects and variances, as well as over three dozen variables describing how and where the intervention was implemented. 
 While none of the effect estimates are missing, there is missingness on some 18 other variables of interest, including the sample composition of studies and the duration and intensity of the intervention.
@@ -71,7 +75,7 @@ kable(kn) %>%
 
 # Summary Visualizations with `visdat`
 
-The `visdat` library visualizes the entire data frame at once.
+The `visdat` library visualizes the entire data frame at once [@tierneyVisdatVisualisingWhole2017].
 The plots below are laid out in tiles that mirror the structure of the data: Rows correspond to cases and columns correspond to variables concerning each case. 
 Missing cells are indicated by black tiles.
 ```{r, message=FALSE}
@@ -85,7 +89,7 @@ The left plot presents a summary of the dataset structure while highlighting var
 
 # Summarizing Missingness with `naniar`
 
-The `naniar` package also provides an approach to visualizing overall missingness of the dataset.
+The `naniar` package also provides an approach to visualizing overall missingness of the dataset [@tierneyExpandingTidyData2018].
 
 We can plot the number of cases missing for each variable.
 In the plot below, variable names appear along the $y$-axis, and lines indicate the number of cases for which each variable is missing.
@@ -335,3 +339,6 @@ miss_case_summary(adt_data) %>%
   kable_styling() %>%
   scroll_box(width = "100%", height = "200px")
 ```
+<br><br>
+
+# References
