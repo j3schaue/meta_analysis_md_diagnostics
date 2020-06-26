@@ -3386,5 +3386,90 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "melaImpactCollinearityRegression2002",
+		"type": "article-journal",
+		"container-title": "Applied Economics",
+		"DOI": "10.1080/00036840110058482",
+		"ISSN": "0003-6846, 1466-4283",
+		"issue": "6",
+		"journalAbbreviation": "Applied Economics",
+		"language": "en",
+		"page": "667-677",
+		"source": "DOI.org (Crossref)",
+		"title": "The impact of collinearity on regression analysis: the asymmetric effect of negative and positive correlations",
+		"title-short": "The impact of collinearity on regression analysis",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/00036840110058482",
+		"volume": "34",
+		"author": [
+			{
+				"family": "Mela",
+				"given": "Carl F."
+			},
+			{
+				"family": "Kopalle",
+				"given": "Praveen K."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "farrarMulticollinearityRegressionAnalysis1967",
+		"type": "article-journal",
+		"container-title": "The Review of Economics and Statistics",
+		"DOI": "10.2307/1937887",
+		"ISSN": "00346535",
+		"issue": "1",
+		"journalAbbreviation": "The Review of Economics and Statistics",
+		"page": "92",
+		"source": "DOI.org (Crossref)",
+		"title": "Multicollinearity in regression analysis: The problem revisited",
+		"title-short": "Multicollinearity in Regression Analysis",
+		"URL": "https://www.jstor.org/stable/1937887?origin=crossref",
+		"volume": "49",
+		"author": [
+			{
+				"family": "Farrar",
+				"given": "Donald E."
+			},
+			{
+				"family": "Glauber",
+				"given": "Robert R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1967",
+					2
+				]
+			]
+		}
 	}
 ]

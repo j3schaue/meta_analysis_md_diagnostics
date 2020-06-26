@@ -218,8 +218,8 @@ In practice, missing data are ignorable if they are MAR and if $\psi$ and $\eta$
 # Issues with Conditional Inference on Incomplete Data
 
 Both complete- and shifting-case analyses ignore information, which can lead to biased meta-regression estimates. 
-Complete-case analyses omit effects with missing covariates, so that $\mathbf{X}_R \equiv \mathbf{X}_A$ is a matrix containing the rows of $\mathbf{X}$ that are not missing any covariates.
-Shifting-case analyses omit covariates *and* missing data, so that $\mathbf{X}_U \equiv \mathbf{X}_A$ contains a subset of the columns of $\mathcal{X}$ and only rows from that subset that are not missing any variables.
+Complete-case analyses omit effects with missing covariates, so that $\mathbf{X}_C \equiv \mathbf{X}_A$ is a matrix containing the rows of $\mathbf{X}$ that are not missing any covariates.
+Shifting-case analyses omit covariates *and* missing data, so that $\mathbf{X}_S \equiv \mathbf{X}_A$ contains a subset of the columns of $\mathcal{X}$ and only rows from that subset that are not missing any variables.
 
 Neither analytic approach typically makes any adjustments for the information they exclude. 
 They therefore estimate regression coefficients by 
@@ -315,13 +315,12 @@ First, if the covariates are MCAR, so that $R_i \perp T_i, X_i, v_i$, then
 \[
 p(R_i = \mathbbm{1} | T_i, X_i, v_i, \psi) 
   = p(R_i = \mathbbm{1} | \psi)  
-  = G(\psi)
 \]
 and hence 
 \begin{align*}
 p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta) 
   & = \frac{p(R = \mathbbm{1} | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta)}{p(R = \mathbbm{1} | X_i, v_i, \psi)} \\
-  & = \frac{G(\psi) p(T_i | x_i, v_i, \eta)}{G(\psi)} \\
+  & = \frac{p(R_i = \mathbbm{1} | \psi) p(T_i | x_i, v_i, \eta)}{p(R_i = \mathbbm{1} | \psi)} \\
   & = p(T_i | x_i, v_i, \eta)
 \end{align*}
 Thus, likelihood-based estimation should be consistent, assuming it can be done when $X$ is MCAR.
@@ -349,22 +348,24 @@ This may be true, for instance, if smaller studies are less likely to report mor
 
 However, when $R_i$ is not independent of $X_i$ or $T_i$ (given $v_i$), then analyses can be biased. 
 Precisely how biased will depend on the distribution of $R_i$ and its relationship to effect estimates $T_i$ and their covariates $X_i$.
-A general result based on the approximation in the previous section follows from the fact that a complete-case analysis involves $R_i = \mathbbm{1}$. 
-Further, denote $\mathbf{X}_R$ as the matrix of covariates such $R_i = \mathbbm{1}$. 
-If we denote $\mathbf{W}_R = diag(v_i + \tau^2): R_i = \mathbbm{1}$, the complete-case analysis will estimate coefficients as:
-\begin{align*}
-\hat{\beta} 
-  & = (\mathbf{X}_R^T W_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R E[\mathbf{T}_R | \mathbf{X}_R, \mathbf{v}_R, R = \mathbbm{1}] \\
-  & = (\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{W}_R \left[\mathbf{X}^T\beta + \mathbf{W}_R^{-1}\mathbf{H}_R  \mathbf{f}_R \psi\right] \\
-\end{align*}
-where $\mathbf{H}_R = diag(H_{ij})$ and $\mathbf{f}_R = [f_{i1}', \ldots, f_{in}']$.
-Thus, the bias of the regression coefficients is given by 
+A general result based on the approximation in the previous section follows from the fact that a complete-case analysis involves $R_i = \mathbbm{1}$.
+Let $C$ index all relevant effects $i$ such that $R_i = \mathbbm{1}$, so that  $\mathbf{X}_C$ is the matrix of covariates such $R_i = \mathbbm{1}$, $\mathbf{T}_C$ is the corresponding subset of effect estimates, and $\mathbf{W}_C = diag(v_i + \tau^2): R_i = \mathbbm{1}$ is the corresponding subset of weights. 
+The complete-case analysis estimates coefficients $\beta$ with:
 \[
-(\mathbf{X}_R^T \mathbf{W}_R \mathbf{X}_R)^{-1} \mathbf{X}_R^T \mathbf{H}_R  \mathbf{f}_R \psi
+(\mathbf{X}_C^T W_R \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{W}_C \mathbf{T}_C
+\]
+The expectation of this estimator is given by:
+\begin{align*}
+E[\hat{\beta}]
+  & = (\mathbf{X}_C^T W_R \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{W}_C E[\mathbf{T}_C | \mathbf{X}_C, \mathbf{v}_C, R = \mathbbm{1}] \\
+  & = (\mathbf{X}_C^T \mathbf{W}_C \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{W}_C \left[\mathbf{X}^T\beta + \mathbf{W}_C^{-1}\mathbf{H}_C  \mathbf{f}_C \psi\right] \\
+\end{align*}
+where $\mathbf{H}_C = diag(H_{ij})$ and $\mathbf{f}_C = [f_{i1}', \ldots, f_{in}']$.
+Thus, the bias of the regression coefficients for a complete-case analysis is given by 
+\[
+(\mathbf{X}_C^T \mathbf{W}_C \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{H}_C  \mathbf{f}_R \psi
 \]
 
-
-- If the likelihood for conditional inference can be written free of $R$ then conditional inference may be appropriate.
 
 
 
@@ -377,65 +378,78 @@ T_i = \beta_0 + \beta_1 X_i + u_i + e_i
 where $\beta_0, \beta_1$ are the regression coefficients of interest.
 Assume that the model for missingness is log-linear: 
 \[
-p(R = 1 | T, X, v) \propto \frac{\exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}{1 + exp\{\psi_0  + \psi_1 X + \psi_2 T + \psi_3 T X\}}
+p(R_i = 1 | T_i, X_i, v_i) \propto \frac{\exp\{\psi_0  + \psi_1 X_i + \psi_2 T_i + \psi_3 T_i X_i\}}{1 + \exp\{\psi_0  + \psi_1 X_i + \psi_2 T_i + \psi_3 T_i X_i\}}
 \]
-Note that $G(X, v) \equiv G(X)$. 
-Further, $\mathcal{D} = \{2, 3\}$ and $f_j(T, X, v) = Tf_j(X, v)$, and hence $f_j'(T, X, v) = f_j(X, v)$ for $j \in \mathcal{D}$. 
-Thus,   
+Under this model, $H_{ij} = H_i$ depends only on $X_i$ and not $v_i$, so we can write $H_{ij}$ as:
+\[
+H_{ij} = H(X_i) = 1 - p(R = \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}
+\]
+Note that $f_{1j}(T_i, X_i, v_i) = X_i$, $f_{2j}(T_i, X_i, v_i) = T_i$, and $f_{3j}(T_i, X_i, v_i) = T_iX_i$. 
+Thus, we can write
 \begin{align*}
 E[T_i | X_i, v_i, R_i = 1] 
-  & = \beta_0 + \beta_1 X_i + (1 - G(X_i))(v_i + \tau^2)(\psi_2 + \psi_3 X_i)
+  & = \beta_0 + \beta_1 X_i + H(X_i)(v_i + \tau^2)(\psi_2 + \psi_3 X_i)
 \end{align*}
-<!-- Then  -->
-<!-- \begin{align*} -->
-<!-- p(R = 1 | X, v)  -->
-<!--   & = \int p(T | X, v, R = 1) f(T) dT \\ -->
-<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)} (1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\})} dT \\ -->
-<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T - \log(1 + \exp\{\psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T\}) \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
-<!--   & G(X) = G = \frac{e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}}{1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}} \\ -->
-<!--   & B = \beta_0 + \beta_1 X\\ -->
-<!-- \therefore   -->
-<!--   & = \int \frac{\exp\left\{-\frac{(T - \beta_0 - \beta_1 X)^2}{2(v + \tau^2)} + \psi_0 + \psi_1 X + \psi_2 T  + \psi_3 X T \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
-<!--   & \qquad + \int \frac{\exp\left\{-\log(1 + e^{\psi_0 + \psi_1 X + \psi_2 B + \psi_3 X B}) - G\psi_1 X - G\psi_2 B - G\psi_3 XB + O(T^2)\right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
-<!--    & \approx \int \frac{\exp\left\{-\frac{T^2 - 2 T \left[B + (v + \tau^2)\psi_2 + (v + \tau^2) \psi_3 X  - (v + \tau^2) G \psi_2 - (v + \tau^2) G \psi_3 X\right]}{2(v + \tau^2)} \right\}}{\sqrt{2 \pi (v + \tau^2)}} dT \\ -->
-<!--    & = g(X, v, \psi, \eta) -->
-<!-- \end{align*} -->
 
- 
-
-Suppose $X$ is a binary variable, so that $X \in \{0,1\}^{p-1}$, and that $X$ is observed for $M \leq k$ effects. Denote $m_0$ as the number of observed $X_i = 0$ and $m_1$ be the observed $X_i = 1$ so that $M = m_0 + m_1$.
-Further, assume that $X_i = 0$ (but $R_i = 1$) for $i = 1, \ldots m_0$ and $X_i = 1$ (and $R_i = 1$) for $m_0 + 1, \ldots, M$. Then then the ML and least squares estimator for $\beta_0$ is given by 
+Suppose $X_i$ is a binary variable, so that $X_i \in \{0,1\}$, and that among the observed covariates, $X_i = 0$ (but $R_i = 1$) for $i = 1, \ldots m_0$ and $X_i = 1$ (and $R_i = 1$) for $m_0 + 1, \ldots, M$ where $M - m_0 = m_1$. Then then the complete-case estimator for $\beta_0$ is given by 
 \[
-\hat{\beta}_0 = \frac{\sum_{i = 1}^{m_0} T_i/(v_i + \tau^2)}{\sum_{i = 1}^{m_0} 1/(v_i + \tau^2)}
+\hat{\beta}_0 = \frac{\sum_{i = 1}^{m_0} w_i T_i}{\sum_{i = 1}^{m_0} w_i}
 \]
 This would imply that the complete-case estimator of $\beta_0$ under the missing data model specified would have expectation:
 \begin{align*}
 E[\hat{\beta}_0] 
-  & = \beta_0 + \frac{\left(1 - G(0)\right)m_0}{\sum_{i = 1}^{m_0} 1/(v_i + \tau^2)}\psi_2 \\
-  &  w_{j\cdot} = \left[\sum_{i: X_i = j, R_i = 1} 1/(v_i + \tau^2)\right]/m_j \\
-E[\hat{\beta}_0] 
-  & = \beta_0 + \frac{1 - G(0)}{w_{0\cdot}}\psi_2
+  & = \beta_0 + \frac{H(0)m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
 \end{align*}
 Note that the second term on the right hand side constitutes the bias of $\hat{\beta}_0$.
 The bias depends on a variety of quantities. 
-First, it depends on the selection model, solely through $\psi_2$ When $\psi_2 > 0$ and hence when larger effect estimates are more likely to be missing covariates, the bias is negative.
+First, it depends on the parameter $\psi_2$ of the selection model. 
+When $\psi_2 > 0$ and hence when larger effect estimates are more likely to be missing covariates, the bias is negative.
 The bias is positive when $\psi_0 < 0$, which occurs when larger effect estimates are less likely to be missing covariates. 
+The other quantity is $H(0)$ which is, roughly, the probability that a given case is missing the covariate when that covariate is $0$. 
+In other words, the bias is a function of $\psi_2$ and the proportion of incomplete cases when $X_i = 0$.
 
-The ML estimator of $\beta_1$ is given by 
+The standard estimator of $\beta_1$ is given by 
 \begin{align*}
 \hat{\beta}_1 
-  & = \frac{\sum_{i = m_0 + 1}^M T_i/(v_i + \tau^2)}{\sum_{i = m_0 + 1}^M 1/(v_i + \tau^2)} - \frac{\sum_{i = 1}^{m_0} T_i/(v_i + \tau^2)}{\sum_{i = 1}^{m_0} 1/(v_i + \tau^2)} \\
-  & = \frac{\sum_{i = m_0 + 1}^M T_i/(v_i + \tau^2)}{\sum_{i = m_0 + 1}^M 1/(v_i + \tau^2)} - \hat{\beta}_0
+  & = \frac{\sum_{X_i = 1} w_i T_i}{\sum_{X_i = 1} w_i} - \frac{\sum_{X_i = 0} w_i T_i}{\sum_{X_i = 0} w_i} \\
+  & = \frac{\sum_{X_i = 1} w_i T_i}{\sum_{X_i = 1} w_i} - \hat{\beta}_0
 \end{align*}
 The expectation of this estimator is approximately
 \begin{align*}
 E[\hat{\beta}_1]
-  & = \beta_0 + \beta_1 + \frac{(1 - G(1))m_1}{\sum_{i = m_0 + 1}^M 1/(v_i + \tau^2)}(\psi_2 + \psi_3) - \beta_0 - \frac{\left(1 - G(0)\right)m_0}{\sum_{i = 1}^{m_0} 1/(v_i + \tau^2)}\psi_2 \\
-  & = \beta_1 + \frac{(1 - G(1))m_1}{\sum_{i = m_0 + 1}^M 1/(v_i + \tau^2)}(\psi_2 + \psi_3) - \frac{\left(1 - G(0)\right)m_0}{\sum_{i = 1}^{m_0} 1/(v_i + \tau^2)}\psi_2 \\
-  & = \beta_1 + \left[\frac{1 - G(1)}{w_{1\cdot}} - \frac{1 - G(0)}{w_{0\cdot}}\right]\psi_2 + \frac{1 - G(1)}{w_{1\cdot}}\psi_3
+  & = \beta_0 + \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_2 + \psi_3) - \beta_0 - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
+  & = \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_2 + \psi_3) - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
+  & = \beta_1 + \left[\frac{H(1)}{\bar{w}_{1\cdot}} - \frac{H(0)}{\bar{w}_{0\cdot}}\right]\psi_2 + \frac{H(1)}{\bar{w}_{1\cdot}}\psi_3
 \end{align*}
 
+Note that the bias of $\hat{\beta}_1$ depends on a few quantities. 
+First, it depends on $\psi_2$ , which is the log-odds ratio of $X_i$ being missing for $T_i$ relative to $T_j = T_i - 1$. 
+The second quantity is $H(1)$ which is approximately the probability that $X_i$ is missing when $X_i = 1$. 
+
+When all studies have approximately the same estimation error variance so that $w_i \approx w$, then these biases approximately reduce to:
+\[
+\text{Bias}[\hat{\beta}_0] = \frac{P[R = 0 | X = 0]}{w} \psi_2
+\qquad
+\text{Bias}[\hat{\beta}_0] = \frac{P[R = 0 | X = 1] - P[R = 0 | X = 0]}{w} \psi_2 + \frac{P[R = 0 | X = 1]}{w} \psi_3
+\]
+Note that $P[R = 0 | X = 1] - P[R = 0 | X = 0]$ will be greater if $R$ and $X$ are strongly correlated.
+Further $\psi_2$ will be larger if missingness is more strongly related to $T$, and $\psi_3$ will be larger if missingness has a stronger relationship to $T$ when $X = 1$. 
+Finally, biases will be larger when $P[R = 0 | X]$ is larger, which means that the bias increases as a function of the proportion of missingness.
+
 - Plots? [NOTE: How do relate the $\psi$ parameters to the $\beta$ parameters?]
+One idea is to relate $P[R | X]$ to correlation between $X$ and $R$, since they're both binary, Kendall's tau and the pearson correlation are the same.
+We could also say that $\psi_2$ is a log-odds ratio. 
+We could posit low, medium, and large log-odds ratios.
+$\gamma_3$ is a difference in log-odds ratios. 
+Maybe we write:
+\[
+\frac{P[R = 0 | X = 1]}{w} (\psi_2 + \psi_3) - \frac{P[R = 0 | X = 0]}{w} \psi_2
+\]
+where $\psi_2 + \psi_3$ is the log OR for $X = 1$ and $\psi_2$ is the log OR for $X = 0$. 
+Plot 1: $P[R= 0 | X = 0]$ is on the $x$-axis. Bias is on the $y$-axis. Lines are colored by values of $\psi_2$ that are small, medium, and large according to some convention.
+
+Plot 2: $P[R = 0 | X = 1]$ is on the $x$-axis, bias is the $y$-axis, lines are colored according to $P[R = 0 | X = 0]$. Facet by $\psi_2 + \psi_3$ (low, med, hi) and $\psi_3$ (0, lo, med)
+
 - Continuous covariates?
 
 For a single continuous covariate, note that 
@@ -456,81 +470,98 @@ It is not immediately clear that these simplify. Perhaps we leave this result ou
 
 When there are multiple covariates of interest, each of which has some missingness, there may only be a few effects for which all covariates of interest are observed. When that happens, a complete case analysis can be unfeasible. A common solution to this in meta-analysis is to use an available-case analysis [@pigottHandlingMissingData2019].
 
-In meta-analysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest [@cooperResearchSynthesisMetaanalysis2017; @tiptonCurrentPracticesMetaregression2019]. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. Referred to as "shifting units of analysis"---and referred to in this article as a shifting-case analysis---this approach inherently conditions on a set of missingness patterns $R \in \mathcal{R}_j$ where $mathcal{R}_j \subset \mathcal{R}$.
+In meta-analysis, an *available-case analysis* typically takes the form of fitting several meta-regression models, each including a subset of the covariates of interest [@cooperResearchSynthesisMetaanalysis2017; @tiptonCurrentPracticesMetaregression2019]. Sometimes this even takes the form of regressing effect estimates on one covariate at a time. Referred to as "shifting units of analysis"---and referred to in this article as a shifting-case analysis---this approach inherently conditions on a set of missingness patterns $R \in \mathcal{R}_j$ where $\mathcal{R}_j \subset \mathcal{R}$.
 To see this, note that a shifting-case analysis amounts to a complete-case analysis on a subset of covariates. 
 Thus $R_{ij} = 1$ for those covariates $X_{ij}$ that are observed and included in the analyses, but $R_{ik} \in \{0, 1\}$ for covariates $X_{ik}$ that are excluded; that is, excluded covariates may be observed or unobserved. 
 
-Let $U = \{j: X_j \text{ in SCA model}\}$ index the covariates included in a SCA model.
-Let $E$ be the complement of $U$ so that it indexes all of the covariates excluded from the SCA model.
-Let $O(U) = \{i: R_{ij} = 1, j \in U\}$ be the effect sizes for which $X_{iU}$ are observed, and $M(U)$ be the effect sizes for which $X_{iU}$ are missing.
-Further, let $\mathcal{R}_j = \{R \in \mathcal{R}: R_{ij} = 1, \forall j \in U\}$. 
+Let $S$ index the covariates included in a SCA model $S = \{j : X_j \text{ in model}\}$ and let $E$ be the complement of $S$. 
+Denote $\mathcal{R}_j$ as the set of missingness patterns such that all included covariates are observed: $\mathcal{R}_j = \{R \in \mathcal{R}: R_S = 1\}$.
 Note that $\mathcal{R}_j$ contains missingness patterns $R$ such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
-Then, the shifting-case model can be written as:
+Finally, let $U(S)$ be the set of effects for which $X_{iS}$ are observed $U(S) = \{i : R_i \in \mathcal{R}_j\}$.
+Then, the shifting-case estimators for $\beta_S$ are given by:
 \[
-p(T_{ij} | X_{iU}, v_i, R_i \in \mathcal{R}_j) = \frac{p(R_i \in \mathcal{R}_j | T_i, X_{iU}, v_i) p(T_i | X_{iU}, v_i)}{p(R_i \in \mathcal{R}_j | X_{iU}, v_i)}
+\hat{\beta}_S = 
+(\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1} \mathbf{X}_{US}^T \mathbf{W}_U \mathbf{T}_U
+\]
+where $\mathbf{X}_{US}$ contains the columns of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows for which all of those covariates are observed.
+The matrix $\mathbf{W}_U$ contains the rows of $\mathbf{W}$ for which $X_{iS}$ are observed (and similarly for $\mathbf{T}_U$).
+
+To understand the conditions under which this estimator is unbiased, we can write the SCA model as:
+\[
+p(T_{i} | X_{iS}, v_i, R_i \in \mathcal{R}_j) = \frac{p(R_i \in \mathcal{R}_j | T_i, X_{iS}, v_i) p(T_i | X_{iS}, v_i)}{p(R_i \in \mathcal{R}_j | X_{iS}, v_i)}
 \]
 
 The model above is slightly different from the models in the previous sections. 
-Note that all of the functions involved condition only on the included covariates $X_{iU}$. 
-Thus, the function $p(T_i | X_{iU}, v_i)$ is analogous to the complete-data likelihood $p(T | X, v)$, however it is important to note that the two functions are not necessarily equivalent because the former conditions only on $X_{iU}$ and not the full set of covariates $X_i$.
-
 There are two sources of bias that arise in SCA models. 
-The first is due to the fact that $p(T_i | X_{iU}, v_i)$ need not be equivalent to  $p(T_i | X_i, v_i)$. 
-These models would only be equivalent of $T \perp X_E | X_U, v$. 
+The first arises from omitting relevant variables from the analysis.
+Note that all of the functions involved condition only on the included covariates $X_{iS}$. 
+Thus, the function $p(T_i | X_{iS}, v_i)$ need not be equivalent to the complete-data model $p(T_i | X_i, v_i)$ because the former conditions only on $X_{iS}$ and not the full set of covariates $X_i$.
+These models would only be equivalent of $T_i \perp X_{iE} | X_{iS}, v_i$. 
 That is, unless the excluded covariates are completely unrelated to effect size (given the covariates included in the SUA model), then even if none of the included covariates had any missingness, there would be bias in an SUA model.
 
-The second source arises from the fact that SCA approaches omit effects for which any of the included covariates are missing. 
-That is, if any $X_{ij}$ is missing for $j \in U$, then a SCA ignores the effect $T_i$ and its associated covariates. 
+The second source arises from the fact that SCA approaches ignore effects for which any of the included covariates are missing. 
+That is, if any $X_{iS}$ are missing, then a SCA omits the effect $T_i$ and its associated covariates from the analysis.
 
 Taken together, these two facets of the conditional SUA model in the expression above suggest a very strict set of conditions for which SCAs are unbiased. 
-First, $R \perp (T, X_U) | v$, so that missingness must be independent of effect size estimates and any included covariates conditional on the (completely observed) estimation error variances.
+First, $R_i \perp (T_i, X_{iS}) | v$, so that missingness must be independent of effect size estimates and any included covariates conditional on the (completely observed) estimation error variances.
 This is a similar, though slightly weaker assumption as that made for unbiased complete-case analyses. 
-Second, $T \perp X_E | X_U, v$, which means that any excluded covariates must be completely irrelevant given the included covariates. 
+Second, $T_i \perp X_{iE} | X_{iS}, v_i$, which means that any excluded covariates must be completely irrelevant given the included covariates. 
 This amounts to $\beta_j = 0$ for all $j \in E$.
-Alternatively, we may write $(T, X_U) \perp X_E | v$, which would imply that the complete data likelihood involves no interactions between $X_U, X_E$ and that $X_U$ and $X_E$ are completely orthogonal.
-Note that both of these conditions must hold in order for a SCA to be unbiased.
+Alternatively, we may write $(T, X_{iS}) \perp X_{iS} | v$, which would imply that the complete data likelihood involves no interactions between $X_{iS}$ and $X_{iE}$ and that $X_{iS}$ and $X_{iE}$ are orthogonal.
+Note that both the conditions on omitted covariates and omitted observations must hold in order for a SCA to be unbiased.
 
 When assumptions about both the missingness mechanism and the relevance of $X_E$ do not hold, then SCAs will be biased. 
 Just how biased will depend on a number of factors, including the amount of missingness, the missingness mechanism, and the relevance of any excluded covariates.
 
-When no data are missing from $X_U$, then all effects are included in the analysis and the bias is given by:
+When no data are missing from $X_{iS}$, then all effects are included in the analysis and the bias is given by:
 \begin{align*}
-E[(\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{T}] - \beta_U
-  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} \mathbf{X}\beta - \beta_U\\
-  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W} (\mathbf{X}_U \beta_U + \mathbf{X}_E \beta_E) - \beta_U\\
-  & = \beta_U + (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E - \beta_U \\
-  & = (\mathbf{X}_U^T W \mathbf{X}_U)^{-1}\mathbf{X}_U^T \mathbf{W}\mathbf{X}_E \beta_E
+E[\hat{\beta}_S] - \beta_S
+  & = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{U}\beta - \beta_S\\
+  & = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U (\mathbf{X}_{US} \beta_U + \mathbf{X}_{UE} \beta_E) - \beta_S\\
+  & = \beta_S + (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U\mathbf{X}_{UE} \beta_E - \beta_S \\
+  & = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{UE} \beta_E
 \end{align*}
 
-This bias arises even if no data are missing. 
-When data are missing, there is a second source of bias that can arise due to missingness. This bias will depend on $E[T | X, v, R \in \mathcal{R}_j]$.
+This bias arises even if no data are missing, and is referred to in the statistical and econometric literature as *omitted variable bias* [e.g., @farrarMulticollinearityRegressionAnalysis1967; @melaImpactCollinearityRegression2002]. 
+It is related to the issue of multicollinearity in generalized linear models.
+In fact, if the columns in $\mathbf{X}_{US}$ and $\mathbf{X}_{UE}$ are orthogonal, so that the omitted variables are independent of the included variables, then the bias will be zero. 
+When the omitted variables are not orthogonal to the included variables, the bias will be nonzero, and it will depend in large part on the contribution of the omitted variables $\mathbf{X}_{UE} \beta_E$. 
+The estimator $\hat{\beta}_S$ will have greater bias if the coefficients for the omitted variables $\beta_E$ are larger and the omitted covariates $\mathbf{X}_{UE}$ are correlated with the included covariates $\mathbf{X}_{US}$.
+
+When data are missing, there is a second source of bias that can arise from ignoring missingness. 
+This bias will depend on $p(T_i | X_i, v_i, R_i \in \mathcal{R}_j)$, which is the conditional distribution of $T_i$ given *all* relevant covariates (i.e., not just the covariates $X_{iS}$) and a set of missingness patterns.
 Note that we can write:
 \begin{align*}
-p(T | X, v, R \in \mathcal{R}_j) 
-  & = \frac{\sum_{r \in \mathcal{R}_j} p(R = r | T, X, v) p(T | X, v)}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)} \\
-  & = p(T | X, v) \frac{\sum_{r \in \mathcal{R}_j} p(R = r | T, X, v)}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)}
+p(T_i | X_i, v_i, R_i \in \mathcal{R}_j) 
+  & = \frac{\sum_{r \in \mathcal{R}_j} p(R_i = r | T_i, X_i, v_i) p(T_i | X_i, v_i)}{\sum_{r \in \mathcal{R}_j} p(R_i = r | X_i, v_i)} \\
+  & = p(T_i | X_i, v_i) \frac{\sum_{r \in \mathcal{R}_j} p(R_i = r | T_i, X_i, v_i)}{\sum_{r \in \mathcal{R}_j} p(R_i = r | X_i, v_i)}
 \end{align*}
 
 Using the approximation from the proposition above, we can write:
 \[
-E[T | X, v, R \in \mathcal{R}_j] = \frac{\sum_{r \in \mathcal{R}_j}p(R = r | X, v) \left[X^T \beta + (1 - G_j(X, v))\sum_{m \in \mathcal{D}_j} \psi_{mj} f_{mj}'(X_i^T \beta, X_i, v)\right]}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)}
+E[T | X, v, R \in \mathcal{R}_j] = \frac{\sum_{r \in \mathcal{R}_j}p(R = r | X, v) \left[X^T \beta + (1 - G_j(X, v)) \sum_{k = 0}^{n_j} \psi_{kj} f_{kj}'(X^T \beta, X, v)\right]}{\sum_{r \in \mathcal{R}_j} p(R = r | X, v)}
 \]
 
 Therefore, the total bias of an SCA estimator can be written as
 \begin{align*}
-& E[(\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \mathbf{T}_O] - \beta_U \\
-  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O E[\mathbf{T}_O | \mathbf{X}_O, \mathbf{v}, \mathbf{R}] - \beta_U \\
-  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \left(X_O \beta + \left[\frac{\sum_{j:R_j \in \mathcal{R}} \pi_{ij} (1 - G_j(X_i^T \beta, X_i, v_i)) (\tau^2 + v_i) \sum_{\mathcal{D}_j} \psi_{kj} f_{kj}'}{\sum_{j:R_j \in \mathcal{R}} \pi_{ij}}\right]\right) - \beta_U \\
-  & \qquad = (\mathbf{X}_{UO(U)}^T W_O \mathbf{X}_{UO(U)})^{-1}\mathbf{X}_{UO(U)}^T \mathbf{W}_O \left(X_E \beta_E + \left[\frac{\sum_{j:R_j \in \mathcal{R}} \pi_{ij} (1 - G_j(X_i^T \beta, X_i, v_i)) (\tau^2 + v_i) \sum_{\mathcal{D}_j} \psi_{kj} f_{kj}'}{\sum_{j:R_j \in \mathcal{R}} \pi_{ij}}\right]\right) \\
+& E[(\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{T}_U] - \beta_S \\
+  & \qquad = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U E[\mathbf{T}_U | \mathbf{X}_U, \mathbf{v}, \mathbf{R}] - \beta_S \\
+  & \qquad = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \left(\mathbf{X}_U \beta + \left[\frac{\sum_{j:R_j \in \mathcal{R}} \pi_{ij} (1 - G_j(X_i^T \beta, X_i, v_i)) (\tau^2 + v_i) \sum_{\mathcal{D}_j} \psi_{kj} f_{kj}'}{\sum_{j:R_j \in \mathcal{R}} \pi_{ij}}\right]\right) - \beta_S \\
+  & \qquad = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \left(\mathbf{X}_E \beta_E + \sum_j \mathbf{W}_U^{-1} \mathbf{P}_j \mathbf{H}_j \mathbf{f}_j \psi_j \left(\sum_j \mathbf{P}_j\right)^{-1}\right) \\
+  & \qquad = (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_E \beta_E \\
+  & \qquad \qquad + (\mathbf{X}_{US}^T \mathbf{W}_U \mathbf{X}_{US})^{-1}\mathbf{X}_{US}^T \sum_j \mathbf{P}_j \mathbf{H}_j \mathbf{f}_j \psi_j \left(\sum_j \mathbf{P}_j\right)^{-1} \\
 \end{align*}
 
+Note that this bias decomposes neatly into the two sources of bias.
+The first term is simply the omitted variable bias from equation ().
+The second term is the weighted average of biases across missingness patterns, where the weights are equivalent to the conditional distribution of $R$ given $X, v$: $p(R = r | X, v)$ for $r \in \mathcal{R}_j$.
 
 
 ## Example: Shifting-Cases Analysis with Two Binary Covariates
 
 Suppose $X = [1, X_1, X_2]$ and $X_1$ and $X_2$ are binary covariates such that 
 \[
-T = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + u_i + e_i
+T = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + u_i + e_i
 \]
 If there is missingness in both $X_1$ and $X_2$, then $R \in \{0, 1\}^2$ so that $R = [1,1]$ indicates both covariates are observed, and $R = [1, 0]$ indicates only $X_1$ is observed. 
 If missingness is such that $R = [1, 1]$ for very few effect estimates, then a shifting units analysis might involve regressing $T$ on the observed values of $X_1$ and then on the observed values of $X_2$. 
@@ -543,23 +574,52 @@ It would use the following estimates:
 = \bar{T}_{11} - \bar{T}_{10}
 \]
 
-Note that if no data were missing then the bias of these estimates is given by
+Note that if no $X_1$ values were missing then the bias of these estimates is given by
 \begin{align*}
-Bias(\hat{\beta}_0) 
-  & = \beta_2 \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i} = \frac{w_{10}}{w_0} \\
-Bias(\hat{\beta}_1)
-  & = \beta_2 \left(\frac{\sum_{X_1 = 1, X_2 = 1} w_i}{\sum_{X_i = 1} w_i} - \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i}\right) = \beta_2\left(\frac{w_{11}}{w_1} - \frac{w_{10}}{w_0}\right) +\beta_3 \frac{w_{11}}{w_1}
+\text{Bias}[\hat{\beta}_0]
+  & = \beta_2 \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i} = \beta_2\frac{w_{10}}{w_{0\cdot}} \\
+\text{Bias}[\hat{\beta}_1]
+  & = \beta_2 \left(\frac{\sum_{X_1 = 1, X_2 = 1} w_i}{\sum_{X_i = 1} w_i} - \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i}\right) = \beta_2\left(\frac{w_{11}}{w_1} - \frac{w_{10}}{w_{0\cdot}}\right)
 \end{align*}
+
+When effects are estimated with roughly the same precision, so that $w_i \approx w$, then these expressions reduce to 
+\[
+\text{Bias}[\hat{\beta}_0]
+  = \beta_2 P[X_2 = 1 | X_1 = 0] 
+\qquad
+\text{Bias}[\hat{\beta}_1]
+  = \beta_2 \left(P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0] \right)
+\]
+To get a better sense of these expressions, consider the bias for $\hat{\beta}_1$. This will depend on two quantities. The first is $\beta_2$, which is the contribution of $X_2$ to the complete-data model.
+The second is the difference $P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$. 
+When $X_1$ and $X_2$ are positively correlated, then $X_2$ is much more likely to equal 1 when $X_1 = 1$, and much less likely to equal 1 when $X_1 = 0$. 
+Thus, when the covariates are highly correlated, $P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$ will be larger and hence the bias will be larger.
+Conversely, if $X_1$ and $X_2$ are negatively correlated, $P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$ is likely to be larger in magnitude by negative, which means the bias will be larger and negative.
+Finally, if $X_1 \perp X_2$, then this difference, and hence the bias, will be zero.
+
+[IDEA FOR PLOT: $\beta_2$ on the $x$-axis, bias on the $y$-axis, different lines for the correlation between $X_1$ and $X_2$]
 
 However, suppose that some of the $X_1$ and $X_2$ are missing, and that $R$ follows a log-linear model:
 \[
-
+P[R = r_j | T, X, v] = \frac{\exp\{\psi_{0r} + \psi_{1r} X_1 + \psi_{2r} X_2 + \psi_{3r} T + \psi_{4r} X_1 T + \psi_{r5} X_2 T\}}{1 + \exp\{\psi_{0r} + \psi_{1r} X_1 + \psi_{2r} X_2 + \psi_{3r} T + \psi_{4r} X_1 T + \psi_{r5} X_2 T\}}
 \]
 
-Then the bias is given by
+Note that with two covariates, $R \in \{[1,1], [1,0], [0, 1], [0, 0]\}$. 
+The shifting-case analysis would condition in the first two patterns $r_1 = [1, 1], r_2 = [1, 0]$.
+Further, because both covariates are binary, we can write $H_j(X_1, X_2)$ for $j = 1, 2$ corresponding to $r_j$. 
+Finally, let $\pi_{kj}(x) = P[R = r_j | X_1 = k, X_2 = x, v]$. 
+Then, we can write the bias in $\hat{\beta}_0$ as
 \[
-
+\beta_2 \frac{\sum_{X_0 = 1, X_2 = 1} w_i}{\sum_{X_1 = 0} w_i} + 
+\left(\sum_{X_1 = 0} \sum_{j=1}^2 \frac{H_j(0, X_{i2}) (\psi_{3j} + \psi_{5j} X_{i2}) \pi_{0j}(X_{2j})}{\sum_{j = 1}^2 \pi_{0j}(X_{2j})}\right)/\left(\sum_{X_1 = 0} w_i\right)
 \]
+
+It is not immediately clear how much this simplifies. 
+We could (instead of graphs) point out that this the first term is exactly the omitted variables bias, and the second term is the missingness bias. 
+We could also point out that these two terms can be correlated.
+If they are positively correlated, then the total bias will be greater when there is missing data.
+If they are negatively correlated, then the total bias will be less when there is missing data.
+If that's the route we go, what are those conditions for positive/negative correlation?
 
 
 
