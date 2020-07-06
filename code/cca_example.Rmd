@@ -1,0 +1,152 @@
+---
+title: "cca_paper_example"
+author: ""
+date: "7/6/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load packages and Data set
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(metafor)
+library(robumeta)
+library(metaSEM)
+library(naniar)
+library(visdat)
+data_adt <- readRDS("../data/adt_data.RDS")
+```
+
+
+## Subset of the data 
+
+```{r}
+#Subset of variables needed for the analyses:
+data_adt_cca<- data_adt[c("studyid", "es_g","se_g", "g1permale", "g1perwhite",  "g1age",
+                         "g1hrsperweek","g1txdays")]
+
+#Visualize missingness 
+source("../code/wrappers.R")
+gg_summary_covariate_miss(data_adt_cca)
+
+data.frame(k.NA=colSums(is.na(data_adt_cca)))
+table(rowSums(is.na(data_adt_cca)))
+
+#Percentage missing by variable
+miss_var_summary(data_adt_cca)
+
+#Percentage missing by Effect Size case
+miss_case_summary(data_adt_cca)
+
+```
+
+
+## Complete case analysis
+
+While effect sizes and sampling variances are not missing for this dataset, there are a number of 
+moderator (covariates) variables that are. A total of 328 ES available in the data. 
+
+```{r}
+#Meta-regression 
+#random-effects model 
+mr_cca<- rma(es_g, se_g^2, mods= ~ g1permale + g1perwhite + g1age +
+                           g1hrsperweek + g1txdays , data= data_adt_cca)
+mr_cca
+
+```
+
+
+Only k=232 ES were included in the analysis.Thus, aproximetly 30% of the ES were excluded from the analysis. illustrating the loss of data that can occur when conducting a complete case analysis. 
+
+
+# Complete case analysis - Nested models
+
+```{r}
+##delete NA
+data_adt_na<- na.omit(data_adt_cca)
+
+#Meta-regression 
+#random-effects model 
+
+#Using rma.mv
+rma_mv_cca<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1permale + g1perwhite + g1age +
+                                   g1hrsperweek + g1txdays,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                   method="REML")
+rma_mv_cca
+
+# Then use robust.rma.mv
+robustrma_cca<- robust.rma.mv(rma_mv_cca, data_adt_na$studyid)
+robustrma_cca
+
+
+#Using mr3 with moderators
+mr3<- meta3(es_g, se_g^2, cluster= studyid,  data= data_adt_na,
+            intercept.constraints = 0,
+            x=model.matrix( ~ 1 + g1permale + g1perwhite + g1age +
+                           g1hrsperweek + g1txdays))
+summary(mr3)
+
+#Using robu
+#Intercept only model
+#use .8 as correlation between ES
+mr_robu<- robu( es_g ~ 1 , data=data_adt_na, studyid, se_g^2, rho=.8, small=TRUE)
+print(mr_robu)
+
+sensitivity(mr_robu)
+
+#with moderators
+mr_robu2<- robu(es_g ~ g1permale + g1perwhite + g1age +g1hrsperweek + g1txdays ,
+                data=data_adt_na, modelweights="HIER", studyid, se_g^2,  small=TRUE)
+print(mr_robu2)
+
+```
+
+
+
+## Shifting units analysis
+
+
+```{r}
+#g1permale
+mr_shu_cov1<- rma(es_g, se_g^2, mods= ~ g1permale, data= data_adt_cca)
+mr_shu_cov1
+
+#319 EF out of 328
+
+#g1perwhite
+mr_shu_cov2<- rma(es_g, se_g^2, mods= ~ g1perwhite, data= data_adt_cca)
+mr_shu_cov2
+
+#317 EF out of 328
+
+#g1age
+mr_shu_cov3<- rma(es_g, se_g^2, mods= ~ g1age, data= data_adt_cca)
+mr_shu_cov3
+
+#321 EF out of 328
+
+#g1hrsperweek
+mr_shu_cov4<- rma(es_g, se_g^2, mods= ~ g1hrsperweek, data= data_adt_cca)
+mr_shu_cov4
+
+#249 EF out of 328
+
+#g1txdays
+mr_shu_cov5<- rma(es_g, se_g^2, mods= ~ g1txdays, data= data_adt_cca)
+mr_shu_cov5
+
+#326 EF out of 328
+
+```
+
+
+
+
