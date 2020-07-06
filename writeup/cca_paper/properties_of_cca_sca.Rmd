@@ -455,6 +455,18 @@ Note that $P[R = 0 | X = 1] - P[R = 0 | X = 0]$ will be greater if $R$ and $X$ a
 Further $\psi_2$ will be larger if missingness is more strongly related to $T$, and $\psi_3$ will be larger if missingness has a stronger relationship to $T$ when $X = 1$. 
 Finally, biases will be larger when $P[R = 0 | X]$ is larger, which means that the bias increases as a function of the proportion of missingness.
 
+An alternative way to see this is to write $\pi_1 = P[R = 0 | X = 1] = a P[R = 0 | X = 0] = a \pi_0$. Then we can write:
+\[
+\text{Bias}(\hat{\beta}_0) = \frac{\pi_0 \psi_2}{w}
+\]
+which shows that bias in $\hat{\beta}_0$ increases as more effects for which $X_i = 0$ are missing and if missingness is strongly related to $\psi_2$.
+
+Likewise:
+\[
+\text{Bias}(\hat{\beta}_0) = \frac{\pi_1}{w}(\psi_2 + \psi_3) - \frac{\pi_0}{w}\psi_2
+\]
+Here, we see that bias depends on the fraction of incomplete cases and the strength of the relationship between missingness and $X$ and $T$.
+
 - Plots? [NOTE: How do relate the $\psi$ parameters to the $\beta$ parameters?]
 One idea is to relate $P[R | X]$ to correlation between $X$ and $R$, since they're both binary, Kendall's tau and the pearson correlation are the same.
 We could also say that $\psi_2$ is a log-odds ratio. 
