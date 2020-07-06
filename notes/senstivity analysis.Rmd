@@ -29,3 +29,13 @@ Note, if the math proves unwieldy to update all missing $X_i$ at once, we could 
 
 - Paper would propose the idea of sensitivity analysis. Describe the two algorithms (stochastic search vs. gradient descent). Demonstrate them on a data set or two. Close with reccomendations.
 
+- Other idea:
+Find solutions to 
+\[
+\mathbf{c}^T (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{T} = \mathbf{c}^T \mathbf{0} 
+\]
+for $\mathbf{X}_M$. This will have a large number of solutions because it is a nonlinear system of equations with more unknowns than knowns. 
+
+Perhaps a series of numerical solution?
+
+

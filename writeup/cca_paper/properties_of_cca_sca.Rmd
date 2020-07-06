@@ -16,7 +16,6 @@ bibliography: ../addons/cca_references.json
 
 - Add introduction
 - Add section with real dataset that illustrates complete-case analysis and shifting-units
-- Nomenclature: *complete-case analysis* (CCA) is pretty clearly defined. *Available-case analysis* is a broad term, especially given the application to meta-analysis where *available-case analysis* has become synonymous with *shifting units of analysis*. But, *shifting units of analysis* is kind of burdensome for writing. How about *shifting-case analysis* (SCA)?
 - There's some dodgy notation that needs to be fixed.
 - Structure for results: General form followed by concrete example. 
 
@@ -50,9 +49,9 @@ We also study the bias of these approaches when these assumptions are not met us
 
 # Model and Notation
 
-Let $T_i$ be the estimate of the effect parameter $\theta_i$, and let $v_i$ be the estimation error variance of $T_i$. Denote a vector of covariates that pertain to $T_i$ as $X_i =[1, X_{i1}, \ldots, X_{i,p-1}]^T$. Note that the first element of $X_i$ is a 1, which corresponds to an intercept term in a meta-regression model, and that model can be expressed as:
+Let $T_i$ be the estimate of the effect parameter $\theta_i$, and let $v_i$ be the estimation error variance of $T_i$. Denote a vector of covariates that pertain to $T_i$ as $X_i =[1, X_{i1}, \ldots, X_{i,p-1}]$. Note that the first element of $X_i$ is a 1, which corresponds to an intercept term in a meta-regression model, and that model can be expressed as:
 \begin{equation}
-T_i | X_i, v_i, \eta = X_i^T \beta + u_i + e_i 
+T_i | X_i, v_i, \eta = X_i \beta + u_i + e_i 
 \label{eq:full_data_reg}
 \end{equation}
 Here, $\beta \in \mathbb{R}^p$ is the vector of regression coefficients. The term $e_i$ is the estimation error for effect $i$ and $V[e_i] = v_i$, and $u_i$ is the random effect such that $u_i \perp e_i$ and $V[u_i] = \tau^2$. 
@@ -93,6 +92,9 @@ V[\hat{\beta}] = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1}
 \label{eq:v_betahat_cd}
 \end{equation}
 
+This model can be expanded to account for dependent effect sizes by assuming that $T_i \in \mathbb{R}^{k_i}$ is a vector of $k_i$ effects from the same study, $e_i$ is vector of estimation errors, $u_i$ is a vector of random effects, and $e_i + u_i$ has covariance matrix $\Sigma_i$.
+In this model, $X_i$ is a matrix of covariates for each effect in $T_i$.
+While we focus on results for independent effect sizes in this article, the results hold for dependent effect sizes.
 
 Let $R_i$ be a vector of response indicators for effect $i$. 
 Each element $R_{ij}$ of $R_i$ corresponds to a variable in a meta-analytic dataset. 
@@ -284,7 +286,7 @@ For the remainder of this article, we will denote
 (1 - G_j(X_i, v_i)) 
   = H_{ij}, 
 \qquad 
-\psi_j^T \mathbf{f}_{ij} 
+\mathbf{f}_{ij}^T \psi_j
   = \sum_{k \in \mathcal{D}_j} \psi_{kj} f_{kj}'(X_i^T\beta, X_i, v_i) 
   = \sum_{k=1}^n \psi_{kj} f_{kj}'(X_i^T\beta, X_i, v_i)
 \]
@@ -344,7 +346,20 @@ Some effect sizes, such as the $z$-transformed correlation coefficient, have var
 For such effect sizes, this assumption implies that missingness depends only on the sample size of the study. 
 This may be true, for instance, if smaller studies are less likely to report more fine-grained demographic information regarding their sample out of concern for the privacy of the subjects who participated in the study (and that no other factors affect missingness).
 
-- Note about reduction in precision.
+An even weaker assumption can also lead to unbiased estimation with complete cases. 
+When $R \perp T | X, v$, we can write:
+\begin{align*}
+p(T | X, v, R = \mathbbm{1}) 
+  & = \frac{p(R = \mathbbm{1} | T, X, v) p(T | X, v)}{p(R = \mathbbm{1} | X, v)} \\
+  & = \frac{p(R = \mathbbm{1} | X, v) p(T | X, v)}{p(R = \mathbbm{1} | X, v)} \\
+  & = p(T | X, v)
+\end{align*}
+Thus, if $R \perp T | X, v$ then the complete-case model will be the same as the complete-data model. 
+Note that $R$ can still depend on $X$, which means that the data are MNAR. 
+
+This result is consistent with the bias approximation in equation (\ref{eq:conditional_bias}).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$. 
+If $f_{ij}$ does not depend on $T$, so that $f_{ij}(T, X, v) \equiv f_{ij}(X, v)$ then the derivative will be zero, and hence $\psi_{ij}$ will not contribute to the bias.
+Thus, only parts of the missingness model that depend on $T$ will contribute to bias.
 
 However, when $R_i$ is not independent of $X_i$ or $T_i$ (given $v_i$), then analyses can be biased. 
 Precisely how biased will depend on the distribution of $R_i$ and its relationship to effect estimates $T_i$ and their covariates $X_i$.
@@ -363,7 +378,7 @@ E[\hat{\beta}]
 where $\mathbf{H}_C = diag(H_{ij})$ and $\mathbf{f}_C = [f_{i1}', \ldots, f_{in}']$.
 Thus, the bias of the regression coefficients for a complete-case analysis is given by 
 \[
-(\mathbf{X}_C^T \mathbf{W}_C \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{H}_C  \mathbf{f}_R \psi
+(\mathbf{X}_C^T \mathbf{W}_C \mathbf{X}_C)^{-1} \mathbf{X}_C^T \mathbf{H}_C  \mathbf{f}_C \psi
 \]
 
 
