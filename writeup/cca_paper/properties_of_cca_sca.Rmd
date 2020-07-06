@@ -481,6 +481,11 @@ Plot 1: $P[R= 0 | X = 0]$ is on the $x$-axis. Bias is on the $y$-axis. Lines are
 
 Plot 2: $P[R = 0 | X = 1]$ is on the $x$-axis, bias is the $y$-axis, lines are colored according to $P[R = 0 | X = 0]$. Facet by $\psi_2 + \psi_3$ (low, med, hi) and $\psi_3$ (0, lo, med)
 
+
+Different idea: We know from Chen, Cohen, \& Chen, that conventions for small, medium, and large odds ratios are about 1.4, 2.4, 4.1. This gives some idea of values for $\psi_2$ except that odds ratios assume a one unit change in the predictor (in this case $T$). A one unit change in $T$ when it is a SMD is huge. So maybe we scale these values to account for the difference between large and small effects $T_{big} - T_{small} = 0.6$, or small effects vs. null effects of about 0.2. In either case, we're setting $\Delta_T$ to be a meaningful difference in $T$ values and then backing out $\psi_2^* = \Delta_T \psi_2$ where $\psi_2$ is one of the conventions from Chen et al.
+
+We can do a similar thing for $\beta_1$ where we note that $\psi_3$ is a difference in odds ratios. Based on the conventions for odds ratios in Chen et al, we can say that differences in odds ratios that are meaningful might range from 0 to 2. But again, we scale those by $\Delta_T$. 
+
 - Continuous covariates?
 
 For a single continuous covariate, note that 
