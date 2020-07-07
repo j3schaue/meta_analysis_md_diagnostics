@@ -3398,7 +3398,7 @@
 		"language": "en",
 		"page": "667-677",
 		"source": "DOI.org (Crossref)",
-		"title": "The impact of collinearity on regression analysis: the asymmetric effect of negative and positive correlations",
+		"title": "The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations",
 		"title-short": "The impact of collinearity on regression analysis",
 		"URL": "http://www.tandfonline.com/doi/abs/10.1080/00036840110058482",
 		"volume": "34",
@@ -3468,6 +3468,165 @@
 				[
 					"1967",
 					2
+				]
+			]
+		}
+	},
+	{
+		"id": "fergusonEffectSizePrimer2009",
+		"type": "article-journal",
+		"container-title": "Professional Psychology: Research and Practice",
+		"DOI": "10.1037/a0015808",
+		"ISSN": "1939-1323, 0735-7028",
+		"issue": "5",
+		"journalAbbreviation": "Professional Psychology: Research and Practice",
+		"language": "en",
+		"page": "532-538",
+		"source": "DOI.org (Crossref)",
+		"title": "An effect size primer: A guide for clinicians and researchers.",
+		"title-short": "An effect size primer",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/a0015808",
+		"volume": "40",
+		"author": [
+			{
+				"family": "Ferguson",
+				"given": "Christopher J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "chenHowBigBig2010",
+		"type": "article-journal",
+		"container-title": "Communications in Statistics - Simulation and Computation",
+		"DOI": "10.1080/03610911003650383",
+		"ISSN": "0361-0918, 1532-4141",
+		"issue": "4",
+		"journalAbbreviation": "Communications in Statistics - Simulation and Computation",
+		"language": "en",
+		"page": "860-864",
+		"source": "DOI.org (Crossref)",
+		"title": "How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies",
+		"title-short": "How Big is a Big Odds Ratio?",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/03610911003650383",
+		"volume": "39",
+		"author": [
+			{
+				"family": "Chen",
+				"given": "Henian"
+			},
+			{
+				"family": "Cohen",
+				"given": "Patricia"
+			},
+			{
+				"family": "Chen",
+				"given": "Sophie"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					3,
+					31
+				]
+			]
+		}
+	},
+	{
+		"id": "haddockUsingOddsRatios1998",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.3.3.339",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "339-353",
+		"source": "DOI.org (Crossref)",
+		"title": "Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues.",
+		"title-short": "Using odds ratios as effect sizes for meta-analysis of dichotomous data",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.3.3.339",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Haddock",
+				"given": "C. Keith"
+			},
+			{
+				"family": "Rindskopf",
+				"given": "David"
+			},
+			{
+				"family": "Shadish",
+				"given": "William R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
+	},
+	{
+		"id": "cohenStatisticalPowerAnalysis1988",
+		"type": "book",
+		"call-number": "HA29 .C66 1988",
+		"edition": "2nd ed",
+		"event-place": "Hillsdale, N.J",
+		"ISBN": "978-0-8058-0283-2",
+		"number-of-pages": "567",
+		"publisher": "L. Erlbaum Associates",
+		"publisher-place": "Hillsdale, N.J",
+		"source": "Library of Congress ISBN",
+		"title": "Statistical power analysis for the behavioral sciences",
+		"author": [
+			{
+				"family": "Cohen",
+				"given": "Jacob"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1988"
 				]
 			]
 		}

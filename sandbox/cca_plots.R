@@ -1,6 +1,49 @@
 library(tidyverse)
 library(viridis)
 
+textsize = theme(axis.title = element_text(size = 20), 
+                 axis.text = element_text(size = 18),
+                 strip.text = element_text(size = 18), 
+                 legend.title = element_text(size = 18), 
+                 legend.text = element_text(size = 18))
+
+# fig1 = tibble(odds_ratio = c(1.5, 2, 2.5, 3, 3.5, 4, 4.5)) %>%
+fig1 = tibble(psi = seq(.15, 1.35, length.out = 8)) %>%
+  crossing(#delta_t = c(.1, .2, .3), 
+           pi0 = 0.1 * 0:9, 
+           n = c(60, 80, 100, 150), 
+           rr = c(0, .25, .5, 1)) %>%
+  mutate(s2 = 4/n * (1 + rr), 
+         #psi = odds_ratio * delta_t, 
+         delta = pi0 * s2 * psi,
+         nlab = paste0("n == ", n), 
+         tau2lab = paste0("tau^2/v == ", rr), 
+         nlab = fct_relevel(nlab, "n == 60", "n == 80"))
+
+p1 = fig1 %>%
+  # filter(delta_t == 0.2) %>%
+  ggplot() +
+    geom_line(aes(pi0, delta, 
+                  color = psi, group = factor(psi)), 
+              size = 1.0) +
+    scale_color_viridis(expression(psi[1]), 
+                        breaks = 0.2 * 1:6) +
+    facet_grid(nlab ~ tau2lab, 
+               labeller = label_parsed) +
+    scale_x_continuous(expression("Probability of Missingness" ~ H[i]), 
+                     breaks = 0:3 * .25,
+                     labels = scales::percent_format(accuracy = 5L)) +
+    scale_y_continuous(expression("Bias" ~ delta[i] ~ "(Cohen's d)"), 
+                       breaks = 0.05 * 0:3) + 
+    theme_bw() +
+    textsize
+p1
+ggsave(plot = p1,
+       filename = "./writeup/cca_paper/graphics/delta_plot.pdf", 
+       height = 7, width = 11)
+
+###########################################################
+
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
   crossing(pi0 = c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6), 
            v = 4/c(80), 
