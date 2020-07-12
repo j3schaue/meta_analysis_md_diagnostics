@@ -2,13 +2,13 @@
 title: "Some Properties of Complete- and Available-Case Meta-Regressions with Missing Covariates"
 csl: ../addons/apa.csl
 output:
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
     toc: false
-  bookdown::word_document2: 
-    reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/cca_references.json
 ---
 
@@ -349,18 +349,18 @@ Thus, consider a range of odds ratios from about 1.5 to 4.5.
 However, the actual size of $\psi_3$ will depend on the scale of $T_i$.
 A difference of $T_i - T_j = 1$ is considered quite large on the scale of standardized mean differences. 
 A less extreme difference $\Delta_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$. 
-Thus, we consider $\Delta_T = 0.1, 0.2, 0.3$ to be of interest on this scale.
-These conventions for odds ratios and $\Delta_T$ would imply that $\psi_1$ might range from 0.15 to 1.35. 
+Thus, meaningful values of $\Delta_T$ might feasibly range from 0.1 to 1.0.
+These conventions for odds ratios and $\Delta_T$ would imply that $\psi_1$ might range from 0.5 to over 8.0 
 
 Based on these conventions, Figure \ref{fig:delta} shows the potential bias $\delta_i$ for this example. 
 Each panel corresponds to a given within-study sample size $n$ and residual heterogeneity $\tau^2$. 
 Within plots, the bias contributed by a single case $\delta_i$ is plotted as a function of the probability of missingness $H_i$ ($x$-axis) and $\psi_i$ (color).
 The plots on the bottom few rows and left most columns show that if both $\psi_1$ is small and $\tau^2 + v$ is small, then $\delta_i$ will be less than 0.05. 
-However if $\tau^2 + v_i$ is larger and the probability of a complete case is strongly related to $T_i$ (i.e., $\psi_1$ is large), then the bias can be greater than 0.1 or even 0.15 (Cohen's $d$).
+However if $\tau^2 + v_i$ is larger and the probability of a complete case is strongly related to $T_i$ (i.e., $\psi_1$ is large), then the bias can be greater than 0.2 or even 0.5 (Cohen's $d$).
 
 \begin{figure}
 \begin{center}
-\includegraphics[width = \textwidth]{./graphics/delta_plot}
+\includegraphics[width = \textwidth]{./graphics/delta_plot_cts}
 \end{center}
 \caption{This figure plots the bias $\delta_i$ ($y$-axis) of a single case as a function of the sampling variance $v$, residual heterogeneity $\tau^2$, the probability of missingness $H_i$ ($x$-axis), and the correlation between missingness and the effect size as measured by $\psi_1$ (color).}
 \label{fig:delta}

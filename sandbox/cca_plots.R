@@ -7,8 +7,11 @@ textsize = theme(axis.title = element_text(size = 20),
                  legend.title = element_text(size = 18), 
                  legend.text = element_text(size = 18))
 
+sort(unlist(lapply(c(.1, .2, .5, .8, 1, 1.5), 
+       FUN = function(x) log(seq(1.5, 5, by = .5))/x)))
+
 # fig1 = tibble(odds_ratio = c(1.5, 2, 2.5, 3, 3.5, 4, 4.5)) %>%
-fig1 = tibble(psi = seq(.15, 1.35, length.out = 8)) %>%
+fig1 = tibble(psi = seq(.2, 5, length.out = 100)) %>%
   crossing(#delta_t = c(.1, .2, .3), 
            pi0 = 0.1 * 0:9, 
            n = c(60, 80, 100, 150), 
@@ -27,19 +30,24 @@ p1 = fig1 %>%
                   color = psi, group = factor(psi)), 
               size = 1.0) +
     scale_color_viridis(expression(psi[1]), 
-                        breaks = 0.2 * 1:6) +
+                        breaks = 1:5, 
+                        option = "cividis") +
     facet_grid(nlab ~ tau2lab, 
                labeller = label_parsed) +
     scale_x_continuous(expression("Probability of Missingness" ~ H[i]), 
                      breaks = 0:3 * .25,
                      labels = scales::percent_format(accuracy = 5L)) +
     scale_y_continuous(expression("Bias" ~ delta[i] ~ "(Cohen's d)"), 
-                       breaks = 0.05 * 0:3) + 
+                       breaks = 0.2 * 0:3) + 
     theme_bw() +
     textsize
 p1
 ggsave(plot = p1,
-       filename = "./writeup/cca_paper/graphics/delta_plot.pdf", 
+       filename = "./writeup/cca_paper/graphics/delta_plot_cts.pdf", 
+       height = 7, width = 11)
+
+ggsave(plot = p1,
+       filename = "./writeup/cca_paper/presentation/delta_plot_cts.jpg", 
        height = 7, width = 11)
 
 ###########################################################
