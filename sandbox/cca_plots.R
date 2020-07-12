@@ -11,7 +11,7 @@ sort(unlist(lapply(c(.1, .2, .5, .8, 1, 1.5),
        FUN = function(x) log(seq(1.5, 5, by = .5))/x)))
 
 # fig1 = tibble(odds_ratio = c(1.5, 2, 2.5, 3, 3.5, 4, 4.5)) %>%
-fig1 = tibble(psi = seq(.2, 5, length.out = 100)) %>%
+fig1 = tibble(psi = seq(.4, 15, length.out = 150)) %>%
   crossing(#delta_t = c(.1, .2, .3), 
            pi0 = 0.1 * 0:9, 
            n = c(60, 80, 100, 150), 
@@ -30,7 +30,7 @@ p1 = fig1 %>%
                   color = psi, group = factor(psi)), 
               size = 1.0) +
     scale_color_viridis(expression(psi[1]), 
-                        breaks = 1:5, 
+                        breaks = 1 + 2*0:6, 
                         option = "cividis") +
     facet_grid(nlab ~ tau2lab, 
                labeller = label_parsed) +
@@ -38,7 +38,7 @@ p1 = fig1 %>%
                      breaks = 0:3 * .25,
                      labels = scales::percent_format(accuracy = 5L)) +
     scale_y_continuous(expression("Bias" ~ delta[i] ~ "(Cohen's d)"), 
-                       breaks = 0.2 * 0:3) + 
+                       breaks = 0.3 * 0:5) + 
     theme_bw() +
     textsize
 p1
@@ -51,6 +51,54 @@ ggsave(plot = p1,
        height = 7, width = 11)
 
 ###########################################################
+
+fig2 = tibble(psi1 = seq(0.4, 15, length.out = 150)) %>%
+  crossing(psi3 = c(-2, -1, 0, 1, 2), 
+           p1 = seq(0, .95, length.out = 20), 
+           pd = c(-.25, 0, 0.25), 
+           s2 = 4/150 + 1/150) %>%
+  mutate(bias = s2 * pd * psi1 + s2 * p1 * psi3, 
+         psi3lab = paste0("psi[3] == ", psi3), 
+         pdlab = paste0("pi[1] - pi[0] == ", pd), 
+         psi3lab = fct_relevel(psi3lab, 
+                               "psi[3] == -2", 
+                               "psi[3] == -1"))
+
+p2a = ggplot(fig2) + 
+  geom_line(aes(p1, bias, color = psi1, group = psi1), size = .9) +
+  scale_color_viridis(expression(psi[1]),
+                      breaks = 1 + 2*0:6,
+                      option = "cividis") +
+  scale_x_continuous(expression("Probability of Missingness" ~ pi[1]),
+                     breaks = 0:3 * .25,
+                     labels = scales::percent_format(accuracy = 5L)) +
+  scale_y_continuous("Bias (Cohen's d)",
+                     breaks = .1 * -2:2) +
+  facet_grid(pdlab ~ psi3lab,
+             labeller = label_parsed) +
+  theme_bw() +
+  textsize
+
+ggsave(plot = p2a,
+       filename = "./writeup/cca_paper/graphics/bias_beta1_ex1.pdf", 
+       width = 14, height = 8)
+
+
+fig2b = tibble(psi1 = c(1, 3, 5, 7)) %>%
+  crossing(psi3 = c(-1, 0, 1), 
+           p1 = seq(0, .99, length.out = 20), 
+           p0 = seq(0, .99, length.out = 20), 
+           s2 = 4/150 + 1/150) %>%
+  mutate(bias = s2 * (p1 - p0) * psi1 + s2 * p1 * psi3)
+
+ggplot(fig2b) + 
+  geom_tile(aes(p0, p1, fill = bias)) + 
+  scale_fill_gradient2(low = "#210233", 
+                       mid = "white", 
+                       high = "#013f4a") + 
+  facet_grid(psi1 ~ psi3)
+
+
 
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
   crossing(pi0 = c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6), 

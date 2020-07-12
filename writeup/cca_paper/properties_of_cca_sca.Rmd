@@ -2,13 +2,13 @@
 title: "Some Properties of Complete- and Available-Case Meta-Regressions with Missing Covariates"
 csl: ../addons/apa.csl
 output:
-  bookdown::word_document2: 
-    reference_docx: ../addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
     toc: false
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/cca_references.json
 ---
 
@@ -339,18 +339,18 @@ The second term is the total variation of $T_i$ around the regression lines, whi
 Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v_i/4$ to $\tau^2 = v_i$.
 Thus, we can write $\tau^2 + v_i = v_i(1 + r)$ from some constant $r$ that ranges from 0 to 1. 
 
-Finally, $\psi_1$ is an odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
+The parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
 There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
 Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
 @fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
 @haddockUsingOddsRatios1998 suggests any odds ratio over 3.0 would be considered quite large.
 Thus, consider a range of odds ratios from about 1.5 to 4.5.
 
-However, the actual size of $\psi_3$ will depend on the scale of $T_i$.
+However, the actual size of $\psi_1$ will depend on the scale of $T_i$.
 A difference of $T_i - T_j = 1$ is considered quite large on the scale of standardized mean differences. 
 A less extreme difference $\Delta_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$. 
 Thus, meaningful values of $\Delta_T$ might feasibly range from 0.1 to 1.0.
-These conventions for odds ratios and $\Delta_T$ would imply that $\psi_1$ might range from 0.5 to over 8.0 
+These conventions for odds ratios and $\Delta_T$ would imply that feasible values of $\psi_1$ might range from 0.4 to over 15.
 
 Based on these conventions, Figure \ref{fig:delta} shows the potential bias $\delta_i$ for this example. 
 Each panel corresponds to a given within-study sample size $n$ and residual heterogeneity $\tau^2$. 
@@ -466,17 +466,17 @@ T_i = \beta_0 + \beta_1 X_i + u_i + e_i
 where $\beta_0, \beta_1$ are the regression coefficients of interest.
 Assume that the model for missingness is log-linear: 
 \[
-p(R_i = 1 | T_i, X_i, v_i) \propto \frac{\exp\{\psi_0  + \psi_1 X_i + \psi_2 T_i + \psi_3 T_i X_i\}}{1 + \exp\{\psi_0  + \psi_1 X_i + \psi_2 T_i + \psi_3 T_i X_i\}}
+p(R_i = 1 | T_i, X_i, v_i) \propto \frac{\exp\{\psi_0  + \psi_1 T_i + \psi_2 X_i + \psi_3 T_i X_i\}}{1 + \exp\{\psi_0  + \psi_1 T_i + \psi_2 X_i + \psi_3 T_i X_i\}}
 \]
 Under this model, $H_{ij} = H_i$ depends only on $X_i$ and not $v_i$, so we can write $H_{ij}$ as:
 \[
-H_{ij} = H(X_i) = 1 - p(R = \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}
+H_{ij} = H(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_iT \beta}
 \]
 Note that $f_{1j}(T_i, X_i, v_i) = X_i$, $f_{2j}(T_i, X_i, v_i) = T_i$, and $f_{3j}(T_i, X_i, v_i) = T_iX_i$. 
 Thus, we can write
 \begin{align*}
 E[T_i | X_i, v_i, R_i = 1] 
-  & = \beta_0 + \beta_1 X_i + H(X_i)(v_i + \tau^2)(\psi_2 + \psi_3 X_i)
+  & = \beta_0 + \beta_1 X_i + H(X_i)(v_i + \tau^2)(\psi_1 + \psi_3 X_i)
 \end{align*}
 
 Suppose $X_i$ is a binary variable, so that $X_i \in \{0,1\}$, and that among the observed covariates, $X_i = 0$ (but $R_i = 1$) for $i = 1, \ldots m_0$ and $X_i = 1$ (and $R_i = 1$) for $m_0 + 1, \ldots, M$ where $M - m_0 = m_1$. Then then the complete-case estimator for $\beta_0$ is given by 
@@ -486,15 +486,8 @@ Suppose $X_i$ is a binary variable, so that $X_i \in \{0,1\}$, and that among th
 This would imply that the complete-case estimator of $\beta_0$ under the missing data model specified would have expectation:
 \begin{align*}
 E[\hat{\beta}_0] 
-  & = \beta_0 + \frac{H(0)m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
+  & = \beta_0 + \frac{H(0)m_0}{\sum_{X_i = 0} w_i}\psi_1
 \end{align*}
-Note that the second term on the right hand side constitutes the bias of $\hat{\beta}_0$.
-The bias depends on a variety of quantities. 
-First, it depends on the parameter $\psi_2$ of the selection model. 
-When $\psi_2 > 0$ and hence when larger effect estimates are more likely to be missing covariates, the bias is negative.
-The bias is positive when $\psi_0 < 0$, which occurs when larger effect estimates are less likely to be missing covariates. 
-The other quantity is $H(0)$ which is, roughly, the probability that a given case is missing the covariate when that covariate is $0$. 
-In other words, the bias is a function of $\psi_2$ and the proportion of incomplete cases when $X_i = 0$.
 
 The standard estimator of $\beta_1$ is given by 
 \begin{align*}
@@ -505,55 +498,56 @@ The standard estimator of $\beta_1$ is given by
 The expectation of this estimator is approximately
 \begin{align*}
 E[\hat{\beta}_1]
-  & = \beta_0 + \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_2 + \psi_3) - \beta_0 - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
-  & = \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_2 + \psi_3) - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_2 \\
-  & = \beta_1 + \left[\frac{H(1)}{\bar{w}_{1\cdot}} - \frac{H(0)}{\bar{w}_{0\cdot}}\right]\psi_2 + \frac{H(1)}{\bar{w}_{1\cdot}}\psi_3
+  & = \beta_0 + \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_1 + \psi_3) - \beta_0 - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_1 \\
+  & = \beta_1 + \frac{H(1) m_1}{\sum_{X_i = 1} w_i}(\psi_1 + \psi_3) - \frac{H(0) m_0}{\sum_{X_i = 0} w_i}\psi_1 \\
+  & = \beta_1 + \left[\frac{H(1)}{\bar{w}_{1\cdot}} - \frac{H(0)}{\bar{w}_{0\cdot}}\right]\psi_1 + \frac{H(1)}{\bar{w}_{1\cdot}}\psi_3
 \end{align*}
 
-Note that the bias of $\hat{\beta}_1$ depends on a few quantities. 
-First, it depends on $\psi_2$ , which is the log-odds ratio of $X_i$ being missing for $T_i$ relative to $T_j = T_i - 1$. 
-The second quantity is $H(1)$ which is approximately the probability that $X_i$ is missing when $X_i = 1$. 
+When all studies have approximately the same estimation error variance so that $w_i \approx w$, then the bias of these estimators is approximately:
+\begin{align*}
+\text{Bias}[\hat{\beta}_0] = B_0 
+  & \approx \frac{P[R = 0 | X = 0]}{w} \psi_1 \\
+\text{Bias}[\hat{\beta}_1] = B_1 
+  & \approx \frac{P[R = 0 | X = 1] - P[R = 0 | X = 0]}{w} \psi_1 + \frac{P[R = 0 | X = 1]}{w} \psi_3
+\end{align*}
+The bias of $\hat{\beta}_0$, $B_0$, is nearly identical to expression (\ref{eq:}), and hence its magnitude is roughly the same as the values displayed in Figure \ref{fig:}.
+The bias of $\hat{\beta}_1$ is a slightly more complex expression that depends on overall missingness, as well as differences in the relationship between missingness and variables in the data.
+Like $B_0$, $B_1$ is larger when there is more missingness, which occurs when $P[R = 0 | X]$ is greater.
+The bias of $\hat{\beta}_1$ also increases as a function of $P[R = 0 | X = 1] - P[R = 0 | X = 0]$, which will be greater if $R$ and $X$ are strongly correlated.
+Further $\psi_1$ will be larger if missingness is more strongly related to $T$, and $\psi_3$ will be larger if missingness has a stronger relationship to $T$ when $X = 1$. 
+Thus, the bias of $\hat{\beta}_1$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects, and that relationship is even stronger when $X = 1$.
 
-When all studies have approximately the same estimation error variance so that $w_i \approx w$, then these biases approximately reduce to:
-\[
-\text{Bias}[\hat{\beta}_0] = \frac{P[R = 0 | X = 0]}{w} \psi_2
-\qquad
-\text{Bias}[\hat{\beta}_0] = \frac{P[R = 0 | X = 1] - P[R = 0 | X = 0]}{w} \psi_2 + \frac{P[R = 0 | X = 1]}{w} \psi_3
-\]
-Note that $P[R = 0 | X = 1] - P[R = 0 | X = 0]$ will be greater if $R$ and $X$ are strongly correlated.
-Further $\psi_2$ will be larger if missingness is more strongly related to $T$, and $\psi_3$ will be larger if missingness has a stronger relationship to $T$ when $X = 1$. 
-Finally, biases will be larger when $P[R = 0 | X]$ is larger, which means that the bias increases as a function of the proportion of missingness.
+To gain insight into the bias of $\hat{\beta}_1$, suppose the average $w = (4/150 + 1/150)^{-1}$ which amounts to all studies having about 150 subjects with $\tau^2 = v/4$.
+Consider the values of $\psi_1$ from the previous section that ranged from 0.4 to over 15. 
+Note that $\psi_3$ is a difference in log-odds ratios, which means that the size of $\psi_3$ should be no larger than the values of $\psi_1$.
+Thus, consider values that range from -2 to 2.
+Figure \ref{fig:b1} shows the potential bias of $\hat{\beta}_1$ for this example. 
+Each panel corresponds to a given value of $\psi_3$ and level of differential missingness $P[R = 0 | X = 1] - P[R = 0 | X = 0]$ (denoted $\pi_1 - \pi_0$). 
+Within panels, the shaded regions show the bias of $\hat{\beta}_1$ as a function of the probability that an $X = 1$ is missing ($x$-axis) and the log-odds ratio $\psi_1$ (color).
 
-An alternative way to see this is to write $\pi_1 = P[R = 0 | X = 1] = a P[R = 0 | X = 0] = a \pi_0$. Then we can write:
-\[
-\text{Bias}(\hat{\beta}_0) = \frac{\pi_0 \psi_2}{w}
-\]
-which shows that bias in $\hat{\beta}_0$ increases as more effects for which $X_i = 0$ are missing and if missingness is strongly related to $\psi_2$.
+\begin{figure}
+\begin{center}
+\includegraphics[width = \textwidth]{./graphics/bias_beta1_ex1}
+\end{center}
+\caption{This figure plots the bias of $\hat{\beta}_1$ ($y$-axis) as a function of the proportion of missingness for cases where $X = 1$ ($\pi_1$, shown on $x$-axis), differential missingness rates between groups of effects where $X = 1$ versus $X = 0$ (denoted $\pi_1 - \pi_0$), the correlation between missingness and the effect size $\psi_1$ (color) and $\psi_3$. Note that bias is shown on the scale of Cohen's $d$, $\psi_1$ is on the scale of a log-odds ratio for the same scale, and $\psi_3$ is a difference of log-odds ratios. Bias was computed assuming all estimation variances were $v_i = 4/150$ and $\tau^2 = v_i/4 = 1/150$.}
+\label{fig:b1}
+\end{figure}
 
-Likewise:
-\[
-\text{Bias}(\hat{\beta}_0) = \frac{\pi_1}{w}(\psi_2 + \psi_3) - \frac{\pi_0}{w}\psi_2
-\]
-Here, we see that bias depends on the fraction of incomplete cases and the strength of the relationship between missingness and $X$ and $T$.
+Figure \ref{fig:b1} reveals a number of patterns about $\hat{\beta}_1$. 
+First, its bias can plausibly range has high as 0.2 or as low as -.2. 
+Though bias of this size arise in more extreme cases in the figure (i.e., larger values of $\pi_1$ and $\psi_3$), less extreme biases are still largely on the scale of $|d| = 0.1$.
+Second, in contrast to $\hat{\beta}_0$, a weaker relationship between missingness and $T$ as measured by $\psi_1$ can actually lead to greater bias, which occurs if that relationship depends in large parge on $X$ (i.e., when $\psi_3$ is larger than $\psi_1$). 
+Third, when a greater proportion of missing $X$ values are 1 than 0 so that $\pi_1 - \pi_2$ is positive, the bias will often be positive, but when the opposite is true the bias will often be negative.
 
-- Plots? [NOTE: How do relate the $\psi$ parameters to the $\beta$ parameters?]
-One idea is to relate $P[R | X]$ to correlation between $X$ and $R$, since they're both binary, Kendall's tau and the pearson correlation are the same.
-We could also say that $\psi_2$ is a log-odds ratio. 
-We could posit low, medium, and large log-odds ratios.
-$\gamma_3$ is a difference in log-odds ratios. 
-Maybe we write:
-\[
-\frac{P[R = 0 | X = 1]}{w} (\psi_2 + \psi_3) - \frac{P[R = 0 | X = 0]}{w} \psi_2
-\]
-where $\psi_2 + \psi_3$ is the log OR for $X = 1$ and $\psi_2$ is the log OR for $X = 0$. 
-Plot 1: $P[R= 0 | X = 0]$ is on the $x$-axis. Bias is on the $y$-axis. Lines are colored by values of $\psi_2$ that are small, medium, and large according to some convention.
-
-Plot 2: $P[R = 0 | X = 1]$ is on the $x$-axis, bias is the $y$-axis, lines are colored according to $P[R = 0 | X = 0]$. Facet by $\psi_2 + \psi_3$ (low, med, hi) and $\psi_3$ (0, lo, med)
+Finally, it is worth noting that the biases displayed in Figure \ref{fig:b1} assume that $v_i = 4/150$ and $\tau^2 = v_i/4 = 1/150$, so that $v_i + \tau^2 = 5/150$. 
+The bias will be larger if the $v_i + \tau^2$ is larger, and will be smaller if $v_i + \tau^2$ is smaller.
+Suppose $v_i + \tau^2 = 5c/150$ for some $c \in \mathbb{R}$, then the bias in Figure \ref{fig:b1} will be scaled by $c$. 
+For instance, suppose studies are half as large, so that $v_i = 4/75$ and $\tau^2 = 0$. 
+This would imply $c = 1.6$, and hence the bias of $\hat{\beta}_1$ would largely on the scale of $|d| = 0.16$.
+Conversely, if $v_i = 4/250$ and $\tau^2 = 1/250$, then $c = 0.6$ and hence biases would largely be on the order of $|d| = 0.06$.
 
 
-Different idea: We know from Chen, Cohen, \& Chen, that conventions for small, medium, and large odds ratios are about 1.4, 2.4, 4.1. This gives some idea of values for $\psi_2$ except that odds ratios assume a one unit change in the predictor (in this case $T$). A one unit change in $T$ when it is a SMD is huge. So maybe we scale these values to account for the difference between large and small effects $T_{big} - T_{small} = 0.6$, or small effects vs. null effects of about 0.2. In either case, we're setting $\Delta_T$ to be a meaningful difference in $T$ values and then backing out $\psi_2^* = \Delta_T \psi_2$ where $\psi_2$ is one of the conventions from Chen et al.
 
-We can do a similar thing for $\beta_1$ where we note that $\psi_3$ is a difference in odds ratios. Based on the conventions for odds ratios in Chen et al, we can say that differences in odds ratios that are meaningful might range from 0 to 2. But again, we scale those by $\Delta_T$. 
 
 - Continuous covariates?
 
@@ -563,7 +557,7 @@ For a single continuous covariate, note that
 \]
 Given the selection model above, the bias of $\hat{\beta}_1$ can be expressed as:
 \[
-\psi_2 \frac{\sum (1 - G(X_i))(X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
+\psi_1 \frac{\sum (1 - G(X_i))(X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
 + \psi_3 \frac{\sum (1 - G(X_i)) X_i (X_i - \bar{X}_{\cdot})}{\sum w_i (X_i - \bar{X}_{\cdot})^2}
 \]
 
