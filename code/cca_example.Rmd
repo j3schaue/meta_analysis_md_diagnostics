@@ -47,7 +47,7 @@ miss_case_summary(data_adt_cca)
 ```
 
 
-## Complete case analysis
+## Complete case analysis - Inependent ES
 
 While effect sizes and sampling variances are not missing for this dataset, there are a number of 
 moderator (covariates) variables that are. A total of 328 ES available in the data. 
@@ -65,7 +65,7 @@ mr_cca
 Only k=232 ES were included in the analysis.Thus, aproximetly 30% of the ES were excluded from the analysis. illustrating the loss of data that can occur when conducting a complete case analysis. 
 
 
-# Complete case analysis - Nested models
+# Complete case analysis - Dependet ES (Nested models)
 
 ```{r}
 ##delete NA
@@ -111,35 +111,35 @@ print(mr_robu2)
 
 
 
-## Shifting units analysis
-
+## Shifting units analysis - Independent ES
 
 ```{r}
-#g1permale
+
+#Covariate 1: g1permale
 mr_shu_cov1<- rma(es_g, se_g^2, mods= ~ g1permale, data= data_adt_cca)
 mr_shu_cov1
 
 #319 EF out of 328
 
-#g1perwhite
+#Covariate 2: g1perwhite
 mr_shu_cov2<- rma(es_g, se_g^2, mods= ~ g1perwhite, data= data_adt_cca)
 mr_shu_cov2
 
 #317 EF out of 328
 
-#g1age
+#Covariate 3: g1age
 mr_shu_cov3<- rma(es_g, se_g^2, mods= ~ g1age, data= data_adt_cca)
 mr_shu_cov3
 
 #321 EF out of 328
 
-#g1hrsperweek
+#Covariate 4: g1hrsperweek
 mr_shu_cov4<- rma(es_g, se_g^2, mods= ~ g1hrsperweek, data= data_adt_cca)
 mr_shu_cov4
 
 #249 EF out of 328
 
-#g1txdays
+#Covariate 5: g1txdays
 mr_shu_cov5<- rma(es_g, se_g^2, mods= ~ g1txdays, data= data_adt_cca)
 mr_shu_cov5
 
@@ -148,5 +148,87 @@ mr_shu_cov5
 ```
 
 
+
+## Shifting units of analysis - Dependent ES 
+
+```{r}
+
+#Covariate 1: g1permale
+##delete NA
+data_subset<- data_adt_cca[, 1:4]
+data_adt_na<- na.omit(data_subset)
+
+#Meta-regression 
+#random-effects model 
+#Using rma.mv
+rma_shu_cov1<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1permale,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                  method="REML")
+rma_shu_cov1
+
+#319 EF out of 328
+
+
+#Covariate 2: g1perwhite
+##delete NA
+data_subset<- data_adt_cca[, c(1:3, 5)]
+data_adt_na<- na.omit(data_subset)
+
+#Meta-regression 
+#random-effects model 
+#Using rma.mv
+rma_shu_cov2<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1perwhite,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                  method="REML")
+rma_shu_cov2
+
+
+#Covariate 3: g1age
+##delete NA
+data_subset<- data_adt_cca[, c(1:3, 6)]
+data_adt_na<- na.omit(data_subset)
+
+#Meta-regression 
+#random-effects model 
+#Using rma.mv
+rma_shu_cov3<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1age,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                  method="REML")
+rma_shu_cov3
+
+
+#Covariate 4: g1hrsperweek
+##delete NA
+data_subset<- data_adt_cca[, c(1:3, 7)]
+data_adt_na<- na.omit(data_subset)
+
+#Meta-regression 
+#random-effects model 
+#Using rma.mv
+rma_shu_cov4<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1hrsperweek,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                  method="REML")
+rma_shu_cov4
+
+
+#Covariate 5: g1txdays
+##delete NA
+data_subset<- data_adt_cca[, c(1:3, 8)]
+data_adt_na<- na.omit(data_subset)
+
+#Meta-regression 
+#random-effects model 
+#Using rma.mv
+rma_shu_cov5<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1txdays,
+                                   random= ~ 1|studyid,
+                                  data= data_adt_na,
+                                  method="REML")
+rma_shu_cov5
+
+```
 
 
