@@ -1,5 +1,6 @@
 library(tidyverse)
 library(viridis)
+library(cowplot)
 
 textsize = theme(axis.title = element_text(size = 20), 
                  axis.text = element_text(size = 18),
@@ -11,7 +12,7 @@ sort(unlist(lapply(c(.1, .2, .5, .8, 1, 1.5),
        FUN = function(x) log(seq(1.5, 5, by = .5))/x)))
 
 # fig1 = tibble(odds_ratio = c(1.5, 2, 2.5, 3, 3.5, 4, 4.5)) %>%
-fig1 = tibble(psi = seq(.4, 15, length.out = 150)) %>%
+fig1 = tibble(psi = seq(.4, 7.5, length.out = 150)) %>%
   crossing(#delta_t = c(.1, .2, .3), 
            pi0 = 0.1 * 0:9, 
            n = c(60, 80, 100, 150), 
@@ -19,9 +20,9 @@ fig1 = tibble(psi = seq(.4, 15, length.out = 150)) %>%
   mutate(s2 = 4/n * (1 + rr), 
          #psi = odds_ratio * delta_t, 
          delta = pi0 * s2 * psi,
-         nlab = paste0("n == ", n), 
+         nlab = paste0("v == 4/", n), 
          tau2lab = paste0("tau^2/v == ", rr), 
-         nlab = fct_relevel(nlab, "n == 60", "n == 80"))
+         nlab = fct_relevel(nlab, "v == 4/60", "v == 4/80"))
 
 p1 = fig1 %>%
   # filter(delta_t == 0.2) %>%
@@ -34,11 +35,11 @@ p1 = fig1 %>%
                         option = "cividis") +
     facet_grid(nlab ~ tau2lab, 
                labeller = label_parsed) +
-    scale_x_continuous(expression("Probability of Missingness" ~ H[i]), 
+    scale_x_continuous(expression("Probability of Missingness" ~ H[1](0)), 
                      breaks = 0:3 * .25,
                      labels = scales::percent_format(accuracy = 5L)) +
-    scale_y_continuous(expression("Bias" ~ delta[i] ~ "(Cohen's d)"), 
-                       breaks = 0.3 * 0:5) + 
+    scale_y_continuous(expression("Bias of" ~ hat(beta)[0][C] ~ "(Cohen's d)"), 
+                       breaks = 0.2 * 0:4) + 
     theme_bw() +
     textsize
 p1
@@ -46,43 +47,91 @@ ggsave(plot = p1,
        filename = "./writeup/cca_paper/graphics/delta_plot_cts.pdf", 
        height = 7, width = 11)
 
-ggsave(plot = p1,
+
+
+p1pres = fig1 %>%
+  # filter(delta_t == 0.2) %>%
+  ggplot() +
+  geom_line(aes(pi0, delta, 
+                color = psi, group = factor(psi)), 
+            size = 1.0) +
+  scale_color_viridis(expression(psi[1]), 
+                      breaks = 1 + 2*0:6, 
+                      option = "cividis") +
+  facet_grid(nlab ~ tau2lab, 
+             labeller = label_parsed) +
+  scale_x_continuous("Probability of Missingness Given X, v", 
+                     breaks = 0:3 * .25,
+                     labels = scales::percent_format(accuracy = 5L)) +
+  scale_y_continuous(expression("Bias" ~ delta[i] ~ "(Cohen's d)"), 
+                     breaks = 0.3 * 0:5) + 
+  theme_bw() +
+  textsize
+ggsave(plot = p1pres,
        filename = "./writeup/cca_paper/presentation/delta_plot_cts.jpg", 
        height = 7, width = 11)
 
 ###########################################################
 
-fig2 = tibble(psi1 = seq(0.4, 15, length.out = 150)) %>%
-  crossing(psi3 = c(-2, -1, 0, 1, 2), 
-           p1 = seq(0, .95, length.out = 20), 
-           pd = c(-.25, 0, 0.25), 
-           s2 = 4/150 + 1/150) %>%
-  mutate(bias = s2 * pd * psi1 + s2 * p1 * psi3, 
-         psi3lab = paste0("psi[3] == ", psi3), 
-         pdlab = paste0("pi[1] - pi[0] == ", pd), 
-         psi3lab = fct_relevel(psi3lab, 
-                               "psi[3] == -2", 
-                               "psi[3] == -1"))
+fig2 = tibble(psi1 = seq(0.4, 7.5, length.out = 150)) %>%
+  crossing(pd = seq(0, 0.5, length.out = 100), 
+           n = c(60, 80, 100, 150), 
+           r = c(0, .25, .5, 1)) %>%
+  mutate(s2 = (4/n) * (1 + r),
+         bias = s2 * pd * psi1, 
+         nlab = paste0("v == 4/", n), 
+         tau2lab = paste0("tau^2/v == ", r), 
+         nlab = fct_relevel(nlab, "v == 4/60", "v == 4/80"))
 
 p2a = ggplot(fig2) + 
-  geom_line(aes(p1, bias, color = psi1, group = psi1), size = .9) +
+  geom_line(aes(pd, bias, color = psi1, group = psi1), size = .9) +
   scale_color_viridis(expression(psi[1]),
                       breaks = 1 + 2*0:6,
                       option = "cividis") +
-  scale_x_continuous(expression("Probability of Missingness" ~ pi[1]),
-                     breaks = 0:3 * .25,
-                     labels = scales::percent_format(accuracy = 5L)) +
-  scale_y_continuous("Bias (Cohen's d)",
-                     breaks = .1 * -2:2) +
-  facet_grid(pdlab ~ psi3lab,
+  scale_x_continuous(expression("Differential Missingness"), 
+                     breaks = c(0, .2, .4)) +
+  scale_y_continuous(expression("Bias" ~ hat(beta)[1][C] ~ "(Cohen's d)"), 
+                     breaks = 0.2 * 0:2) +
+  facet_grid(nlab ~ tau2lab,
              labeller = label_parsed) +
-  theme_bw() +
-  textsize
-
+  theme_bw() + textsize
+# +
+#   theme(axis.title = element_text(size = 24), 
+#         axis.text = element_text(size = 22),
+#         strip.text = element_text(size = 22), 
+#         legend.title = element_text(size = 22), 
+#         legend.text = element_text(size = 22), 
+#         legend.key.height = unit(1.5, "cm"))
+p2a
 ggsave(plot = p2a,
        filename = "./writeup/cca_paper/graphics/bias_beta1_ex1.pdf", 
-       width = 14, height = 8)
+       width = 11, height = 7)
 
+
+p2p = ggplot(fig2 %>% 
+               filter(psi3 == 0)) + 
+  geom_line(aes(pd, bias, color = psi1, group = psi1), size = 1.1) +
+  scale_color_viridis(expression(psi[1]),
+                      breaks = 1 + 2*0:6,
+                      option = "cividis") +
+  scale_x_continuous(expression("Differential Missingness"),
+                     breaks = -3:3 * .25,
+                     labels = scales::percent_format(accuracy = 5L)) +
+  scale_y_continuous("Bias (Cohen's d)",
+                     breaks = .1 * -3:3) +
+  # facet_grid( ~ pdlab,
+  #            labeller = label_parsed) +
+  theme_bw() +
+  theme(axis.title = element_text(size = 24), 
+        axis.text = element_text(size = 22),
+        strip.text = element_text(size = 22), 
+        legend.title = element_text(size = 22), 
+        legend.text = element_text(size = 22), 
+        legend.key.height = unit(1.5, "cm"))
+p2p
+ggsave(plot = p2p,
+       filename = "./writeup/cca_paper/presentation/bias_beta1_ex1.jpg", 
+       width = 12, height = 8)
 
 fig2b = tibble(psi1 = c(1, 3, 5, 7)) %>%
   crossing(psi3 = c(-1, 0, 1), 
@@ -99,6 +148,49 @@ ggplot(fig2b) +
   facet_grid(psi1 ~ psi3)
 
 
+
+
+
+############################################################################
+
+fig3 = tibble(beta2 = seq(-.5, .5, length.out = 50)) %>%
+  crossing(pi0 = c(0.25, .5, .75),#seq(0.1, .9, by = 0.001), 
+           corr = c(0, 0.1, 0.3, 0.5)) %>%
+  mutate(bias0 = beta2 * pi0, 
+         bias1 = beta2 * corr)
+
+
+p3a = ggplot(fig3) +
+  geom_line(aes(beta2, bias0, color = factor(pi0)), 
+            size = 1.1) +
+  scale_color_viridis(expression(pi[0][1]),
+                      discrete = TRUE,
+                      option = "plasma") +
+  labs(x = expression(beta[2]), 
+       y = expression("Bias of " ~ beta[0])) +
+  theme_bw() +
+  textsize
+p3a
+
+p3b = ggplot(fig3) +
+  geom_line(aes(beta2, bias1, color = factor(corr)), size = 1.1) +
+  scale_color_viridis(expression(rho[1][2]),
+                      discrete = TRUE) +
+  labs(x = expression(beta[2]), 
+       y = expression("Bias of " ~ beta[1])) +
+  ylim(-.5, .5) +
+  theme_bw() +
+  textsize
+
+p3b
+
+p3grid = plot_grid(p3a, p3b, ncol = 2)
+p3grid
+ggsave(plot = p3grid,
+       filename = "./writeup/cca_paper/graphics/omitted_var_bias.pdf", 
+       width = 12, height = 6)
+
+############################################################################
 
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
   crossing(pi0 = c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6), 

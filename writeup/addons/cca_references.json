@@ -3630,5 +3630,414 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "hedgesPowerStatisticalTests2004",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.9.4.426",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "4",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "426-445",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests for moderators in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.9.4.426",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2004"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesPowerStatisticalTests2001",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.6.3.203",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "203-217",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.6.3.203",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesStatisticalAnalysesStudying2019",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/met0000189",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "5",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "557-570",
+		"source": "DOI.org (Crossref)",
+		"title": "Statistical analyses for studying replication: Meta-analytic perspectives.",
+		"title-short": "Statistical analyses for studying replication",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/met0000189",
+		"volume": "24",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesFittingContinuousModels24",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164634",
+		"ISSN": "03629791",
+		"issue": "4",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "245",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting continuous models to effect size data",
+		"URL": "https://www.jstor.org/stable/1164634?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesCombiningIndependentEstimators1983",
+		"type": "article-journal",
+		"container-title": "British Journal of Mathematical and Statistical Psychology",
+		"DOI": "10.1111/j.2044-8317.1983.tb00768.x",
+		"ISSN": "00071102",
+		"issue": "1",
+		"language": "en",
+		"page": "123-131",
+		"source": "DOI.org (Crossref)",
+		"title": "Combining independent estimators in research synthesis",
+		"URL": "http://doi.wiley.com/10.1111/j.2044-8317.1983.tb00768.x",
+		"volume": "36",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1983",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesFittingCategoricalModels22",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164961",
+		"ISSN": "03629791",
+		"issue": "2",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "119",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting categorical models to effect sizes from a series of experiments",
+		"URL": "https://www.jstor.org/stable/1164961?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesRobustVarianceEstimation2010",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.5",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Synth. Method",
+		"language": "en",
+		"page": "39-65",
+		"source": "DOI.org (Crossref)",
+		"title": "Robust variance estimation in meta-regression with dependent effect size estimates",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.5",
+		"volume": "1",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Tipton",
+				"given": "Elizabeth"
+			},
+			{
+				"family": "Johnson",
+				"given": "Matthew C."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "viechtbauerAccountingHeterogeneityRandomeffects2007",
+		"type": "article-journal",
+		"abstract": "Abstract. To conduct a meta-analysis, one needs to express the results from a set of related studies in terms of an outcome measure, such as a standardized mean difference, correlation coefficient, or odds ratio. The observed outcome from a single study will differ from the true value of the outcome measure because of sampling variability. The observed outcomes from a set of related studies measuring the same outcome will, therefore, not coincide. However, one often finds that the observed outcomes differ more from each other than would be expected based on sampling variability alone. A likely explanation for this phenomenon is that the true values of the outcome measure are heterogeneous. One way to account for the heterogeneity is to assume that the heterogeneity is entirely random. Another approach is to examine whether the heterogeneity in the outcomes can be accounted for, at least in part, by a set of study-level variables describing the methods, procedures, and samples used in the different studies. The purpose of the present paper is to discuss these different approaches with particular emphasis on the interpretation of the results and practical issues.",
+		"container-title": "Zeitschrift für Psychologie / Journal of Psychology",
+		"DOI": "10.1027/0044-3409.215.2.104",
+		"ISSN": "0044-3409",
+		"issue": "2",
+		"journalAbbreviation": "Zeitschrift für Psychologie / Journal of Psychology",
+		"language": "en",
+		"page": "104-121",
+		"source": "DOI.org (Crossref)",
+		"title": "Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis",
+		"URL": "https://econtent.hogrefe.com/doi/10.1027/0044-3409.215.2.104",
+		"volume": "215",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2007",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "berkeyRandomeffectsRegressionModel1995",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.4780140406",
+		"ISSN": "02776715, 10970258",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "395-411",
+		"source": "DOI.org (Crossref)",
+		"title": "A random-effects regression model for meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/sim.4780140406",
+		"volume": "14",
+		"author": [
+			{
+				"family": "Berkey",
+				"given": "C. S."
+			},
+			{
+				"family": "Hoaglin",
+				"given": "D. C."
+			},
+			{
+				"family": "Mosteller",
+				"given": "F."
+			},
+			{
+				"family": "Colditz",
+				"given": "G. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1995",
+					2,
+					28
+				]
+			]
+		}
+	},
+	{
+		"id": "konstantopoulosFixedEffectsVariance2011",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.35",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Syn. Meth.",
+		"language": "en",
+		"page": "61-76",
+		"source": "DOI.org (Crossref)",
+		"title": "Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis",
+		"title-short": "Fixed effects and variance components estimation in three-level meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.35",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Konstantopoulos",
+				"given": "Spyros"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2011",
+					3
+				]
+			]
+		}
 	}
 ]
