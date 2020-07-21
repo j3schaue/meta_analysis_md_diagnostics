@@ -4039,5 +4039,66 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "schauerExploratoryAnalysesMissingunderreview",
+		"type": "article-journal",
+		"title": "Exploratory analyses for missing data in meta-analyses",
+		"author": [
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			},
+			{
+				"family": "Dìaz",
+				"given": "Karina"
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"issued": {
+			"literal": "under review"
+		}
+	},
+	{
+		"id": "lipseyThoseConfoundedModerators2003",
+		"type": "article-journal",
+		"container-title": "The ANNALS of the American Academy of Political and Social Science",
+		"DOI": "10.1177/0002716202250791",
+		"ISSN": "0002-7162, 1552-3349",
+		"issue": "1",
+		"journalAbbreviation": "The ANNALS of the American Academy of Political and Social Science",
+		"language": "en",
+		"page": "69-81",
+		"source": "DOI.org (Crossref)",
+		"title": "Those confounded moderators in meta-analysis: Good, bad, and ugly",
+		"title-short": "Those Confounded Moderators in Meta-Analysis",
+		"URL": "http://journals.sagepub.com/doi/10.1177/0002716202250791",
+		"volume": "587",
+		"author": [
+			{
+				"family": "Lipsey",
+				"given": "Mark W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					5
+				]
+			]
+		}
 	}
 ]

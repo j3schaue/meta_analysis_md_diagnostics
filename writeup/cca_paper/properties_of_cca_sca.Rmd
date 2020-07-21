@@ -624,14 +624,14 @@ It is worth noting, however, that it will almost always be impossible to confirm
 
 Suppose $X_i = [1, X_{i1}, X_{i2}]$ and $X_{i1}$ and $X_{i2}$ are binary covariates such that 
 \begin{equation}
-T_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_2 + u_i + e_i
+T_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + u_i + e_i
 \label{eq:sca_ex}
 \end{equation}
-If there is missingness in both $X_1$ and $X_2$, then $R_i \in \{0, 1\}^2$ so that $R_i = [1,1]$ indicates both covariates are observed, and $R_i = [1, 0]$ indicates only $X_{i1}$ is observed. 
+If there is missingness in both $X_{i1}$ and $X_{i2}$, then $R_i \in \{0, 1\}^2$ so that $R_i = [1,1]$ indicates both covariates are observed, and $R_i = [1, 0]$ indicates only $X_{i1}$ is observed. 
 If missingness is such that $R_i = [1, 1]$ for very few effect estimates, then a shifting units analysis might involve regressing $T_i$ on the observed values of $X_{i1}$ and then on the observed values of $X_{i2}$. 
 
-The first regression would take only rows for which $X_{i1}$ is observed, so that $R \in \{[1,1], [1,0]\}$ and the excluded $X_{i2}$ could be either 0 or 1. 
-The shifting-case estimators follow from equation (\ref{eq:}):
+The first regression would take only rows for which $X_{i1}$ is observed, so that $R \in \mathcal{R}_{1} = \{[1,1], [1,0]\}$ and the excluded $X_{i2}$ could be either 0 or 1. 
+The shifting-case estimators follow from equation (\ref{eq:beta_s}):
 \[
 \hat{\beta}_{0S} = \frac{\sum_{X_1 = 0} w_i T_i}{\sum_{X_1 = 0} w_i}, 
 \qquad \hat{\beta}_{1S} = \frac{\sum_{X_1 = 1} w_i T_i}{\sum_{X_1 = 1} w_i} - \hat{\beta}_{0S}
@@ -639,88 +639,112 @@ The shifting-case estimators follow from equation (\ref{eq:}):
 
 Assume that missigness follows the following log-linear model:
 \begin{equation}
-\text{logit}[p(R_i = [a, b] | T_i, X_i, v_i)] = \psi_{0ab} + \psi_{1ab} T_i + \psi_{2ab} X_{i1} + \psi_{3ab} X_{i2} 
+\text{logit}[p(R_i \in \mathcal{R}_{1} | T_i, X_{i1}, v_i)] = \psi_{0} + \psi_{1} T_i + \psi_{2} X_{i1} 
 \label{eq:logit_sca}
 \end{equation}
-Here, the probability that an observation is included in the first SCA model depends on $T_i$, $X_{i1}$, and $X_{i2}$. 
-It also depends on the parameters $\psi_{mab}$ such that $a = 1$ (i.e., $\psi_{010}, \psi_{011}$, etc.).
-The first SCA model that includes only $X_{i1}$ conditions on $R_i \in \mathcal{R}_1 = \{[1,0], [1, 1]\}$.
-The observed and missing $X_{i2}$ take values of either 0 or 1. 
+Note that this gives the log-odds that an effect is included in the model given $T_i$ and $X_{i1}$, and that $X_{i2}$ is not involved.
 
-Given the selection model in (\ref{eq:logit_sca}), the bias of the SCA estimators can be written as:
+Given the selection model in (\ref{eq:logit_sca}), the bias of the coefficient estimators can be written as:
 \begin{align}
-\text{Bias}[\hat{\beta}_0]
-  & = \beta_2 \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i} + \frac{\sum_{X_{i1} = 0} w_i \tilde{\delta}_{i}}{\sum_{X_{i1} = 0} w_i}  \\
+\text{Bias}[\hat{\beta}_{0S}]
+  & = \beta_2 \frac{\sum_{X_1 = 0, X_2 = 1} w_i}{\sum_{X_i = 0} w_i} + \frac{\sum_{X_{i1} = 0} w_i \tilde{\delta}_{i1}}{\sum_{X_{i1} = 0} w_i}  \\
 \text{Bias}[\hat{\beta}_1]
-  & = \beta_2 \left(\frac{\sum_{X_{i1} = 1, X_{i2} = 1} w_i}{\sum_{X_{i1} = 1} w_i} - \frac{\sum_{X_{i1} = 0, X_{i2} = 1} w_i}{\sum_{X_{i1} = 0} w_i}\right) + \left(\frac{\sum_{X_{i1} = 1} w_i \tilde{\delta}_{i}}{\sum_{X_{i1} = 1} w_i} - \frac{\sum_{X_{i1} = 0} w_i \tilde{\delta}_{i}}{\sum_{X_{i1} = 0} w_i}\right)
+  & = \beta_2 \left(\frac{\sum_{X_{i1} = 1, X_{i2} = 1} w_i}{\sum_{X_{i1} = 1} w_i} - \frac{\sum_{X_{i1} = 0, X_{i2} = 1} w_i}{\sum_{X_{i1} = 0} w_i}\right) + \left(\frac{\sum_{X_{i1} = 1} w_i \tilde{\delta}_{i1}}{\sum_{X_{i1} = 1} w_i} - \frac{\sum_{X_{i1} = 0} w_i \tilde{\delta}_{i1}}{\sum_{X_{i1} = 0} w_i}\right)
 \end{align}
+Here $\tilde{\delta}_{i1}$ are the missingness biases as defined above, and whose approximate values is given in (\ref{eq:conditional_bias}). 
+To distinguish from the $\delta_{i1}$ from the complete-case example, we use the $\tilde{\delta}$ notation.
 
-Note that both the bias of $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ depend on two terms. 
-The first term in each expression is the omitted variable bias.
-The second term in each expression is the missingness bias.
-To gain some insight into these expressions, consdier the omitted variables bias. 
+Both the bias of $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ depend on two terms. 
+The first term in each expression is the omitted variable bias, and the second term in each expression is the missingness bias.
+Consider the omitted variable biases.
 When effects are estimated with roughly the same precision, so that $w_i \approx w$, then the omitted variable biases reduce to 
 \begin{align}
 \text{Omitted Var. Bias}[\hat{\beta}_{0S}]
-  & = \beta_2 P[X_2 = 1 | X_1 = 0] \\
+  & = \beta_2 p(X_2 = 1 | X_1 = 0) \label{eq:omvar_b0}\\
 \text{Omitted Var. Bias}[\hat{\beta}_{1S}]
-  & = \beta_2 \left(P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0] \right)
+  & = \beta_2 \left[p(X_2 = 1 | X_1 = 1) - p(X_2 = 1 | X_1 = 0) \right] \label{eq:omvar_b1}
 \end{align}
 
-To get a better sense of these expressions, consider the bias for $\hat{\beta}_1$. This will depend on two quantities. The first is $\beta_2$, which is the contribution of $X_2$ to the complete-data model.
-The second is the difference $P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$. 
-Because both $X_1$ and $X_2$ are binary, this difference is equivalent to their Pearson correlation (assuming equal marginals). 
-If $X_1 \perp X_2$, then their correlation is zero, and $\hat{\beta}_1$ will be unbiased.
-But if $X_1$ and $X_2$ are correlated, the bias of $\hat{\beta}_1$ will depend on how strongly correlated they are, and how big $\beta_2$ is.
+The omitted variable biases for each coefficient can be seen as depending on two quantities. 
+Both (\ref{eq:omvar_b0}) and (\ref{eq:omvar_b1}) are increasing in $\beta_2$, which is the contribution of $X_{i2}$ to the complete-data model.
+The omitted variable bias for $\hat{\beta}_{0S}$ is also increasing in $p(X_2 = 1 | X_1 = 0)$.
+The bias for $\hat{\beta}_{1S}$ in (\ref{eq:omvar_b1}) is increasing in $p(X_2 = 1 | X_1 = 1) - p(X_2 = 1 | X_1 = 0)$. 
+Because both $X_{i1}$ and $X_{i2}$ are binary, this difference is roughly equivalent to their Pearson correlation (assuming equal marginals). 
+If $X_{i1} \perp X_{i2}$, then their correlation is zero, and the omitted variable bias will be zero.
+But if $X_{i1}$ and $X_{i2}$ are correlated, the bias of $\hat{\beta}_1$ will depend on how strongly correlated $X_{i1}$ and $X_{i2}$ are, and how big $\beta_2$ is.
 
 Figure \ref{fig:omitted_bias} shows the omitted variable bias of $\hat{\beta}_0$ (left plot) and $\hat{\beta}_1$ as a function of $\beta_2$. 
 Both the bias and $\beta_2$ are shown on the scale of Cohen's $d$. 
-In the left plot $\pi_{01} = P[X_2 = 1 | X_1 = 0]$ is the proportion of $X_2 = 1$ when $X_1 = 0$. 
-In the right plot, $\rho_{12} = P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$, which is roughly the correlation between $X_1$ and $X_2$.
+In the left plot $\pi_{01} = p(X_{i2} = 1 | X_{i1} = 0)$ is the proportion of $X_{i2} = 1$ when $X_{i1} = 0$. 
+In the right plot, $\rho_{12} = p(X_{i2} = 1 | X_{i1} = 1) - p(X_{i2} = 1 | X_{i1} = 0)$, which is roughly the correlation between $X_{i1}$ and $X_{i2}$.
 Note that because $\rho_{12}$ can be intuited as (roughly) a Pearson correlation, the values in the figure include 0, 0.1 (i.e., a "small" correlation), 0.2 (medium correlation), and 0.5 (large correlation) [@cohenStatisticalPowerAnalysis1988].
 
-The figure shows that if $\beta_2 = 0$ so that $X_2$ is irrelevant given $X_1$, that both $\hat{\beta}_0$ and $\hat{\beta}_1$ will be unbiased.
+The figure shows that if $\beta_2 = 0$ so that $X_{i2}$ is independent of $T_i$ given $X_{i1}$, that both $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ will be unbiased.
 However, when $\beta_2$ is nonzero, both estimators will be biased.
-If $X_1$ and $X_2$ are highly correlated, or if $X_2 = 1$ when $X_1 = 0$ with high probability, the bias of both estimators will about as large as a "small" effect (i.e., $d = 0.2$) when $\beta_2$ is larger than 0.2. 
-For $\hat{\beta}_1$ the bias will be less than about $d = 0.05$ when $|\beta_2| \leq 0.1$ or if $\rho_{12} < 0.5$. 
+If $X_{i1}$ and $X_{i2}$ are highly correlated, or if $X_{i2} = 1$ when $X_{i1} = 0$ with high probability, the bias of both estimators will about as large as a "small" effect (i.e., $d = 0.2$) when $\beta_2$ is larger than 0.2. 
+For $\hat{\beta}_{1S}$ the bias will be less than about $d = 0.05$ when $|\beta_2| \leq 0.1$ or if $\rho_{12} < 0.5$. 
 
 \begin{figure}
 \begin{center}
 \includegraphics[width = \textwidth]{./graphics/omitted_var_bias}
 \end{center}
-\caption{This figure shows the omitted variable bias of $\hat{\beta}_0$ and $\hat{\beta}_1$ for the model in (\ref{eq:sca_ex}) as a function of the omitted variable $\beta_2$. The bias ($y$-axis) and $\beta_2$ ($x$-axis) are on the scale of Cohen's $d$. The bias displayed is soley due to omitting $X_2$ from (\ref{eq:sca_ex}). In the left plot, lines are colored according to $\pi_{01} = P[X_2 = 1 | X_1 = 0]$. In the right plot, lines are colored according to $\rho_{12} = P[X_2 = 1 | X_1 = 1] - P[X_2 = 1 | X_1 = 0]$.}
+\caption{This figure shows the omitted variable bias of $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ for the model in (\ref{eq:sca_ex}) as a function of the omitted variable coefficient $\beta_2$. The bias ($y$-axis) and $\beta_2$ ($x$-axis) are on the scale of Cohen's $d$. The bias displayed is solely due to omitting $X_{i2}$ from (\ref{eq:sca_ex}). In the left plot, lines are colored according to $\pi_{01} = p(X_{i2} = 1 | X_{i1} = 0)$. In the right plot, lines are colored according to $\rho_{12} = p(X_{i2} = 1 | X_{i1} = 1) - p(X_{i2} = 1 | X_{i1} = 0)$.}
 \label{fig:omitted_bias}
 \end{figure}
 
 Figure \ref{fig:omitted_bias} does not take into account any bias induced by missingness. 
-Note that the expression for missingness bias for $\hat{\beta}_{0S}$ is a weighted average of $\tilde{\delta}_i$ among effects for which $X_{i1} = 0$. 
-Similarly, $\tilde{\delta}_i$ is a weighted average of $\delta_{ij}$. 
-This when $w_i \approx w$ and $\delta_{ij} \approx \delta$, the missingness bias for $\hat{\beta}_{0S}$ will be about the same as the missingness bias for $\hat{\beta}_{0C}$. 
-Figure \ref{fig:delta} shows possible values of this bias on the scale of Cohen's $d$.
+However, because the missingness mechanism in (\ref{eq:logit_sca}) is the same as the mechanism for the complete-case example (\ref{eq:cc_loglinear}), the missingness bias for $\hat{\beta}_{0S}$ is the same as that for $\hat{\beta}_{0C}$ in (\ref{eq:cc_bias_b0}), which is shown in Figure \ref{fig:delta}. 
+Likewise, the missingness bias for $\hat{\beta}_{1S}$ is the same as that for $\hat{\beta}_{1C}$ in (\ref{eq:cc_bias_beta1_example}), which is shown in Figure \ref{fig:b1}.
 
-Likewise, the missingness bias of $\hat{\beta}_{1S}$ is a difference of weighted averages of $\delta_{ij}$. Assuming $\delta_{ij} \approx \delta$ and $w_i \approx w$, the missingness bias of $\hat{\beta}_{1S}$ is approximately the same as in \ref{eq:}.
-Figure \ref{fig:bias_b1_cca} shows possible values of that bias on the scale of Cohen's $d$.
+Thus, the total bias of $\hat{\beta}_{0S}$ will be the sum of the omitted variable biases shown in Figure \ref{fig:delta} and the missingness biases shown in Figure \ref{fig:omitted_bias}.
+If both the omitted and missingness biases are on the higher end, the total bias of $\hat{\beta}_0$ might be as large as $d = 0.6$ to over 1.0.
+Likewise, the total bias of $\hat{\beta}_{1S}$ will be the sum of the omitted variable biases shown in Figure \ref{fig:b1} and the missingness biases shown in Figure \ref{fig:omitted_bias}, and can be larger than $d = 0.6$.
 
-[FIGURE IDEA: Panels for $\psi_1$ and $\beta_2$. Within panels, plot total bias vs. Prob. Missing].
-
-
+As noted above, the missingness bias and omitted variable bias need not be in the same direction. 
+For instance, if $\beta_2 < 0$ but $\tilde{\delta}_{ij} > 0$, then the omitted variable bias for $\hat{\beta}_{0S}$ will be negative, but the missingness bias will be positive. 
+In such cases, the bias of the shifting case estimators could be smaller than the bias of the complete-case estimators.
+However, because the biases depend on unknown (and potentially unobserved) quantities, it will often be impossible to empirically verify the magnitude or direction of the bias. 
 
 
 
 
 # Discussion
 
-1. Both CCA and SCA will produce biased coefficient estimates unless certain conditions are met. While these sets of conditions are somewhat restrictive for CCA, they are considerably more restrictive for SCA.
+This article described a selection model approach to studying the bias of two common methods for conducting meta-regressions with missing covariates: complete-case and shifting-case analyses. 
+Under certain assumptions regarding the selection model, we obtained expressions for the approximate bias of coefficient estimators.
+These expressions were presented in a general form, which was then unpacked by way of examples. 
 
-2. The bias of CCA/SCA when these conditions are not met can be substantial. 
+We found that both complete-case and shifting-case analyses will produce biased coefficient estimates unless certain conditions are met. 
+Complete-case estimators are unbiased if the probability that all relevant covariates are observed is (conditionally) independent of the effect size estimate.
+Shifting-estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
+When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism, the missingness rate, an the relevance of any omitted covariates.
 
-3. An important part of the bias is that it will depend on unknown parameters and unobserved data. This means that for CCA/SCA to be unbiased, we would need to assume those conditions hold. Because it will be impossible to say if they hold, or if they don't, it will be difficult to say just how biased a given analysis is. [PERHAPS TIE IN EXAMPLE].
+An important aspect of these results is that bias will depend on unknown parameters and unobserved data. 
+This means that it will be impossible to empirically verify the magnitude or direction of the bias.
+Further, it will require strong assumptions regarding the missingness mechanism to correct any bias. 
+These assumptions may be buttressed by theory about scientific report, data collection, and data curation.
+[PERHAPS TIE IN EXAMPLE].
 
-4. We would recommend avoiding SCA unless there are strong reasons to suspect both conditions are true. We would avoid using CCA unless there is very little missing data.
+It is not immediately clear how commonly the conditions required for unbiased complete- and shifting-case estimators arise.
+Recent empirical work on examining missingness in meta-analytic datasets found that effect sizes can be strongly correlated with missingness, though this is not always the case [@schauerExploratoryAnalysesMissingunderreview]. 
+Further, issues of multicollinearity and confounding in meta-regression, including those discussed by @lipseyThoseConfoundedModerators2003, would suggest that omitting variables in a shifting-case analysis are likely to induce bias.
 
-5. There are alternatives available. EM (Ibrahim), EM with MNAR (Lipsits), MI, FIML. Their application in MR is less broad due to a lack of easy-to-integrate software for most meta-analysts. For MI, the properties of various imputation techniques has not been fully studied for MR models.
+Based on these results, our primary recommendation is that analysts attempt to understand the missingness mechanisms in their data.
+This can leverage knowledge about standard reporting and coding practices, as well as exploratory analyses [@schauerExploratoryAnalysesMissingunderreview].
+If there is very little missingness, or if there is good reason to assume that missingness is uncorrelated with effect size estimates, a complete-case analysis may be a reasonable option.
+However, we would discourage analysts from continuing to use shifting-case analyses because it would seem unlikely that omitted variable biases are zero in practice.
 
-6. There is still a large amount of work to be done on missing data in MA.
+We would also suggest analysts investigate the feasibility of alternative estimation methods. 
+@ibrahimIncompleteDataGeneralized1990 describes an EM algorithm for generalized linear models with missing covariates, and @ibrahimMissingCovariatesGeneralized1999 extend that algorithm when covariates are MNAR.
+In addition, full-information maximum likelihood (FIML) has long been used in linear models [@grahamMissingDataAnalysis2009; @grahamMissingData2012], and has shown some promise for meta-regression involving continuous covariates. 
+Finally, multiple imputation (MI) has become something of a standard approach for handling missing data across a number of fields [@rubinMultipleImputationNonresponse1987; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018]. 
+
+However, employing any of these alternative strategies is not necessarily straightforward for meta-analysts.
+To our knowledge, the EM algorithm for missing covariates has yet to be implemented in standard meta-analytic software.
+How best to specify quality imputation models for MI analyses is something of an open question for meta-regression, as is the potential inaccuracies incurred by using poor imputation models.
+Research on and clear implementation of these methods for meta-regression would seem to be of great use for meta-analysts.
+
+
 
 \clearpage
 
@@ -775,109 +799,8 @@ In that case, only an approximation of the denominator of the log-linear model i
 
 
 
-# Issues with Conditional Inference on Incomplete Data
 
-Both complete- and shifting-case analyses ignore information, which can lead to biased meta-regression estimates. 
-Complete-case analyses omit effects with missing covariates, so that $\mathbf{X}_A \equiv \mathbf{X}_C$ is a matrix containing the rows of $\mathbf{X}$ that are not missing any covariates.
-Shifting-case analyses omit covariates *and* missing data, so that $\mathbf{X}_A \equiv \mathbf{X}_S$ contains a subset of the columns of $\mathbf{X}$ and only rows from that subset that are not missing any variables.
-
-Neither analytic approach typically makes any adjustments for the information they exclude. 
-They therefore estimate regression coefficients by 
-\[
-\hat{\beta} = (\mathbf{X}_A^T \mathbf{W}_A \mathbf{X}_A)^{-1} \mathbf{X}_A^T \mathbf{W}_A \mathbf{T}_A
-\]
-where $A$ corresponds to the relevant subset of $\mathbf{X}$ as described above, and $\mathbf{T}_A$ and $\mathbf{W}_A$ are the relevant subsets of $\mathbf{T}$ and $\mathbf{W}$ used in the analysis.
-
-These estimates will be biased under many conditions, and that bias can be expressed by:
-\begin{equation}
-(\mathbf{X}_A^T \mathbf{W}_A \mathbf{X}_A)^{-1} \mathbf{X}_A^T \mathbf{W}_A E[\mathbf{T}_A | \mathbf{X}_A, \mathbf{v}_A, R \in \mathcal{R}_j] - \beta
-\label{eq:bias_gen}
-\end{equation}
-where $\mathcal{R}_j$ is the missing data pattern(s) upon with the analytic approach conditions.
-
-Equation (\ref{eq:bias_gen}) shows that the bias induced by complete- or shifting-case analyses will be a function of the conditional expectation $E[T_i | X_i, v_i, R_i]$, and how it differs from $E[T_i | X_i, v_i] = X_i \beta$.
-One way to convceive of this is to note that the conditional expectation $E[T_i | X_i, v_i, R_i \in \mathcal{R}_j]$ can be expressed as
-\begin{equation}
-E[T_i | X_i, v_i, R_i \in \mathcal{R}_j] = X_i\beta + \delta_i
-\label{eq:condbias}
-\end{equation}
-where $\delta_i$ corresponds to the bias induced for observation $i$ by conditioning on $R_i$. 
-If we denote $\mathbf{\delta} = [\delta_1, \ldots, \delta_k]^T$, and $\delta_A$ as the relevant subset of $\delta$, then we can express the bias in conditional estimates of regression coefficients as:
-\begin{equation}
-(\mathbf{X}_A^T \mathbf{W}_A \mathbf{X}_A)^{-1} \mathbf{X}_A^T \mathbf{W}_A \mathbf{\delta}_A 
-\label{eq:bias_expression}
-\end{equation}
-The conditional expectation $E[T_i | X_i, v_i, R_i]$, and hence $\mathbf{\delta}$ will depend on the selection model given in equation (\ref{eq:selection_model}), which in turn depends on the missingness mechanism $p(R_i | T_i, X_i, v_i)$.
-To compute just how large the bias is requires assumptions about missingness.
-
-
-
-
-For the remainder of this article, we will denote 
-\[
-(1 - G_j(X_i, v_i)) 
-  = H_{ij}, 
-\qquad 
-\mathbf{f}_{ij}^T \psi_j
-  = \sum_{m = 0}^{m_j} \psi_{mj} f_{kj}'(X_i^T\beta, X_i, v_i) 
-  = \sum_{m = 1}^{m_j} \psi_{mj} f_{kj}'(X_i^T\beta, X_i, v_i)
-\]
-
-The bias $\delta_i$ under the log-linear selection model in equation (\ref{eq:conditional_bias}) depends on a variety of quantities. 
-First, $H_{ij}$ is essentially the probability that $R_i \neq r_j$, which means that it can loosely be understood as the probability that a given observation is excluded from the analysis (conditional on $X, v$). 
-For example, if $r_j = \mathbb{1}$ as in a complete-case analysis, $H_{ij} \equiv H_i$ would give the probability that a covariate in for the $i$th effect is missing a covariate.
-Note that $\delta_i$ is increasing in $H_{ij}$ which means that the greater the probability of missingness, the greater the bias induced by conditioning on missingness.
-
-The second quantity that $\delta_i$ depends on is $v_i + \tau^2$. 
-When effects are estimated with low precision or if there is a large amount of residual heterogeneity, then $v_i + \tau^2$ will be larger, and hence so will the bias. 
-However, if effects have very small standard errors, then this can reduce the size of $\delta_i$.
-
-Finally, $\delta_i$ depends on the selection model. 
-Note that if $f_{mj}(T_i, X_i, v_i)$ does not depend on $T_i$, then its derivative is 0. 
-Therefore, $\delta_i$ will be a function of the $\psi_{mj}$ such that $f_{mj}$ depends on $T_i$. 
-
-As an example, consider the following log-linear selection model for complete cases (i.e., $R_i = [1, \ldots, 1] = \mathbbm{1}$):
-\begin{equation}
-\text{logit}[p(R_i = \mathbbm{1} | T_i, X_i, v_i)] = \psi_0 + \psi_1 T_i
-\label{eq:loglinear_example}
-\end{equation}
-Then $f_{1}(T, X, v) = T$, and the bias $\delta_i$ can be expressed as
-\begin{equation}
-\frac{1}{1 + \exp\{\psi_0 + \psi_1 X\beta\}} (\tau^2 + v_i) \psi_1
-\label{eq:deltai}
-\end{equation}
-To gain some insight into equation (\ref{eq:deltai}), suppose $T_i$ is on the scale of a standardized mean difference so that $v_i \approx 4/n_i$ where $n_i$ is the total sample size used to compute $T_i$. 
-The expression in (\ref{eq:deltai}) depends on three key quantities.
-The first term is essentially the probability that a case is missing any covariates.
-The second term is the total variation of $T_i$ around the regression lines, which depends on $\tau^2$.
-Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v_i/4$ to $\tau^2 = v_i$ [@hedgesPowerStatisticalTests2001; @hedgesPowerStatisticalTests2004; @hedgesStatisticalAnalysesStudying2019].
-Thus, we can write $\tau^2 + v_i = 4(1 + r)/n_i$ from some constant $r$ that ranges from 0 to 1. 
-
-The parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
-There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
-Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
-@fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
-@haddockUsingOddsRatios1998 suggests any odds ratio over 3.0 would be considered quite large.
-Thus, consider a range of odds ratios from about 1.5 to 4.5.
-
-However, the actual size of $\psi_1$ will depend on the scale of $T_i$.
-A difference of $T_i - T_j = 1$ is considered quite large for standardized mean differences. 
-A less extreme difference $\Delta_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$.
-Conventions for standardized mean differences imply that a "small" effect would be about $T_i = 0.2$, a "medium" effect would be $T_i = 0.5$, and a "large" effect would be $T_i = 0.8$ [@cohenStatisticalPowerAnalysis1988].
-Thus, meaningful values of $\Delta_T$ might feasibly range from 0.1 to 1.0.
-These conventions for odds ratios and $\Delta_T$ would imply that relevant values of $|\psi_1|$ might range from 0.4 to over 15.
-
-Based on these conventions, Figure \ref{fig:delta} shows the potential bias $\delta_i$ for this example. 
-Each panel corresponds to a given within-study sample size $n$ and residual heterogeneity $\tau^2$. 
-Within plots, the bias contributed by a single case $\delta_i$ is plotted as a function of the probability of missingness $H_i$ ($x$-axis) and $\psi_i$ (color).
-The plots on the bottom few rows and left most columns show that if both $\psi_1$ is small and $\tau^2 + v$ is small, then $\delta_i$ will be less than 0.05. 
-However if $\tau^2 + v_i$ is larger and the probability of a complete case is strongly related to $T_i$ (i.e., $\psi_1$ is large), then the bias can be greater than 0.2 or even 0.5 (Cohen's $d$).
-
-It is worth noting that Figure \ref{fig:delta} gives the bias for when $T_i$ is positively correlated with $X_i$ being fully observed, and hence $\psi_1 > 0$. 
-This need not be the case, and $\psi_1 < 0$. 
-in that case, the biases $\delta_i$ would be a mirror image of those in Figure \ref{fig:delta}.
-Larger, more negative values of $\psi_1$ would lead to a greater downward bias $\delta_i$.
-
+\clearpage
 
 # References
 
