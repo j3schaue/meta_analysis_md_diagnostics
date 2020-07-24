@@ -197,7 +197,8 @@ Data could be missing completely at random (MCAR), which means that the probabil
 \[
   p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) \propto \psi
 \]
-MCAR implies that probability that a given value is missing is unrelated to anything observed or unobserved.
+\textcolor{blue}{[Comment-J] Maybe "$=p(\mathbf{R|\psi})$" to be consistent?}
+MCAR implies that probability that a given value is missing is unrelated to anything observed or unobserved, but only with the missingness parameter ($\psi$).
 
 Covariates could be missing at random (MAR), which implies the distribution of missingness depends only on observed data:.
 \[
@@ -210,7 +211,7 @@ Data missing according to this mechanism would violate an assumption of MCAR, si
 
 Finally, data are said to be missing not at random (MNAR) if the distribution of $R$ depends on unobserved data in some way.
 In the context of the meta-regression data, this would imply that $R$ is related to $\mathbf{X}_M$, so that the probability of a covariate not being observed depends on the value of the covariate itself.
-For instance, data would be MCAR if studies with larger standard errors and a greater proportion of minorities are less likely to report the racial composition of their samples because the likelihood that racial composition is not reported will depend on the composition itsef.
+For instance, data would be MNAR if studies with larger standard errors and a greater proportion of minorities are less likely to report the racial composition of their samples because the likelihood that racial composition is not reported will depend on the composition itsef.
 
 A related concept in missing data is that of *ignorability*, which means that the missingness pattern does not contribute any additional information.
 When missing data are ignorable, it is not necessary to know (or estimate) $\psi$ in order to conduct inference on $\eta$ [@gelmanBayesianDataAnalysis2014; @grahamMissingData2012; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018].
@@ -223,11 +224,11 @@ In practice, missing data are ignorable if they are MAR and if $\psi$ and $\eta$
 
 # Conditional Incomplete Data Meta-Regression
 
-
 Because both complete- and available-case analyses depend on the value of $R_i$, they can be seen as models that condition on missingness. 
 Models that condition on missingness are not necessarily identical to the complete-data model, which is the model of interest, because the complete-data model does not condition on $R_i$.
-Yet, complete- and available-case analyses proceed as if the complete-data and conditional models are equivalent. 
-Doing so ignores the sources and impacts of missingness, and can lead to inaccurate results.
+Yet, complete- and available-case analyses proceed as if the complete-data and conditional models on missingness are equivalent. 
+Doing so ignores the sources and impacts of missingness, and can lead to inaccurate results. 
+\colortext{blue}{[Comment-J] When it says "the sources," does it mean missingness mechanism?}
 
 The complete-data model can be related to the conditional models through the distribution of missingness $R_i$. 
 This approach is referred to as a *selection model* in the missing data literature [@gelmanBayesianDataAnalysis2014; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018].
