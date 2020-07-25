@@ -247,6 +247,7 @@ The denominator on the right hand side of (\ref{eq:selection_model}) is the prob
 p(R_i \in \mathcal{R}_j | X_i, v_i, \psi, \eta) = \int p(R_i \in \mathcal{R}_j | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta) dT_i
 \label{eq:pr_xv}
 \end{equation}
+\textcolor{blue}{[Comment-J]Can I say that this denominator is to presesnt the marginal distribution of R (across $T_i$)?}
 
 Note that when the complete-data model in (\ref{eq:full_data_prob}) is not equivalent to the conditional model in (\ref{eq:selection_model}), the resulting coefficient estimators in a meta-regression can be biased. 
 To see this, we can write:
@@ -263,7 +264,7 @@ The precise magnitude of the $\delta_{ij}$ will depend on the selection model in
 
 A standard approach for modeling missingness mechanisms for covariates is to assume $R_i$ follows some log-linear distribution [@agrestiCategoricalDataAnalysis2013]. 
 Various authors have described approaches to modelling $R$ for missing covariates in generalized linear models that include logistic and multinomial logistic models [@ibrahimIncompleteDataGeneralized1990; @ibrahimMissingCovariatesGeneralized1999; @lipsitzConditionalModelIncomplete1996]. 
-Thus one class of models for missingness would involve the logit probability of observing some missingness patterns $R_i \in \mathcal{R}_j \subset \mathcal{R}$:
+Thus, one class of models for missingness would involve the logit probability of observing some missingness patterns $R_i \in \mathcal{R}_j \subset \mathcal{R}$:
 \begin{equation}
 \text{logit}[p(R_i \in \mathcal{R}_j | T_i, X_i, v_i)] = \sum_{m = 0}^{m_j} \psi_{mj} f_{mj}(T_i, X_i, v_i) 
 \label{eq:r_loglinear}
@@ -289,11 +290,13 @@ where $H_j(X_i \beta, X_i, v_i)$ is equivalent to $p(R_i \not\in \mathcal{R}_j |
 f_{mj}'(X_i\beta, X_i, v_i) = \left.\frac{\partial f_{mj}}{\partial T_i}\right\rvert_{T_i = X_i\beta}
 \]
 is the derivative of $f_{mj}$ with respect to $T_i$ evaluated at $T_i = X_i\beta$.
+The detailed proof is presented in Appendix A.
 
 While the following sections will examine possible values that $\delta_{ij}$ may take under different selection models, we can gain some insight on bias by examining (\ref{eq:conditional_bias}).
 The expression for $\delta_{ij}$ depends on three main quantities.
 First, $\delta_{ij}$ is an increasing of $H_j(X_i\beta, X_i, v_i)$, which is the probability that $R_i \not\in \mathcal{R}_j$.
 This implies that the bias will be greater as the probability of omitting an observation increases.
+\textcolor{blue}{[Comment-J] I'd like to clarify my understanding with an example scenario in page 5. $R_1=[1,1], R_2 = [1,0]$ which are included in the analysis. Then, $\mathcal{R}_j = \{[1,1], [1,0]\}$. Then, $\mathcal{R}=\{[1,1],[1,0],[0,1],[0,0]\}$ which include the cases with unobserved $X_1$. Thus, as the probability of the excluded pattererns ($\{[0,1], [0,0]\}$) gets greater, the bias is also greater. Am I understanding the notations correctly?}
 Second, $\delta_{ij}$ increases in $\tau^2 + v_i$, which means that it will be larger when $T_i$ vary more around the regression line.
 Finally, $\delta_{ij}$ depends on $\psi_{mj} f_{mj}'(X\beta, X, v)$. 
 Note that $f_{mj}'$ is the derivative of $f_{mj}$ with respect to $T$. 
@@ -326,28 +329,27 @@ p(R_i = \mathbbm{1} | T_i, X_i, v_i, \psi)
 \]
 and hence 
 \begin{equation}
-p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta) 
+p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
   = \frac{p(R_i = \mathbbm{1} | \psi) p(T_i | x_i, v_i, \eta)}{p(R_i = \mathbbm{1} | \psi)}
   = p(T_i | x_i, v_i, \eta)
 \label{eq:cc_mcar}
 \end{equation}
 Thus, the complete-data and conditional models are equivalent.
-Assuming $X$ is MCAR, then $\hat{\beta}_C$ in (\ref{eq:beta_c}) will be unbiased for $\beta$.
-This is consistent with broader results on analyses of MCAR data.
+Assuming $X$ is MCAR, then $\hat{\beta}_C$ in (\ref{eq:beta_c}) will be unbiased estimator of $\beta$.
+This is consistent with broader results on analyses of MCAR data in primary study context [@littleStatisticalAnalysisMissing2002].
 
 A complete-case analysis is also unbiased under slightly less restrictive assumptions. 
 Suppose that $R_i \perp (X_i, T_i) | v_i$, then the complete-data model and the conditional model are equivalent:
 \begin{equation}
-p(T_i | X_i, v_i, R_i = \mathbbm{1}) 
+p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
   = \frac{p(R_i = \mathbbm{1} | v_i, \psi) p(T_i | x_i, v_i, \eta)}{p(R_i = \mathbbm{1} | v_i, \psi)}
   = p(T_i | x_i, v_i, \eta)
 \label{eq:cc_mar}
 \end{equation}
-Under this assumption, $\hat{\beta}_C$ will be unbiased.
-
 The assumption that $R_i \perp (X_i, T_i) | v_i$ implies that if missingness only depends on the estimation error variances, then a complete case analysis may be unbiased. 
 This is a weaker assumption than MCAR, which requires $R_i \perp (T_i, X_i, v_i)$.
 Intuitively, if both $X_i$ and $T_i$ are conditionally independent of $R_i$, then so is the relationship between $X_i$ and $T_i$.
+Under this assumption, $\hat{\beta}_C$ will be unbiased.
 
 For most effect size indices, variances $v_i$ are functions of the sample sizes within studies $n_i$. 
 Some effect sizes, such as the $z$-transformed correlation coefficient, have variances $v_i$ that depend entirely on the sample size of a study, while for other effect sizes this is approximately true, such as the standardized mean difference. 
@@ -357,12 +359,13 @@ This may be true, for instance, if smaller studies are less likely to report mor
 An even weaker assumption can also lead to unbiased estimation with complete cases. 
 When $R_i \perp T_i | X_i, v_i$, we can write:
 \begin{equation}
-p(T_i | X_i, v_i, R_i = \mathbbm{1}) 
-  = \frac{p(R_i = \mathbbm{1} | X_i, v_i) p(T_i | X_i, v_i)}{p(R_i = \mathbbm{1} | X_i, v_i)}
-  = p(T_i | X_i, v_i)
+p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
+  = \frac{p(R_i = \mathbbm{1} | X_i, v_i, \psi) p(T_i | X_i, v_i, \eta)}{p(R_i = \mathbbm{1} | X_i, v_i, \psi)}
+  = p(T_i | X_i, v_i, \eta)
 \label{eq:cc_mnar}
 \end{equation}
-Thus, if $R_i \perp T_i | X_i, v_i$ then the complete-case model will be the same as the complete-data model. 
+\textcolor{blue}{[Comment-J] Please reject this revision if you intentionally excluded $\eta$ and $\psi$ from the equation.}
+Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
 Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
 
 <!-- This result is consistent with the bias approximation in equation (\ref{eq:conditional_bias}).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$.  -->
@@ -381,7 +384,7 @@ Then the bias of the complete-case analysis can be written as
 The bias in equation (\ref{eq:cc_bias_delta}) is a weighted average of individual biases $\delta_{i1}$.
 Hence, the bias will be larger if the $\delta_{i1}$ are larger.
 
-Precisely how large the bias in (\ref{eq:cc_bias_delta}) is will depend on the distribution of $R_i$ and its relationship to effect estimates $T_i$ and their covariates $X_i$.
+Precisely, how large the bias in (\ref{eq:cc_bias_delta}) is will depend on the distribution of $R_i$ and its relationship to effect estimates $T_i$ and their covariates $X_i$.
 When $R_i$ follows the log-linear model in (\ref{eq:r_loglinear}), the approximate bias can be written as 
 \begin{equation}
 \text{Bias}[\hat{\beta}_C]
@@ -433,7 +436,8 @@ Assume that the model for missingness is log-linear, and that missingness depend
   = \psi_0  + \psi_1 T_i + \psi_2 X_i
 \label{eq:cc_loglinear}
 \end{equation}
-Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_iT \beta}$.
+\textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one suggestion: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the direction, especially when Figure 1 is explained later and in the caption of Figure 1.}}
+Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
 Given the result in equation (\ref{eq:conditional_bias}), we can write
 \begin{equation}
@@ -472,7 +476,7 @@ A difference of $T_i - T_j = 1$ is considered quite large for standardized mean 
 A less extreme difference $D_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$.
 Conventions for standardized mean differences imply that a "small" effect would be about $T_i = 0.2$, a "medium" effect would be $T_i = 0.5$, and a "large" effect would be $T_i = 0.8$ [@cohenStatisticalPowerAnalysis1988].
 Thus, meaningful values of $D_T$ might feasibly range from 0.2 to 1.0.
-These conventions for odds ratios and $D_T$ would imply that relevant values of $|\psi_1|$ might range from 0.4 to over 7.5.
+These conventions for odds ratios and $D_T$ would imply that relevant values of $|\psi_1|$ might range from 0.4 (large $D_T$ with small odds ratio) to over 7.5 (small $D_T$ with large odds ratio).
 
 Based on these conventions, Figure \ref{fig:delta} shows the potential (approximate) bias of $\hat{\beta}_{0C}$ for this example. 
 Each panel corresponds to a given within-study variance $v = 4/n$ and residual heterogeneity $\tau^2$. 
@@ -481,8 +485,8 @@ The panels on the bottom few rows and left most columns show that if both $\psi_
 However if $\tau^2 + v_i$ is larger and the probability of a complete case is strongly related to $T_i$ (i.e., $\psi_1$ is large), then the bias can be greater than 0.2 or even 0.5 (Cohen's $d$).
 
 It is worth noting that Figure \ref{fig:delta} gives the bias for when $T_i$ is positively correlated with $X_i$ being fully observed, and hence $\psi_1 > 0$. 
-This need not be the case, and $\psi_1 < 0$. 
-When $\psi_1 > 0$, then the bias of $\hat{\beta}_{0C}$ is negative, and would be be a mirror image of those in Figure \ref{fig:delta}.
+This need not be the case when $\psi_1 < 0$. 
+When $\psi_1 < 0$, then the bias of $\hat{\beta}_{0C}$ is negative, and would be be a mirror image of those in Figure \ref{fig:delta}.
 Larger, more negative values of $\psi_1$ would lead to a greater downward bias.
 
 \begin{figure}
@@ -502,7 +506,7 @@ The bias of $\hat{\beta}_{1C}$ under selection model (\ref{eq:cc_loglinear}) is 
 \end{equation}
 where $\bar{v}_1$ is the mean $v_i$ among effects for which $X_i = 1$ and $R_i = 1$. 
 As with $\hat{\beta}_{0C}$, the bias of $\hat{\beta}_{1C}$ is an increasing function of $\psi_1$. 
-If $T_i$ has a strong positive correlation with $R_i$, then $\psi_1$ will be larger and so will the bias of $\hat{\beta}_{1C}$.
+If $T_i$ has a strong positive correlation with $p(R_i=1)$, then $\psi_1$ will be larger and so will the bias of $\hat{\beta}_{1C}$.
 
 When all studies have approximately the same estimation error variance so that $v_i \approx v$ and $\bar{v}_0 \approx \bar{v}_1$, then the bias of $\hat{\beta}_{1C}$ is approximately:
 \begin{equation}
@@ -512,7 +516,7 @@ When all studies have approximately the same estimation error variance so that $
 \end{equation}
 The expression in (\ref{eq:cc_bias_b1_simp}) depends on three quantities. 
 Like $\hat{\beta}_{0C}$, the bias of $\hat{\beta}_{1C}$ is an increasing function of $\tau^2 + v$ and $\psi_1$.
-The bias of $\hat{\beta}_{1C}$ also increases as a function of $p(R = 0 | X = 1) - p(R = 0 | X = 0)$, which can be thought of as a difference in observation rates between $X_i = 1$ and $X_i = 0$.
+The bias of $\hat{\beta}_{1C}$ also increases as a function of $p(R = 0 | X = 1) - p(R = 0 | X = 0)$, which can be thought of as a difference in observation rates \textcolor{blue}{([Comment-J] You mean "missingness rates" ($R=0$), right?)} between $X_i = 1$ and $X_i = 0$.
 This difference will be greater if $R$ and $X$ are strongly correlated.
 Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects and the value of the covariate $X$. 
 
@@ -767,7 +771,7 @@ where $f_{mj}'(X_i \beta, X_i, v_i) = \frac{\partial}{\partial T_i} f_{mj}(T_i, 
 Therefore, the bias of the conditional expectation is given by:
 \begin{equation}
 \delta_{ij} \approx H_j(X_i \beta, X_i, v_i)(\tau^2 + v_i)\sum_{m = 0}^{m_j} \psi_{mj} f_{mj}'(X_i \beta, X_i, v_i)
-\label{eq:conditional_bias}
+\label{eq:conditional_bias_appendix}
 \end{equation}
 
 **Proof:**
