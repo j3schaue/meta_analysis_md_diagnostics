@@ -1,4 +1,33 @@
 [
+
+	{
+		"id": "cheung2015",
+		"type": "book",
+		"call-number": "QA278.4",
+		"event-place": "Chichester, West Sussex",
+		"ISBN": "978-1-118-95783-7",
+		"language": "en",
+		"number-of-pages": "1",
+		"publisher": "John Wiley & Sons, Inc",
+		"publisher-place": "Chichester, West Sussex",
+		"source": "Library of Congress ISBN",
+		"title": "Meta-analysis: a structural equation modeling approach",
+		"title-short": "Meta-analysis",
+		"author": [
+			{
+				"family": "Cheung",
+				"given": "Mike W. L."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2015"
+				]
+			]
+		}
+	},
+
 	{
 		"id": "burgessCombiningMultipleImputation2013",
 		"type": "article-journal",
