@@ -28,8 +28,7 @@ data_adt <- readRDS("../data/adt_data.RDS")
 
 ```{r}
 #Subset of variables needed for the analyses:
-data_adt_cca<- data_adt[c("studyid", "es_g","se_g", "g1permale", "g1perwhite",  "g1age",
-                         "g1hrsperweek","g1txdays")]
+data_adt_cca<- data_adt[c("studyid", "es_g","se_g","g1hrsperweek","g1txdays","g1perblack")]
 
 #Visualize missingness 
 source("../code/wrappers.R")
@@ -47,25 +46,10 @@ miss_case_summary(data_adt_cca)
 ```
 
 
-## Complete case analysis - Independent ES
+## Complete case analysis - Dependent ES
 
 While effect sizes and sampling variances are not missing for this dataset, there are a number of 
 moderator (covariates) variables that are. A total of 328 ES available in the data. 
-
-```{r}
-#Meta-regression 
-#random-effects model 
-mr_cca<- rma(es_g, se_g^2, mods= ~ g1permale + g1perwhite + g1age +
-                           g1hrsperweek + g1txdays , data= data_adt_cca)
-mr_cca
-
-```
-
-
-Only k=232 ES were included in the analysis.Thus, aproximetly 30% of the ES were excluded from the analysis. illustrating the loss of data that can occur when conducting a complete case analysis. 
-
-
-# Complete case analysis - Dependet ES (Nested models)
 
 ```{r}
 ##delete NA
@@ -74,86 +58,26 @@ data_adt_na<- na.omit(data_adt_cca)
 #Meta-regression 
 #random-effects model 
 
-#Using rma.mv
-rma_mv_cca<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1permale + g1perwhite + g1age +
-                                   g1hrsperweek + g1txdays,
-                                   random= ~ 1|studyid,
+#Using rma.mv uncentered group-mean
+rma_mv_cca<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1hrsperweek + g1txdays + g1perblack,
+                                  random= ~ 1|studyid,
                                   data= data_adt_na,
                                    method="REML")
 rma_mv_cca
 
-# Then use robust.rma.mv
-robustrma_cca<- robust.rma.mv(rma_mv_cca, data_adt_na$studyid)
-robustrma_cca
 
+#Using rma.mv group-mean  centered 
 
-#Using mr3 with moderators
-mr3<- meta3(es_g, se_g^2, cluster= studyid,  data= data_adt_na,
-            intercept.constraints = 0,
-            x=model.matrix( ~ 1 + g1permale + g1perwhite + g1age +
-                           g1hrsperweek + g1txdays))
-summary(mr3)
-
-#Using robu
-#Intercept only model
-#use .8 as correlation between ES
-mr_robu<- robu( es_g ~ 1 , data=data_adt_na, studyid, se_g^2, rho=.8, small=TRUE)
-print(mr_robu)
-
-sensitivity(mr_robu)
-
-#with moderators
-mr_robu2<- robu(es_g ~ g1permale + g1perwhite + g1age +g1hrsperweek + g1txdays ,
-                data=data_adt_na, modelweights="HIER", studyid, se_g^2,  small=TRUE)
-print(mr_robu2)
 
 ```
 
+Only k=155 ES were included in the analysis.Thus, aproximetly 47% of the ES were excluded from the analysis. illustrating the loss of data that can occur when conducting a complete case analysis. 
 
 
-## Shifting units analysis - Independent ES
-
-```{r}
-
-#Covariate 1: g1permale
-mr_shu_cov1<- rma(es_g, se_g^2, mods= ~ g1permale, data= data_adt_cca)
-mr_shu_cov1
-
-#319 EF out of 328
-
-#Covariate 2: g1perwhite
-mr_shu_cov2<- rma(es_g, se_g^2, mods= ~ g1perwhite, data= data_adt_cca)
-mr_shu_cov2
-
-#317 EF out of 328
-
-#Covariate 3: g1age
-mr_shu_cov3<- rma(es_g, se_g^2, mods= ~ g1age, data= data_adt_cca)
-mr_shu_cov3
-
-#321 EF out of 328
-
-#Covariate 4: g1hrsperweek
-mr_shu_cov4<- rma(es_g, se_g^2, mods= ~ g1hrsperweek, data= data_adt_cca)
-mr_shu_cov4
-
-#249 EF out of 328
-
-#Covariate 5: g1txdays
-mr_shu_cov5<- rma(es_g, se_g^2, mods= ~ g1txdays, data= data_adt_cca)
-mr_shu_cov5
-
-#326 EF out of 328
-
-```
-
-
-
-## Shifting units of analysis - Dependent ES 
+## Shifting units analysis - Dependent ES
 
 ```{r}
-
-#Covariate 1: g1permale
+#Covariate 1: g1hrsperweek
 ##delete NA
 data_subset<- data_adt_cca[, 1:4]
 data_adt_na<- na.omit(data_subset)
@@ -161,74 +85,40 @@ data_adt_na<- na.omit(data_subset)
 #Meta-regression 
 #random-effects model 
 #Using rma.mv
-rma_shu_cov1<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1permale,
+rma_shu_cov1<- rma.mv(es_g, se_g^2, mods= ~ 1 +  g1hrsperweek,
                                    random= ~ 1|studyid,
                                   data= data_adt_na,
                                   method="REML")
 rma_shu_cov1
 
-#319 EF out of 328
 
-
-#Covariate 2: g1perwhite
+#Covariate 2: g1txdays
 ##delete NA
-data_subset<- data_adt_cca[, c(1:3, 5)]
+data_subset<- data_adt_cca[,c(1:3, 5)]
 data_adt_na<- na.omit(data_subset)
 
 #Meta-regression 
 #random-effects model 
 #Using rma.mv
-rma_shu_cov2<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1perwhite,
+rma_shu_cov2<- rma.mv(es_g, se_g^2, mods= ~ 1 +  g1txdays,
                                    random= ~ 1|studyid,
                                   data= data_adt_na,
                                   method="REML")
 rma_shu_cov2
 
 
-#Covariate 3: g1age
+#Covariate 3: g1perblack
 ##delete NA
-data_subset<- data_adt_cca[, c(1:3, 6)]
+data_subset<- data_adt_cca[,c(1:3, 6)]
 data_adt_na<- na.omit(data_subset)
 
 #Meta-regression 
 #random-effects model 
 #Using rma.mv
-rma_shu_cov3<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1age,
+rma_shu_cov3<- rma.mv(es_g, se_g^2, mods= ~ 1 +  g1perblack,
                                    random= ~ 1|studyid,
                                   data= data_adt_na,
                                   method="REML")
 rma_shu_cov3
 
-
-#Covariate 4: g1hrsperweek
-##delete NA
-data_subset<- data_adt_cca[, c(1:3, 7)]
-data_adt_na<- na.omit(data_subset)
-
-#Meta-regression 
-#random-effects model 
-#Using rma.mv
-rma_shu_cov4<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1hrsperweek,
-                                   random= ~ 1|studyid,
-                                  data= data_adt_na,
-                                  method="REML")
-rma_shu_cov4
-
-
-#Covariate 5: g1txdays
-##delete NA
-data_subset<- data_adt_cca[, c(1:3, 8)]
-data_adt_na<- na.omit(data_subset)
-
-#Meta-regression 
-#random-effects model 
-#Using rma.mv
-rma_shu_cov5<- rma.mv(es_g, se_g^2, mods= ~ 1 + g1txdays,
-                                   random= ~ 1|studyid,
-                                  data= data_adt_na,
-                                  method="REML")
-rma_shu_cov5
-
 ```
-
-
