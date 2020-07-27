@@ -7,13 +7,13 @@ author:
   - Therese D. Pigott, Georgia State University
 csl: ../addons/apa.csl
 output:
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
     toc: false
-  bookdown::word_document2: 
-    reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/cca_references.json
 ---
 
@@ -40,8 +40,7 @@ Ignoring missing data can potentially lead to biased estimates [see @littleStati
 Some research has pointed out these issues in meta-analysis [@pigottHandlingMissingData2019].
 However, precisely how much bias can arise in a complete- or shifting-case analysis is not immediately clear, nor is there exhaustive guidance on when these analyses produce unbiased estimates.
 
-This article examines the potential bias of complete- and available-case analyses. 
-\textcolor{blue}{\textit{[Comment-J] When would be the best start using a term "shifting-case"?}}
+This article examines the potential bias of complete- and shifting-case analyses. 
 The following section provides a demonstration of these methods on [INSERT DATA SET].
 We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a data point is observed.
 Using this framework, we describe conditions under which complete- and available-case analyses are unbiased.
@@ -68,8 +67,7 @@ Here, $\beta \in \mathbb{R}^{p+1}$ is the vector of regression coefficients.
 The estimation errors $e_i$ are typically assumed to be normally distributed with mean zero and variance $V[e_i] = v_i$, which is true of some effect sizes, and is an accurate large-sample approximation for others [@cooperHandbookResearchSynthesis2019].
 The term $u_i$ represents the random effect such that $u_i \perp e_i$ and $V[u_i] = \tau^2$. 
 
-This is the standard random effects meta-regression model, and it is also consistent with subgroup analysis models [@hedgesFixedRandomeffectsModels1998; @cooperHandbookResearchSynthesis2019]. 
-\textcolor{blue}{\textit{[Comment-J] What about the terminology "mixed-effect" meta-regression model? Although not sure whether this makes a difference in this context...}}
+This is the standard mixed-effects meta-regression model, and it is also consistent with subgroup analysis models [@hedgesFixedRandomeffectsModels1998; @cooperHandbookResearchSynthesis2019]. 
 The vector $\eta = [\beta, \tau^2]$ refers to the parameters of model. 
 Under a fixed-effects model, it is assumed that $\tau^2 = 0$, in which case $\eta = \beta$, and $u_i \equiv 0$.
 
@@ -194,10 +192,9 @@ Assumptions about the missingness mechanism are therefore equivalent to assumpti
 @rubinInferenceMissingData1976 defined three types of mechanisms in terms of the distribution of $R$.
 Data could be missing completely at random (MCAR), which means that the probability that a given value is missing is independent of all of the observed or unobserved data:
 \[
-  p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) \propto \psi
+  p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) = p(\mathbf{R} | \psi) \propto \psi
 \]
-\textcolor{blue}{\textit{[Comment-J] Maybe "$=p(\mathbf{R|\psi})$" to be consistent with MAR notation below?}}
-MCAR implies that probability that a given value is missing is unrelated to anything observed or unobserved, but only with the missingness parameter ($\psi$).
+MCAR implies that probability that a given value is missing is unrelated to anything observed or unobserved, and depends only on the missingness parameter $\psi$.
 
 Covariates could be missing at random (MAR), which implies the distribution of missingness depends only on observed data:.
 \[
@@ -226,8 +223,7 @@ In practice, missing data are ignorable if they are MAR and if $\psi$ and $\eta$
 Because both complete- and available-case analyses depend on the value of $R_i$, they can be seen as models that condition on missingness. 
 Models that condition on missingness are not necessarily identical to the complete-data model, which is the model of interest, because the complete-data model does not condition on $R_i$.
 Yet, complete- and available-case analyses proceed as if the complete-data and conditional models on missingness are equivalent. 
-Doing so ignores the sources and impacts of missingness, and can lead to inaccurate results. 
-\textcolor{blue}{\textit{[Comment-J] When it says "the sources," does it indicate missingness mechanism?}}
+Doing so ignores the missingness mechanism and its potential impact on the accuracy of analytic results. 
 
 The complete-data model can be related to the conditional models through the distribution of missingness $R_i$. 
 This approach is referred to as a *selection model* in the missing data literature [@gelmanBayesianDataAnalysis2014; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018].
@@ -241,12 +237,11 @@ where $\psi$ indexes the distribution of $R | T, X, v$.
 Here, $\mathcal{R}_j$ refers to the relevant subset of $\mathcal{R}$ on which the analysis conditions; for a complete-case analysis, $\mathcal{R}_j = \{\mathbbm{1}\}$.
 
 Equation (\ref{eq:selection_model}) describes the conditional model as a function of the complete-data model $p(T_i | X_i, v_i, \eta)$ and a selection model $p(R_i \in \mathcal{R}_j | T_i, X_i, v_i, \psi)$ that gives the probability that a given set of covariates are observed.
-The denominator on the right hand side of (\ref{eq:selection_model}) is the probability of observing the missingness pattern $r$ given the estimation error variance $v_i$ and the observed and unobserved covariates in the vector $X_i$, and can be written as
+The denominator on the right hand side of (\ref{eq:selection_model}) is a normalizing factor that is equivalent to the probability of observing the missingness pattern $\mathcal{R}_j$ given the estimation error variance $v_i$ and the observed and unobserved covariates in the vector $X_i$, and can be written as
 \begin{equation}
 p(R_i \in \mathcal{R}_j | X_i, v_i, \psi, \eta) = \int p(R_i \in \mathcal{R}_j | T_i, X_i, v_i, \psi)p(T_i | X_i, v_i, \eta) dT_i
 \label{eq:pr_xv}
 \end{equation}
-\textcolor{blue}{\textit{[Comment-J]Can I say that this denominator is to marginalize the distribution of R (across $T_i$)?}}
 
 Note that when the complete-data model in (\ref{eq:full_data_prob}) is not equivalent to the conditional model in (\ref{eq:selection_model}), the resulting coefficient estimators in a meta-regression can be biased. 
 To see this, we can write:
@@ -269,7 +264,7 @@ Thus, one class of models for missingness would involve the logit probability of
 \label{eq:r_loglinear}
 \end{equation}
 where $f_{0j}(T_i, X_i, v_i) = 1$, so that $\psi_{0j}$ would be the intercept term for the logit model for the set of missingness patterns $\mathcal{R}_j$.
-While log-linear models are not the only applicable or appropriate model for missingness, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate, and how inaccurate they can be.
+While log-linear models are not the only applicable or appropriate selection model, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate, and how inaccurate they can be.
 
 
 
@@ -295,7 +290,6 @@ While the following sections will examine possible values that $\delta_{ij}$ may
 The expression for $\delta_{ij}$ depends on three main quantities.
 First, $\delta_{ij}$ is an increasing of $H_j(X_i\beta, X_i, v_i)$, which is the probability that $R_i \not\in \mathcal{R}_j$.
 This implies that the bias will be greater as the probability of omitting an observation increases.
-\textcolor{blue}{\textit{[Comment-J] I'd like to clarify my understanding with an example scenario in page 5. In the example, $R_1=[1,1], R_2 = [1,0]$ which are included in the analysis. Then, $\mathcal{R}_j = \{[1,1], [1,0]\}$. Then, $\mathcal{R}=\{[1,1],[1,0],[0,1],[0,0]\}$ which include the cases with unobserved $X_1$. Thus, as the probability of the excluded pattererns ($\{[0,1], [0,0]\}$) gets greater, the bias also becomes greater. Am I understanding the notations correctly?}}
 Second, $\delta_{ij}$ increases in $\tau^2 + v_i$, which means that it will be larger when $T_i$ vary more around the regression line.
 Finally, $\delta_{ij}$ depends on $\psi_{mj} f_{mj}'(X\beta, X, v)$. 
 Note that $f_{mj}'$ is the derivative of $f_{mj}$ with respect to $T$. 
@@ -363,7 +357,6 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
   = p(T_i | X_i, v_i, \eta)
 \label{eq:cc_mnar}
 \end{equation}
-\textcolor{blue}{\textit{[Comment-J] Please discard this revision if you intentionally excluded $\eta$ and $\psi$ from the equation.}}
 Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
 Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
 
@@ -429,13 +422,14 @@ The complete-case estimator for $\beta_1$ is given by the difference between the
 \label{eq:b1c_ex}
 \end{equation}
 
-Assume that the model for missingness is log-linear, and that missingness depends on the size of the effect $T_i$ and the value of $X_i$:
+Assume that the selection model is log-linear, and that missingness depends on the size of the effect $T_i$ and the value of $X_i$:
 \begin{equation}
 \text{logit}[p(R_i = 1 | T_i, X_i, v_i)] 
   = \psi_0  + \psi_1 T_i + \psi_2 X_i
 \label{eq:cc_loglinear}
 \end{equation}
 \textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one thought?: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the opposite direction, especially when Figure 1 is explained later and in the caption of Figure 1. But it is still good with the presented way!}}
+Note that this is an MNAR mechanism, since it depends on $X_i$. 
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
 Given the result in equation (\ref{eq:conditional_bias}), we can write
@@ -515,15 +509,14 @@ When all studies have approximately the same estimation error variance so that $
 \end{equation}
 The expression in (\ref{eq:cc_bias_b1_simp}) depends on three quantities. 
 Like $\hat{\beta}_{0C}$, the bias of $\hat{\beta}_{1C}$ is an increasing function of $\tau^2 + v$ and $\psi_1$.
-The bias of $\hat{\beta}_{1C}$ also increases as a function of $p(R = 0 | X = 1) - p(R = 0 | X = 0)$, which can be thought of as a difference in observation rates \textcolor{blue}{(\textit{[Comment-J] You mean "missingness rates" ($R=0$), am I understanding correctly?})} between $X_i = 1$ and $X_i = 0$.
+The bias of $\hat{\beta}_{1C}$ also increases as a function of $p(R = 0 | X = 1) - p(R = 0 | X = 0)$, which can be thought of as a difference in missingness rates between cases where $X_i = 1$ and $X_i = 0$.
 This difference will be greater if $R$ and $X$ are strongly correlated.
 Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects and the value of the covariate $X$. 
 
 To gain insight into the bias of $\hat{\beta}_{1C}$, consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
 The difference $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ is just a difference in conditional probabilities. 
 For reference, because both $R_i$ and $X_i$ are binary, then $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ would be equal to the correlation between $R$ and $X$ (assuming equal marginals in a $2 \times 2$ table).
-Thus, $|p(R = 0 | X = 1) - p(R = 0 | X = 0)|$ might feasibly range from 0 to as large as 0.5.
-\textcolor{blue}{\textit{[Comment-J] I am getting 1.0 for the largest possible value, if we assume the largest gap between the cells (n-0). Could you explain me on this later during our meeting?}}
+Thus, $|p(R = 0 | X = 1) - p(R = 0 | X = 0)|$ could be as small as 0, but could possibly be as large as 1, though conventions on the size of correlations suggest that $|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5$ would be a "large" value [@cohenStatisticalPowerAnalysis1988].
 
 Figure \ref{fig:b1} shows the potential bias of $\hat{\beta}_{1C}$ for this example assuming the values discussed above.
 Each panel corresponds to a given amount of heterogeneity $\tau^2 + v$, and within panels the bias is shown as a function of the difference $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ ($x$-axis) and $\psi_1$ (color).
@@ -539,6 +532,10 @@ However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is.
 \label{fig:b1}
 \end{figure}
 
+It is worth noting that the missingness mechanism in this example is MNAR. 
+However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. 
+The data would be MAR under a selection model where $\psi_2 = 0$ in (\ref{eq:cc_loglinear}).
+In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
 
 
 
@@ -574,10 +571,9 @@ The set of missingness patterns $\mathcal{R}_j$ is such that $R_{iS} = 1$ so tha
 
 To understand the conditions under which $\hat{\beta}_S$ is unbiased, we can write a shifting-case model as:
 \begin{equation}
-p(T_{i} | X_{iS}, v_i, R_i \in \mathcal{R}_j) = \frac{p(R_i \in \mathcal{R}_j | T_i, X_{iS}, v_i) p(T_i | X_{iS}, v_i)}{p(R_i \in \mathcal{R}_j | X_{iS}, v_i)}
+p(T_{i} | X_{iS}, v_i, R_i \in \mathcal{R}_j, \eta, \psi) = \frac{p(R_i \in \mathcal{R}_j | T_i, X_{iS}, v_i, \psi) p(T_i | X_{iS}, v_i, \eta)}{p(R_i \in \mathcal{R}_j | X_{iS}, v_i, \eta, \psi)}
 \label{eq:sca_model}
 \end{equation}
-\textcolor{blue}{\textit{[Comment-J] Are we omitting the parameters intentionally for the simplicity here ($\eta, \psi$)?}}
 
 The model in (\ref{eq:sca_model}) is slightly different from the models in the previous sections in that all of the functions depend on the covariates included in a given regression $X_{iS}$ rather than the complete set of relevant covariates $X_i$.
 Thus, the function $p(T_i | X_{iS}, v_i)$ can be thought of as a partial-data model, since it omits relevant covariates. 
@@ -653,7 +649,7 @@ Assume that missigness follows the following log-linear model:
 \label{eq:logit_sca}
 \end{equation}
 Note that this gives the log-odds that an effect is included in the model given $T_i$ and $X_{i1}$, and that $X_{i2}$ is not involved.
-\textcolor{blue}{\textit{[Comment-J] Is this model essentially assuming MNAR case, because $X_{i1}$ is included in the missingness model? If yes, how about stating the assumption briefly?}}
+Further, because the distribution of $R_i$ depends on $X_{i1}$, the mechanism is MNAR.
 
 Given the selection model in (\ref{eq:logit_sca}), the bias of the coefficient estimators can be written as:
 \begin{align}
@@ -752,7 +748,7 @@ Finally, multiple imputation (MI) has become something of a standard approach fo
 
 However, employing any of these alternative strategies is not necessarily straightforward for meta-analysts.
 To our knowledge, the EM algorithm for missing covariates has yet to be implemented in standard meta-analytic software.
-Although FIML for meta-regression model is available in SEM framework [@cheung2015], the approach has not been empirically validated under various conditions. \textcolor{blue}{\textit{[Comment-J] Please discard this addition if it would be better without this.}}
+Although FIML for meta-regression model is available in SEM framework [@cheung2015], the approach has not been empirically validated under various conditions.
 How best to specify quality imputation models for MI analyses is something of an open question for meta-regression, as is the potential inaccuracies incurred by using poor imputation models.
 Research on and clear implementation of these methods for meta-regression model would seem to be of great use for meta-analysts.
 
