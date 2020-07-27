@@ -252,7 +252,7 @@ E[T_i | X_i, v_i, R_i \in \mathcal{R}_j]
   = X_i \beta + \delta_{ij}
 \label{eq:bias_delta}
 \end{equation}
-Here, we wee that the expectation of $T_i$ conditional on $R_i$ can be written as the complete-data expectation $X_i \beta$ plus a bias term $\delta_{ij}$. 
+Here, we see that the expectation of $T_i$ conditional on $R_i$ can be written as the complete-data expectation $X_i \beta$ plus a bias term $\delta_{ij}$. 
 If $\delta_{ij} \neq 0$, it follows that conditioning on $R_i$ induces bias in the distribution of $T_i$ used in an analysis. 
 Because the complete-case estimator in (\ref{eq:beta_c}) and the shifting-case estimator in (\ref{eq:beta_s}) are weighted averages of the $T_i$, the following sections show that they can be biased if $\delta_{ij} \neq 0$.
 The precise magnitude of the $\delta_{ij}$ will depend on the selection model in (\ref{eq:selection_model}) and hence on the missingness mechanism.

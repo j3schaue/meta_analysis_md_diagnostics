@@ -47,7 +47,7 @@ miss_case_summary(data_adt_cca)
 ```
 
 
-## Complete case analysis - Inependent ES
+## Complete case analysis - Independent ES
 
 While effect sizes and sampling variances are not missing for this dataset, there are a number of 
 moderator (covariates) variables that are. A total of 328 ES available in the data. 
