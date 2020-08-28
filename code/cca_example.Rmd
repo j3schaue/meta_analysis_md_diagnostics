@@ -28,7 +28,7 @@ data_adt <- readRDS("../data/adt_data.RDS")
 
 ```{r}
 #Subset of variables needed for the analyses:
-data_adt_cca<- data_adt[c("studyid", "es_g","se_g","g1hrsperweek","g1txdays")]
+data_adt_cca<- data_adt[c("studyid", "es_g","se_g","g1hrsperweek","g1txdays","g2hrsperweek","g2txdays" )]
 
 #Visualize missingness 
 source("../code/wrappers.R")
@@ -46,12 +46,79 @@ miss_case_summary(data_adt_cca)
 ```
 
 
-## Complete case analysis - Dependent ES
+## Reduce to one ES per study
+```{r}
+
+#Difference between g1 and g2
+data_adt_cca$diff_hrsperweek= data_adt_cca$g1hrsperweek - data_adt_cca$g2hrsperweek
+data_adt_cca$diff_txdays= data_adt_cca$g1txdays - data_adt_cca$g2txdays
+ 
+#New dataset with mean 
+data_agregated<- data_adt_cca %>% group_by(studyid) %>%
+                                  summarise (n_es= n(),
+                                             es= mean(es_g),
+                                             se= mean(se_g),
+                                             hrsperweek = mean(diff_hrsperweek),
+                                             txdays= mean(diff_txdays),
+                                             g1_hrsperweek= mean(g1hrsperweek),
+                                             g1txdays= mean(g1txdays))
+#Missing covariates within new dataset
+gg_summary_covariate_miss(data_agregated) 
+```
+
+## Complete case analysis 
+
+```{r}
+
+#Complete case analysis using g1 only
+rma_cca<- rma(es, se^2, mod= ~ g1_hrsperweek + g1txdays, data=data_agregated)
+rma_cca
+
+
+#Complete case analysis using diff g1-g2
+rma_cca_diff<- rma(es, se^2, mod= ~ hrsperweek + txdays, data=data_agregated)
+rma_cca_diff
+
+```
+
+
+## Shifting units of analysis
+
+```{r}
+#Using g1 only
+#Covariate 1: g1hrsperweek
+rma_suoa_1<- rma(es, se^2, mod= ~ g1_hrsperweek, data=data_agregated)
+rma_suoa_1
+
+
+#Covariate 2: g1txdays
+rma_suoa_2<- rma(es, se^2, mod= ~ g1txdays, data=data_agregated)
+rma_suoa_2
+
+#Using diff g1 and g2
+#Covariate 1: g1hrsperweek
+rma_suoa_diff1<- rma(es, se^2, mod= ~ hrsperweek, data=data_agregated)
+rma_suoa_diff1
+
+#Covariate 2: g1txdays
+rma_suoa_diff2<- rma(es, se^2, mod= ~ txdays, data=data_agregated)
+rma_suoa_diff2
+
+
+```
+
+
+
+## Previous Analyses
+
+### Complete case analysis - Dependent ES
 
 While effect sizes and sampling variances are not missing for this dataset, there are a number of 
 moderator (covariates) variables that are. A total of 328 ES available in the data. 
 
 ```{r}
+data_adt_cca<- data_adt[c("studyid", "es_g","se_g","g1hrsperweek","g1txdays")]
+
 ##delete NA
 data_adt_na<- na.omit(data_adt_cca)
 
@@ -80,7 +147,7 @@ rma_mv_cca_2
 Only k=247 ES were included in the analysis.Thus, aproximetly 25% of the ES were excluded from the analysis. illustrating the loss of data that can occur when conducting a complete case analysis. 
 
 
-## Shifting units analysis - Dependent ES
+### Shifting units of analysis - Dependent ES
 
 ```{r}
 #Covariate 1: g1hrsperweek
