@@ -1,0 +1,42 @@
+\begin{table}
+
+\caption{\label{tab:pcts}\label{tab:pcts} \textit{This table displays the total number, percentage, and precision-weighted percentage of effect sizes that are missing a given variable.}}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Variable & \# Missing & \% Missing & Wt. \% Missing\\
+\hline
+Group 2 Hrs Per Week & 152 & 46.3 & 45.2\\
+\hline
+Group 1 Hrs Per Week & 79 & 24.1 & 36.8\\
+\hline
+Group 2 Treatment Days & 117 & 35.7 & 32.6\\
+\hline
+Group 2 No. Session & 111 & 33.8 & 30.2\\
+\hline
+Group 2 Treatment Location & 109 & 33.2 & 30.0\\
+\hline
+Group 2 Pct Black & 75 & 22.9 & 17.5\\
+\hline
+Group 1 Pct Black & 71 & 21.6 & 16.1\\
+\hline
+Group 1 Pct Hispanic & 56 & 17.1 & 12.7\\
+\hline
+Group 2 Pct Hispanic & 51 & 15.5 & 12.4\\
+\hline
+Group 1 No. Session & 35 & 10.7 & 6.9\\
+\hline
+Group 2 Pct White & 18 & 5.5 & 4.6\\
+\hline
+Group 1 Pct White & 11 & 3.4 & 3.1\\
+\hline
+Group 2 Mean Age & 14 & 4.3 & 3.0\\
+\hline
+Group 1 Mean Age & 7 & 2.1 & 1.5\\
+\hline
+Group 1 Pct Male & 9 & 2.7 & 1.3\\
+\hline
+Group 1 Treatment Days & 2 & 0.6 & 0.1\\
+\hline
+\end{tabular}
+\end{table}

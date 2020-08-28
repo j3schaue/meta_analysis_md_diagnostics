@@ -3249,5 +3249,1065 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "lairdStatisticalMethodsCombining1990",
+		"type": "article-journal",
+		"abstract": "Advances in science and technology are generally the product of multiple investigations. This article discusses statistical methods for combining empirical results from a series of different experiments or clinical investigations. We delineate the steps an assessor might take in combining data from different studies and provide references for topics not discussed in detail. The article reviews some of the most commonly used statistical techniques for combining results in the medical and social sciences.\n            \n              The expression\n              meta-analysis\n              refers to the practice of using statistical methods to combine the outcomes of a series of different experiments or investigations. The terminology arises because a meta-analysis uses a study as the unit of observation, and, thus, the data point for each study is itself a statistical summary based on an analysis of primary data.",
+		"container-title": "International Journal of Technology Assessment in Health Care",
+		"DOI": "10.1017/S0266462300008916",
+		"ISSN": "0266-4623, 1471-6348",
+		"issue": "1",
+		"journalAbbreviation": "Int J Technol Assess Health Care",
+		"language": "en",
+		"page": "5-30",
+		"source": "DOI.org (Crossref)",
+		"title": "Some statistical methods for combining experimental results",
+		"URL": "https://www.cambridge.org/core/product/identifier/S0266462300008916/type/journal_article",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Laird",
+				"given": "Nan M."
+			},
+			{
+				"family": "Mosteller",
+				"given": "Frederick"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1990",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "cooperResearchSynthesisMetaanalysis2017",
+		"type": "book",
+		"call-number": "H62 .C5859 2017",
+		"edition": "Fifth Edition",
+		"event-place": "Los Angeles",
+		"ISBN": "978-1-4833-3115-7",
+		"number-of-pages": "360",
+		"publisher": "SAGE",
+		"publisher-place": "Los Angeles",
+		"source": "Library of Congress ISBN",
+		"title": "Research synthesis and meta-analysis: a step-by-step approach",
+		"title-short": "Research synthesis and meta-analysis",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
+	},
+	{
+		"id": "agrestiCategoricalDataAnalysis2013",
+		"type": "book",
+		"abstract": "\"A classic in its own right, this book continues to provide an introduction to modern generalized linear models for categorical variables. The text emphasizes methods that are most commonly used in practical application, such as classical inferences for two- and three-way contingency tables, logistic regression, loglinear models, models for multinomial (nominal and ordinal) responses, and methods for repeated measurement and other forms of clustered, correlated response data. Chapter headings remain essentially with the exception of a new one on Bayesian inference for parametric models. Other major changes include an expansion of clustered data, new research on analysis of data sets with robust variables, extensive discussions of ordinal data, more on interpretation, and additional exercises throughout the book. R and SAS are now showcased as the software of choice. An author web site with solutions, commentaries, software programs, and data sets is available\"--",
+		"call-number": "QA278 .A353 2013",
+		"collection-number": "792",
+		"collection-title": "Wiley series in probability and statistics",
+		"edition": "3rd ed",
+		"event-place": "Hoboken, NJ",
+		"ISBN": "978-0-470-46363-5",
+		"number-of-pages": "714",
+		"publisher": "Wiley",
+		"publisher-place": "Hoboken, NJ",
+		"source": "Library of Congress ISBN",
+		"title": "Categorical data analysis",
+		"author": [
+			{
+				"family": "Agresti",
+				"given": "Alan"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2013"
+				]
+			]
+		}
+	},
+	{
+		"id": "viechtbauerBiasEfficiencyMetaanalytic2005",
+		"type": "article-journal",
+		"container-title": "Journal of Educational and Behavioral Statistics",
+		"DOI": "10.3102/10769986030003261",
+		"ISSN": "1076-9986, 1935-1054",
+		"issue": "3",
+		"journalAbbreviation": "Journal of Educational and Behavioral Statistics",
+		"language": "en",
+		"page": "261-293",
+		"source": "DOI.org (Crossref)",
+		"title": "Bias and efficiency of meta-analytic variance estimators in the random-effects model",
+		"URL": "http://journals.sagepub.com/doi/10.3102/10769986030003261",
+		"volume": "30",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2005",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "melaImpactCollinearityRegression2002",
+		"type": "article-journal",
+		"container-title": "Applied Economics",
+		"DOI": "10.1080/00036840110058482",
+		"ISSN": "0003-6846, 1466-4283",
+		"issue": "6",
+		"journalAbbreviation": "Applied Economics",
+		"language": "en",
+		"page": "667-677",
+		"source": "DOI.org (Crossref)",
+		"title": "The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations",
+		"title-short": "The impact of collinearity on regression analysis",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/00036840110058482",
+		"volume": "34",
+		"author": [
+			{
+				"family": "Mela",
+				"given": "Carl F."
+			},
+			{
+				"family": "Kopalle",
+				"given": "Praveen K."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "farrarMulticollinearityRegressionAnalysis1967",
+		"type": "article-journal",
+		"container-title": "The Review of Economics and Statistics",
+		"DOI": "10.2307/1937887",
+		"ISSN": "00346535",
+		"issue": "1",
+		"journalAbbreviation": "The Review of Economics and Statistics",
+		"page": "92",
+		"source": "DOI.org (Crossref)",
+		"title": "Multicollinearity in regression analysis: The problem revisited",
+		"title-short": "Multicollinearity in Regression Analysis",
+		"URL": "https://www.jstor.org/stable/1937887?origin=crossref",
+		"volume": "49",
+		"author": [
+			{
+				"family": "Farrar",
+				"given": "Donald E."
+			},
+			{
+				"family": "Glauber",
+				"given": "Robert R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1967",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "fergusonEffectSizePrimer2009",
+		"type": "article-journal",
+		"container-title": "Professional Psychology: Research and Practice",
+		"DOI": "10.1037/a0015808",
+		"ISSN": "1939-1323, 0735-7028",
+		"issue": "5",
+		"journalAbbreviation": "Professional Psychology: Research and Practice",
+		"language": "en",
+		"page": "532-538",
+		"source": "DOI.org (Crossref)",
+		"title": "An effect size primer: A guide for clinicians and researchers.",
+		"title-short": "An effect size primer",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/a0015808",
+		"volume": "40",
+		"author": [
+			{
+				"family": "Ferguson",
+				"given": "Christopher J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "chenHowBigBig2010",
+		"type": "article-journal",
+		"container-title": "Communications in Statistics - Simulation and Computation",
+		"DOI": "10.1080/03610911003650383",
+		"ISSN": "0361-0918, 1532-4141",
+		"issue": "4",
+		"journalAbbreviation": "Communications in Statistics - Simulation and Computation",
+		"language": "en",
+		"page": "860-864",
+		"source": "DOI.org (Crossref)",
+		"title": "How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies",
+		"title-short": "How Big is a Big Odds Ratio?",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/03610911003650383",
+		"volume": "39",
+		"author": [
+			{
+				"family": "Chen",
+				"given": "Henian"
+			},
+			{
+				"family": "Cohen",
+				"given": "Patricia"
+			},
+			{
+				"family": "Chen",
+				"given": "Sophie"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					3,
+					31
+				]
+			]
+		}
+	},
+	{
+		"id": "haddockUsingOddsRatios1998",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.3.3.339",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "339-353",
+		"source": "DOI.org (Crossref)",
+		"title": "Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues.",
+		"title-short": "Using odds ratios as effect sizes for meta-analysis of dichotomous data",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.3.3.339",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Haddock",
+				"given": "C. Keith"
+			},
+			{
+				"family": "Rindskopf",
+				"given": "David"
+			},
+			{
+				"family": "Shadish",
+				"given": "William R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
+	},
+	{
+		"id": "cohenStatisticalPowerAnalysis1988",
+		"type": "book",
+		"call-number": "HA29 .C66 1988",
+		"edition": "2nd ed",
+		"event-place": "Hillsdale, N.J",
+		"ISBN": "978-0-8058-0283-2",
+		"number-of-pages": "567",
+		"publisher": "L. Erlbaum Associates",
+		"publisher-place": "Hillsdale, N.J",
+		"source": "Library of Congress ISBN",
+		"title": "Statistical power analysis for the behavioral sciences",
+		"author": [
+			{
+				"family": "Cohen",
+				"given": "Jacob"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1988"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesPowerStatisticalTests2004",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.9.4.426",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "4",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "426-445",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests for moderators in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.9.4.426",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2004"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesPowerStatisticalTests2001",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.6.3.203",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "203-217",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.6.3.203",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesStatisticalAnalysesStudying2019",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/met0000189",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "5",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "557-570",
+		"source": "DOI.org (Crossref)",
+		"title": "Statistical analyses for studying replication: Meta-analytic perspectives.",
+		"title-short": "Statistical analyses for studying replication",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/met0000189",
+		"volume": "24",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesFittingContinuousModels24",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164634",
+		"ISSN": "03629791",
+		"issue": "4",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "245",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting continuous models to effect size data",
+		"URL": "https://www.jstor.org/stable/1164634?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesCombiningIndependentEstimators1983",
+		"type": "article-journal",
+		"container-title": "British Journal of Mathematical and Statistical Psychology",
+		"DOI": "10.1111/j.2044-8317.1983.tb00768.x",
+		"ISSN": "00071102",
+		"issue": "1",
+		"language": "en",
+		"page": "123-131",
+		"source": "DOI.org (Crossref)",
+		"title": "Combining independent estimators in research synthesis",
+		"URL": "http://doi.wiley.com/10.1111/j.2044-8317.1983.tb00768.x",
+		"volume": "36",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1983",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesFittingCategoricalModels22",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164961",
+		"ISSN": "03629791",
+		"issue": "2",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "119",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting categorical models to effect sizes from a series of experiments",
+		"URL": "https://www.jstor.org/stable/1164961?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "hedgesRobustVarianceEstimation2010",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.5",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Synth. Method",
+		"language": "en",
+		"page": "39-65",
+		"source": "DOI.org (Crossref)",
+		"title": "Robust variance estimation in meta-regression with dependent effect size estimates",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.5",
+		"volume": "1",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Tipton",
+				"given": "Elizabeth"
+			},
+			{
+				"family": "Johnson",
+				"given": "Matthew C."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "viechtbauerAccountingHeterogeneityRandomeffects2007",
+		"type": "article-journal",
+		"abstract": "Abstract. To conduct a meta-analysis, one needs to express the results from a set of related studies in terms of an outcome measure, such as a standardized mean difference, correlation coefficient, or odds ratio. The observed outcome from a single study will differ from the true value of the outcome measure because of sampling variability. The observed outcomes from a set of related studies measuring the same outcome will, therefore, not coincide. However, one often finds that the observed outcomes differ more from each other than would be expected based on sampling variability alone. A likely explanation for this phenomenon is that the true values of the outcome measure are heterogeneous. One way to account for the heterogeneity is to assume that the heterogeneity is entirely random. Another approach is to examine whether the heterogeneity in the outcomes can be accounted for, at least in part, by a set of study-level variables describing the methods, procedures, and samples used in the different studies. The purpose of the present paper is to discuss these different approaches with particular emphasis on the interpretation of the results and practical issues.",
+		"container-title": "Zeitschrift für Psychologie / Journal of Psychology",
+		"DOI": "10.1027/0044-3409.215.2.104",
+		"ISSN": "0044-3409",
+		"issue": "2",
+		"journalAbbreviation": "Zeitschrift für Psychologie / Journal of Psychology",
+		"language": "en",
+		"page": "104-121",
+		"source": "DOI.org (Crossref)",
+		"title": "Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis",
+		"URL": "https://econtent.hogrefe.com/doi/10.1027/0044-3409.215.2.104",
+		"volume": "215",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2007",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "berkeyRandomeffectsRegressionModel1995",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.4780140406",
+		"ISSN": "02776715, 10970258",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "395-411",
+		"source": "DOI.org (Crossref)",
+		"title": "A random-effects regression model for meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/sim.4780140406",
+		"volume": "14",
+		"author": [
+			{
+				"family": "Berkey",
+				"given": "C. S."
+			},
+			{
+				"family": "Hoaglin",
+				"given": "D. C."
+			},
+			{
+				"family": "Mosteller",
+				"given": "F."
+			},
+			{
+				"family": "Colditz",
+				"given": "G. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1995",
+					2,
+					28
+				]
+			]
+		}
+	},
+	{
+		"id": "konstantopoulosFixedEffectsVariance2011",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.35",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Syn. Meth.",
+		"language": "en",
+		"page": "61-76",
+		"source": "DOI.org (Crossref)",
+		"title": "Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis",
+		"title-short": "Fixed effects and variance components estimation in three-level meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.35",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Konstantopoulos",
+				"given": "Spyros"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2011",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "schauerExploratoryAnalysesMissingunderreview",
+		"type": "article-journal",
+		"title": "Exploratory analyses for missing data in meta-analyses",
+		"author": [
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			},
+			{
+				"family": "Dìaz",
+				"given": "Karina"
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"issued": {
+			"literal": "under review"
+		}
+	},
+	{
+		"id": "lipseyThoseConfoundedModerators2003",
+		"type": "article-journal",
+		"container-title": "The ANNALS of the American Academy of Political and Social Science",
+		"DOI": "10.1177/0002716202250791",
+		"ISSN": "0002-7162, 1552-3349",
+		"issue": "1",
+		"journalAbbreviation": "The ANNALS of the American Academy of Political and Social Science",
+		"language": "en",
+		"page": "69-81",
+		"source": "DOI.org (Crossref)",
+		"title": "Those confounded moderators in meta-analysis: Good, bad, and ugly",
+		"title-short": "Those Confounded Moderators in Meta-Analysis",
+		"URL": "http://journals.sagepub.com/doi/10.1177/0002716202250791",
+		"volume": "587",
+		"author": [
+			{
+				"family": "Lipsey",
+				"given": "Mark W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "madley-dowdProportionMissingData2019",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2019.02.016",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "63-73",
+		"source": "DOI.org (Crossref)",
+		"title": "The proportion of missing data should not be used to guide decisions on multiple imputation",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435618308710",
+		"volume": "110",
+		"author": [
+			{
+				"family": "Madley-Dowd",
+				"given": "Paul"
+			},
+			{
+				"family": "Hughes",
+				"given": "Rachael"
+			},
+			{
+				"family": "Tilling",
+				"given": "Kate"
+			},
+			{
+				"family": "Heron",
+				"given": "Jon"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "jakobsenWhenHowShould2017",
+		"type": "article-journal",
+		"container-title": "BMC Medical Research Methodology",
+		"DOI": "10.1186/s12874-017-0442-1",
+		"ISSN": "1471-2288",
+		"issue": "1",
+		"journalAbbreviation": "BMC Med Res Methodol",
+		"language": "en",
+		"page": "162",
+		"source": "DOI.org (Crossref)",
+		"title": "When and how should multiple imputation be used for handling missing data in randomised clinical trials – a practical guide with flowcharts",
+		"URL": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-017-0442-1",
+		"volume": "17",
+		"author": [
+			{
+				"family": "Jakobsen",
+				"given": "Janus Christian"
+			},
+			{
+				"family": "Gluud",
+				"given": "Christian"
+			},
+			{
+				"family": "Wetterslev",
+				"given": "Jørn"
+			},
+			{
+				"family": "Winkel",
+				"given": "Per"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "dongPrincipledMissingData2013",
+		"type": "article-journal",
+		"container-title": "SpringerPlus",
+		"DOI": "10.1186/2193-1801-2-222",
+		"ISSN": "2193-1801",
+		"issue": "1",
+		"journalAbbreviation": "SpringerPlus",
+		"language": "en",
+		"page": "222",
+		"source": "DOI.org (Crossref)",
+		"title": "Principled missing data methods for researchers",
+		"URL": "https://springerplus.springeropen.com/articles/10.1186/2193-1801-2-222",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Dong",
+				"given": "Yiran"
+			},
+			{
+				"family": "Peng",
+				"given": "Chao-Ying Joanne"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "schaferMultipleImputationPrimer1999",
+		"type": "article-journal",
+		"container-title": "Statistical Methods in Medical Research",
+		"DOI": "10.1177/096228029900800102",
+		"ISSN": "0962-2802, 1477-0334",
+		"issue": "1",
+		"journalAbbreviation": "Stat Methods Med Res",
+		"language": "en",
+		"page": "3-15",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation: a primer",
+		"title-short": "Multiple imputation",
+		"URL": "http://journals.sagepub.com/doi/10.1177/096228029900800102",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Schafer",
+				"given": "Joseph L"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "bennettHowCanDeal2001",
+		"type": "article-journal",
+		"abstract": "Missing data in medical research is a common problem that has long been recognised by statisticians and medical researchers alike. In general, if the effect of missing data is not taken into account the results of the statistical analyses will be biased and the amount of variability in the data will not be correctly estimated. There are three main types of missing data pattern: Missing Completely At Random (MCAR), Missing At Random (MAR) and Not Missing At Random (NMAR). The type of missing data that a researcher has in their dataset determines the appropriate method to use in handling the missing data before a formal statistical analysis begins. The aim of this practice note is to describe these patterns of missing data and how they can occur, as well describing the methods of handling them. Simple and more complex methods are described, including the advantages and disadvantages of each method as well as their availability in routine software. It is good practice to perform a sensitivity analysis employing different missing data techniques in order to assess the robustness of the conclusions drawn from each approach.",
+		"container-title": "Australian and New Zealand Journal of Public Health",
+		"ISSN": "1326-0200",
+		"issue": "5",
+		"journalAbbreviation": "Aust N Z J Public Health",
+		"language": "eng",
+		"note": "PMID: 11688629",
+		"page": "464-469",
+		"source": "PubMed",
+		"title": "How can I deal with missing data in my study?",
+		"volume": "25",
+		"author": [
+			{
+				"family": "Bennett",
+				"given": "D. A."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					10
+				]
+			]
+		}
 	}
 ]
