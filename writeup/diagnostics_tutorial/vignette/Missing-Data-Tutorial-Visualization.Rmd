@@ -182,6 +182,27 @@ The top pane shows how frequently each pattern of missingness occurs.
 ```{r}
 gg_miss_upset(adt_data, nsets=11, nintersects=NA)
 ```
+
+Another approach is to look at pairwise correlations of missingness indicators. 
+An easy way to do this is with a correlation heatmap. 
+In `R`, the the `ggcorrplot()` function from the `ggcorrplot` library is useful for visualizing correlation matrices:
+```{r, warning = F, message = F}
+library(ggcorrplot)
+library(viridis)
+
+# Set up a data frame with missingness indicators
+adt_mc <- adt_data %>%
+  select_if(any_na) %>%
+  mutate_all(.funs = function(x) ifelse(is.na(x), 1, 0))
+
+# Get pairwise correlations of missingness
+miscor <- cor(adt_mc) 
+
+# Visualize the correlation matrix
+ggcorrplot(miscor, type = "lower") +
+  viridis::scale_fill_viridis("Correlation of\nMissingness")
+```
+
 <br><br>
 
 # Missingness and Effect Size Estimates
