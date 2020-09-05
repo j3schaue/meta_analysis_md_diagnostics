@@ -37,18 +37,68 @@ cor(adt_example$g1hrsperweek, adt_example$g2hrsperweek,
     use = "pairwise.complete.obs")
 
 dd <- adt_example %>%
-  select(studyid, es_g, se_g, g1hrs = g1hrsperweek, g2hrs = g2hrsperweek) %>%
+  mutate(g1out = (g1loc == "2. Outpatient")) %>%
+  select(studyid, es_g, se_g, g1hrs = g1hrsperweek, g2hrs = g2hrsperweek, g1out) %>%
   mutate(v_g = se_g^2)
 
 skimr::skim(dd)
 
+tmp <- dd %>% 
+  distinct(studyid, g1hrs, g2hrs) %>%
+  group_by(studyid) %>%
+  tally() %>%
+  filter(n > 1) %>%
+  left_join(dd) %>%
+  distinct(studyid, g1hrs, g2hrs)
+
+tmp %>%
+  distinct(studyid)
+
 # RVE
 library(robumeta)
-rv_mod <-  robu(formula = es_g ~ g1hrs + g2hrs, data = dd,
-                studynum = studyid, var.eff.size = v_g,
-                # rho = 0.5, 
-                small = TRUE)
-rv_mod
+
+# Mod 1: Outpatient
+rv_mod_outpatient <- robu(formula = es_g ~ g1out, 
+                          data = dd, 
+                          studynum = studyid, 
+                          var.eff.size = v_g, 
+                          small = TRUE)
+
+rv_mod_hrs <-  robu(formula = es_g ~ g1hrs + g2hrs, 
+                    data = dd,
+                    studynum = studyid, 
+                    var.eff.size = v_g,
+                    # rho = 0.5,
+                    small = TRUE)
+
+rv_mod_hiint <- robu(formula = es_g ~ g1hi + g2hi, 
+                     data = dd %>% mutate(g1hi = g1hrs > 1.5, 
+                                          g2hi = g2hrs > 1.5), 
+                     studynum = studyid, 
+                     var.eff.size = v_g,
+                     # rho = 0.5,
+                     small = TRUE)
+
+rv_mod_hiint
+rv_mod_hrs
+
+rvmod_hiint_g1 <- robu(formula = es_g ~ g1hi, 
+                       data = dd %>% mutate(g1hi = g1hrs > 1.5, 
+                                            g2hi = g2hrs > 1.5), 
+                       studynum = studyid, 
+                       var.eff.size = v_g,
+                       # rho = 0.5,
+                       small = TRUE)
+
+rvmod_hiint_g2 <- robu(formula = es_g ~ g2hi, 
+                       data = dd %>% mutate(g1hi = g1hrs > 1.5, 
+                                            g2hi = g2hrs > 1.5), 
+                       studynum = studyid, 
+                       var.eff.size = v_g,
+                       # rho = 0.5,
+                       small = TRUE)
+
+
 
 
 ## MV

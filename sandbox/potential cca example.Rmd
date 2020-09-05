@@ -1,0 +1,210 @@
+---
+title: "CCA Example"
+output: html_document
+---
+
+## Data: ADT meta-analysis 
+
+Here, we read in the data:
+```{r, message = F}
+library(tidyverse)
+
+adt <- readRDS("../data/adt_data.RDS")
+```
+
+A useful way to subset the data is to retain only one effect size per contrast. Here, we choose the *last* contrast reported as measured by the timing post-intervention.
+```{r}
+# Subset to get last follow up time for each contrast
+adt_example <- adt %>%
+  group_by(studyid, groupid1, groupid2) %>%
+  arrange(desc(estimingpost)) %>%
+  slice(1) %>%
+  ungroup()
+```
+
+To simplify things, we generate a few categorical variables:
+
+- `g1out`: whether treatments were outpatient
+- `multidrug`: whether patients presented using multiple drugs
+- `long`: if the treatment was longer than 100 days
+- `gXhi`: if group X had high intensity treatment (>1.5 hrs per week). **NOTE: I'd recommend using these for our example**.
+```{r}
+# Mutate to get easier names
+dd <- adt_example %>%
+  mutate(g1out = (g1loc == "2. Outpatient"), 
+         multidrug = (dvmicro == "7. Mixed drugs"), 
+         long = (g2txdays > 100)) %>%
+  select(studyid, es_g, se_g, 
+         g1hrs = g1hrsperweek, g2hrs = g2hrsperweek, 
+         g1out, multidrug, long) %>%
+  mutate(v_g = se_g^2, 
+         g1hi = (g1hrs > 1.5), 
+         g2hi = (g2hrs > 1.5))
+```
+
+# Models for example
+
+```{r, echo = F}
+n_study <- dd %>% distinct(studyid) %>% nrow()
+n_effect <- dd %>% nrow()
+```
+
+
+It would seem that we should demonstrate both a complete- and available-case analysis.
+Consider the subset of the ADT data that contains `r n_effect` effect estimates from `r n_study` studies. 
+These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*. 
+Treatment conditions vary across studies, and include assertive continuing care (ACC), behavioral therapy, (CBT), motivational enhancement therapy (MET), and family therapy, as well as "practice as usual" control groups where subjects were referred to community services, but did not receive specific substance abuse treatment.
+
+The researchers who collected these data extracted several covariates regarding the treatment type, intensity (in hours per week), and duration (in days), as well as information regarding the racial composition of each group in a contrast.
+To demonstrate a complete- and available-case analysis, consider two covariates regarding whether each group received a high-intensity intervention (>1.5 hours per week).
+Let $X_{i1} = 1$ if group 1 received a high-intensity intervention and $X_{i1} = 0$ if group 1 received a low-intensity intervention. 
+Similarly, let $X_{i2} = 1$ if group 2 received a high intensity and $X_{i2} = 0$ if group 2 received a low-intensity intervention.
+
+In the data, the treatment intensity is missing for some of the effects.
+The table below shows that only 37 of the `r n_effect` have a reported treatment intensity for both groups.
+
+```{r, echo = F}
+mipat <- mice::md.pattern(dd %>% select(g1hi, g2hi))
+counts <- as.integer(dimnames(mipat)[[1]][1:4])
+mitab <- tibble(g1_intensity = rep(c("Observed", "Missing"), each = 2), 
+                g2_intensity = rep(c("Observed", "Missing"), 2), 
+                counts = counts) %>%
+  mutate(percent = counts/n_effect)
+
+knitr::kable(mitab, digits = 2)
+```
+
+For reference, the correlation between $X_{i1}$ and $X_{i2}$ among the effects where both are observed is `r cor(dd$g1hi, dd$g2hi, use = "pairwise.complete")`
+
+A complete case analysis would include only the 37 effects for which both covariates are observed. 
+Because studies produce multiple effect sizes, we use robust variance estimation to compute standard errors:
+
+```{r}
+# RVE
+library(robumeta)
+
+rv_mod_hiint <- robu(formula = es_g ~ g1hi + g2hi, 
+                     data = dd, 
+                     studynum = studyid, 
+                     var.eff.size = v_g,
+                     # rho = 0.5,
+                     small = TRUE)
+rv_mod_hiint
+```
+
+Note that by default, most programs that run meta-regressions will only use complete cases.
+
+However, in the table above, we see that there are an additional 17 effects for which $X_{i1}$ is observed, but not $X_{i2}$.
+Thus, one may be tempted to include those observations, but exclude $X_{i2}$ from the model. 
+This is referred to as a shifting-case analysis or a shifting units of analysis.
+```{r}
+rv_mod_hiint_g1 <- robu(formula = es_g ~ g1hi, 
+                        data = dd, 
+                        studynum = studyid,
+                        var.eff.size = v_g, 
+                        small = TRUE)
+
+rv_mod_hiint_g1
+```
+Note that this estimate is much smaller, by over one third, than the complete-case analysis above.
+
+A similar model can be fit for $X_{i2}$, which yields a point estimate that is quite different (and even in a different direction) than the estimate in the complete-case model:
+```{r}
+rv_mod_hiint_g2 <- robu(formula = es_g ~ g2hi, 
+                        data = dd, 
+                        studynum = studyid,
+                        var.eff.size = v_g, 
+                        small = TRUE)
+
+rv_mod_hiint_g2
+```
+
+
+# Other models fit
+
+Potential models fit with RVE:
+```{r}
+# Mod 1a: Were interventions outpatient (mostly study-level)
+rv_mod_outpatient <- robu(formula = es_g ~ g1out, 
+                          data = dd, 
+                          studynum = studyid, 
+                          var.eff.size = v_g, 
+                          small = TRUE)
+
+# Mod 1b: Were interventions long (>100 days) (mostly study-level)
+rv_mod_long <- robu(formula = es_g ~ long, 
+                    data = dd, 
+                    studynum = studyid, 
+                    var.eff.size = v_g, 
+                    small = TRUE)
+
+# Mod 2a: Hours per week for both groups (complete cases)
+rv_mod_hrs <-  robu(formula = es_g ~ g1hrs + g2hrs, 
+                    data = dd,
+                    studynum = studyid, 
+                    var.eff.size = v_g,
+                    # rho = 0.5,
+                    small = TRUE)
+
+# Mod 2b: Hi-intensity for each group (>1.5 hrs per week) complete cases
+rv_mod_hiint <- robu(formula = es_g ~ g1hi + g2hi, 
+                     data = dd, 
+                     studynum = studyid, 
+                     var.eff.size = v_g,
+                     # rho = 0.5,
+                     small = TRUE)
+
+# Mod 2c: Hi-intensity for only group 1 (>1.5 hrs per week) shifting cases
+rvmod_hiint_g1 <- robu(formula = es_g ~ g1hi, 
+                       data = dd, 
+                       studynum = studyid, 
+                       var.eff.size = v_g,
+                       # rho = 0.5,
+                       small = TRUE)
+
+rvmod_hiint_g2 <- robu(formula = es_g ~ g2hi, 
+                       data = dd %>% mutate(g1hi = g1hrs > 1.5, 
+                                            g2hi = g2hrs > 1.5), 
+                       studynum = studyid, 
+                       var.eff.size = v_g,
+                       # rho = 0.5,
+                       small = TRUE)
+```
+
+
+Potential parameters of interest
+```{r}
+mis_mech_df <- dd %>%
+  mutate(long_na = is.na(long), 
+         multidrug_na = is.na(multidrug), 
+         g1out_na = is.na(g1out),
+         g1hrs_na = is.na(g1hrs), 
+         g2hrs_na = is.na(g2hrs))
+
+glm(g1out_na ~ es_g + v_g, 
+    data = mis_mech_df, 
+    family = "binomial")
+
+glm(multidrug_na ~ es_g + v_g, 
+    data = mis_mech_df, 
+    family = "binomial")
+
+glm(long_na ~ es_g + v_g, 
+    data = mis_mech_df, 
+    family = "binomial")
+
+glm(g1hrs_na ~ es_g + v_g, 
+    data = mis_mech_df, 
+    family = "binomial")
+
+glm(g2hrs_na ~ es_g + v_g, 
+    data = mis_mech_df, 
+    family = "binomial")
+```
+
+
+```{r}
+cor(dd$g1hrs, dd$g2hrs, use = "pairwise.complete")
+cor(dd$g1hi, dd$g2hi, use = "pairwise.complete")
+```
+
