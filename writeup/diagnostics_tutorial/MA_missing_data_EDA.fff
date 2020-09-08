@@ -1,28 +1,28 @@
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/figs1-1.pdf}
-\caption{\label{fig:figs1}\label{fig:figs1} \emph{This plot indicates the severity of missingness in the adolescent substance abuse intervention data. Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a dark dash in plot. The legend shows the percent of cells in the data that contain missing values. The column labels show the precent of rows missing each variable in the data.}}
+\caption{\label{fig:figs1}\label{fig:figs1} Aggregation plot. \emph{This plot indicates the severity of missingness in the adolescent substance abuse intervention data (Tanner-Smith et al., 2016). Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a dark dash in plot. The legend shows the percent of cells in the data that contain missing values. The column labels show the precent of rows missing each variable in the data.}}
 \end{figure}
 \efloatseparator
  
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/figs2-1.pdf}
-\caption{\label{fig:figs2}\label{fig:figs2} \emph{This plot summaries missingness in variables, ordered by missingness, in the adolescent substance abuse intervention data. Indicating that there are 10 variables with at least 10\% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.}}
+\caption{\label{fig:figs2}\label{fig:figs2} Variable missing plot. \emph{This plot summaries missingness in variables, ordered by the percentage of missingness, in the adolescent substance abuse intervention data. Indicating that there are 10 variables with at least 10\% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.}}
 \end{figure}
 \efloatseparator
  
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/misscor-1.pdf}
-\caption{\label{fig:misscor}\label{fig:missingness_corr} \emph{This plot shows the pairwise correlation of missingnes for each variable in the data. Each tile refers to a pair of variables and is shaded according to the correlation.}}
+\caption{\label{fig:misscor}\label{fig:misscor} Missingness patterns plot. \emph{This plot shows the pairwise correlation of missingnes for each variable in the data. Each tile refers to a pair of variables and is shaded according to the correlation.}}
 \end{figure}
 \efloatseparator
  
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/figs3-1.pdf}
-\caption{\label{fig:figs3}\label{fig:figs3} \emph{This plot details those variables that are missing together. For instance, there are a large number of cases where group 2 level of care, number of sessions, treatment contact (hours per week) and duration of treatment (days) are missing together. This simple exploration provides valuable information for imputation.}}
+\caption{\label{fig:figs3}\label{fig:figs3} Upset plot. \emph{This plot details those variables that are missing together. For instance, there are a large number of cases where group 2 level of care, number of sessions, treatment contact (hours per week) and duration of treatment (days) are missing together. This simple exploration provides valuable information for imputation.}}
 \end{figure}
 \efloatseparator
  
@@ -43,12 +43,12 @@
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/esseg1-1.pdf}
-\caption{\label{fig:esseg1}\label{fig:esseg1} \emph{This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 1 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 1 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 1 treatment duration (in days) is observed versus missing.}}
+\caption{\label{fig:esseg1}\label{fig:esseg1} Comparative density plot. \emph{This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 1 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 1 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 1 treatment duration (in days) is observed versus missing.}}
 \end{figure}
 \efloatseparator
  
 \begin{figure}
 \centering
 \includegraphics{MA_missing_data_EDA_files/figure-latex/esseg2-1.pdf}
-\caption{\label{fig:esseg2}\label{fig:esseg2} \emph{This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 2 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 2 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 2 treatment duration (in days) is observed versus missing.}}
+\caption{\label{fig:esseg2}\label{fig:esseg2} Comparative density plot. \emph{This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 2 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 2 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 2 treatment duration (in days) is observed versus missing.}}
 \end{figure}
