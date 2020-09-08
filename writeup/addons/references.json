@@ -4309,5 +4309,97 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "fayWhenAreInferences1992",
+		"type": "article-journal",
+		"container-title": "Proceedings of the Survey Research Methods Section, American Statistical Association",
+		"page": "227-232",
+		"title": "When are inferences from multiple imputation valid?",
+		"author": [
+			{
+				"family": "Fay",
+				"given": "Robert E."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "mengMultipleimputationInferencesUncongenial1994",
+		"type": "article-journal",
+		"container-title": "Statistical Science",
+		"DOI": "10.1214/ss/1177010269",
+		"ISSN": "0883-4237",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Sci.",
+		"language": "en",
+		"page": "538-558",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple-imputation inferences with uncongenial sources of input",
+		"URL": "http://projecteuclid.org/euclid.ss/1177010269",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Meng",
+				"given": "Xiao-Li"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1994",
+					11
+				]
+			]
+		}
+	},
+	{
+		"id": "reiterDiscussionDissectingMultiple2017",
+		"type": "article-journal",
+		"container-title": "Statistica Sinica",
+		"DOI": "10.5705/ss.202016.0287",
+		"ISSN": "10170405",
+		"journalAbbreviation": "STAT SINICA",
+		"source": "DOI.org (Crossref)",
+		"title": "Discussion: Dissecting Multiple Imputation from a Multi-phase Inference Perspective: What Happens When God's Imputer's and Analyst's Models are Uncongenial?",
+		"title-short": "Discussion",
+		"URL": "http://www3.stat.sinica.edu.tw/statistica/J27N4/J27N41/J27N41-10.html",
+		"author": [
+			{
+				"family": "Reiter",
+				"given": "Jerry"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
 	}
 ]

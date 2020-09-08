@@ -1,33 +1,4 @@
 [
-
-	{
-		"id": "cheung2015",
-		"type": "book",
-		"call-number": "QA278.4",
-		"event-place": "Chichester, West Sussex",
-		"ISBN": "978-1-118-95783-7",
-		"language": "en",
-		"number-of-pages": "1",
-		"publisher": "John Wiley & Sons, Inc",
-		"publisher-place": "Chichester, West Sussex",
-		"source": "Library of Congress ISBN",
-		"title": "Meta-analysis: a structural equation modeling approach",
-		"title-short": "Meta-analysis",
-		"author": [
-			{
-				"family": "Cheung",
-				"given": "Mike W. L."
-			}
-		],
-		"issued": {
-			"date-parts": [
-				[
-					"2015"
-				]
-			]
-		}
-	},
-
 	{
 		"id": "burgessCombiningMultipleImputation2013",
 		"type": "article-journal",
@@ -4126,6 +4097,338 @@
 				[
 					"2003",
 					5
+				]
+			]
+		}
+	},
+	{
+		"id": "madley-dowdProportionMissingData2019",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2019.02.016",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "63-73",
+		"source": "DOI.org (Crossref)",
+		"title": "The proportion of missing data should not be used to guide decisions on multiple imputation",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435618308710",
+		"volume": "110",
+		"author": [
+			{
+				"family": "Madley-Dowd",
+				"given": "Paul"
+			},
+			{
+				"family": "Hughes",
+				"given": "Rachael"
+			},
+			{
+				"family": "Tilling",
+				"given": "Kate"
+			},
+			{
+				"family": "Heron",
+				"given": "Jon"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "jakobsenWhenHowShould2017",
+		"type": "article-journal",
+		"container-title": "BMC Medical Research Methodology",
+		"DOI": "10.1186/s12874-017-0442-1",
+		"ISSN": "1471-2288",
+		"issue": "1",
+		"journalAbbreviation": "BMC Med Res Methodol",
+		"language": "en",
+		"page": "162",
+		"source": "DOI.org (Crossref)",
+		"title": "When and how should multiple imputation be used for handling missing data in randomised clinical trials – a practical guide with flowcharts",
+		"URL": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-017-0442-1",
+		"volume": "17",
+		"author": [
+			{
+				"family": "Jakobsen",
+				"given": "Janus Christian"
+			},
+			{
+				"family": "Gluud",
+				"given": "Christian"
+			},
+			{
+				"family": "Wetterslev",
+				"given": "Jørn"
+			},
+			{
+				"family": "Winkel",
+				"given": "Per"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "dongPrincipledMissingData2013",
+		"type": "article-journal",
+		"container-title": "SpringerPlus",
+		"DOI": "10.1186/2193-1801-2-222",
+		"ISSN": "2193-1801",
+		"issue": "1",
+		"journalAbbreviation": "SpringerPlus",
+		"language": "en",
+		"page": "222",
+		"source": "DOI.org (Crossref)",
+		"title": "Principled missing data methods for researchers",
+		"URL": "https://springerplus.springeropen.com/articles/10.1186/2193-1801-2-222",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Dong",
+				"given": "Yiran"
+			},
+			{
+				"family": "Peng",
+				"given": "Chao-Ying Joanne"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "schaferMultipleImputationPrimer1999",
+		"type": "article-journal",
+		"container-title": "Statistical Methods in Medical Research",
+		"DOI": "10.1177/096228029900800102",
+		"ISSN": "0962-2802, 1477-0334",
+		"issue": "1",
+		"journalAbbreviation": "Stat Methods Med Res",
+		"language": "en",
+		"page": "3-15",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation: a primer",
+		"title-short": "Multiple imputation",
+		"URL": "http://journals.sagepub.com/doi/10.1177/096228029900800102",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Schafer",
+				"given": "Joseph L"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "bennettHowCanDeal2001",
+		"type": "article-journal",
+		"abstract": "Missing data in medical research is a common problem that has long been recognised by statisticians and medical researchers alike. In general, if the effect of missing data is not taken into account the results of the statistical analyses will be biased and the amount of variability in the data will not be correctly estimated. There are three main types of missing data pattern: Missing Completely At Random (MCAR), Missing At Random (MAR) and Not Missing At Random (NMAR). The type of missing data that a researcher has in their dataset determines the appropriate method to use in handling the missing data before a formal statistical analysis begins. The aim of this practice note is to describe these patterns of missing data and how they can occur, as well describing the methods of handling them. Simple and more complex methods are described, including the advantages and disadvantages of each method as well as their availability in routine software. It is good practice to perform a sensitivity analysis employing different missing data techniques in order to assess the robustness of the conclusions drawn from each approach.",
+		"container-title": "Australian and New Zealand Journal of Public Health",
+		"ISSN": "1326-0200",
+		"issue": "5",
+		"journalAbbreviation": "Aust N Z J Public Health",
+		"language": "eng",
+		"note": "PMID: 11688629",
+		"page": "464-469",
+		"source": "PubMed",
+		"title": "How can I deal with missing data in my study?",
+		"volume": "25",
+		"author": [
+			{
+				"family": "Bennett",
+				"given": "D. A."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "fayWhenAreInferences1992",
+		"type": "article-journal",
+		"container-title": "Proceedings of the Survey Research Methods Section, American Statistical Association",
+		"page": "227-232",
+		"title": "When are inferences from multiple imputation valid?",
+		"author": [
+			{
+				"family": "Fay",
+				"given": "Robert E."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "mengMultipleimputationInferencesUncongenial1994",
+		"type": "article-journal",
+		"container-title": "Statistical Science",
+		"DOI": "10.1214/ss/1177010269",
+		"ISSN": "0883-4237",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Sci.",
+		"language": "en",
+		"page": "538-558",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple-imputation inferences with uncongenial sources of input",
+		"URL": "http://projecteuclid.org/euclid.ss/1177010269",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Meng",
+				"given": "Xiao-Li"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1994",
+					11
+				]
+			]
+		}
+	},
+	{
+		"id": "reiterDiscussionDissectingMultiple2017",
+		"type": "article-journal",
+		"container-title": "Statistica Sinica",
+		"DOI": "10.5705/ss.202016.0287",
+		"ISSN": "10170405",
+		"journalAbbreviation": "STAT SINICA",
+		"source": "DOI.org (Crossref)",
+		"title": "Discussion: Dissecting Multiple Imputation from a Multi-phase Inference Perspective: What Happens When God's Imputer's and Analyst's Models are Uncongenial?",
+		"title-short": "Discussion",
+		"URL": "http://www3.stat.sinica.edu.tw/statistica/J27N4/J27N41/J27N41-10.html",
+		"author": [
+			{
+				"family": "Reiter",
+				"given": "Jerry"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
+	},
+	{
+		"id": "cheungHandlingMissingCovariates2019",
+		"type": "speech",
+		"event": "Society for Research Synthesis Methods",
+		"event-place": "Chicago, IL",
+		"publisher-place": "Chicago, IL",
+		"title": "Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood",
+		"URL": "http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf",
+		"author": [
+			{
+				"family": "Cheung",
+				"given": "Mike W.-L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
 				]
 			]
 		}
