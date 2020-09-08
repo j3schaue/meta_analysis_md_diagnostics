@@ -4401,5 +4401,78 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "cheungHandlingMissingCovariates2019",
+		"type": "speech",
+		"event": "Society for Research Synthesis Methods",
+		"event-place": "Chicago, IL",
+		"publisher-place": "Chicago, IL",
+		"title": "Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood",
+		"URL": "http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf",
+		"author": [
+			{
+				"family": "Cheung",
+				"given": "Mike W.-L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
+				]
+			]
+		}
+	},
+	{
+		"id": "duvalTrimFillSimple2000",
+		"type": "article-journal",
+		"container-title": "Biometrics",
+		"DOI": "10.1111/j.0006-341X.2000.00455.x",
+		"ISSN": "0006341X",
+		"issue": "2",
+		"language": "en",
+		"page": "455-463",
+		"source": "DOI.org (Crossref)",
+		"title": "Trim and Fill: A Simple Funnel-Plot-Based Method of Testing and Adjusting for Publication Bias in Meta-Analysis",
+		"title-short": "Trim and Fill",
+		"URL": "http://doi.wiley.com/10.1111/j.0006-341X.2000.00455.x",
+		"volume": "56",
+		"author": [
+			{
+				"family": "Duval",
+				"given": "Sue"
+			},
+			{
+				"family": "Tweedie",
+				"given": "Richard"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2000",
+					6
+				]
+			]
+		}
 	}
 ]
