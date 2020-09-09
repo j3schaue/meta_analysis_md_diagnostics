@@ -4474,5 +4474,113 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "polaninLocatingUnregisteredUnreported2020",
+		"type": "article-journal",
+		"container-title": "Systematic Reviews",
+		"DOI": "10.1186/s13643-020-01376-9",
+		"ISSN": "2046-4053",
+		"issue": "1",
+		"journalAbbreviation": "Syst Rev",
+		"language": "en",
+		"page": "116",
+		"source": "DOI.org (Crossref)",
+		"title": "Locating unregistered and unreported data for use in a social science systematic review and meta-analysis",
+		"URL": "https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/s13643-020-01376-9",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Espelage",
+				"given": "Dorothy L."
+			},
+			{
+				"family": "Grotpeter",
+				"given": "Jennifer K."
+			},
+			{
+				"family": "Valido",
+				"given": "Alberto"
+			},
+			{
+				"family": "Ingram",
+				"given": "Katherine M."
+			},
+			{
+				"family": "Torgal",
+				"given": "Cagil"
+			},
+			{
+				"family": "El Sheikh",
+				"given": "America"
+			},
+			{
+				"family": "Robinson",
+				"given": "Luz E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "polaninDatasharingAgreementHelps2019",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2018.10.006",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "60-69",
+		"source": "DOI.org (Crossref)",
+		"title": "A data-sharing agreement helps to increase researchers’ willingness to share primary data: results from a randomized controlled trial",
+		"title-short": "A data-sharing agreement helps to increase researchers’ willingness to share primary data",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435617313306",
+		"volume": "106",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Terzian",
+				"given": "Mary"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					2
+				]
+			]
+		}
 	}
 ]

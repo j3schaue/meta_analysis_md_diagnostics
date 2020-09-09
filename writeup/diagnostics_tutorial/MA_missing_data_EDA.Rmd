@@ -1,16 +1,18 @@
 ---
-title: "Exploratory Analyses for Missing Data in Meta-Analyses: A Tutorial"
+title: "Exploratory Analyses for Missing Data in Meta-Analyses and Meta-Regression: A Tutorial"
 csl: ../addons/alcohol-and-alcoholism.csl
 output:
-  bookdown::word_document2: 
-    reference_docx: ../addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
     toc: false
     number_sections: no
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/references.json
+abstract: |
+  | While systematic reviews of substance abuse interventions hold great promise for informing what works for whom and under what conditions, such reviews must contend with missing data. Missing data can limit the accuracy of statistical analyses or the relevance of the evidence base and deciding how to handle missing data depends on why it is missing in the first place. In this tutorial, we examine methods for exploring missingness in a dataset in ways that can help identify the sources and extent of missingness, as well as clarify gaps in evidence. We demonstrate these methods on a meta-analysis of substance abuse interventions for adolescents to highlight areas where the evidence less clear and where statistical adjustments taken by the original authors appear to have been necessary.
 ---
 
 ```{r setup, include=FALSE}
@@ -131,12 +133,14 @@ Various researchers have suggested analysts can better understand missingness in
 These explorations, which occur before running confirmatory statistical analyses, can shed greater light on key issues relevant to missingness.
 Tools for doing so are only now emerging in statistics, but these tools have yet to gain broader traction in quantitative disciplines [@tierneyExpandingTidyData2018; @tierneyVisdatVisualisingWhole2017]. 
 Nor has this approach garnered much discussion among meta-analysts, where missing data is a common problem. 
+The focus in meta-analysis has instead been on methods to estimate models with incomplete data [see @pigottHandlingMissingData2019; @higginsImputationMethodsMissing2008; @ellingtonUsingMultipleImputation2015; @cheungHandlingMissingCovariates2019].
 
 Because a meta-analysis involves an ensemble of effects (i.e., intervention impacts) reported by primary studies, there are at least three different types of missing data in a meta-analysis, each of which would require its own exploratory analysis.
 First, data could be missing on individual participants within studies, including their outcomes in the study or other characteristics (e.g., their age, race, prior substance use) [e.g., @higginsImputationMethodsMissing2008]. Although this type of missingness cannot be controlled by a meta-analyst, it may impact the precision of each primary study's effect size estimates.
 Second, entire studies or effects may be missing from a meta-analytic dataset if they are not reported or published, including for reasons related publication selection and bias [@rosenthalFileDrawerProblem1979; @hedgesEstimationEffectSize1984; @rothsteinPublicationBiasMetaanalysis2005]. 
 Third, and the focus of this article, missingness may refer to information that could not be extracted from a completed study by a meta-analyst [@pigottMissingPredictorsModels2001]. 
 This may occur if a study fails to report enough detail for analysts to back out effect estimates, standard errors, or study- and effect-level characteristics.
+When this occurs, it is often reasonable to reach out to the authors of primary studies with requests for missing information, however a recent study found that responses rates to such inquiries are low (around 12%) and responses that include the missing information are even less frequent (about 0.5%) [@polaninLocatingUnregisteredUnreported2020]
 
 This tutorial examines exploratory analysis methods for studying missingness that arises from incomplete reporting as described above.
 We refer to this type of exploration as an *exploratory missingness analyses* (EMA).
@@ -259,7 +263,7 @@ Many software tools, including most graphics software used to conduct a standard
 
 A prime example of an incomplete data meta-analysis can be seen in data from @tanner-smithAdolescentSubstanceUse2016, who examined the impacts of substance abuse interventions for adolescents on subsequent substance use. 
 Tanner-Smith et al. extracted effects from 61 randomized trials and quasi-experiments, and include $k = 95$ different effect size estimates.
-These data will be used to illustrate useful tools to exploring missingness in this tutorial.
+We are grateful to Tanner-Smith et al., who furnished their raw data, which will be used to illustrate useful tools to exploring missingness in this tutorial.
 
 Tanner-Smith et al. identified a range of intervention types that have been studied in different venues and on different types of adolescent substance users.
 They identified interventions that focus on cognitive behavioral therapy (CBT), family therapy, and pharmacological therapy. 
@@ -302,7 +306,7 @@ any_sum = any_na_tab %>%
 ```
 
 One issue with missingness involves how much data is missing, which can affect the accuracy of incomplete data analysis methods like the EM algorithm, multiple imputation, or even complete-case analyses.
-@schaferMultipleImputationPrimer199 suggests that if less than 5% of the data are missing, this can be inconsequential, and @bennettHowCanDeal2001 argues that a missingness rate of over 10% can induce non-negligible bias in statistical analyses.
+@schaferMultipleImputationPrimer1999 suggests that if less than 5% of the data are missing, this can be inconsequential, and @bennettHowCanDeal2001 argues that a missingness rate of over 10% can induce non-negligible bias in statistical analyses.
 Statistical guidance regarding the effectiveness of procedures such as multiple imputation or FIML typically typically suggest that they are appropriate when missingness is less than 40% [@jakobsenWhenHowShould2017; @dongPrincipledMissingData2013]. 
 However, multiple imputation that involves informative auxiliary variables to impute missing data can perform well at higher rates of missingness under certain assumptions [@madley-dowdProportionMissingData2019].
 
@@ -534,7 +538,7 @@ Data are missing completely at random (MCAR) if the probability that values are 
 Data are said to be missing at random (MAR) if the probability that values are observed only depenends on observed data $p(\mathbf{R} | \mathbf{D}_{obs}, \mathbf{D}_{mis}) = p(\mathbf{R} | \mathbf{D}_{obs})$.
 Finally, data are missing not at random (MNAR) if the probability of observing a value is related to unobserved and observed data.
 
-@pigottHandlingMissingData2019 argues that some meta-analytic methods, such as analyses of complete cases, assume that data are MCAR.
+@pigottHandlingMissingData2019 notes that some meta-analytic methods, such as analyses of complete cases, assume that data are MCAR.
 Other methods, such as multiple imputation or the EM algorithm, assume that data are MAR.
 If missingness in one column of the data is correlated with observed values in another column, that would be an indication that data are not MCAR.
 A similar logic underpins the test for MCAR proposed by [@littleTestMissingCompletely1988].
@@ -689,6 +693,7 @@ plot_grid(PlotC, PlotD,
 # Discussion
 
 Missing data is and will continue to be an issue with most meta-analyses that can affect what we can learn about substance abuse interventions from research syntheses. 
+Attempts to recover missing information by contacting primary study authors should be encouraged, however empirical research suggests that such inquiries are unlikely to resolve missingness entirely [see @polaninDatasharingAgreementHelps2019; @polaninLocatingUnregisteredUnreported2020].
 While there are various potential approaches to handling missing data in meta-analysis, most of those approaches assume that the missingness mechanism is known to the analyst. 
 This is almost never the case in practice, and instead analysts are often left to hypothesize possible mechanisms.
 This article argued that an exploratory analysis of missingness might help analysts better understand and form hypotheses about missingness.
