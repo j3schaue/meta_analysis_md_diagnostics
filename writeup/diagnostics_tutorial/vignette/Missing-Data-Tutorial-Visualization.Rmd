@@ -284,7 +284,7 @@ ggplot(adt_data) +
       y = es_g) +
   geom_miss_point(alpha = .8) +
   scale_color_manual("Group 1 Hrs Per Week", 
-                     values = c("#56B4E9", "#E69F00")) +
+                     values = c("#B9DE52", "#46095D")) +
   labs(title = "Effect Size vs. Group 1 Treatment Intensity")
 
 
@@ -297,7 +297,7 @@ ggplot(adt_data) +
   geom_miss_point(alpha = .5, 
                   size = pointsize) +
   scale_color_manual("Group 1 Hrs Per Week", 
-                     values = c("#56B4E9", "#E69F00")) +
+                     values = c("#B9DE52", "#46095D")) +
   labs(title = "Effect Size vs. Group 1 Treatment Intensity")
 ```
 <br><br>

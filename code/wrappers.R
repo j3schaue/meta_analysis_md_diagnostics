@@ -64,7 +64,7 @@ gg_es_covariate_miss <- function(shadow, es_col, covariate, adjust = 1){
 #'         colored according to if the covariate is missing or not
 #' ###---------------------------------------------------------------------------------------###   
 gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c(1, 1), 
-                                   colors = c("#FCE724", "#440153"), 
+                                   colors = c("#B9DE52", "#46095D"), 
                                    ymax = NULL, label = NULL,
                                    legend_pos = "bottom"){
   
@@ -138,7 +138,7 @@ gg_esse_covariate_miss <- function(shadow, es_col, se_col, covariate, adjust = c
 #' @return forest plot of effect sizes colored by whether the covariate is missing
 ###----------------------------------------------------------------------------###  
 gg_forest_covariate_miss <- function(shadow, es_col, se_col, covariate, 
-                                     colors = c("#FCE724", "#440153"), 
+                                     colors = c("#B9DE52", "#46095D"), 
                                      label = NULL, 
                                      arrange_by = "ES"){
   
@@ -293,5 +293,4 @@ gg_summary_covariate_miss <- function(data){
   return(prow)
 
 }
-
 
