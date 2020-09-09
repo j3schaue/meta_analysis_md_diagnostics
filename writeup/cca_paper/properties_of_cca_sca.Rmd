@@ -7,13 +7,13 @@ author:
   - Therese D. Pigott, Georgia State University
 csl: ../addons/apa.csl
 output:
-  bookdown::word_document2: 
-    reference_docx: ../addons/styles_word.docx
   bookdown::pdf_document2: 
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
     toc: false
+  bookdown::word_document2: 
+    reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/cca_references.json
 ---
 
@@ -41,16 +41,153 @@ Some research has pointed out these issues in meta-analysis [@pigottHandlingMiss
 However, precisely how much bias can arise in a complete- or shifting-case analysis is not immediately clear, nor is there exhaustive guidance on when these analyses produce unbiased estimates.
 
 This article examines the potential bias of complete- and shifting-case analyses. 
-The following section provides a demonstration of these methods on [INSERT DATA SET].
+The following section provides a demonstration of these methods on data concerning a meta-analysis of substance abuse interventions [@tanner-smithAdolescentSubstanceUse2016].
 We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a data point is observed.
 Using this framework, we describe conditions under which complete- and available-case analyses are unbiased.
 When these conditions are not met, we derive an approximation for the bias of complete- and available-case analyses using standard models for missingness and examine the magnitude of bias.
 
 
 
-# Case Study
+# Example: Substance Abuse Interventions
 
-[HOLD FOR ILLUSTRATION OF ANALYSIS METHODS WITH REAL DATA]
+```{r, message = F, echo = F, error = F, warning = F}
+library(tidyverse)
+
+adt <- readRDS("../../data/adt_data.RDS")
+dd <- adt %>%
+  group_by(studyid, groupid1, groupid2) %>%
+  arrange(desc(estimingpost)) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(studyid, es_g, se_g, 
+         g1hrs = g1hrsperweek, g2hrs = g2hrsperweek) %>%
+  mutate(v_g = se_g^2, 
+         g1hi = (g1hrs > 1.5), 
+         g2hi = (g2hrs > 1.5), 
+         g1_obs = ifelse(is.na(g1hi), 0, 1), 
+         g2_obs = ifelse(is.na(g2hi), 0, 1), 
+         g1_obs = factor(g1_obs), 
+         g2_obs = factor(g2_obs))
+
+n_study <- dd %>% distinct(studyid) %>% nrow()
+n_effect <- dd %>% nrow()
+
+mipat <- mice::md.pattern(dd %>% select(g1hi, g2hi), plot = FALSE)
+counts <- as.integer(dimnames(mipat)[[1]][1:4])
+mitab <- tibble(g1_intensity = rep(c("Observed", "Missing"), each = 2), 
+                g2_intensity = rep(c("Observed", "Missing"), 2), 
+                counts = counts) %>%
+  mutate(percent = counts/n_effect) %>%
+  select(`Group 1 Hi-Intensity` = g1_intensity,
+         `Group 2 Hi-Intensity` = g2_intensity, 
+         Count = counts, 
+         Percent = percent)
+```
+
+@tanner-smithAdolescentSubstanceUse2016 conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents. 
+The studies included in this meta-analysis involved a variety of different treatment types (e.g., cognitive behavioral therapy, family therapy, and pharmacological therapy) and treatment intensities (measured in hours per week), and were carried out in a variety of contexts, including in-patient and out-patient centers.
+Tanner-Smith et al. used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates. 
+Their analytic approach relied on the expectation-maximization (EM) algorithm, however we use a subset of their data in this section in order to illustrate complete- and shifting-case analyses.
+
+Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. 
+These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*, so that each treatment effect can be thought of as Group 1 minus Group 2.
+Effect sizes are measures on the scale of bias-corrected standardized mean differences.
+Often the same group (typically the control group) in a study was used in multiple contrasts, so that effect sizes in this meta-analysis are likely correlated.
+
+Suppose an analysis of interest involves the impact of high- versus low-intensity interventions on treatment effects, where a high-intensity intervention consisted of more than 1.5 hours per week of treatment. 
+Then this analysis might use a pair of binary covariates for each effect: one would indicate whether group 1 received a high-intensity intervention (i.e., $X_1 = 1$ if group 1 treatment was high-intensity) and the other would indicate whether group 2 received a high intensity (i.e., $X_{2} = 1$ if group 2 treatment was high-intensity).
+The relevant meta-regression model would regress the effect estimates on these two covariates.
+
+In the data, the treatment intensity is missing for some of the effects, and Table \@ref(tab:misspat) summarizes missingness for these covariates.
+Table \@ref(tab:misspat) shows that only 37 of the `r n_effect` (50%) have a reported treatment intensity for both groups (i.e., $X_{1}, X_{2}$ are both observed), but that 54 (73%) of effects report Group 1's treatment intensity (i.e., $X_{1}$ is observed) and 41 (55%) effects report Group 2's treatment intensity.
+```{r, echo = F, }
+knitr::kable(mitab, 
+             digits = 2,
+             format = "latex", 
+             caption = "\\label{tab:misspat} \\textit{This table displays the total number and percentage of effect sizes that are missing covariates regarding whether Group 1 or Group 2 received high-intensity interventions in the substance abuse intervention meta-analysis.}")
+```
+
+A complete-case analysis would include only the 37 effects for which both covariates were observed.
+Using robust variance estimation to account for dependence between effect sizes, a complete-case analysis would result in the coefficient estimates and standard errors displayed in Table \@ref(tab:cc_adt_example).
+Based on these estimates, when Group 1 receives a high-intensity treatment, we would expect an effect to be larger by $d = 0.44$ (in standard deviation units) than when Group 1 receives a low-intensity treatment, which is statistically significant at the $\alpha = 0.1$ level.
+Note that the estimated between-effect variance is $\hat{\tau}^2 = 0.08$.
+```{r, echo = F, message = F, warning = F}
+# RVE
+library(robumeta)
+
+rv_mod_hiint <- robu(formula = es_g ~ g1hi + g2hi, 
+                     data = dd, 
+                     studynum = studyid, 
+                     var.eff.size = v_g,
+                     # rho = 0.5,
+                     small = TRUE)
+rv_hiint_tab <- rv_mod_hiint$reg_table %>%
+  mutate(Coefficient = c("Intercept", "Group 1 Hi-Intensity", "Group 2 Hi-Intensity")) %>%
+  select(Coefficient, 
+         Estimate = b.r, 
+         SE, 
+         `p-value` = prob, 
+         `Lower 95% CI` = CI.L, 
+         `Upper 95% CI` = CI.U)
+
+knitr::kable(rv_hiint_tab, digits = 2,
+             format = "latex", 
+             caption = "\\label{tab:cc_adt_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on high-intensity indicator variables. The coefficients are estimated using only complete cases (i.e., where both covariates are observed).}")
+```
+
+
+However, the model above is estimated on only half of the data.
+Concern over using a small proportion of the data, or a relatively few number of effects often leads meta-analysts to opt for a shifting-case analysis.
+An example of a shifting-case analysis would use the 54 effects for which Group 1's treatment intensity is observed (i.e., $X_{1}$ is observed), but only including $X_{1}$ in the model.
+Doing so leads to the estimates in Table \@ref(tab:cc_adt_g1_example).
+Note that the coefficient estimate for Group 1's treatment intensity is still positive, but is roughly 60% the magnitude of the estimate in the complete-case model.
+```{r, echo = F, message = F, warning = F}
+rv_mod_hiint_g1 <- robu(formula = es_g ~ g1hi, 
+                        data = dd, 
+                        studynum = studyid,
+                        var.eff.size = v_g, 
+                        small = TRUE)
+
+rv_hiint_g1_tab <- rv_mod_hiint_g1$reg_table %>%
+  mutate(Coefficient = c("Intercept", "Group 1 Hi-Intensity")) %>%
+  select(Coefficient, 
+         Estimate = b.r, 
+         SE, 
+         `p-value` = prob, 
+         `Lower 95% CI` = CI.L, 
+         `Upper 95% CI` = CI.U)
+
+knitr::kable(rv_hiint_g1_tab, digits = 2,
+             caption = "\\label{tab:cc_adt_g1_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on a high-intensity indicator for Group 1 in the substance abuse data. The coefficients are estimated using only effects for which Group 1's treatment intensity are observed.}")
+```
+
+
+Finally, an analogous model in a shifting-case analysis would include the 55 effects for which Group 2's intensity is observed, and include only that covariate in the model.
+Table \@ref(tab:cc_adt_g2_example) shows that this results in a coefficient estimate for Group 2's treatment intensity (0.16) that is in the opposite direction of the estimate from the complete case analysis (-0.21).
+```{r, echo = F, message = F, warning = F}
+rv_mod_hiint_g2 <- robu(formula = es_g ~ g2hi, 
+                        data = dd, 
+                        studynum = studyid,
+                        var.eff.size = v_g, 
+                        small = TRUE)
+
+rv_hiint_g2_tab <- rv_mod_hiint_g2$reg_table %>%
+  mutate(Coefficient = c("Intercept", "Group 2 Hi-Intensity")) %>%
+  select(Coefficient, 
+         Estimate = b.r, 
+         SE, 
+         `p-value` = prob, 
+         `Lower 95% CI` = CI.L, 
+         `Upper 95% CI` = CI.U)
+
+knitr::kable(rv_hiint_g2_tab, digits = 2,
+             caption = "\\label{tab:cc_adt_g2_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on a high-intensity indicator for Group 2 in the substance abuse data. The coefficients are estimated using only effects for which Group 2's treatment intensity are observed.}")
+```
+
+It should be noted that all of these estimates ought to be interpreted with caution. 
+The complete-case analysis includes only half of the effect sizes, which comprises a missingness rate well beyond what might be considered negligible [@schaferMultipleImputationPrimer1999; @bennettHowCanDeal2001].
+The shifting-case analyses include more of the data, but because each shifting-case model omits one of the covariates, these models are not equivalent to the model that includes both covariates [@cooperSynthesizingResearchGuide1998].
+The remainder of this article concerns the impact of omitting effect sizes and/or covariates from meta-regressions on the accuracy of coefficient estimates, and finds that this can induce potentially substantial bias.
 
 
 # Model and Notation
@@ -428,7 +565,7 @@ Assume that the selection model is log-linear, and that missingness depends on t
   = \psi_0  + \psi_1 T_i + \psi_2 X_i
 \label{eq:cc_loglinear}
 \end{equation}
-\textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one thought?: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the opposite direction, especially when Figure 1 is explained later and in the caption of Figure 1. But it is still good with the presented way!}}
+<!-- \textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one thought?: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the opposite direction, especially when Figure 1 is explained later and in the caption of Figure 1. But it is still good with the presented way!}} -->
 Note that this is an MNAR mechanism, since it depends on $X_i$. 
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
@@ -537,7 +674,10 @@ However, the bias is largely a function of $\psi_1$, which is the coefficient in
 The data would be MAR under a selection model where $\psi_2 = 0$ in (\ref{eq:cc_loglinear}).
 In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
 
-
+For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention. 
+The missingness rate for Group 1's intensity is 27%.
+Using a logit model analogous to \@ref(eq:cc_loglinear), we get an estimate of $\psi_1 = 2.08$. 
+Based on the heterogeneity $\tau^2 = 0.08$ estimated in the example and the mean within-study variance $v = 0.08$, this would give a bias of about $d = 0.09$ in the intercept $\beta_0$.
 
 
 
@@ -712,7 +852,12 @@ For instance, if $\beta_2 < 0$ but $\tilde{\delta}_{ij} > 0$, then the omitted v
 In such cases, the bias of the shifting case estimators could be smaller than the bias of the complete-case estimators.
 However, because the biases depend on unknown (and potentially unobserved) quantities, it will often be impossible to empirically verify the magnitude or direction of the bias. 
 
-
+In the substance abuse example, consider the regression that omits Group 2's covariates. 
+Recall that the estimate for $\beta_2$ on complete cases was $\hat{\beta}_2 = -0.21$.
+Among the observed data, we find that $p(X_2 = 1 | X_1 = 0) = 0.08$ and $p(X_2 = 1 | X_1 = 1) = 0.55$. 
+Given these values, the omitted variable bias for the intercept $\beta_0$ would be $d = -0.02$, and the omitted variable bias for $\beta_1$ would be $d = -0.1$. 
+Note, however, that the total bias further depends on the bias due to missingness.
+Based on empirical estimates in the previous section, this would give a bias in the estimate of $\beta_0$ of about $d = 0.07$. 
 
 
 # Discussion
@@ -728,9 +873,9 @@ When these conditions are not met, the bias of coefficient estimates can be subs
 
 An important aspect of these results is that bias will depend on unknown parameters and unobserved data. 
 This means that it will be impossible to empirically verify the magnitude or direction of the bias.
+Even the estimated biases from the substance abuse data, which were on the order of about $d = \pm 0.1$ may not be entirely accurate, as so much of that data is missing.
 Further, it will require strong assumptions regarding the missingness mechanism to correct any bias. 
 These assumptions may be buttressed by theory about scientific report, data collection, and data curation.
-[PERHAPS TIE IN EXAMPLE].
 
 It is not immediately clear how commonly the conditions required for unbiased complete- and shifting-case estimators arise.
 Recent empirical work on examining missingness in meta-analytic datasets found that effect sizes can be strongly correlated with missingness, though this is not always the case [@schauerExploratoryAnalysesMissingunderreview]. 
@@ -748,7 +893,7 @@ Finally, multiple imputation (MI) has become something of a standard approach fo
 
 However, employing any of these alternative strategies is not necessarily straightforward for meta-analysts.
 To our knowledge, the EM algorithm for missing covariates has yet to be implemented in standard meta-analytic software.
-Although FIML for meta-regression model is available in SEM framework [@cheung2015], the approach has not been empirically validated under various conditions.
+Although FIML for meta-regression model is available in SEM framework [@cheungHandlingMissingCovariates2019], the approach has not been empirically validated under various conditions.
 How best to specify quality imputation models for MI analyses is something of an open question for meta-regression, as is the potential inaccuracies incurred by using poor imputation models.
 Research on and clear implementation of these methods for meta-regression model would seem to be of great use for meta-analysts.
 
