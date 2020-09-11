@@ -2,7 +2,7 @@
 title: "On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates"
 author: 
   - Jacob M. Schauer, Northwestern University
-  - Karina Dìaz, Columbia University
+  - Karina Diaz, Columbia University
   - Jihyun Lee, The University of Texas at Austin
   - Therese D. Pigott, Georgia State University
 csl: ../addons/apa.csl
@@ -43,8 +43,8 @@ However, precisely how much bias can arise in a complete- or shifting-case analy
 This article examines the potential bias of complete- and shifting-case analyses. 
 The following section provides a demonstration of these methods on data concerning a meta-analysis of substance abuse interventions [@tanner-smithAdolescentSubstanceUse2016].
 We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a data point is observed.
-Using this framework, we describe conditions under which complete- and available-case analyses are unbiased.
-When these conditions are not met, we derive an approximation for the bias of complete- and available-case analyses using standard models for missingness and examine the magnitude of bias.
+Using this framework, we describe conditions under which complete- and shifting-case analyses are unbiased.
+When these conditions are not met, we derive an approximation for the bias of complete- and shifting-case analyses using standard models for missingness and examine the magnitude of bias.
 
 
 
@@ -87,9 +87,9 @@ mitab <- tibble(g1_intensity = rep(c("Observed", "Missing"), each = 2),
 @tanner-smithAdolescentSubstanceUse2016 conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents. 
 The studies included in this meta-analysis involved a variety of different treatment types (e.g., cognitive behavioral therapy, family therapy, and pharmacological therapy) and treatment intensities (measured in hours per week), and were carried out in a variety of contexts, including in-patient and out-patient centers.
 Tanner-Smith et al. used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates. 
-Their analytic approach relied on the expectation-maximization (EM) algorithm, however we use a subset of their data in this section in order to illustrate complete- and shifting-case analyses.
+Their analytic approach relied on the expectation-maximization (EM) algorithm; however, we use a subset of their data in this section in order to illustrate complete- and shifting-case analyses.
 
-Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. 
+Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. **[K.D comment: Should we clarify here that we are using only one effect size per contrast?]**
 These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*, so that each treatment effect can be thought of as Group 1 minus Group 2.
 Effect sizes are measures on the scale of bias-corrected standardized mean differences.
 Often the same group (typically the control group) in a study was used in multiple contrasts, so that effect sizes in this meta-analysis are likely correlated.
@@ -104,6 +104,8 @@ Table \@ref(tab:misspat) shows that only 37 of the `r n_effect` (50%) have a rep
 knitr::kable(mitab, 
              digits = 2,
              format = "latex", 
+             booktabs= TRUE,
+             align = 'cccc',
              caption = "\\label{tab:misspat} \\textit{This table displays the total number and percentage of effect sizes that are missing covariates regarding whether Group 1 or Group 2 received high-intensity interventions in the substance abuse intervention meta-analysis.}")
 ```
 
@@ -130,8 +132,11 @@ rv_hiint_tab <- rv_mod_hiint$reg_table %>%
          `Lower 95% CI` = CI.L, 
          `Upper 95% CI` = CI.U)
 
-knitr::kable(rv_hiint_tab, digits = 2,
+knitr::kable(rv_hiint_tab, 
+             digits = 2,
              format = "latex", 
+             booktabs=TRUE,
+             align = 'lccccc', 
              caption = "\\label{tab:cc_adt_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on high-intensity indicator variables. The coefficients are estimated using only complete cases (i.e., where both covariates are observed).}")
 ```
 
@@ -157,7 +162,11 @@ rv_hiint_g1_tab <- rv_mod_hiint_g1$reg_table %>%
          `Lower 95% CI` = CI.L, 
          `Upper 95% CI` = CI.U)
 
-knitr::kable(rv_hiint_g1_tab, digits = 2,
+knitr::kable(rv_hiint_g1_tab, 
+             digits = 2,
+             format="latex",
+             booktabs=TRUE,
+             align = 'lccccc', 
              caption = "\\label{tab:cc_adt_g1_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on a high-intensity indicator for Group 1 in the substance abuse data. The coefficients are estimated using only effects for which Group 1's treatment intensity are observed.}")
 ```
 
@@ -180,7 +189,11 @@ rv_hiint_g2_tab <- rv_mod_hiint_g2$reg_table %>%
          `Lower 95% CI` = CI.L, 
          `Upper 95% CI` = CI.U)
 
-knitr::kable(rv_hiint_g2_tab, digits = 2,
+knitr::kable(rv_hiint_g2_tab, 
+             digits = 2,
+             format="latex",
+             booktabs=TRUE, 
+             align = 'lccccc', 
              caption = "\\label{tab:cc_adt_g2_example} \\textit{This table displays the meta-regression results for the model regressing effect sizes on a high-intensity indicator for Group 2 in the substance abuse data. The coefficients are estimated using only effects for which Group 2's treatment intensity are observed.}")
 ```
 
