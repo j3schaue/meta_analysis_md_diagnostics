@@ -15,98 +15,10 @@ abstract: |
   | While systematic reviews of substance abuse interventions hold great promise for informing what works for whom and under what conditions, such reviews must contend with missing data. Missing data can limit the accuracy of statistical analyses or the relevance of the evidence base and deciding how to handle missing data depends on why it is missing in the first place. In this tutorial, we examine methods for exploring missingness in a dataset in ways that can help identify the sources and extent of missingness, as well as clarify gaps in evidence. We demonstrate these methods on a meta-analysis of substance abuse interventions for adolescents to highlight areas where the evidence less clear and where statistical adjustments taken by the original authors appear to have been necessary.
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)#, fig.pos = "p", out.extra = "")
-```
 
 
-```{r, message=FALSE, echo=FALSE, warning = FALSE}
-library(naniar)
-library(ggplot2)
-library(visdat)
-library(tidyverse)
-library(tidyselect)
-library(gridExtra)
-library(grid)
-library(cowplot)
-library(viridisLite)
-library(tidyr)
-adt_data <- readRDS("../../data/adt_data.RDS") 
 
-source("../../code/wrappers.R")
-# myvars <- names(adt_data) %in% c("pk_es", "studyid", "_referencesummary","authoryear","varid", "state",
-#                                  "dvsucat", "dvmicro", "estimingpost", "esctobnpost","estxobnpost" )
-data_named <- adt_data %>%
-  select(
-         # `Study ID` = studyid, 
-         `Effect Size` = es_g, 
-         `Standard Error` = se_g,
-         `Timing of Follow-Up` = estimingpost,
-         `Design` = design,
-         # `State` = state,
-         `Group 1 Treatment Category` = g1txcat, 
-         `Group 1 Treatment Location` = g1loc, 
-         `Group 1 Hrs Per Week` = g1hrsperweek,
-         `Group 1 Treatment Days` = g1txdays, 
-         `Group 1 No. Session` = g1numsessions,
-         `Group 1 Mean Age` = g1age,
-         `Group 1 Pct White` = g1perwhite, 
-         `Group 1 Pct Black` = g1perblack,
-         `Group 1 Pct Hispanic` = g1perhisp,
-         `Group 1 Pct Male` = g1permale,
-         `Group 2 Treatment Category` = g2txcat, 
-         `Group 2 Treatment Location` = g2loc, 
-         `Group 2 Hrs Per Week` = g2hrsperweek,
-         `Group 2 Treatment Days` = g2txdays, 
-         `Group 2 No. Session` = g2numsessions,
-         `Group 2 Mean Age` = g2age,
-         `Group 2 Pct White` = g2perwhite, 
-         `Group 2 Pct Black` = g2perblack,
-         `Group 2 Pct Hispanic` = g2perhisp,
-         `Group 2 Pct Male` = g2permale)#adt_data[!myvars]
 
-data <- adt_data %>%
-   select(
-      # studyid,
-      es_g,
-      se_g,
-      estimingpost,
-      design, 
-      # state,
-      g1txcat,
-      g1loc,
-      g1hrsperweek,
-      g1txdays,
-      g1numsessions,
-      g1age,
-      g1perwhite,
-      g1perblack,
-      g1perhisp,
-      g1permale,
-      g2txcat,
-      g2loc,
-      g2hrsperweek,
-      g2txdays,
-      g2numsessions,
-      g2age,
-      g2perwhite,
-      g2perblack,
-      g2perhisp,
-      g2permale)
-
-key <- read_csv("../../code/keys_names.csv")
-raw_to_named <- function(x){
-  out = key %>% filter(raw == x) %>%
-    pull(named)
-  return(out)
-}
-
-any_na_tab <- tibble(
-  se = data$se_g,
-  any_na = apply(data, 1, FUN=function(x) as.integer(sum(is.na(x)) > 0))
-) %>%
-  mutate(se_na = any_na * se)
-```
 
 # Introduction
 
@@ -299,11 +211,7 @@ Each of these methods, including EM, rely on assumptions about the reason data a
 
 # Numerical Summaries of Missingness
 
-```{r, echo = F, message = F, warning = F}
-any_sum = any_na_tab %>% 
-  summarize(raw_pct = mean(any_na) * 100, 
-            wt_pct = sum(any_na/se^2)/sum(1/se^2) * 100)
-```
+
 
 One issue with missingness involves how much data is missing, which can affect the accuracy of incomplete data analysis methods like the EM algorithm, multiple imputation, or even complete-case analyses.
 @schaferMultipleImputationPrimer1999 suggests that if less than 5% of the data are missing, this can be inconsequential, and @bennettHowCanDeal2001 argues that a missingness rate of over 10% can induce non-negligible bias in statistical analyses.
@@ -321,8 +229,8 @@ Second, we can compute the proportion of effects missing *any* variables:
 \begin{equation}
 \sum_{i=1}^k \frac{1 - \prod_{j = 1}^p R_{ij}}{k}
 \end{equation}
-In the data, `r round(any_sum %>% pull(raw_pct), 1)`% of rows are missing at least one value, 
-Thus, a complete-case analysis of all variables would retain only about `r floor(100 - any_sum %>% pull(raw_pct))`% of the rows in the data. 
+In the data, 73.8% of rows are missing at least one value, 
+Thus, a complete-case analysis of all variables would retain only about 26% of the rows in the data. 
 
 Third, and potentially more relevant for meta-regression, we may wish to know the percentage of effects missing a given variable (i.e., how much of each column is missing):
 \begin{equation}
@@ -343,7 +251,7 @@ The weighted percentage
 \sum_{i=1}^k \frac{\left(1 - \prod_{j = 1}^p R_{ij}\right)/\sigma_i^2}{\sum_{i=1}^k 1/\sigma_i^2}
 \end{equation}
 gives the fraction of information in a meta-analysis associated with effects that are missing any data.
-In the Tanner-Smith et al. example, effects that are missing any covariates make up roughly `r round(any_sum %>% pull(wt_pct), 1)`% of the total precision in the data.
+In the Tanner-Smith et al. example, effects that are missing any covariates make up roughly 74.4% of the total precision in the data.
 
 
 The quantity
@@ -361,18 +269,48 @@ Hence, excluding those effects in a complete-case or available-case analysis wou
 This reduction in accuracy would likely be greater than what is indicated by the raw percentages.
 
 
-```{r pcts, echo=FALSE, message = F, fig.pos = 'p'}
-tab1 <- mis_ma_var_summary(data, se_col = "se_g", truncate = TRUE) %>%
-  arrange(desc(wtpct_miss)) %>%
-  mutate_if(is.double, round, digits = 1) %>%
-  select(Variable, `# Missing` = n_miss, `% Missing` = pct_miss, `Wt. % Missing` = wtpct_miss) %>%
-  mutate(Variable = map_chr(Variable, raw_to_named)) 
-# library(flextable)
-# t1 = flextable(tab1, col_keys = c("Variable", "\\# Missing", "\\% Missing", "Weighted \\% Missing"))
-# t1 = set_caption(t1, caption = "\\label{tab:pcts} *This table displays the total number, percentage, and precision-weighted percentage of effect sizes that are missing a given variable*")
-# t1
-knitr::kable(tab1, format = "latex", caption = "\\label{tab:pcts} \\textit{This table displays the total number, percentage, and precision-weighted percentage of effect sizes that are missing a given variable.}")
-```
+\begin{table}
+
+\caption{(\#tab:pcts)\label{tab:pcts} \textit{This table displays the total number, percentage, and precision-weighted percentage of effect sizes that are missing a given variable.}}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Variable & \# Missing & \% Missing & Wt. \% Missing\\
+\hline
+Group 2 Hrs Per Week & 152 & 46.3 & 45.2\\
+\hline
+Group 1 Hrs Per Week & 79 & 24.1 & 36.8\\
+\hline
+Group 2 Treatment Days & 117 & 35.7 & 32.6\\
+\hline
+Group 2 No. Session & 111 & 33.8 & 30.2\\
+\hline
+Group 2 Treatment Location & 109 & 33.2 & 30.0\\
+\hline
+Group 2 Pct Black & 75 & 22.9 & 17.5\\
+\hline
+Group 1 Pct Black & 71 & 21.6 & 16.1\\
+\hline
+Group 1 Pct Hispanic & 56 & 17.1 & 12.7\\
+\hline
+Group 2 Pct Hispanic & 51 & 15.5 & 12.4\\
+\hline
+Group 1 No. Session & 35 & 10.7 & 6.9\\
+\hline
+Group 2 Pct White & 18 & 5.5 & 4.6\\
+\hline
+Group 1 Pct White & 11 & 3.4 & 3.1\\
+\hline
+Group 2 Mean Age & 14 & 4.3 & 3.0\\
+\hline
+Group 1 Mean Age & 7 & 2.1 & 1.5\\
+\hline
+Group 1 Pct Male & 9 & 2.7 & 1.3\\
+\hline
+Group 1 Treatment Days & 2 & 0.6 & 0.1\\
+\hline
+\end{tabular}
+\end{table}
 
 
 
@@ -393,39 +331,9 @@ Figure \@ref(fig:figs1) shows an aggregation plot for the Tanner-Smith et al. (2
 The plot is laid out exactly like the data structure: The columns correspond to variables in the data, and rows correspond to effect sizes.
 Dark areas correspond to cells that are missing values.
 
-```{r, echo = F, message = F, warning = F}
-#Visualize whole dataframe at once
-visdat<- vis_dat(data_named) +
-    theme(
-          legend.position = "bottom",
-          legend.title = element_text(size = 8),
-          legend.text = element_text(size = 7),
-          legend.key.size = unit(.4, "cm"),
-          axis.text.x = element_text(size = 7, 
-                                     angle = 77.5)
-    )
-  #summary of whether the data is missing or not
-vismiss<-vis_miss(data_named) +
-  theme(
-        legend.text = element_text(size = 7),
-        legend.key.size = unit(.5, "cm"),
-        axis.text.x = element_text(size = 7, 
-                                   angle = 77.5)
-  )
-  
-# Arrange plots in a grid
-prow <- plot_grid(
-                  visdat,
-                  vismiss + labs(y = ""),
-                  labels=c('A','B'),
-                  nrow=1, 
-                  rel_widths = c(1, 1.1)
-                )
-```
 
-```{r figs1, echo=FALSE, fig.width = 6, fig.height = 6, fig.pos = 'p', fig.cap="\\label{fig:figs1} Aggregation plot. *This plot indicates the severity of missingness in the adolescent substance abuse intervention data (Tanner-Smith et al., 2016). Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a dark dash in plot. The legend shows the percent of cells in the data that contain missing values. The column labels show the precent of rows missing each variable in the data.*", echo = F, message = F, warning = F}
-vismiss
-```
+
+![(\#fig:figs1)\label{fig:figs1} Aggregation plot. *This plot indicates the severity of missingness in the adolescent substance abuse intervention data (Tanner-Smith et al., 2016). Each row in the plot corresponds to a row in the data, and each column corresponds to a variable collected in the data. Missing cells in the data are indicated by a dark dash in plot. The legend shows the percent of cells in the data that contain missing values. The column labels show the precent of rows missing each variable in the data.*](MA_missing_data_EDA_files/figure-latex/figs1-1.pdf) 
 
 
 Aggregation plots can identify which columns do not have missing values, such as the columns corresponding to the effect size estimates, standard errors, or study designs (Figure \@ref(fig:figs1)).
@@ -454,13 +362,7 @@ Figure \@ref(fig:figs2) suggests that the hours per week that Group 2 spent in t
 Further, the percentage of each group that is black or Hispanic is missing more frequently than is the percentage of each group that is white.
 That is, studies reported the breakdown of white/non-white adolescents in their studies more frequently than they reported the percentage of adolescents identifying as a specific non-white race.
 
-```{r figs2, echo=FALSE, fig.width=5.5, fig.height=3.1, fig.pos="p", fig.cap = "\\label{fig:figs2} Variable missing plot. *This plot summaries missingness in variables, ordered by the percentage of missingness, in the adolescent substance abuse intervention data. Indicating that there are 10 variables with at least 10% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.*"}
-#summary of missing variables (percentage)
-gg_miss_var(data_named, show_pct=TRUE)+
-                                      labs(y="Percentage Missing")+
-                                      theme(axis.title.x = element_text(size =10),
-                                            axis.text.y = element_text(size=6))
-```
+![(\#fig:figs2)\label{fig:figs2} Variable missing plot. *This plot summaries missingness in variables, ordered by the percentage of missingness, in the adolescent substance abuse intervention data. Indicating that there are 10 variables with at least 10% of missing cases. This kind of visualization becomes relevant when deciding which variable to include in the analysis.*](MA_missing_data_EDA_files/figure-latex/figs2-1.pdf) 
 
 
 
@@ -479,31 +381,7 @@ First, information about Group 2's treatment, including duration and intensity, 
 Second, if information on the percentage of minorities is missing for one of the groups (e.g., Group 1), then it is very likely to be missing for the other group (e.g., Group 2).
 Finally, missingness in Group 2's treatment, including location, duration, and intensity, is positively correlated with missingness in Group 1's treatment duration (in number of sessions), and is negatively correlated with missingness in Group 1's treatment intensity (in hours per week).
 
-```{r misscor, echo=FALSE, warning = FALSE, message = F, fig.width=6.5, fig.height=5, fig.pos = 'p', fig.cap="\\label{fig:misscor} Missingness patterns plot. *This plot shows the pairwise correlation of missingnes for each variable in the data. Each tile refers to a pair of variables and is shaded according to the correlation.*"}
-library(viridis)
-
-adt_mc_named <- data_named %>%
-  select_if(any_na) %>%
-  mutate_all(.funs = function(x) ifelse(is.na(x), 1, 0))
-
-miscor <- cor(adt_mc_named) 
-
-ggcorrplot::ggcorrplot(miscor, type = "lower") +
-  geom_tile(height = 2.1, width = 1.1) +
-  scale_fill_viridis("Correlation of\nMissingness")
-
-# reshape2::melt(miscor) %>%
-# ggplot(.) + 
-#   aes(Var1, Var2, fill = value) +
-#   geom_tile(height = 1.2, width = 1.3) +
-#   scale_fill_viridis() +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(size=13, angle=45, vjust=1, hjust=1, 
-#                                    margin=margin(-3,0,0,0)),
-#         axis.text.y=element_text(size=13),
-#         panel.grid.major=element_blank()) +
-#   labs(x = "", y = "") 
-```
+![(\#fig:misscor)\label{fig:misscor} Missingness patterns plot. *This plot shows the pairwise correlation of missingnes for each variable in the data. Each tile refers to a pair of variables and is shaded according to the correlation.*](MA_missing_data_EDA_files/figure-latex/misscor-1.pdf) 
 
 
 A more fine-grained approach to studying missingness patterns uses an *upset plot*, which is shown in Figure \@ref(fig:figs3) [@conwayUpSetRPackageVisualization2017].
@@ -523,9 +401,7 @@ The first pattern, which largely contains information about Group 2's treatment 
 However, because that pattern is part of other patterns, it  occurs frequently in the data.
 Judging from Figure \@ref(fig:figs3), many rows are  missing information about Group 2's treatment, and several of those rows are also missing other variables, including variables that describe the demographics of the study participants.
 
-```{r figs3, echo=FALSE, fig.width=5.5, fig.height=4.25, fig.pos = 'p', fig.cap="\\label{fig:figs3} Upset plot. *This plot details those variables that are missing together. For instance, there are a large number of cases where group 2 level of care, number of sessions, treatment contact (hours per week) and duration of treatment (days) are missing together. This simple exploration provides valuable information for imputation.*"}
-gg_miss_upset(data_named, nsets=11, nintersects=NA) 
-```
+![(\#fig:figs3)\label{fig:figs3} Upset plot. *This plot details those variables that are missing together. For instance, there are a large number of cases where group 2 level of care, number of sessions, treatment contact (hours per week) and duration of treatment (days) are missing together. This simple exploration provides valuable information for imputation.*](MA_missing_data_EDA_files/figure-latex/figs3-1.pdf) 
 
 
 ### Plots to Relate Missingness to Observed Values 
@@ -557,32 +433,7 @@ Likewise, studies where Group 1 received outpatient care were more likely to rep
 We should note, however, that the *Inpatient* column should be interpreted with some caution, as only five (5) effects in the raw data involve Group 1 receiving inpatient treatment.
 Still, the differences in missingness for effects where Group 1 received outpatient versus continuing care interventions suggest that missingness in several variables is related to the venue of treatment.
 
-```{r, hmg1, echo=FALSE, message = F, warning = F, fig.width=6.35,fig.height=4.5, fig.cap="\\label{fig:hmg1} *This plot shows the rate of missingness for each variable as a function of Group 1's treatment location. Each column is broken down by where Group 1 received treatment (inpatient, outpatient, and continuing care). Each row represents another variable in the data. Tiles are shaded according the the fraction rows in the data for which each variable is missing for a given level of Group 1 treatment location.*", fig.pos = 'p'}
-na_pct = function(x){
-  return(mean(is.na(x)))
-}
-
-g1care = data_named %>%
-  mutate(`Group 1 Treatment Location` = factor(`Group 1 Treatment Location`, labels = c("Inpatient", "Outpatient", "Continuing Care"))) %>% 
-  group_by(`Group 1 Treatment Location`) %>%
-  summarize_all(list(na_pct)) %>%
-  pivot_longer(`Effect Size`:`Group 2 Pct Male`, 
-               names_to = "Variable", 
-               values_to = "pct_miss") %>%
-  mutate(Variable = factor(Variable), 
-         Variable = fct_relevel(Variable, 
-                                "Design", 
-                                "Timing of Follow-Up",
-                                "Effect Size", 
-                                "Standard Error"))
-ggplot(g1care) +
-  geom_tile(aes(`Group 1 Treatment Location`, Variable, 
-                fill = pct_miss)) + 
-  scale_fill_viridis("% Missing", 
-                     labels = scales::percent) + 
-  labs(y = "") +
-  theme(panel.background = element_blank())
-```
+![(\#fig:hmg1)\label{fig:hmg1} *This plot shows the rate of missingness for each variable as a function of Group 1's treatment location. Each column is broken down by where Group 1 received treatment (inpatient, outpatient, and continuing care). Each row represents another variable in the data. Tiles are shaded according the the fraction rows in the data for which each variable is missing for a given level of Group 1 treatment location.*](MA_missing_data_EDA_files/figure-latex/hmg1-1.pdf) 
 
 
 Similar patterns emerge in Figure \@ref(fig:hmg2), which shows that missingness in several variables is also correlated with the venue of Group 2's treatment.
@@ -593,29 +444,7 @@ In addition, the *NA* column in Figure \@ref(fig:hmg2), which indicates that Gro
 The relevant rows in Figure \@ref(fig:hmg2) indicate that aspects about Group 2's treatment, including location, duration, an intensity, are often missing together.
 
 
-```{r hmg2, echo=FALSE, fig.cap="\\label{fig:hmg2} *This plot shows the rate of missingness for each variable as a function of Group 2's treatment location. Each column is broken down by where Group 2 received treatment (inpatient, outpatient, and continuing care). Each row represents another variable in the data. Tiles are shaded according the the fraction rows in the data for which each variable is missing for a given level of Group 2 treatment location.*", fig.height=4.5, fig.pos='p', fig.width=6.35, message=FALSE, warning=FALSE}
-#Level of care group 2
-foo = data_named %>%
-  mutate(`Group 2 Treatment Location` = factor(`Group 2 Treatment Location`, labels = c("Inpatient", "Outpatient", "Continuing Care"))) %>% 
-  group_by(`Group 2 Treatment Location`) %>%
-  summarize_all(list(na_pct)) %>%
-  pivot_longer(`Effect Size`:`Group 2 Pct Male`, 
-               names_to = "Variable", 
-               values_to = "pct_miss") %>%
-  mutate(Variable = factor(Variable), 
-         Variable = fct_relevel(Variable, 
-                                "Design", 
-                                "Timing of Follow-Up",
-                                "Effect Size", 
-                                "Standard Error"))
-ggplot(foo) +
-  geom_tile(aes(`Group 2 Treatment Location`, Variable, 
-                fill = pct_miss)) + 
-  scale_fill_viridis("% Missing", 
-                     labels = scales::percent) + 
-  labs(y = "") +
-  theme(panel.background = element_blank())
-```
+![(\#fig:hmg2)\label{fig:hmg2} *This plot shows the rate of missingness for each variable as a function of Group 2's treatment location. Each column is broken down by where Group 2 received treatment (inpatient, outpatient, and continuing care). Each row represents another variable in the data. Tiles are shaded according the the fraction rows in the data for which each variable is missing for a given level of Group 2 treatment location.*](MA_missing_data_EDA_files/figure-latex/hmg2-1.pdf) 
 
 
 
@@ -636,29 +465,7 @@ Figure \@ref(fig:esseg1)B shows that effect estimates for which Group 1's treatm
 Plots A and B in Figure \@ref(fig:esseg1) suggest that missingness of information about treatment dosage (hours per week and duration) will be related to the size of effects found and how precisely those effects were estimated.
 
 
-```{r esseg1, echo=FALSE, fig.width=6,fig.height=5, fig.cap="\\label{fig:esseg1} Comparative density plot. *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 1 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 1 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 1 treatment duration (in days) is observed versus missing.*", fig.pos='p'}
-adt_shadow <- bind_shadow(data)
-PlotA<- gg_esse_covariate_miss(adt_shadow,
-                       es_col = "es_g",
-                       se_col = "se_g",
-                       covariate = "g1hrsperweek",
-                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
-                       label = "Group 1 Hours Per Week", 
-                       legend_pos = "top")
-
-PlotB<- gg_esse_covariate_miss(adt_shadow,
-                       es_col = "es_g",
-                       se_col = "se_g",
-                       covariate = "g1txdays",
-                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
-                       label = "Group 1 Duration of Treatment (Days)", 
-                       legend_pos = "top")
-
-plot_grid(PlotA, PlotB, 
-          labels=c('A','B'),
-          nrow=2)
-
-```
+![(\#fig:esseg1)\label{fig:esseg1} Comparative density plot. *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 1 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 1 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 1 treatment duration (in days) is observed versus missing.*](MA_missing_data_EDA_files/figure-latex/esseg1-1.pdf) 
 
 Figure \@ref(fig:esseg2) shows an analogous set of plots, only it compares the effect size estimate and standard error distributions for when Group 2's treatment intensity (in hours per week) and duration (in days) are missing or observed.
 Figure \@ref(fig:esseg2)A shows that when Group 2's treatment intensity is observed, effect sizes and standard errors are slightly smaller, though not drastically different than when Group 2's treatment intensity is missing.
@@ -666,26 +473,7 @@ As well, Figure \@ref(fig:esseg2)B suggests that effect estimates and standard e
 Comparing Figures \@ref(fig:esseg1) and \@ref(fig:esseg2) reveals that missingness in variables pertaining to Group 1's treatment has a stronger relationship with the effect size estimates and standard errors than does missingness in variables pertaining to Group 2's treatment. 
 This suggests that omitting effects for which Group 1's treatment duration or intensity are missing would seemingly have a stronger impact on an analysis. 
 
-```{r esseg2, echo = F, message = F, warning = F, fig.width=6,fig.height=5, fig.cap="\\label{fig:esseg2} Comparative density plot. *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 2 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 2 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 2 treatment duration (in days) is observed versus missing.*", fig.pos='p'}
-PlotC<- gg_esse_covariate_miss(adt_shadow,
-                       es_col = "es_g",
-                       se_col = "se_g",
-                       covariate = "g2hrsperweek",
-                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
-                       label = "Group 2 Hours Per Week", 
-                       legend_pos = "top")
-PlotD<- gg_esse_covariate_miss(adt_shadow,
-                       es_col = "es_g",
-                       se_col = "se_g",
-                       covariate = "g2txdays",
-                       adjust = c(1.3, 1.2), # Adjust smoothing for ES and SE densitites
-                       label = "Group 2 Duration of Treatment (Days)", 
-                       legend_pos = "top")
-
-plot_grid(PlotC, PlotD, 
-          labels=c('A','B'),
-          nrow=2)
-```
+![(\#fig:esseg2)\label{fig:esseg2} Comparative density plot. *This figure compares the distribution of effect size estimates and standard errors for when various covariates regarding Group 2 are observed versus missing. Plot (A) compares the distribution effect size estimates and standard erors for when Group 2 treatment intensity (hours per week) is missing versus observed. Plot (B) compares the distributions for when Group 2 treatment duration (in days) is observed versus missing.*](MA_missing_data_EDA_files/figure-latex/esseg2-1.pdf) 
 
 
 
@@ -701,7 +489,7 @@ It also outlined and demonstrated some tools that can support exploratory analys
 These numerical and visual tools proved to be useful as a first step to understanding why data is missing and how data is structured.  
 
 These tools were applied to data on a large meta-analysis conducted by @tanner-smithAdolescentSubstanceUse2016 on substance abuse interventions for adolescents. 
-We found `r round(any_sum %>% pull(raw_pct), 1)`% of the effect sizes were missing at least one of their corresponding covariates.
+We found 73.8% of the effect sizes were missing at least one of their corresponding covariates.
 This was driven by some variables that were missing frequently (e.g., Group 2 hours of treatment per week).
 Our analysis also revealed that missingness in some variables may be more severe than was obvious from first glance (e.g., Group 1 hours of treatment per week).
 Variables quantifying the intensity and duration of treatment in a study were frequently missing together.
@@ -876,8 +664,8 @@ The methodology discussed in this tutorial could be used to create different vis
 <!-- Figure \@ref(fig:figs1) also displays some numerical summaries regarding the extent of missingness in the data.  -->
 <!-- In the legend, we see that over 11% of all cells are missing values in the table.  -->
 <!-- Figure \@ref(fig:figs1) also reports the percent of each column that is missing. -->
-<!-- Overall, `r round(any_sum %>% pull(raw_pct), 1)`% of rows are missing at least one value, and effects that are missing any covariate make up roughly `r round(any_sum %>% pull(wt_pct), 1)`% of the total precision in the data. -->
-<!-- Thus, a complete-case analysis of all variables would require dropping over `r floor(100 - any_sum %>% pull(raw_pct))`% of the rows in the data.  -->
+<!-- Overall, 73.8% of rows are missing at least one value, and effects that are missing any covariate make up roughly 74.4% of the total precision in the data. -->
+<!-- Thus, a complete-case analysis of all variables would require dropping over 26% of the rows in the data.  -->
 
 
 

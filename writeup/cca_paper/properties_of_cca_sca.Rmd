@@ -89,8 +89,9 @@ The studies included in this meta-analysis involved a variety of different treat
 Tanner-Smith et al. used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates. 
 Their analytic approach relied on the expectation-maximization (EM) algorithm; however, we use a subset of their data in this section in order to illustrate complete- and shifting-case analyses.
 
-Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. **[K.D comment: Should we clarify here that we are using only one effect size per contrast?]**
+Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. 
 These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*, so that each treatment effect can be thought of as Group 1 minus Group 2.
+Each effect estimate corresponds to a given contrast within a study.
 Effect sizes are measures on the scale of bias-corrected standardized mean differences.
 Often the same group (typically the control group) in a study was used in multiple contrasts, so that effect sizes in this meta-analysis are likely correlated.
 
