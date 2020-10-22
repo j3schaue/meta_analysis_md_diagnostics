@@ -597,22 +597,24 @@ Under this selection model, the bias of the complete-case estimator for $\beta_0
 where $\bar{v}_0$ is the average estimation error variance $v_i$ among effects for which $X_i = 0$ and $R_i = 1$.
 
 The expression in \@ref(eq:cc-bias-b0) depends on three key quantities, and is an increasing function of each of those quantities.
-First, the bias increases in $H_1(0)$, which is essentially the probability that a case is missing any covariates; as covariates are more likely to be missing, the bias will be greater.
-Second, it is increasing in $\bar{v}_0 + \tau^2$, the average variation of $T_i$ for which $X_i = 0$; the greater the variation, the greater the bias.
-Finally, the bias depends on $\psi_1$, which is the relationship between an $X_i$ being observed and the size of $T_i$.
+First, the bias increases in $H_1(0)$, which is an approximation of the probability that the covariate $X_i$ among studies for which $X_i = 0$. 
+While under model \@ref(cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X$ among effects for which $X_i = 0$.
+Second, the bias in \@ref{eq:cc-bias-b0) is increasing in $\bar{v}_0 + \tau^2$, the average variation of $T_i$ for which $X_i = 0$; the greater the variation, the greater the bias.
+Because the $v_i$ are typically decreasing in sample size, if studies have smaller samples, the bias will be greater.
+Finally, the bias depends on $\psi_1$, which characterizes the relationship between an $X_i$ being observed and the size of $T_i$.
+When $\psi_1$ is positive, larger effect estimates $T_i$ are more likely to have observed $X_i$ and the bias will be positive; if $\psi_1$ is negative, so that larger effect sizes are more likely to have a missing covariate $X_i$, then the bias will be negative.
 
 To gain better insight into equation \@ref(eq:cc-bias-b0), suppose $v_i \approx v = \bar{v}_0$ so that each study has roughly the same estimation error variance. 
 If we assume $T_i$ is on the scale of a standardized mean difference, $v_i \approx 4/n_i$ where $n_i$ is the total sample size used to compute $T_i$. 
 Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v/4$ to $\tau^2 = v$ [@hedgesPowerStatisticalTests2001; @hedgesPowerStatisticalTests2004; @hedgesStatisticalAnalysesStudying2019].
 Thus, we can write $\tau^2 + v = 4(1 + r)/n$ from some constant $r$ that ranges from 0 to 1. 
 
-The parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
+Further, the parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
 There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
 Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
 @fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
 @haddockUsingOddsRatios1998 suggests any odds ratio over 3.0 would be considered quite large.
 Thus, consider a range of odds ratios from about 1.5 to 4.5.
-
 However, the actual size of $\psi_1$ will depend on the scale of $T_i$.
 A difference of $T_i - T_j = 1$ is considered quite large for standardized mean differences. 
 A less extreme difference $D_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$.
@@ -643,36 +645,41 @@ Larger, more negative values of $\psi_1$ would lead to a greater downward bias.
 The bias of $\hat{\beta}_{1C}$ under selection model \@ref(eq:cc-loglinear) is given by:
 \begin{equation}
 \text{Bias}[\hat{\beta}_{1C}]
-  \approx \left[H(1)(\bar{v}_1 + \tau^2) - H(0)(\bar{v}_0 + \tau^2)\right]\psi_1 
+  \approx \left[H_1(1)(\bar{v}_1 + \tau^2) - H_1(0)(\bar{v}_0 + \tau^2)\right]\psi_1 
 \label{eq:cc-bias-beta1-example}
 \end{equation}
 where $\bar{v}_1$ is the mean $v_i$ among effects for which $X_i = 1$ and $R_i = 1$. 
 As with $\hat{\beta}_{0C}$, the bias of $\hat{\beta}_{1C}$ is an increasing function of $\psi_1$. 
-If $T_i$ has a strong positive correlation with $p(R_i=1)$, then $\psi_1$ will be larger and so will the bias of $\hat{\beta}_{1C}$.
+If $T_i$ has a strong positive correlation with $R_i$, then $\psi_1$ will be larger and so will the bias of $\hat{\beta}_{1C}$.
 
 When all studies have approximately the same estimation error variance so that $v_i \approx v$ and $\bar{v}_0 \approx \bar{v}_1$, then the bias of $\hat{\beta}_{1C}$ is approximately:
 \begin{equation}
 \text{Bias}[\hat{\beta}_{1C}] 
-  \approx \left[H(1) - H(0)\right] (v + \tau^2) \psi_1 
+  \approx \left[H_1(1) - H_1(0)\right] (v + \tau^2) \psi_1 
 \label{eq:cc-bias-b1-simp}
 \end{equation}
-The expression in \@ref(eq:cc-bias-b1-simp) depends on three quantities. 
+The expression in \@ref(eq:cc-bias-b1-simp) is similar to \@ref(eq:cc-bias-b0), and both expressions depend on similar quantities. 
 Like $\hat{\beta}_{0C}$, the bias of $\hat{\beta}_{1C}$ is an increasing function of $\tau^2 + v$ and $\psi_1$.
-The bias of $\hat{\beta}_{1C}$ also increases as a function of $H(1) - H(0)$, which can be thought of as a difference in missingness rates between cases where $X_i = 1$ and $X_i = 0$.
-Recall that $H$ is an approximation of the probability $X$ is missing given $X$ and $T$: $P[R \neq \mathbbm{1} | T, X]$. 
-Viewed this way, the difference $H(1) - H(0)$, and hence the bias of $\hat{\beta}_{1C}$ will be greater if $R$ is strongly correlated with $X$ or if it is strongly correlated with $T$.
-Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects or the value of the covariate $X$. 
+The bias of $\hat{\beta}_{1C}$ also increases as a function of $H_1(1) - H_1(0)$, which can be thought of as a difference in missingness rates between cases where $X_i = 1$ and $X_i = 0$.
+Recall that $H_1$ is an approximation of the probability $X_i$ is missing given $X_i$ and $T_i$ in \@ref{eq:cc-loglinear): $P[R_i \neq \mathbbm{1} | T_i, X_i]$. 
+Viewed this way, the difference $H_1(1) - H_1(0)$, and hence the bias of $\hat{\beta}_{1C}$ will be greater if $R_i$ is strongly correlated with $X_i$ or if it is strongly correlated with $T_i$.
+Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects or the value of the covariate $X_i$. 
 
-To gain insight into the bias of $\hat{\beta}_{1C}$, consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
-The difference $H(1) - H(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is just a difference in conditional probabilities. 
-For reference, because both $R_i$ and $X_i$ are binary, then $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ would be equal to the correlation between $R$ and $X$ (assuming equal marginals in a $2 \times 2$ table).
+To gain insight into the magnitude of bias in \@ref(eq:cc-bias-b1-simp), consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
+Note that the difference $H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is a difference in conditional probabilities. 
+For reference, because both $R_i$ and $X_i$ are binary, then $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ would be equal to the correlation between $R_i$ and $X_i$ (assuming equal marginals in a $2 \times 2$ table).
 Thus, $|p(R = 0 | X = 1) - p(R = 0 | X = 0)|$ could be as small as 0, but could possibly be as large as 1, though conventions on the size of correlations suggest that $|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5$ would be a "large" value [@cohenStatisticalPowerAnalysis1988].
 
-Figure \@ref(fig:b1) shows the potential bias of $\hat{\beta}_{1C}$ for this example assuming the values discussed above.
-Each panel corresponds to a given amount of heterogeneity $\tau^2 + v$, and within panels the bias is shown as a function of the difference $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ ($x$-axis) and $\psi_1$ (color).
+Figure \@ref(fig:b1) shows the potential bias of $\hat{\beta}_{1C}$ for this example assuming the values of $\tau^2 + v$, $\psi_1$, and $H_1(1) - H_1(0)$ discussed above.
+Each panel corresponds to a given amount of heterogeneity $\tau^2 + v$, and within panels the bias is shown as a function of the difference $H_1(1) - H_1(0)$ ($x$-axis) and $\psi_1$ (color).
 Figure \@ref(fig:b1) highlights that the relationship between $R_i$ and $T_i$ ($\psi_1$) and between $R_i$ and $X_i$ ($x$-axes) can affect the magnitude of the bias. 
 If $R_i$ is strongly correlated with both $X_i$ and $T_i$ the bias can be as large as $d$ = 0.3 or 0.4. 
 However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is. 
+It is worth noting that the missingness mechanism in this example is MNAR. 
+However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. 
+The data would be MAR under a selection model where $\psi_2 = 0$ in \@ref(eq:cc-loglinear).
+In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
+[NOTE: DOUBLE CHECK THIS]
 
 \begin{figure}
 \begin{center}
@@ -682,10 +689,6 @@ However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is.
 \label{fig:b1}
 \end{figure}
 
-It is worth noting that the missingness mechanism in this example is MNAR. 
-However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. 
-The data would be MAR under a selection model where $\psi_2 = 0$ in \@ref(eq:cc-loglinear).
-In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
 
 For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention. 
 The missingness rate for Group 1's intensity is 27%.
@@ -734,17 +737,18 @@ The partial-data model $p(T_i | X_{iS}, v_i)$ need not be equivalent to the comp
 These models would only be equivalent if $T_i \perp X_{iE} | X_{iS}, v_i$. 
 That is, unless the excluded covariates are completely unrelated to effect size (given the covariates included in the SCA model), then $\hat{\beta}_S$ will be biased even if $X_{iS}$ are completely observed.
 
-The model in \@ref(eq:sca-model) suggests a very strict set of conditions for which $\hat{\beta}_S$ is unbiased. 
+The model in \@ref(eq:sca-model) suggests a very strict set of conditions for which $\hat{\beta}_S$ is unbiased which concern the missingness mechanism and the relevance of excluded covariates in a given shifting-case regression. 
 First, missingness must be independent of effect sizes. 
-This arises if $R_i \perp T_i | X_{iS}, v_i$ or $R_i \perp (T_i, X_{iS}) | v_i$. 
-This is a similar assumption as that made for unbiased complete-case analyses, and amounts to effect sizes (and potentially covariates) being independent of missingness.
+This arises if $R_i \perp T_i | X_{iS}, v_i$ or $R_i \perp (T_i, X_{iS}) | v_i$, which is a similar assumption as that made for unbiased complete-case analyses.
+In effect, this assumption implies that missingness is independent of effect sizes $T_i$ (and potentially covariates), but could be correlated with estimation error variances $v_i$.
 
 Second, any excluded covariates must be completely irrelevant given the included covariates: $T_i \perp X_{iE} | X_{iS}, v_i$. 
-This amounts to $\beta_j = 0$ for all $j \in E$.
-A related assumption is that $(T, X_{iS}) \perp X_{iE} | v$, which would imply that the complete data likelihood involves no interactions between $X_{iS}$ and $X_{iE}$ and that $X_{iS}$ and $X_{iE}$ are orthogonal.
+This assumption is equivalent to assuming that $\beta_j = 0$ for all $j \in E$, so that any omitted variables in a given shifting-case regression are assumed to have a coefficient of zero.
+A related assumption is that $(T, X_{iS}) \perp X_{iE} | v$, which would imply that the complete-data likelihood involves no interactions between $X_{iS}$ and $X_{iE}$ and that $X_{iS}$ and $X_{iE}$ are orthogonal.
+Given the nature of many meta-analyses wherein included studies and effects are ostensibly "found objects," correlation among multiple covariates is a common issue in meta-regression [@lipseyThoseConfoundedModerators2003].
 Note that conditions on omitted covariates *and* omitted observations must hold in order for $\hat{\beta}_S$ to be unbiased.
 
-When the assumptions about omitted variables and cases are not met, $\hat{\beta}_S$ will be biased. 
+When the assumptions about omitted variables and effect sizes are not met, $\hat{\beta}_S$ will be biased. 
 Just how biased will depend on a number of factors, including the amount of missingness, the missingness mechanism, and the relevance of any excluded covariates.
 The bias can be expressed as:
 \begin{equation}
@@ -762,7 +766,7 @@ The first source, captured in the first term in \@ref(eq:bias-sca), is a functio
 This is referred to in the statistical and econometric literature as *omitted variable bias* [e.g., @farrarMulticollinearityRegressionAnalysis1967; @melaImpactCollinearityRegression2002]. 
 Omitted variable bias arises even if no $X_{iS}$ are missing, and is related to the issue of multicollinearity in linear models.
 In fact, if the columns in $\mathbf{X}_{US}$ and $\mathbf{X}_{UE}$ are orthogonal, so that the omitted variables are independent of the included variables, then the omitted variable bias will be zero. 
-When the omitted variables are not orthogonal to the included variables, the bias will be nonzero, and it will depend in large part on the contribution of the omitted variables $\mathbf{X}_{UE} \beta_E$. 
+When the omitted variables are not orthogonal to the included variables, the bias will be nonzero, and it will depend in large part on the contribution of the omitted variables in the complete-data model $\mathbf{X}_{UE} \beta_E$. 
 The estimator $\hat{\beta}_S$ will have greater bias if the coefficients for the omitted variables $\beta_E$ are larger and the omitted covariates $\mathbf{X}_{UE}$ are correlated with the included covariates $\mathbf{X}_{US}$.
 
 The second term in \@ref(eq:bias-sca) captures the bias due to ignoring observations missing $X_{iS}$.
@@ -770,8 +774,8 @@ This *missingness bias* is a function of $\Delta_{jU}$, which is itself a vector
 Because the $\delta_{ij}$ are of the same form for the complete-case versus shifting-case models, the missing data bias for a shifting-case analysis is governed by similar factors as the complete-case analyses, and are quite possibly similar in magnitude. 
 Based on \@ref(eq:conditional-bias), $\delta_{ij}$ will be positive if $T_i$ is positively correlated with whether $R_i \in \mathcal{R}_j$, and $\delta_{ij}$ will be greater in magnitude when that correlation is larger.
 
-Taken together, the bias of shifting-case analysis can be greater than the bias of a complete-case analysis.
-This occurs if the omitted variable bias and the missingness bias are in the same direction (e.g., both are positive).
+Taken together, shifting-case estimators can be even more biased than complete-case estimators.
+This occurs if the omitted variable and the missingness biases are in the same direction (e.g., both are positive).
 For both biases to be in the same direction, correlation between $T_i$ and the omitted variables $X_{iE}$ must be in the same direction as the correlation between $T_i$ the probability that $X_{iS}$ is observed.
 If, however, the omitted variable and missingness biases are in opposite directions, this can reduce the bias of a shifting-case estimator.
 It is worth noting, however, that it will almost always be impossible to confirm the direction of biases, since they depend on potentially unobserved covariates.

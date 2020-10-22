@@ -88,7 +88,7 @@ p2a = ggplot(fig2) +
   scale_color_viridis(expression(psi[1]),
                       breaks = 1 + 2*0:6,
                       option = "cividis") +
-  scale_x_continuous(expression("Differential Missingness"), 
+  scale_x_continuous(expression("Differential Missingness" ~ H[1](1) - H[1](0)), 
                      breaks = c(0, .2, .4)) +
   scale_y_continuous(expression("Bias" ~ hat(beta)[1][C] ~ "(Cohen's d)"), 
                      breaks = 0.2 * 0:2) +
