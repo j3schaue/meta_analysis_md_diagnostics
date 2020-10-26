@@ -258,7 +258,7 @@ V[\hat{\beta}] = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1}
 
 This model can be expanded to account for dependent effect sizes by assuming that $T_i \in \mathbb{R}^{k_i}$ is a vector of $k_i$ effects from the same study, $e_i$ is vector of estimation errors, $u_i$ is a vector of random effects, and $e_i + u_i$ has covariance matrix $\Sigma_i$.
 In this model, $X_i$ is a matrix of covariates for each effect in $T_i$.
-The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex, but they will have a (relatively) similar form as the independent effect size model; indeed, coefficient estimates for the dependent effect size model are also linear transformations of the data.
+The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex with a variance-covariance weight matrix, but they will have a (relatively) similar form as the independent effect size model; indeed, coefficient estimates for the dependent effect size model are also linear transformations of the data.
 Because of this, [WORK OUT SOMETHING HERE].
 \textcolor{blue}{[JL - How much detail do you want to have in here? I think we can just say we assume independent effect size in this study and not provide the detailed model formulation with dependent effect sizes. If necessary, we may include the formulation in Appendix instead. 
 Add a short discussion as a footnote can be another option I think. If this gets longer in the main text, it may prevent from following the idea.]}
