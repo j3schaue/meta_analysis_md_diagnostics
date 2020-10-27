@@ -260,7 +260,7 @@ This model can be expanded to account for dependent effect sizes by assuming tha
 In this model, $X_i$ is a matrix of covariates for each effect in $T_i$.
 The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex with a variance-covariance weight matrix, but they will have a (relatively) similar form as the independent effect size model; indeed, coefficient estimates for the dependent effect size model are also linear transformations of the data.
 Because of this, [WORK OUT SOMETHING HERE].
-\textcolor{blue}{[JL - How much detail do you want to have in here? I think we can just say we assume independent effect size in this study and not provide the detailed model formulation with dependent effect sizes. If necessary, we may include the formulation in Appendix instead. 
+\textcolor{blue}{[JL - How much detail do you want to have in here? I think we can just say we assume independent effect sizes in this study and not provide the detailed model formulation with dependent effect sizes. If necessary, we may include the formulation in Appendix instead. Dependent effect size case will just have a different weight matrix, so I think this seems to be enough.
 Add a short discussion as a footnote can be another option I think. If this gets longer in the main text, it may prevent from following the idea.]}
 
 Not all relevant variables may be observed in a meta-analytic dataset.
@@ -332,7 +332,7 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows for which all of those covariates are observed.
 The matrix $\mathbf{W}_U$ contains the rows of $\mathbf{W}$ for which $X_{iS}$ are observed (and similarly for $\mathbf{T}_U$).
-\textcolor{blue}{[JL - I think the notations in this paragraph are not very clear to me with $S$ and $E$ indices and also introducing $U(S)$. Can we simplify this?]}
+\textcolor{blue}{[JL - I think the notations in this paragraph are not clear to me with introducing $X_{US}$. Can we simplify this?]}
 
 
 ## Missingness Mechanisms
@@ -513,7 +513,7 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 \end{equation}
 Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
 Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
-\textcolor{blue}{[JL - If MNAR, then unbiased?]}
+\textcolor{blue}{[JL - If MNAR, then unbiased? I feel this is counter-intuitive?]}
 
 <!-- This result is consistent with the bias approximation in equation \@ref(eq:conditional-bias)).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$.  -->
 <!-- If $f_{ij}$ does not depend on $T$, so that $f_{ij}(T, X, v) \equiv f_{ij}(X, v)$ then the derivative will be zero, and hence $\psi_{ij}$ will not contribute to the bias. -->
@@ -538,7 +538,6 @@ When $R_i$ follows the log-linear model in \@ref(eq:r-loglinear), the approximat
   \approx (\mathbf{X}_C^T \mathbf{W}_C \mathbf{X}_C)^{-1} \mathbf{X}_C^T \textcolor{blue}{\mathbf{W}_C} \mathbf{H}_{1C}  \mathbf{f}_{1C} \psi_1
 \label{eq:cc-bias-loglinear}
 \end{equation} 
-\textcolor{blue}{[JL -I guess W_C is missing above?]}
 where 
 \[
 \mathbf{H}_1 = \text{diag}[H_1(X_i\beta, X_i, v_i)]
@@ -586,7 +585,8 @@ Assume that the selection model is log-linear, and that missingness depends on t
 \end{equation}
 <!-- \textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one thought?: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the opposite direction, especially when Figure 1 is explained later and in the caption of Figure 1. But it is still good with the presented way!}} -->
 Note that this is an MNAR mechanism, since it depends on $X_i$. 
-\textcolor{blue}{[*JL - Does it indicate $R_i \perp v_i | T_i, X_i$ ?*]}
+\textcolor{blue}{[JL - Does it indicate $R_i \perp v_i | T_i, X_i$? Is there a reason not including $v_i$ in the logit model?
+Also, what about start from MAR scenario example and just mention that under MNAR assumption, the bias will be the same in conclusion? Because MAR mechanism is more commonly assumed in practice.]}
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
 Given the result in equation \@ref(eq:conditional-bias), we can write
@@ -686,6 +686,7 @@ However, the bias is largely a function of $\psi_1$, which is the coefficient in
 The data would be MAR under a selection model where $\psi_2 = 0$ in \@ref(eq:cc-loglinear).
 In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
 [NOTE: DOUBLE CHECK THIS]
+\textcolor{blue}{[JL - I could follow this paragraph. However, the conclusion that assuming MAR and MNAR will give us the same amount of bias is not a bit intuitive. This makes sense because our bias approximation involves the derivative with respect to only $T_i$, but others may question on this..? Also, does it indicate that a form of selection model doesn't change bias, and only $\psi_1$ with $T_i$ matters?]}
 
 \begin{figure}
 \begin{center}
@@ -750,7 +751,7 @@ In effect, this assumption implies that missingness is independent of effect siz
 
 Second, any excluded covariates must be completely irrelevant given the included covariates: $T_i \perp X_{iE} | X_{iS}, v_i$. 
 This assumption is equivalent to assuming that $\beta_j = 0$ for all $j \in E$, so that any omitted variables in a given shifting-case regression are assumed to have a coefficient of zero.
-A related assumption is that $(T, X_{iS}) \perp X_{iE} | v$, which would imply that the complete-data likelihood involves no interactions between $X_{iS}$ and $X_{iE}$ and that $X_{iS}$ and $X_{iE}$ are orthogonal.
+A related assumption is that $(T_i, X_{iS}) \perp X_{iE} | v_i$, which would imply that the complete-data likelihood involves no interactions between $X_{iS}$ and $X_{iE}$ and that $X_{iS}$ and $X_{iE}$ are orthogonal.
 Given the nature of many meta-analyses wherein included studies and effects are ostensibly "found objects," correlation among multiple covariates is a common issue in meta-regression [@lipseyThoseConfoundedModerators2003].
 Note that conditions on omitted covariates *and* omitted observations must hold in order for $\hat{\beta}_S$ to be unbiased.
 
