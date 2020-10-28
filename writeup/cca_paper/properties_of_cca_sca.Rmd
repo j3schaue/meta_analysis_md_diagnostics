@@ -513,7 +513,7 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 \end{equation}
 Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
 Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
-\textcolor{blue}{[JL - If MNAR, then unbiased? I feel this is counter-intuitive?]}
+\textcolor{blue}{[JL - This may be supported by Little \& Rubin (2002, CH3), citing "Glynn \& Laird (1986)". Note that this is in case of regression coefficients.]}
 
 <!-- This result is consistent with the bias approximation in equation \@ref(eq:conditional-bias)).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$.  -->
 <!-- If $f_{ij}$ does not depend on $T$, so that $f_{ij}(T, X, v) \equiv f_{ij}(X, v)$ then the derivative will be zero, and hence $\psi_{ij}$ will not contribute to the bias. -->
