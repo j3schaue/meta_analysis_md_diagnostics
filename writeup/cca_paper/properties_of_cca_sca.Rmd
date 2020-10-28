@@ -702,7 +702,7 @@ The missingness rate for Group 1's intensity is 27%.
 Using a logit model analogous to \@ref(eq:cc-loglinear), we get an estimate of $\psi_1 = 2.08$. 
 Based on the heterogeneity $\tau^2 = 0.08$ estimated in the example and the mean within-study variance $v = 0.08$, this would give a bias of about $d = 0.09$ in the intercept $\beta_0$.
 
-
+\textcolor{blue}{[JL - How about adding a few sentences about linking intercept and slope together? I remember you briefly talked about this concept last week. For example, if intercept is biased (related to $H_1(0)$) but slope is unbiased (related to $H_1(1) - H_1(0)$), then we would still have biased effect size estimates for each group (X = 0 vs. X = 1). This may help readers understand about this example (binary covariate case) better.]}
 
 <!-- - Continuous covariates? -->
 
