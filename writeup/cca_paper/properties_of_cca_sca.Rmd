@@ -260,8 +260,9 @@ This model can be expanded to account for dependent effect sizes by assuming tha
 In this model, $X_i$ is a matrix of covariates for each effect in $T_i$.
 The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex with a variance-covariance weight matrix, but they will have a (relatively) similar form as the independent effect size model; indeed, coefficient estimates for the dependent effect size model are also linear transformations of the data.
 Because of this, [WORK OUT SOMETHING HERE].
-\textcolor{blue}{[JL - How much detail do you want to have in here? I think we can just say we assume independent effect sizes in this study and not provide the detailed model formulation with dependent effect sizes. If necessary, we may include the formulation in Appendix instead. Dependent effect size case will just have a different weight matrix, so I think this seems to be enough.
-Add a short discussion as a footnote can be another option I think. If this gets longer in the main text, it may prevent from following the idea.]}
+\textcolor{blue}{[JL - How much detail do you want to have in here? I think this is pretty enough as it is without providing the exact formulation for dependent ES case. Dependent effect size case will just have a different weight matrix, so I think this seems to be enough. We can just emphasize we assume independent effect sizes in this study and not provide the detailed model formulation with dependent effect sizes. 
+Or, if needed, we may include the formulation in Appendix instead. 
+Adding this short discussion to a footnote can be another option I think.]}
 
 Not all relevant variables may be observed in a meta-analytic dataset.
 Let $R_i$ be a vector of response indicators that correspond with effect $i$. 
@@ -269,7 +270,7 @@ This article concerns missing covariates, and we assume that $T_i$ and $v_i$ are
 Thus, each element $R_{ij}$ of $R_i$ corresponds to a covariate $X_{ij}$. 
 The $R_{ij}$ take a value of either 0 or 1: $R_{ij} = 1$ indicates the corresponding $X_{ij}$ is observed and $R_{ij} = 0$, indicates a that the corresponding $X_{ij}$ is not observed.
 Note that $R_i \in \mathcal{R} \equiv \{0,1\}^p$ is a vector of 0s and 1s of length $p$.
-For instance, $X_{i2}$ were missing, then $R_{i2} = 0$.
+For instance, $X_{i2}$ were missing, then $R_{i2} = 0$, indicating that $X_2$ value for effect $i$ is missing.
 
 Denote $O = \{(i, j): R_{ij} = 1\}$ as the indices of covariates that are observed and $M = \{(i, j): R_{ij} = 0\}$ be the set of indices for missing covariates. 
 Then, the complete-data model can be written as 
@@ -332,14 +333,14 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows for which all of those covariates are observed.
 The matrix $\mathbf{W}_U$ contains the rows of $\mathbf{W}$ for which $X_{iS}$ are observed (and similarly for $\mathbf{T}_U$).
-\textcolor{blue}{[JL - I think the notations in this paragraph are not clear to me with introducing $X_{US}$. Can we simplify this?]}
+\textcolor{blue}{[JL - I think the notations in this paragraph are not clear to me with introducing $X_{US}$. Can we simplify this? Or, explain a bit further?]}
 
 
 ## Missingness Mechanisms
 
 Both the complete- and shifting-case estimators are analyses of incomplete data. 
 Analyses of incomplete data require some assumption about why data are missing, which is referred to as the missingness *mechanism*.
-The mechanism by which missingness arises is typically modeled through the distribution of $R$. 
+The mechanism by which missingness arises is typically modeled through the distribution of $R$.
 Let $\psi$ denote the parameter (or vector of parameters) that index the distribution of $R$ so that the probability mass function of $R$ can be written as $p(R | T, X, v, \psi)$.
 Assumptions about the missingness mechanism are therefore equivalent to assumptions about $p(R | T, X, v, \psi)$.
 
@@ -406,8 +407,9 @@ E[T_i | X_i, v_i, R_i \in \mathcal{R}_j]
 \label{eq:bias-delta}
 \end{equation}
 Here, we see that the expectation of $T_i$ conditional on $R_i$ can be written as the complete-data expectation $X_i \beta$ plus a bias term $\delta_{ij}$. 
-If $\delta_{ij} \neq 0$, it follows that conditioning on $R_i$ induces bias in the distribution of $T_i$ used in an analysis. 
-Because the complete-case estimator in \@ref(eq:beta-c) and the shifting-case estimator in \@ref(eq:beta-s) are weighted averages of the $T_i$, the following sections show that they can be biased if $\delta_{ij} \neq 0$.
+If $\delta_{ij} \neq 0$, it follows that conditioning on $R_i$ induces bias in the distribution of $T_i$ used in an analysis. This bias ($\delta_{ij}$) is introduced from missingness in covariate $j$. 
+\textcolor{blue}{[JL - Is this a reason you specify the subscript $j$ with $\delta$?]}
+Based on the fact that the complete-case estimator in \@ref(eq:beta-c) and the shifting-case estimator in \@ref(eq:beta-s) are weighted averages of the $T_i$, the following sections show that they can be biased if $\delta_{ij} \neq 0$.
 The precise magnitude of the $\delta_{ij}$ will depend on the selection model in \@ref(eq:selection-model) and hence on the missingness mechanism.
 
 A standard approach for modeling missingness mechanisms for covariates is to assume $R_i$ follows some log-linear distribution [@agrestiCategoricalDataAnalysis2013]. 
@@ -444,12 +446,11 @@ While the following sections will examine possible values that $\delta_{ij}$ may
 The expression for $\delta_{ij}$ depends on three main quantities.
 First, $\delta_{ij}$ is an increasing of $H_j(X_i\beta, X_i, v_i)$, which is the probability that $R_i \not\in \mathcal{R}_j$.
 This implies that the bias will be greater as the probability of omitting an observation increases.
-Second, $\delta_{ij}$ increases in $\tau^2 + v_i$, which means that it will be larger when $T_i$ vary more around the regression line.
+Second, $\delta_{ij}$ increases in $\tau^2 + v_i$, which means that the bias will be larger when $T_i$ vary more around the regression line.
 Finally, $\delta_{ij}$ depends on $\psi_{mj} f_{mj}'(X\beta, X, v)$. 
 Note that $f_{mj}'$ is the derivative of $f_{mj}$ with respect to $T$. 
-If $f_{mj}$ does not depend on $T$, $f_{mj}' = 0$. 
-Thus, $\delta_{ij}$ depends on the components of the selection model that are functions of $T$ and how important those components are.
-
+If $f_{mj}$, selection model, does not depend on $T$, $f_{mj}' = 0$.
+Thus, $\delta_{ij}$ depends on the components of the selection model that are functions of $T$ and how important those components are with a parameter, $\psi$.
 
 <!-- Then an approximation for $E[T | X, v, R = r]$ is as follows: -->
 <!-- \begin{align*} -->
@@ -469,7 +470,7 @@ Thus, $\delta_{ij}$ depends on the components of the selection model that are fu
 Complete-case analyses only include effects for which all relevant covariates are observed. 
 The complete-case coefficient estimator $\hat{\beta}_C$ given in equation \@ref(eq:beta-c) conditions on $R_i = \mathbbm{1}$.
 As noted above, conditioning on $R_i$ can induce bias, however there are conditions under which the complete case analysis will lead to unbiased coefficient estimates. 
-First, if the covariates are MCAR, so that $R_i \perp T_i, X_i, v_i$, then 
+First, if the covariates are MCAR, so that $R_i \perp (T_i, X_i, v_i)$, then 
 \[
 p(R_i = \mathbbm{1} | T_i, X_i, v_i, \psi) 
   = p(R_i = \mathbbm{1} | \psi)  
@@ -504,7 +505,7 @@ For such effect sizes, this assumption implies that missingness depends only on 
 This may be true, for instance, if smaller studies are less likely to report more fine-grained demographic information regarding their sample out of concern for the privacy of the subjects who participated in the study (and that no other factors affect missingness).
 
 An even weaker assumption can also lead to unbiased estimation with complete cases. 
-When $R_i \perp T_i | X_i, v_i$, we can write:
+When $R_i \perp T_i | (X_i, v_i)$, we can write:
 \begin{equation}
 p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
   = \frac{p(R_i = \mathbbm{1} | X_i, v_i, \psi) p(T_i | X_i, v_i, \eta)}{p(R_i = \mathbbm{1} | X_i, v_i, \psi)}
@@ -513,13 +514,13 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 \end{equation}
 Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
 Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
-\textcolor{blue}{[JL - This may be supported by Little \& Rubin (2002, CH3), citing "Glynn \& Laird (1986)". Note that this is in case of regression coefficients.]}
+\textcolor{blue}{[JL - This may be supported by Little \& Rubin (2002, CH3), citing "Glynn \& Laird (1986)". Note that the citation is in case of regression coefficients. I will use this later in the 5.1. Example section.]}
 
 <!-- This result is consistent with the bias approximation in equation \@ref(eq:conditional-bias)).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$.  -->
 <!-- If $f_{ij}$ does not depend on $T$, so that $f_{ij}(T, X, v) \equiv f_{ij}(X, v)$ then the derivative will be zero, and hence $\psi_{ij}$ will not contribute to the bias. -->
 <!-- Thus, only parts of the missingness model that depend on $T$ will contribute to bias. -->
 
-However, when $R_i$ is not independent of $X_i$ or $T_i$ (given $v_i$), then CCA can be biased. 
+However, when $R_i$ is not independent of $T_i$ (given $X_i$ or $v_i$), then CCA can be biased. \textcolor{blue}{[JL - Jake, please check this sentence whether my edit makes sense.]}
 Let $\mathcal{R}_1 = \{\mathbbm{1}\}$ so that the CCA conditions on $R_i \in \mathcal{R}_1$.
 Based on equation \@ref(eq:bias-delta), the bias of $\hat{\beta}_C$ will depend on the $\delta_{i1}$. 
 If we let $\Delta = [\delta_{11}, \ldots, \delta_{k1}]$ be the vector of $\delta_{i1}$ and let $\Delta_C$ be the subset of $\Delta$ for which all covariates are observed (i.e., $R_i = \mathbbm{1}$). 
@@ -529,7 +530,8 @@ Then the bias of the complete-case analysis can be written as
 \label{eq:cc-bias-delta}
 \end{equation}
 The bias in equation \@ref(eq:cc-bias-delta) is a weighted average of individual biases $\delta_{i1}$.
-Hence, the bias will be larger if the $\delta_{i1}$ are larger.
+Hence, the bias will be larger if the $\delta_{i1}$ are larger. 
+\textcolor{blue}{[JL - Does the direction of individual biases matter? Is it possible to be cancelled out between positive and negative individual biases so that $\delta_{i1}$ is not biased?]}
 
 Precisely, how large the bias in \@ref(eq:cc-bias-delta) is will depend on the distribution of $R_i$ and its relationship to effect estimates $T_i$ and their covariates $X_i$.
 When $R_i$ follows the log-linear model in \@ref(eq:r-loglinear), the approximate bias can be written as 
@@ -547,16 +549,16 @@ is a $k \times k$ diagonal matrix where entries refer to the probability that an
 \mathbf{f}_1 = \left[f_{01}'(X_i^T\beta, X_i, v_i), \ldots, f_{m_1 1}'(X_i^T\beta, X_i, v_i) \right]
 \]
 is a $k \times m_1$ matrix of derivatives, and $\psi_1 = [\psi_{01}, \ldots, \psi_{m_1 1}]^T$ is a vector of parameters that index the selection model.
-Note that the bias in \@ref(eq:cc-bias-loglinear) involves $\hat{H}_{1C}$ which contains the rows of $\mathbf{H}_1$ for which $R_i = \mathbbm{1}$; similarly for $\mathbf{f}_{1C}$.
+Note that the bias in \@ref(eq:cc-bias-loglinear) involves $\hat{H}_{1C}$ which contains the rows of $\mathbf{H}_1$ for which $R_i = \mathbbm{1}$; similarly for $\mathbf{f}_{1C}$. \textcolor{blue}{[JL - Is the hat needed in $\hat{H}_{1C}$?]}
 
 While \@ref(eq:cc-bias-loglinear) provides a general expression for the approximate bias of $\hat{\beta}_C$, it can be a little difficult to interpret.
-Loosely, we can see that the bias depends on the probability that observations are omitted due to missingness $\mathbf{H}_{1C}$, as well as some function of the components of the log-linear model $\mathbf{f}_{1C} \psi_1$.
+Loosely, we can see that the bias depends on the probability that observations are omitted due to missingness $\mathbf{H}_{1C}$, as well as some function of the components of the log-linear selection model $\mathbf{f}_{1C} \psi_1$.
 To better intuit this bias, we provide a simple example in the following section.
 
 
 ## Example: Complete-Case Analysis with a Single Binary Covariate 
 
-Suppose the model of interest includes a single binary covariate covariate $X_{i1} \equiv X_i \in \{0, 1\}$, so that the complete data model is 
+Suppose the model of interest includes a single binary covariate $X_{i1} \equiv X_i \in \{0, 1\}$, so that the complete data model is 
 \begin{equation}
 T_i = \beta_0 + \beta_1 X_i + u_i + e_i
 \label{eq:cc-example}
@@ -583,11 +585,9 @@ Assume that the selection model is log-linear, and that missingness depends on t
   = \psi_0  + \psi_1 T_i + \psi_2 X_i
 \label{eq:cc-loglinear}
 \end{equation}
-<!-- \textcolor{blue}{\textit{[Comment-J] (1) Are we assuming $\psi_0=0$ here? (2) Just one thought?: How about changing the model to $logit[p(R_i=0)]$ to have a consistent direction with other components to bias ($H(0)$, $\tau^2 + v$)? And when we say "missingness model", then usually the probability of being missing is modeled. So, this made me pause to think about the opposite direction, especially when Figure 1 is explained later and in the caption of Figure 1. But it is still good with the presented way!}} -->
-Note that this is an MNAR mechanism, since it depends on $X_i$. 
-\textcolor{blue}{[JL - Does it indicate $R_i \perp v_i | T_i, X_i$? Is there a reason not including $v_i$ in the logit model?
-Also, what about start from MAR scenario example and just mention that under MNAR assumption, the bias will be the same in conclusion? Because MAR mechanism is more commonly assumed in practice.]}
-Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.
+Note that this is an MNAR mechanism \footnote{Although this selection model implies MNAR mechanism, it is different from MNAR mechanism in \@ref(eq:cc-mnar) which is independent of $T_i$.}, since the probability of being obesrved depends on $X_i$. 
+\textcolor{blue}{[JL - Does it indicate $R_i \perp v_i | T_i, X_i$? Is there a reason not including $v_i$ in the logit model? To simplify H function?]}
+Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
 Given the result in equation \@ref(eq:conditional-bias), we can write
 \begin{equation}
@@ -595,14 +595,27 @@ Given the result in equation \@ref(eq:conditional-bias), we can write
    \approx H_1(X_i)(v_i + \tau^2)\psi_1
 \label{eq:cc-ex-delta}
 \end{equation}
-Under this selection model, the bias of the complete-case estimator for $\beta_0$ is:
+
+\textcolor{blue}{[JL - If this is changed for MAR:]}
+
+\textcolor{blue}{
+\begin{equation}
+\text{logit}[p(R_i = 1 | T_i, X_i, v_i)] 
+  = \psi_0  + \psi_1 T_i + \psi_2 v_i
+\label{eq:cc-loglinear}
+\end{equation}
+Note that this is an MAR mechanism, since the probability of being observed does not depend on $X_i$. 
+Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $v_i$ and not $X_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
+As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = v_i$. 
+*Other parts will remain the same except for the last part in this example.*]}
+
+Under this selection model, the bias of the complete-case estimator for the intercept, $\beta_0$, is:
 \begin{equation}
 \text{Bias}[\hat{\beta}_{0C}] 
   \approx H_1(0)(\bar{v}_0 + \tau^2)\psi_1
 \label{eq:cc-bias-b0}
 \end{equation}
 where $\bar{v}_0$ is the average estimation error variance $v_i$ among effects for which $X_i = 0$ and $R_i = 1$.
-
 The expression in \@ref(eq:cc-bias-b0) depends on three key quantities, and is an increasing function of each of those quantities.
 First, the bias increases in $H_1(0)$, which is an approximation of the probability of being missing among studies for which $X_i = 0$. 
 While under model \@ref(eq:cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X$ among effects for which $X_i = 0$.
@@ -636,7 +649,6 @@ The panels on the bottom few rows and left most columns show that if both $\psi_
 However if $\tau^2 + v_i$ is larger and the probability of a complete case is strongly related to $T_i$ (i.e., $\psi_1$ is large), then the bias can be greater than 0.2 or even 0.5 (Cohen's $d$).
 
 It is worth noting that Figure \@ref(fig:delta) gives the bias for when $T_i$ is positively correlated with $X_i$ being fully observed, and hence $\psi_1 > 0$. 
-This need not be the case when $\psi_1 < 0$. 
 When $\psi_1 < 0$, then the bias of $\hat{\beta}_{0C}$ is negative, and would be be a mirror image of those in Figure \@ref(fig:delta).
 Larger, more negative values of $\psi_1$ would lead to a greater downward bias.
 
@@ -644,7 +656,7 @@ Larger, more negative values of $\psi_1$ would lead to a greater downward bias.
 \begin{center}
 \includegraphics[width = \textwidth]{./graphics/delta_plot_cts}
 \end{center}
-\caption{This figure plots the bias of the intercept estimate $\hat{\beta}_{0C}$ ($y$-axis) of the example. Bias is shown as a function of the average sampling variance $v$, residual heterogeneity $\tau^2$, the probability of missingness $H_1(0)$ ($x$-axis), and the correlation between missingness and the effect size as measured by $\psi_1$ (color). Note that $\psi_1$ is a log-odds ratio for effect sizes on the scale of Cohen's $d$.}
+\caption{This figure plots the bias of the intercept estimate $\hat{\beta}_{0C}$ ($y$-axis) of the example. Bias is shown as a function of the average sampling variance $v$, residual heterogeneity $\tau^2$, the probability of missingness for $X_1 = 0$, $H_1(0)$ ($x$-axis), and the correlation between missingness and the effect size as measured by $\psi_1$ (color). Note that $\psi_1$ is a log-odds ratio for effect sizes on the scale of Cohen's $d$.}
 \label{fig:delta}
 \end{figure}
 
@@ -681,12 +693,6 @@ Each panel corresponds to a given amount of heterogeneity $\tau^2 + v$, and with
 Figure \@ref(fig:b1) highlights that the relationship between $R_i$ and $T_i$ ($\psi_1$) and between $R_i$ and $X_i$ ($x$-axes) can affect the magnitude of the bias. 
 If $R_i$ is strongly correlated with both $X_i$ and $T_i$ the bias can be as large as $d$ = 0.3 or 0.4. 
 However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is. 
-It is worth noting that the missingness mechanism in this example is MNAR. 
-However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. 
-The data would be MAR under a selection model where $\psi_2 = 0$ in \@ref(eq:cc-loglinear).
-In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above. 
-[NOTE: DOUBLE CHECK THIS]
-\textcolor{blue}{[JL - I could follow this paragraph. However, the conclusion that assuming MAR and MNAR will give us the same amount of bias is not a bit intuitive. This makes sense because our bias approximation involves the derivative with respect to only $T_i$, but others may question on this..? Also, does it indicate that a form of selection model doesn't change bias, and only $\psi_1$ with $T_i$ matters?]}
 
 \begin{figure}
 \begin{center}
@@ -696,13 +702,37 @@ In that case, the bias of $\hat{\beta}_C$ would be identical to the biases prese
 \label{fig:b1}
 \end{figure}
 
+For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention ($X_1$). Among the observed cases of 54, 38 cases (about 70%) were coded as low-intensity intervention ($X_1 = 0|R=1$) and 16 cases (about 30%) were coded as high-intensity intervention ($X_1 = 1|R=1$). 
 
-For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention. 
-The missingness rate for Group 1's intensity is 27%.
-Using a logit model analogous to \@ref(eq:cc-loglinear), we get an estimate of $\psi_1 = 2.08$. 
-Based on the heterogeneity $\tau^2 = 0.08$ estimated in the example and the mean within-study variance $v = 0.08$, this would give a bias of about $d = 0.09$ in the intercept $\beta_0$.
+Suppose we assume the equal distribution for $p(X=0|R=0)$ and $p(X=1|R=0)$, so that 10 among 20 missing values would be $X_1=0$. Then, we can approximate $H_1(0)$ to be 21% (i.e., $\frac{10}{48}$). Using a logit model analogous to \@ref(eq:cc-loglinear), we get an estimate of $\psi_1 =$. \textcolor{blue}{[JL-Jake, I am not sure how we can get $\psi_1$ here. Are we assuming $\psi_0 = \psi_2 = 0$? Please add a value here.]}
+Based on the heterogeneity $\tau^2 = 0.08$ estimated in the example and the mean within-study variance $v = 0.08$, this would give a bias of about $d = 0.069$ in the intercept $\beta_0$. \textcolor{blue}{[JL -  If I just use psi1 = 2.08 here. Please change this value as the new $\psi_1$ you calculate.]}
+With the same analogy, we can approximate $H_1(1)$ to be 38.46%. Then, we expect the estimated bias of slope $\beta_1$ would be about $d=0.059$ (equation \@ref(eq:cc-bias-beta1-example)).
+\textcolor{blue}{[JL - Jake, I think these are approximately matched with the Figure 1 and 2.]}
 
-\textcolor{blue}{[JL - How about adding a few sentences about linking intercept and slope together? I remember you briefly talked about this concept last week. For example, if intercept is biased (related to $H_1(0)$) but slope is unbiased (related to $H_1(1) - H_1(0)$), then we would still have biased effect size estimates for each group (X = 0 vs. X = 1). This may help readers understand about this example (binary covariate case) better.]}
+From this example, there are three things that worth to emphasize.
+First, notice that the bias in slope is a function of the difference in the missingness rate between $X_1= 0$ and $X_1=1$ (in case of binary covariate), which is often smaller than the missingness rate of $X_1=0$. Thus, typically we would expect that the magnitude of bias in slope is smaller than in intercept. 
+
+Second, the bias in slope is a function of the difference in missingness rates between $X_1=0$ and $X_1=1$, which can be zero.
+Instead of assuming that the distribution of $p(X_1 |R=0)$ is equal across the level of $X_1$ as above, it is possible and justifiable to assume the distribution of $p(X_1|R=0)$ is equal as the observed data, $p(X_1|R=1)$. 
+In this case, the hypothetical difference in missingness rates ($H_1(0) - H_1(1)$) becomes zero. Then, the bias in slope is also to be zero. 
+
+We may often encounter the unbiased regression slope estimate using CCA and it has been known in missing data literature (Glynn & Laird, 1986, as cited in Little \& Rubin, 2002, Chapter 3). 
+\textcolor{blue}{[JL - Jake, I wasn't sure how to add this to reference. It is "Glynn,R. J.,and Laird,N. M., (1986), "Regression Estimates and Missing Data: Complete-Case Analysis, "Technical Report, Harvard School of Public Health, Dept. of Biostatistic"]}
+However, we should note that it does not imply that CCA is ok to be used. With the biased intercept related to $H_1(0)$, the estimated pooled effect sizes for each group ($X_1=0$ vs. $X_1=1$) are still biased. Thus, overall, we will end up interpret the meta-regression model with bias with CCA.
+
+\textcolor{blue}{[PREVIOUS VERSION:]}
+\textit{The missingness rate for Group 1's intensity is 27%.} \textcolor{blue}{[JL- I think this is the missingness rate in $X_1$, not necessarily about missing in $X_1=0$?]}
+
+Lastly, it is worth noting that the missingness mechanism in this example is MNAR because the selection model involves $X_i$. 
+However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. Including $X_i$ or not in the selection model does not influence on the magnitude of bias because the approximation is respect to $T_i$ \footnote{Any components of the selection model without involving $T_i$ would be canceled out and not impact on the bias.}.
+The data would be MAR under a selection model where $\psi_2 = 0$ in \@ref(eq:cc-loglinear).
+In that case, the bias of $\hat{\beta}_C$ would be identical to the biases presented above.
+The form of selection model (i.e., including $T_i$ or not and its model parameter $\psi$) is more critical to determine the bias than the conventional missingness mechanism concept. 
+Thus, we should be cautious and critical about the form of selection model for data, not only missingness mechanism. 
+\textcolor{blue}{[JL- Some of these points here may be moved to Discussion section later. Also, let's save a discussion about continuous covariates case in Discussion section.]}
+
+\textcolor{blue}{[JL - If we used MAR selection model: 
+*It is worth noting that the missingness mechanism in this example is MAR because the selection model does not involve $X_i$. However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. Including $X_i$ or not in the selection model does not influence on the magnitude of bias because the approximation is respect to $T_i$ \footnote{Any components of the selection model without involving $T_i$ would be canceled out and not impact on the bias.}. In other words, even with MNAR mechanism, the magnitude of bias would be identical to the biases presented above.*]}
 
 <!-- - Continuous covariates? -->
 
