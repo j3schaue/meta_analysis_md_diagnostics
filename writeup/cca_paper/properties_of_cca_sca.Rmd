@@ -920,7 +920,9 @@ This article described a selection model approach to studying the bias of two co
 Under certain assumptions regarding the selection model, we obtained expressions for the approximate bias of coefficient estimators.
 These expressions were presented in a general form, which was then unpacked by way of examples. 
 
-We found that both complete-case and shifting-case analyses will produce biased coefficient estimates unless certain conditions are met. 
+We found that both complete-case and shifting-case analyses will produce biased coefficient estimates unless certain conditions are met.
+While discussion regarding potential bias of these analyses have largely focused on traditional mechanism taxonomy of MCAR, MAR, and MNAR, we found that bias depends more on the precise model for missingness rather than these broader classifications.
+Certain mechanisms that are MAR or MNAR can lead to unbiased CCA and SCA, while other MAR or MNAR mechanisms can induce substantial bias.
 Complete-case estimators are unbiased if the probability that all relevant covariates are observed is (conditionally) independent of the effect size estimate.
 Shifting-estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
 When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism, the missingness rate, an the relevance of any omitted covariates.
