@@ -1,0 +1,4648 @@
+[
+	{
+		"id": "http://zotero.org/groups/2494705/items/W6XP8GUQ",
+		"type": "book",
+		"event-place": "New York, NY",
+		"ISBN": "978-0-387-98140-6",
+		"language": "en",
+		"note": "DOI: 10.1007/978-0-387-98141-3",
+		"publisher": "Springer New York",
+		"publisher-place": "New York, NY",
+		"source": "DOI.org (Crossref)",
+		"title": "ggplot2",
+		"URL": "http://link.springer.com/10.1007/978-0-387-98141-3",
+		"author": [
+			{
+				"family": "Wickham",
+				"given": "Hadley"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/4ZJK7HZM",
+		"type": "article-journal",
+		"container-title": "Journal of Multivariate Analysis",
+		"DOI": "10.1016/j.jmva.2007.08.009",
+		"ISSN": "0047259X",
+		"issue": "6",
+		"journalAbbreviation": "Journal of Multivariate Analysis",
+		"language": "en",
+		"page": "1302-1331",
+		"source": "DOI.org (Crossref)",
+		"title": "Theory and inference for regression models with missing responses and covariates",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0047259X07001157",
+		"volume": "99",
+		"author": [
+			{
+				"family": "Chen",
+				"given": "Qingxia"
+			},
+			{
+				"family": "Ibrahim",
+				"given": "Joseph G."
+			},
+			{
+				"family": "Chen",
+				"given": "Ming-Hui"
+			},
+			{
+				"family": "Senchaudhuri",
+				"given": "Pralay"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2008",
+					7
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/W7KV7EGX",
+		"type": "article-journal",
+		"abstract": "Despite the large body of research on missing value distributions and imputation, there is comparatively little literature on how to make it easy to handle, explore, and impute missing values in data. This paper addresses this gap. The new methodology builds upon tidy data principles, with a goal to integrating missing value handling as an integral part of data analysis workflows. New data structures are defined along with new functions (verbs) to perform common operations. Together these provide a cohesive framework for handling, exploring, and imputing missing values. These methods have been made available in the R package `naniar`.",
+		"container-title": "arXiv:1809.02264 [stat]",
+		"note": "arXiv: 1809.02264",
+		"source": "arXiv.org",
+		"title": "Expanding tidy data principles to facilitate missing data exploration, visualization and assessment of imputations",
+		"URL": "http://arxiv.org/abs/1809.02264",
+		"author": [
+			{
+				"family": "Tierney",
+				"given": "Nicholas J."
+			},
+			{
+				"family": "Cook",
+				"given": "Dianne H."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					9,
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/MNYCQ2RQ",
+		"type": "article-journal",
+		"container-title": "Biometrika",
+		"DOI": "10.1093/biomet/83.4.916",
+		"ISSN": "0006-3444, 1464-3510",
+		"issue": "4",
+		"journalAbbreviation": "Biometrika",
+		"language": "en",
+		"page": "916-922",
+		"source": "DOI.org (Crossref)",
+		"title": "A conditional model for incomplete covariates in parametric regression models",
+		"URL": "https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/83.4.916",
+		"volume": "83",
+		"author": [
+			{
+				"family": "Lipsitz",
+				"given": "S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1996",
+					12,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HXUN3USV",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series B (Statistical Methodology)",
+		"DOI": "10.1111/1467-9868.00170",
+		"ISSN": "1369-7412, 1467-9868",
+		"issue": "1",
+		"journalAbbreviation": "J Royal Statistical Soc B",
+		"language": "en",
+		"page": "173-190",
+		"source": "DOI.org (Crossref)",
+		"title": "Missing covariates in generalized linear models when the missing data mechanism is non-ignorable",
+		"URL": "http://doi.wiley.com/10.1111/1467-9868.00170",
+		"volume": "61",
+		"author": [
+			{
+				"family": "Ibrahim",
+				"given": "J. G."
+			},
+			{
+				"family": "Lipsitz",
+				"given": "S. R."
+			},
+			{
+				"family": "Chen",
+				"given": "M.-H."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/IL4MACME",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series B (Statistical Methodology)",
+		"DOI": "10.1111/j.1467-9868.2007.00640.x",
+		"ISSN": "1369-7412, 1467-9868",
+		"issue": "2",
+		"journalAbbreviation": "J Royal Statistical Soc B",
+		"language": "en",
+		"page": "371-388",
+		"source": "DOI.org (Crossref)",
+		"title": "Every missingness not at random model has a missingness at random counterpart with equal fit",
+		"URL": "http://doi.wiley.com/10.1111/j.1467-9868.2007.00640.x",
+		"volume": "70",
+		"author": [
+			{
+				"family": "Molenberghs",
+				"given": "Geert"
+			},
+			{
+				"family": "Beunckens",
+				"given": "Caroline"
+			},
+			{
+				"family": "Sotto",
+				"given": "Cristina"
+			},
+			{
+				"family": "Kenward",
+				"given": "Michael G."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2008",
+					4
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/M3UWZ66N",
+		"type": "article-journal",
+		"container-title": "Biometrika",
+		"DOI": "10.1093/biomet/ast044",
+		"ISSN": "0006-3444, 1464-3510",
+		"issue": "1",
+		"journalAbbreviation": "Biometrika",
+		"language": "en",
+		"page": "155-173",
+		"source": "DOI.org (Crossref)",
+		"title": "On the stationary distribution of iterative imputations",
+		"URL": "https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/ast044",
+		"volume": "101",
+		"author": [
+			{
+				"family": "Liu",
+				"given": "J."
+			},
+			{
+				"family": "Gelman",
+				"given": "A."
+			},
+			{
+				"family": "Hill",
+				"given": "J."
+			},
+			{
+				"family": "Su",
+				"given": "Y.-S."
+			},
+			{
+				"family": "Kropko",
+				"given": "J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2014",
+					3,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/MRKQUYV9",
+		"type": "article-journal",
+		"container-title": "Ecology",
+		"DOI": "10.1890/0012-9658(1999)080[1142:SIIEMA]2.0.CO;2",
+		"ISSN": "0012-9658",
+		"issue": "4",
+		"journalAbbreviation": "Ecology",
+		"language": "en",
+		"page": "1142-1149",
+		"source": "DOI.org (Crossref)",
+		"title": "Statistical issues in ecological meta-analyses",
+		"URL": "http://doi.wiley.com/10.1890/0012-9658(1999)080[1142:SIIEMA]2.0.CO;2",
+		"volume": "80",
+		"author": [
+			{
+				"family": "Gurevitch",
+				"given": "Jessica"
+			},
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/IDIKZYKJ",
+		"type": "article-journal",
+		"container-title": "BMC Medical Research Methodology",
+		"DOI": "10.1186/1471-2288-12-46",
+		"ISSN": "1471-2288",
+		"issue": "1",
+		"journalAbbreviation": "BMC Med Res Methodol",
+		"language": "en",
+		"page": "46",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation of missing covariates with non-linear effects and interactions: an evaluation of statistical methods",
+		"title-short": "Multiple imputation of missing covariates with non-linear effects and interactions",
+		"URL": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-12-46",
+		"volume": "12",
+		"author": [
+			{
+				"family": "Seaman",
+				"given": "Shaun R"
+			},
+			{
+				"family": "Bartlett",
+				"given": "Jonathan W"
+			},
+			{
+				"family": "White",
+				"given": "Ian R"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2012",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/LU6P6EYI",
+		"type": "article-journal",
+		"container-title": "Statistical Methods in Medical Research",
+		"DOI": "10.1177/0962280214521348",
+		"ISSN": "0962-2802, 1477-0334",
+		"issue": "4",
+		"journalAbbreviation": "Stat Methods Med Res",
+		"language": "en",
+		"page": "462-487",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation of covariates by fully conditional specification: Accommodating the substantive model",
+		"title-short": "Multiple imputation of covariates by fully conditional specification",
+		"URL": "http://journals.sagepub.com/doi/10.1177/0962280214521348",
+		"volume": "24",
+		"author": [
+			{
+				"family": "Bartlett",
+				"given": "Jonathan W"
+			},
+			{
+				"family": "Seaman",
+				"given": "Shaun R"
+			},
+			{
+				"family": "White",
+				"given": "Ian R"
+			},
+			{
+				"family": "Carpenter",
+				"given": "James R"
+			},
+			{
+				"literal": "for the Alzheimer's Disease Neuroimaging Initiative*"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2015",
+					8
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/CTA8KRH3",
+		"type": "article-journal",
+		"container-title": "Clinical Trials: Journal of the Society for Clinical Trials",
+		"DOI": "10.1177/1740774508091600",
+		"ISSN": "1740-7745, 1740-7753",
+		"issue": "3",
+		"journalAbbreviation": "Clinical Trials",
+		"language": "en",
+		"page": "225-239",
+		"source": "DOI.org (Crossref)",
+		"title": "Imputation methods for missing outcome data in meta-analysis of clinical trials",
+		"URL": "http://journals.sagepub.com/doi/10.1177/1740774508091600",
+		"volume": "5",
+		"author": [
+			{
+				"family": "Higgins",
+				"given": "Julian PT"
+			},
+			{
+				"family": "White",
+				"given": "Ian R"
+			},
+			{
+				"family": "Wood",
+				"given": "Angela M"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2008",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/TNSWGP89",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.7388",
+		"ISSN": "02776715",
+		"issue": "22",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "3507-3532",
+		"source": "DOI.org (Crossref)",
+		"title": "A comparison of existing methods for multiple imputation in individual participant data meta-analysis: D. KUNKEL AND E. E KAIZAR",
+		"title-short": "A comparison of existing methods for multiple imputation in individual participant data meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/sim.7388",
+		"volume": "36",
+		"author": [
+			{
+				"family": "Kunkel",
+				"given": "Deborah"
+			},
+			{
+				"family": "Kaizar",
+				"given": "Eloise E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					9,
+					30
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/B97Y2CZX",
+		"type": "article-journal",
+		"container-title": "Methods in Ecology and Evolution",
+		"DOI": "10.1111/2041-210X.12322",
+		"ISSN": "2041-210X, 2041-210X",
+		"issue": "2",
+		"journalAbbreviation": "Methods Ecol Evol",
+		"language": "en",
+		"page": "153-163",
+		"source": "DOI.org (Crossref)",
+		"title": "Using multiple imputation to estimate missing data in meta‐regression",
+		"URL": "https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.12322",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Ellington",
+				"given": "E. Hance"
+			},
+			{
+				"family": "Bastille‐Rousseau",
+				"given": "Guillaume"
+			},
+			{
+				"family": "Austin",
+				"given": "Cayla"
+			},
+			{
+				"family": "Landolt",
+				"given": "Kristen N."
+			},
+			{
+				"family": "Pond",
+				"given": "Bruce A."
+			},
+			{
+				"family": "Rees",
+				"given": "Erin E."
+			},
+			{
+				"family": "Robar",
+				"given": "Nicholas"
+			},
+			{
+				"family": "Murray",
+				"given": "Dennis L."
+			}
+		],
+		"editor": [
+			{
+				"family": "Hadfield",
+				"given": "Jarrod"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2015",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/AZTUM6J3",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.5844",
+		"ISSN": "02776715",
+		"issue": "26",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "4499-4514",
+		"source": "DOI.org (Crossref)",
+		"title": "Combining multiple imputation and meta-analysis with individual participant data",
+		"URL": "http://doi.wiley.com/10.1002/sim.5844",
+		"volume": "32",
+		"author": [
+			{
+				"family": "Burgess",
+				"given": "Stephen"
+			},
+			{
+				"family": "White",
+				"given": "Ian R."
+			},
+			{
+				"family": "Resche-Rigon",
+				"given": "Matthieu"
+			},
+			{
+				"family": "Wood",
+				"given": "Angela M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					11,
+					20
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/4S55NZMZ",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2018.10.006",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "60-69",
+		"source": "DOI.org (Crossref)",
+		"title": "A data-sharing agreement helps to increase researchers’ willingness to share primary data: results from a randomized controlled trial",
+		"title-short": "A data-sharing agreement helps to increase researchers’ willingness to share primary data",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435617313306",
+		"volume": "106",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Terzian",
+				"given": "Mary"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XTS5NM8C",
+		"type": "article-journal",
+		"container-title": "Systematic Reviews",
+		"DOI": "10.1186/s13643-020-01376-9",
+		"ISSN": "2046-4053",
+		"issue": "1",
+		"journalAbbreviation": "Syst Rev",
+		"language": "en",
+		"page": "116",
+		"source": "DOI.org (Crossref)",
+		"title": "Locating unregistered and unreported data for use in a social science systematic review and meta-analysis",
+		"URL": "https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/s13643-020-01376-9",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Espelage",
+				"given": "Dorothy L."
+			},
+			{
+				"family": "Grotpeter",
+				"given": "Jennifer K."
+			},
+			{
+				"family": "Valido",
+				"given": "Alberto"
+			},
+			{
+				"family": "Ingram",
+				"given": "Katherine M."
+			},
+			{
+				"family": "Torgal",
+				"given": "Cagil"
+			},
+			{
+				"family": "El Sheikh",
+				"given": "America"
+			},
+			{
+				"family": "Robinson",
+				"given": "Luz E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/LHXMU9ER",
+		"type": "article-journal",
+		"container-title": "Biometrics",
+		"DOI": "10.1111/j.0006-341X.2000.00455.x",
+		"ISSN": "0006341X",
+		"issue": "2",
+		"language": "en",
+		"page": "455-463",
+		"source": "DOI.org (Crossref)",
+		"title": "Trim and Fill: A Simple Funnel-Plot-Based Method of Testing and Adjusting for Publication Bias in Meta-Analysis",
+		"title-short": "Trim and Fill",
+		"URL": "http://doi.wiley.com/10.1111/j.0006-341X.2000.00455.x",
+		"volume": "56",
+		"author": [
+			{
+				"family": "Duval",
+				"given": "Sue"
+			},
+			{
+				"family": "Tweedie",
+				"given": "Richard"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2000",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XKUYB7IJ",
+		"type": "speech",
+		"event": "Society for Research Synthesis Methods",
+		"event-place": "Chicago, IL",
+		"publisher-place": "Chicago, IL",
+		"title": "Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood",
+		"URL": "http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf",
+		"author": [
+			{
+				"family": "Cheung",
+				"given": "Mike W.-L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/AT7KMCSU",
+		"type": "article-journal",
+		"container-title": "Statistica Sinica",
+		"DOI": "10.5705/ss.202016.0287",
+		"ISSN": "10170405",
+		"journalAbbreviation": "STAT SINICA",
+		"source": "DOI.org (Crossref)",
+		"title": "Discussion: Dissecting Multiple Imputation from a Multi-phase Inference Perspective: What Happens When God's Imputer's and Analyst's Models are Uncongenial?",
+		"title-short": "Discussion",
+		"URL": "http://www3.stat.sinica.edu.tw/statistica/J27N4/J27N41/J27N41-10.html",
+		"author": [
+			{
+				"family": "Reiter",
+				"given": "Jerry"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/YRQU6X9M",
+		"type": "article-journal",
+		"container-title": "Statistical Science",
+		"DOI": "10.1214/ss/1177010269",
+		"ISSN": "0883-4237",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Sci.",
+		"language": "en",
+		"page": "538-558",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple-imputation inferences with uncongenial sources of input",
+		"URL": "http://projecteuclid.org/euclid.ss/1177010269",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Meng",
+				"given": "Xiao-Li"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					4
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1994",
+					11
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/GE4Y6D7M",
+		"type": "article-journal",
+		"container-title": "Proceedings of the Survey Research Methods Section, American Statistical Association",
+		"page": "227-232",
+		"title": "When are inferences from multiple imputation valid?",
+		"author": [
+			{
+				"family": "Fay",
+				"given": "Robert E."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/UNE7NLIF",
+		"type": "article-journal",
+		"abstract": "Missing data in medical research is a common problem that has long been recognised by statisticians and medical researchers alike. In general, if the effect of missing data is not taken into account the results of the statistical analyses will be biased and the amount of variability in the data will not be correctly estimated. There are three main types of missing data pattern: Missing Completely At Random (MCAR), Missing At Random (MAR) and Not Missing At Random (NMAR). The type of missing data that a researcher has in their dataset determines the appropriate method to use in handling the missing data before a formal statistical analysis begins. The aim of this practice note is to describe these patterns of missing data and how they can occur, as well describing the methods of handling them. Simple and more complex methods are described, including the advantages and disadvantages of each method as well as their availability in routine software. It is good practice to perform a sensitivity analysis employing different missing data techniques in order to assess the robustness of the conclusions drawn from each approach.",
+		"container-title": "Australian and New Zealand Journal of Public Health",
+		"ISSN": "1326-0200",
+		"issue": "5",
+		"journalAbbreviation": "Aust N Z J Public Health",
+		"language": "eng",
+		"note": "PMID: 11688629",
+		"page": "464-469",
+		"source": "PubMed",
+		"title": "How can I deal with missing data in my study?",
+		"volume": "25",
+		"author": [
+			{
+				"family": "Bennett",
+				"given": "D. A."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HR4P2HY7",
+		"type": "article-journal",
+		"container-title": "Statistical Methods in Medical Research",
+		"DOI": "10.1177/096228029900800102",
+		"ISSN": "0962-2802, 1477-0334",
+		"issue": "1",
+		"journalAbbreviation": "Stat Methods Med Res",
+		"language": "en",
+		"page": "3-15",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation: a primer",
+		"title-short": "Multiple imputation",
+		"URL": "http://journals.sagepub.com/doi/10.1177/096228029900800102",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Schafer",
+				"given": "Joseph L"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					28
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/FSEJZDRT",
+		"type": "article-journal",
+		"container-title": "SpringerPlus",
+		"DOI": "10.1186/2193-1801-2-222",
+		"ISSN": "2193-1801",
+		"issue": "1",
+		"journalAbbreviation": "SpringerPlus",
+		"language": "en",
+		"page": "222",
+		"source": "DOI.org (Crossref)",
+		"title": "Principled missing data methods for researchers",
+		"URL": "https://springerplus.springeropen.com/articles/10.1186/2193-1801-2-222",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Dong",
+				"given": "Yiran"
+			},
+			{
+				"family": "Peng",
+				"given": "Chao-Ying Joanne"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/CKYVKRRU",
+		"type": "article-journal",
+		"container-title": "BMC Medical Research Methodology",
+		"DOI": "10.1186/s12874-017-0442-1",
+		"ISSN": "1471-2288",
+		"issue": "1",
+		"journalAbbreviation": "BMC Med Res Methodol",
+		"language": "en",
+		"page": "162",
+		"source": "DOI.org (Crossref)",
+		"title": "When and how should multiple imputation be used for handling missing data in randomised clinical trials – a practical guide with flowcharts",
+		"URL": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/s12874-017-0442-1",
+		"volume": "17",
+		"author": [
+			{
+				"family": "Jakobsen",
+				"given": "Janus Christian"
+			},
+			{
+				"family": "Gluud",
+				"given": "Christian"
+			},
+			{
+				"family": "Wetterslev",
+				"given": "Jørn"
+			},
+			{
+				"family": "Winkel",
+				"given": "Per"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ZAWCENHG",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2019.02.016",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "63-73",
+		"source": "DOI.org (Crossref)",
+		"title": "The proportion of missing data should not be used to guide decisions on multiple imputation",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435618308710",
+		"volume": "110",
+		"author": [
+			{
+				"family": "Madley-Dowd",
+				"given": "Paul"
+			},
+			{
+				"family": "Hughes",
+				"given": "Rachael"
+			},
+			{
+				"family": "Tilling",
+				"given": "Kate"
+			},
+			{
+				"family": "Heron",
+				"given": "Jon"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					8,
+					23
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/RH42ET3P",
+		"type": "article-journal",
+		"container-title": "The ANNALS of the American Academy of Political and Social Science",
+		"DOI": "10.1177/0002716202250791",
+		"ISSN": "0002-7162, 1552-3349",
+		"issue": "1",
+		"journalAbbreviation": "The ANNALS of the American Academy of Political and Social Science",
+		"language": "en",
+		"page": "69-81",
+		"source": "DOI.org (Crossref)",
+		"title": "Those confounded moderators in meta-analysis: Good, bad, and ugly",
+		"title-short": "Those Confounded Moderators in Meta-Analysis",
+		"URL": "http://journals.sagepub.com/doi/10.1177/0002716202250791",
+		"volume": "587",
+		"author": [
+			{
+				"family": "Lipsey",
+				"given": "Mark W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/IIKCZ2U4",
+		"type": "article-journal",
+		"title": "Exploratory analyses for missing data in meta-analyses",
+		"author": [
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			},
+			{
+				"family": "Dìaz",
+				"given": "Karina"
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"issued": {
+			"literal": "under review"
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/VEZBLR8P",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.35",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Syn. Meth.",
+		"language": "en",
+		"page": "61-76",
+		"source": "DOI.org (Crossref)",
+		"title": "Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis",
+		"title-short": "Fixed effects and variance components estimation in three-level meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.35",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Konstantopoulos",
+				"given": "Spyros"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2011",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/BA4QAE3P",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.4780140406",
+		"ISSN": "02776715, 10970258",
+		"issue": "4",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "395-411",
+		"source": "DOI.org (Crossref)",
+		"title": "A random-effects regression model for meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/sim.4780140406",
+		"volume": "14",
+		"author": [
+			{
+				"family": "Berkey",
+				"given": "C. S."
+			},
+			{
+				"family": "Hoaglin",
+				"given": "D. C."
+			},
+			{
+				"family": "Mosteller",
+				"given": "F."
+			},
+			{
+				"family": "Colditz",
+				"given": "G. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1995",
+					2,
+					28
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/9THZZN8R",
+		"type": "article-journal",
+		"abstract": "Abstract. To conduct a meta-analysis, one needs to express the results from a set of related studies in terms of an outcome measure, such as a standardized mean difference, correlation coefficient, or odds ratio. The observed outcome from a single study will differ from the true value of the outcome measure because of sampling variability. The observed outcomes from a set of related studies measuring the same outcome will, therefore, not coincide. However, one often finds that the observed outcomes differ more from each other than would be expected based on sampling variability alone. A likely explanation for this phenomenon is that the true values of the outcome measure are heterogeneous. One way to account for the heterogeneity is to assume that the heterogeneity is entirely random. Another approach is to examine whether the heterogeneity in the outcomes can be accounted for, at least in part, by a set of study-level variables describing the methods, procedures, and samples used in the different studies. The purpose of the present paper is to discuss these different approaches with particular emphasis on the interpretation of the results and practical issues.",
+		"container-title": "Zeitschrift für Psychologie / Journal of Psychology",
+		"DOI": "10.1027/0044-3409.215.2.104",
+		"ISSN": "0044-3409",
+		"issue": "2",
+		"journalAbbreviation": "Zeitschrift für Psychologie / Journal of Psychology",
+		"language": "en",
+		"page": "104-121",
+		"source": "DOI.org (Crossref)",
+		"title": "Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis",
+		"URL": "https://econtent.hogrefe.com/doi/10.1027/0044-3409.215.2.104",
+		"volume": "215",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2007",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/EQ7PJFSF",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.5",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Synth. Method",
+		"language": "en",
+		"page": "39-65",
+		"source": "DOI.org (Crossref)",
+		"title": "Robust variance estimation in meta-regression with dependent effect size estimates",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.5",
+		"volume": "1",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Tipton",
+				"given": "Elizabeth"
+			},
+			{
+				"family": "Johnson",
+				"given": "Matthew C."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/I47ZUKA6",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164961",
+		"ISSN": "03629791",
+		"issue": "2",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "119",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting categorical models to effect sizes from a series of experiments",
+		"URL": "https://www.jstor.org/stable/1164961?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/FF53CKKX",
+		"type": "article-journal",
+		"container-title": "British Journal of Mathematical and Statistical Psychology",
+		"DOI": "10.1111/j.2044-8317.1983.tb00768.x",
+		"ISSN": "00071102",
+		"issue": "1",
+		"language": "en",
+		"page": "123-131",
+		"source": "DOI.org (Crossref)",
+		"title": "Combining independent estimators in research synthesis",
+		"URL": "http://doi.wiley.com/10.1111/j.2044-8317.1983.tb00768.x",
+		"volume": "36",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1983",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/3A5XEIZJ",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164634",
+		"ISSN": "03629791",
+		"issue": "4",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "245",
+		"source": "DOI.org (Crossref)",
+		"title": "Fitting continuous models to effect size data",
+		"URL": "https://www.jstor.org/stable/1164634?origin=crossref",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					14
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HDZ3BGDZ",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/met0000189",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "5",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "557-570",
+		"source": "DOI.org (Crossref)",
+		"title": "Statistical analyses for studying replication: Meta-analytic perspectives.",
+		"title-short": "Statistical analyses for studying replication",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/met0000189",
+		"volume": "24",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Schauer",
+				"given": "Jacob M."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HPRKEDPE",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.6.3.203",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "203-217",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.6.3.203",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XCGKYT8Z",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.9.4.426",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "4",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "426-445",
+		"source": "DOI.org (Crossref)",
+		"title": "The power of statistical tests for moderators in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.9.4.426",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					13
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2004"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/JF57QMU8",
+		"type": "book",
+		"call-number": "HA29 .C66 1988",
+		"edition": "2nd ed",
+		"event-place": "Hillsdale, N.J",
+		"ISBN": "978-0-8058-0283-2",
+		"number-of-pages": "567",
+		"publisher": "L. Erlbaum Associates",
+		"publisher-place": "Hillsdale, N.J",
+		"source": "Library of Congress ISBN",
+		"title": "Statistical power analysis for the behavioral sciences",
+		"author": [
+			{
+				"family": "Cohen",
+				"given": "Jacob"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1988"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/99DRGENC",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.3.3.339",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "339-353",
+		"source": "DOI.org (Crossref)",
+		"title": "Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues.",
+		"title-short": "Using odds ratios as effect sizes for meta-analysis of dichotomous data",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.3.3.339",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Haddock",
+				"given": "C. Keith"
+			},
+			{
+				"family": "Rindskopf",
+				"given": "David"
+			},
+			{
+				"family": "Shadish",
+				"given": "William R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/H9Y9P9QL",
+		"type": "article-journal",
+		"container-title": "Communications in Statistics - Simulation and Computation",
+		"DOI": "10.1080/03610911003650383",
+		"ISSN": "0361-0918, 1532-4141",
+		"issue": "4",
+		"journalAbbreviation": "Communications in Statistics - Simulation and Computation",
+		"language": "en",
+		"page": "860-864",
+		"source": "DOI.org (Crossref)",
+		"title": "How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies",
+		"title-short": "How Big is a Big Odds Ratio?",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/03610911003650383",
+		"volume": "39",
+		"author": [
+			{
+				"family": "Chen",
+				"given": "Henian"
+			},
+			{
+				"family": "Cohen",
+				"given": "Patricia"
+			},
+			{
+				"family": "Chen",
+				"given": "Sophie"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					3,
+					31
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/VY738K2L",
+		"type": "article-journal",
+		"container-title": "Professional Psychology: Research and Practice",
+		"DOI": "10.1037/a0015808",
+		"ISSN": "1939-1323, 0735-7028",
+		"issue": "5",
+		"journalAbbreviation": "Professional Psychology: Research and Practice",
+		"language": "en",
+		"page": "532-538",
+		"source": "DOI.org (Crossref)",
+		"title": "An effect size primer: A guide for clinicians and researchers.",
+		"title-short": "An effect size primer",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/a0015808",
+		"volume": "40",
+		"author": [
+			{
+				"family": "Ferguson",
+				"given": "Christopher J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					7,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					10
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/5DPPXBIX",
+		"type": "article-journal",
+		"container-title": "Applied Economics",
+		"DOI": "10.1080/00036840110058482",
+		"ISSN": "0003-6846, 1466-4283",
+		"issue": "6",
+		"journalAbbreviation": "Applied Economics",
+		"language": "en",
+		"page": "667-677",
+		"source": "DOI.org (Crossref)",
+		"title": "The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations",
+		"title-short": "The impact of collinearity on regression analysis",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/00036840110058482",
+		"volume": "34",
+		"author": [
+			{
+				"family": "Mela",
+				"given": "Carl F."
+			},
+			{
+				"family": "Kopalle",
+				"given": "Praveen K."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/8NC232CL",
+		"type": "article-journal",
+		"container-title": "The Review of Economics and Statistics",
+		"DOI": "10.2307/1937887",
+		"ISSN": "00346535",
+		"issue": "1",
+		"journalAbbreviation": "The Review of Economics and Statistics",
+		"page": "92",
+		"source": "DOI.org (Crossref)",
+		"title": "Multicollinearity in regression analysis: The problem revisited",
+		"title-short": "Multicollinearity in Regression Analysis",
+		"URL": "https://www.jstor.org/stable/1937887?origin=crossref",
+		"volume": "49",
+		"author": [
+			{
+				"family": "Farrar",
+				"given": "Donald E."
+			},
+			{
+				"family": "Glauber",
+				"given": "Robert R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					25
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1967",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/WETSFCX4",
+		"type": "article-journal",
+		"container-title": "Journal of Educational and Behavioral Statistics",
+		"DOI": "10.3102/10769986030003261",
+		"ISSN": "1076-9986, 1935-1054",
+		"issue": "3",
+		"journalAbbreviation": "Journal of Educational and Behavioral Statistics",
+		"language": "en",
+		"page": "261-293",
+		"source": "DOI.org (Crossref)",
+		"title": "Bias and efficiency of meta-analytic variance estimators in the random-effects model",
+		"URL": "http://journals.sagepub.com/doi/10.3102/10769986030003261",
+		"volume": "30",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2005",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ES49WHNX",
+		"type": "book",
+		"abstract": "\"A classic in its own right, this book continues to provide an introduction to modern generalized linear models for categorical variables. The text emphasizes methods that are most commonly used in practical application, such as classical inferences for two- and three-way contingency tables, logistic regression, loglinear models, models for multinomial (nominal and ordinal) responses, and methods for repeated measurement and other forms of clustered, correlated response data. Chapter headings remain essentially with the exception of a new one on Bayesian inference for parametric models. Other major changes include an expansion of clustered data, new research on analysis of data sets with robust variables, extensive discussions of ordinal data, more on interpretation, and additional exercises throughout the book. R and SAS are now showcased as the software of choice. An author web site with solutions, commentaries, software programs, and data sets is available\"--",
+		"call-number": "QA278 .A353 2013",
+		"collection-number": "792",
+		"collection-title": "Wiley series in probability and statistics",
+		"edition": "3rd ed",
+		"event-place": "Hoboken, NJ",
+		"ISBN": "978-0-470-46363-5",
+		"number-of-pages": "714",
+		"publisher": "Wiley",
+		"publisher-place": "Hoboken, NJ",
+		"source": "Library of Congress ISBN",
+		"title": "Categorical data analysis",
+		"author": [
+			{
+				"family": "Agresti",
+				"given": "Alan"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2013"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/WGKTB3S7",
+		"type": "book",
+		"call-number": "H62 .C5859 2017",
+		"edition": "Fifth Edition",
+		"event-place": "Los Angeles",
+		"ISBN": "978-1-4833-3115-7",
+		"number-of-pages": "360",
+		"publisher": "SAGE",
+		"publisher-place": "Los Angeles",
+		"source": "Library of Congress ISBN",
+		"title": "Research synthesis and meta-analysis: a step-by-step approach",
+		"title-short": "Research synthesis and meta-analysis",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2017"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XQKKKLVQ",
+		"type": "article-journal",
+		"abstract": "Advances in science and technology are generally the product of multiple investigations. This article discusses statistical methods for combining empirical results from a series of different experiments or clinical investigations. We delineate the steps an assessor might take in combining data from different studies and provide references for topics not discussed in detail. The article reviews some of the most commonly used statistical techniques for combining results in the medical and social sciences.\n            \n              The expression\n              meta-analysis\n              refers to the practice of using statistical methods to combine the outcomes of a series of different experiments or investigations. The terminology arises because a meta-analysis uses a study as the unit of observation, and, thus, the data point for each study is itself a statistical summary based on an analysis of primary data.",
+		"container-title": "International Journal of Technology Assessment in Health Care",
+		"DOI": "10.1017/S0266462300008916",
+		"ISSN": "0266-4623, 1471-6348",
+		"issue": "1",
+		"journalAbbreviation": "Int J Technol Assess Health Care",
+		"language": "en",
+		"page": "5-30",
+		"source": "DOI.org (Crossref)",
+		"title": "Some statistical methods for combining experimental results",
+		"URL": "https://www.cambridge.org/core/product/identifier/S0266462300008916/type/journal_article",
+		"volume": "6",
+		"author": [
+			{
+				"family": "Laird",
+				"given": "Nan M."
+			},
+			{
+				"family": "Mosteller",
+				"given": "Frederick"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1990",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/88J8TQF9",
+		"type": "book",
+		"abstract": "\"Preface This book is intended to have three roles and to serve three associated audiences: an introductory text on Bayesian inference starting from first principles, a graduate text on effective current approaches to Bayesian modeling and computation in statistics and related fields, and a handbook of Bayesian methods in applied statistics for general users of and researchers in applied statistics. Although introductory in its early sections, the book is definitely not elementary in the sense of a first text in statistics. The mathematics used in our book is basic probability and statistics, elementary calculus, and linear algebra. A review of probability notation is given in Chapter 1 along with a more detailed list of topics assumed to have been studied. The practical orientation of the book means that the reader's previous experience in probability, statistics, and linear algebra should ideally have included strong computational components. To write an introductory text alone would leave many readers with only a taste of the conceptual elements but no guidance for venturing into genuine practical applications, beyond those where Bayesian methods agree essentially with standard non-Bayesian analyses. On the other hand, we feel it would be a mistake to present the advanced methods without first introducing the basic concepts from our data-analytic perspective. Furthermore, due to the nature of applied statistics, a text on current Bayesian methodology would be incomplete without a variety of worked examples drawn from real applications. To avoid cluttering the main narrative, there are bibliographic notes at the end of each chapter and references at the end of the book\"--",
+		"call-number": "QA279.5 .G45 2014",
+		"collection-title": "Chapman & Hall/CRC texts in statistical science",
+		"edition": "Third edition",
+		"event-place": "Boca Raton",
+		"ISBN": "978-1-4398-4095-5",
+		"number-of-pages": "661",
+		"publisher": "CRC Press",
+		"publisher-place": "Boca Raton",
+		"source": "Library of Congress ISBN",
+		"title": "Bayesian data analysis",
+		"author": [
+			{
+				"family": "Gelman",
+				"given": "Andrew"
+			},
+			{
+				"family": "Carlin",
+				"given": "John B."
+			},
+			{
+				"family": "Stern",
+				"given": "Hal S."
+			},
+			{
+				"family": "Dunson",
+				"given": "David B."
+			},
+			{
+				"family": "Vehtari",
+				"given": "Aki"
+			},
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2014"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/BXX7GP75",
+		"type": "book",
+		"abstract": "\"Preface This book is intended to have three roles and to serve three associated audiences: an introductory text on Bayesian inference starting from first principles, a graduate text on effective current approaches to Bayesian modeling and computation in statistics and related fields, and a handbook of Bayesian methods in applied statistics for general users of and researchers in applied statistics. Although introductory in its early sections, the book is definitely not elementary in the sense of a first text in statistics. The mathematics used in our book is basic probability and statistics, elementary calculus, and linear algebra. A review of probability notation is given in Chapter 1 along with a more detailed list of topics assumed to have been studied. The practical orientation of the book means that the reader's previous experience in probability, statistics, and linear algebra should ideally have included strong computational components. To write an introductory text alone would leave many readers with only a taste of the conceptual elements but no guidance for venturing into genuine practical applications, beyond those where Bayesian methods agree essentially with standard non-Bayesian analyses. On the other hand, we feel it would be a mistake to present the advanced methods without first introducing the basic concepts from our data-analytic perspective. Furthermore, due to the nature of applied statistics, a text on current Bayesian methodology would be incomplete without a variety of worked examples drawn from real applications. To avoid cluttering the main narrative, there are bibliographic notes at the end of each chapter and references at the end of the book\"--",
+		"call-number": "QA279.5 .G45 2014",
+		"collection-title": "Chapman & Hall/CRC texts in statistical science",
+		"edition": "Third edition",
+		"event-place": "Boca Raton",
+		"ISBN": "978-1-4398-4095-5",
+		"number-of-pages": "661",
+		"publisher": "CRC Press",
+		"publisher-place": "Boca Raton",
+		"source": "Library of Congress ISBN",
+		"title": "Bayesian data analysis",
+		"author": [
+			{
+				"family": "Gelman",
+				"given": "Andrew"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2014"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/DFZ6KM6U",
+		"type": "article-journal",
+		"container-title": "Psychological Bulletin",
+		"DOI": "10.1037/0033-2909.93.2.388",
+		"ISSN": "0033-2909",
+		"issue": "2",
+		"journalAbbreviation": "Psychological Bulletin",
+		"language": "en",
+		"page": "388-395",
+		"source": "DOI.org (Crossref)",
+		"title": "A random effects model for effect sizes.",
+		"URL": "http://content.apa.org/journals/bul/93/2/388",
+		"volume": "93",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1983"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ZYHLL9JE",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.1164",
+		"ISSN": "17592879",
+		"issue": "1",
+		"journalAbbreviation": "Res. Syn. Meth.",
+		"language": "en",
+		"page": "55-79",
+		"source": "DOI.org (Crossref)",
+		"title": "Methods to estimate the between-study variance and its uncertainty in meta-analysis",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.1164",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Veroniki",
+				"given": "Areti Angeliki"
+			},
+			{
+				"family": "Jackson",
+				"given": "Dan"
+			},
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			},
+			{
+				"family": "Bender",
+				"given": "Ralf"
+			},
+			{
+				"family": "Bowden",
+				"given": "Jack"
+			},
+			{
+				"family": "Knapp",
+				"given": "Guido"
+			},
+			{
+				"family": "Kuss",
+				"given": "Oliver"
+			},
+			{
+				"family": "Higgins",
+				"given": "Julian PT"
+			},
+			{
+				"family": "Langan",
+				"given": "Dean"
+			},
+			{
+				"family": "Salanti",
+				"given": "Georgia"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/2L8K6FUP",
+		"type": "article-journal",
+		"container-title": "Psychological Methods",
+		"DOI": "10.1037/1082-989X.3.4.486",
+		"ISSN": "1939-1463, 1082-989X",
+		"issue": "4",
+		"journalAbbreviation": "Psychological Methods",
+		"language": "en",
+		"page": "486-504",
+		"source": "DOI.org (Crossref)",
+		"title": "Fixed- and random-effects models in meta-analysis.",
+		"URL": "http://doi.apa.org/getdoi.cfm?doi=10.1037/1082-989X.3.4.486",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Vevea",
+				"given": "Jack L."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/5SGLE5LS",
+		"type": "article-journal",
+		"container-title": "Multivariate Behavioral Research",
+		"DOI": "10.1080/00273171.2017.1375886",
+		"ISSN": "0027-3171, 1532-7906",
+		"issue": "1",
+		"journalAbbreviation": "Multivariate Behavioral Research",
+		"language": "en",
+		"page": "1-14",
+		"source": "DOI.org (Crossref)",
+		"title": "Accounting for missing correlation coefficients in fixed-effects MASEM",
+		"URL": "https://www.tandfonline.com/doi/full/10.1080/00273171.2017.1375886",
+		"volume": "53",
+		"author": [
+			{
+				"family": "Jak",
+				"given": "Suzanne"
+			},
+			{
+				"family": "Cheung",
+				"given": "Mike W.-L"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					1,
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/RXX6QUKA",
+		"type": "chapter",
+		"container-title": "Handbook of Psychology",
+		"event-place": "Hoboken, NJ, USA",
+		"ISBN": "978-0-471-26438-5",
+		"language": "en",
+		"note": "DOI: 10.1002/0471264385.wei0204",
+		"page": "wei0204",
+		"publisher": "John Wiley & Sons, Inc.",
+		"publisher-place": "Hoboken, NJ, USA",
+		"source": "DOI.org (Crossref)",
+		"title": "Methods for handling missing data",
+		"URL": "http://doi.wiley.com/10.1002/0471264385.wei0204",
+		"editor": [
+			{
+				"family": "Weiner",
+				"given": "Irving B."
+			}
+		],
+		"author": [
+			{
+				"family": "Graham",
+				"given": "John W."
+			},
+			{
+				"family": "Cumsille",
+				"given": "Patricio E."
+			},
+			{
+				"family": "Elek-Fisk",
+				"given": "Elvira"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					4,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/NB7QLYLA",
+		"type": "article-journal",
+		"abstract": "This methodological guidance article discusses the elements of a high-quality meta-analysis that is conducted within the context of a systematic review. Meta-analysis, a set of statistical techniques for synthesizing the results of multiple studies, is used when the guiding research question focuses on a quantitative summary of study results. In this guidance article, we discuss the systematic review methods that support high-quality meta-analyses and outline best practice meta-analysis methods for describing the distribution of effect sizes in a set of eligible studies. We also provide suggestions for transparently reporting the methods and results of meta-analyses to influence practice and policy. Given the increasing use of meta-analysis for important policy decisions, the methods and results of meta-analysis should be both transparent and reproducible.",
+		"container-title": "Review of Educational Research",
+		"DOI": "10.3102/0034654319877153",
+		"ISSN": "0034-6543, 1935-1046",
+		"issue": "1",
+		"journalAbbreviation": "Review of Educational Research",
+		"language": "en",
+		"page": "24-46",
+		"source": "DOI.org (Crossref)",
+		"title": "Methodological guidance paper: High-quality meta-analysis in a systematic review",
+		"title-short": "Methodological Guidance Paper",
+		"URL": "http://journals.sagepub.com/doi/10.3102/0034654319877153",
+		"volume": "90",
+		"author": [
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			},
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					6,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/G3X7SP76",
+		"type": "book",
+		"call-number": "H62 .C5859 1998",
+		"collection-number": "v. 2",
+		"collection-title": "Applied social research methods series",
+		"edition": "3rd ed",
+		"event-place": "Thousand Oaks, Calif",
+		"ISBN": "978-0-7619-1347-4",
+		"number-of-pages": "201",
+		"publisher": "Sage Publications",
+		"publisher-place": "Thousand Oaks, Calif",
+		"source": "Library of Congress ISBN",
+		"title": "Synthesizing research: A guide for literature reviews",
+		"title-short": "Synthesizing research",
+		"author": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1998"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/D7IWI238",
+		"type": "book",
+		"call-number": "HA31.2 .R83 1987",
+		"collection-title": "Wiley series in probability and mathematical statistics",
+		"event-place": "New York",
+		"ISBN": "978-0-471-08705-2",
+		"number-of-pages": "258",
+		"publisher": "Wiley",
+		"publisher-place": "New York",
+		"source": "Library of Congress ISBN",
+		"title": "Multiple imputation for nonresponse in surveys",
+		"author": [
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1987"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/F6YIMMZK",
+		"type": "article-journal",
+		"container-title": "Biometrika",
+		"DOI": "10.1093/biomet/84.1.33",
+		"ISSN": "0006-3444, 1464-3510",
+		"issue": "1",
+		"journalAbbreviation": "Biometrika",
+		"language": "en",
+		"page": "33-44",
+		"source": "DOI.org (Crossref)",
+		"title": "The analysis of longitudinal ordinal data with nonrandom drop-out",
+		"URL": "https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/84.1.33",
+		"volume": "84",
+		"author": [
+			{
+				"family": "Molenberghs",
+				"given": "G"
+			},
+			{
+				"family": "Kenward",
+				"given": "Michael G."
+			},
+			{
+				"family": "Lesaffre",
+				"given": "E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					3,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/WAJYUVLY",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series C (Applied Statistics)",
+		"DOI": "10.1111/1467-9876.00119",
+		"ISSN": "00359254, 14679876",
+		"issue": "3",
+		"language": "en",
+		"page": "425-438",
+		"source": "DOI.org (Crossref)",
+		"title": "Analysis of longitudinal data with non-ignorable non-monotone missing values",
+		"URL": "http://doi.wiley.com/10.1111/1467-9876.00119",
+		"volume": "47",
+		"author": [
+			{
+				"family": "Troxel",
+				"given": "A. B."
+			},
+			{
+				"family": "Harrington",
+				"given": "D. P."
+			},
+			{
+				"family": "Lipsitz",
+				"given": "S. R."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					1,
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/T9DZI9BQ",
+		"type": "article-journal",
+		"container-title": "Statistics in Medicine",
+		"DOI": "10.1002/sim.4780110509",
+		"ISSN": "02776715, 10970258",
+		"issue": "5",
+		"journalAbbreviation": "Statist. Med.",
+		"language": "en",
+		"page": "643-657",
+		"source": "DOI.org (Crossref)",
+		"title": "Closed-form estimates for missing counts in two-way contingency tables",
+		"URL": "http://doi.wiley.com/10.1002/sim.4780110509",
+		"volume": "11",
+		"author": [
+			{
+				"family": "Baker",
+				"given": "Stuart G."
+			},
+			{
+				"family": "Rosenberger",
+				"given": "William F."
+			},
+			{
+				"family": "Dersimonian",
+				"given": "Rebecca"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/2LUUY7WM",
+		"type": "chapter",
+		"container-title": "Handbook of Psychology",
+		"event-place": "Hoboken, NJ, USA",
+		"ISBN": "978-0-471-26438-5",
+		"language": "en",
+		"note": "DOI: 10.1002/0471264385.wei0204",
+		"page": "wei0204",
+		"publisher": "John Wiley & Sons, Inc.",
+		"publisher-place": "Hoboken, NJ, USA",
+		"source": "DOI.org (Crossref)",
+		"title": "Methods for handling missing data",
+		"URL": "http://doi.wiley.com/10.1002/0471264385.wei0204",
+		"editor": [
+			{
+				"family": "Weiner",
+				"given": "Irving B."
+			}
+		],
+		"author": [
+			{
+				"family": "Graham",
+				"given": "John W."
+			},
+			{
+				"family": "Cumsille",
+				"given": "Patricio E."
+			},
+			{
+				"family": "Elek-Fisk",
+				"given": "Elvira"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2003",
+					4,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/PNKSFHXY",
+		"type": "article-journal",
+		"container-title": "Journal of the Royal Statistical Society: Series B (Methodological)",
+		"DOI": "10.1111/j.2517-6161.1977.tb01600.x",
+		"ISSN": "00359246",
+		"issue": "1",
+		"journalAbbreviation": "Journal of the Royal Statistical Society: Series B (Methodological)",
+		"language": "en",
+		"page": "1-22",
+		"source": "DOI.org (Crossref)",
+		"title": "Maximum likelihood from incomplete data via the EM algorithm",
+		"URL": "http://doi.wiley.com/10.1111/j.2517-6161.1977.tb01600.x",
+		"volume": "39",
+		"author": [
+			{
+				"family": "Dempster",
+				"given": "A. P."
+			},
+			{
+				"family": "Laird",
+				"given": "N. M."
+			},
+			{
+				"family": "Rubin",
+				"given": "D. B."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1977",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/GZPQSRQH",
+		"type": "article-journal",
+		"container-title": "The Annals of Mathematical Statistics",
+		"DOI": "10.1214/aoms/1177704711",
+		"ISSN": "0003-4851",
+		"issue": "1",
+		"journalAbbreviation": "Ann. Math. Statist.",
+		"language": "en",
+		"page": "1-67",
+		"source": "DOI.org (Crossref)",
+		"title": "The future of data analysis",
+		"URL": "http://projecteuclid.org/euclid.aoms/1177704711",
+		"volume": "33",
+		"author": [
+			{
+				"family": "Tukey",
+				"given": "John W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1962",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XP6NI3GE",
+		"type": "article-journal",
+		"container-title": "Alcohol and Alcoholism",
+		"DOI": "10.1093/alcalc/agz024",
+		"ISSN": "0735-0414, 1464-3502",
+		"issue": "3",
+		"language": "en",
+		"page": "264-271",
+		"source": "DOI.org (Crossref)",
+		"title": "Effectiveness of workplace intervention for reducing alcohol consumption: A systematic review and meta-analysis",
+		"title-short": "Effectiveness of Workplace Intervention for Reducing Alcohol Consumption",
+		"URL": "https://academic.oup.com/alcalc/article/54/3/264/5430493",
+		"volume": "54",
+		"author": [
+			{
+				"family": "Yuvaraj",
+				"given": "K"
+			},
+			{
+				"family": "Eliyas",
+				"given": "Salin K"
+			},
+			{
+				"family": "Gokul",
+				"given": "S"
+			},
+			{
+				"family": "Manikandanesan",
+				"given": "S"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					5,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/MVTL3UIJ",
+		"type": "article-journal",
+		"container-title": "Journal of Medical Internet Research",
+		"DOI": "10.2196/10859",
+		"ISSN": "1438-8871",
+		"issue": "4",
+		"journalAbbreviation": "J Med Internet Res",
+		"language": "en",
+		"page": "e10859",
+		"source": "DOI.org (Crossref)",
+		"title": "Technology-based alcohol interventions in primary care: Systematic review",
+		"title-short": "Technology-Based Alcohol Interventions in Primary Care",
+		"URL": "https://www.jmir.org/2019/4/e10859/",
+		"volume": "21",
+		"author": [
+			{
+				"family": "Ramsey",
+				"given": "Alex T"
+			},
+			{
+				"family": "Satterfield",
+				"given": "Jason M"
+			},
+			{
+				"family": "Gerke",
+				"given": "Donald R"
+			},
+			{
+				"family": "Proctor",
+				"given": "Enola K"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					4,
+					8
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ELU49F73",
+		"type": "article-journal",
+		"container-title": "Journal of Medical Internet Research",
+		"DOI": "10.2196/jmir.1479",
+		"ISSN": "1438-8871",
+		"issue": "5",
+		"journalAbbreviation": "J Med Internet Res",
+		"language": "en",
+		"page": "e62",
+		"source": "DOI.org (Crossref)",
+		"title": "Online alcohol Interventions: A systematic review",
+		"title-short": "Online Alcohol Interventions",
+		"URL": "http://www.jmir.org/2010/5/e62/",
+		"volume": "12",
+		"author": [
+			{
+				"family": "White",
+				"given": "Angela"
+			},
+			{
+				"family": "Kavanagh",
+				"given": "David"
+			},
+			{
+				"family": "Stallman",
+				"given": "Helen"
+			},
+			{
+				"family": "Klein",
+				"given": "Britt"
+			},
+			{
+				"family": "Kay-Lambkin",
+				"given": "Frances"
+			},
+			{
+				"family": "Proudfoot",
+				"given": "Judy"
+			},
+			{
+				"family": "Drennan",
+				"given": "Judy"
+			},
+			{
+				"family": "Connor",
+				"given": "Jason"
+			},
+			{
+				"family": "Baker",
+				"given": "Amanda"
+			},
+			{
+				"family": "Hines",
+				"given": "Emily"
+			},
+			{
+				"family": "Young",
+				"given": "Ross"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010",
+					12,
+					19
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/B7Q9LX76",
+		"type": "article-journal",
+		"container-title": "Alcohol and Alcoholism",
+		"DOI": "10.1093/alcalc/agy032",
+		"ISSN": "0735-0414, 1464-3502",
+		"issue": "4",
+		"language": "en",
+		"page": "412-425",
+		"source": "DOI.org (Crossref)",
+		"title": "A systematic review of the efficacy of alcohol interventions for incarcerated people",
+		"URL": "https://academic.oup.com/alcalc/article/53/4/412/4994601",
+		"volume": "53",
+		"author": [
+			{
+				"family": "Newbury-Birch",
+				"given": "Dorothy"
+			},
+			{
+				"family": "Ferguson",
+				"given": "Jennifer"
+			},
+			{
+				"family": "Landale",
+				"given": "Sarah"
+			},
+			{
+				"family": "Giles",
+				"given": "Emma L"
+			},
+			{
+				"family": "McGeechan",
+				"given": "Grant J"
+			},
+			{
+				"family": "Gill",
+				"given": "Charlotte"
+			},
+			{
+				"family": "Stockdale",
+				"given": "Kelly J"
+			},
+			{
+				"family": "Holloway",
+				"given": "Aisha"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					7,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ZIYEZJWX",
+		"type": "article-journal",
+		"abstract": "Multiple imputation is a straightforward method for handling missing data in a principled fashion. This paper presents an overview of multiple imputation, including important theoretical results and their practical implications for generating and using multiple imputations. A review of strategies for generating imputations follows, including recent developments in flexible joint modeling and sequential regression/chained equations/fully conditional specification approaches. Finally, we compare and contrast different methods for generating imputations on a range of criteria before identifying promising avenues for future research.",
+		"container-title": "arXiv:1801.04058 [stat]",
+		"note": "arXiv: 1801.04058",
+		"source": "arXiv.org",
+		"title": "Multiple imputation: A review of practical and theoretical findings",
+		"title-short": "Multiple Imputation",
+		"URL": "http://arxiv.org/abs/1801.04058",
+		"author": [
+			{
+				"family": "Murray",
+				"given": "Jared S."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					20
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					1,
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/BP3NW7J4",
+		"type": "article",
+		"title": "Comprehensive Meta-Analysis Version 3.0",
+		"URL": "https://www.meta-analysis.com/downloads/Meta-Analysis Manual V3.pdf",
+		"author": [
+			{
+				"family": "Borenstein",
+				"given": "Michael"
+			},
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Higgins",
+				"given": "Julian PT"
+			},
+			{
+				"family": "Rothstein",
+				"given": "Hannah"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2012"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/T6DIEW9J",
+		"type": "article-journal",
+		"container-title": "Bioinformatics",
+		"DOI": "10.1093/bioinformatics/btx364",
+		"ISSN": "1367-4803, 1460-2059",
+		"issue": "18",
+		"language": "en",
+		"page": "2938-2940",
+		"source": "DOI.org (Crossref)",
+		"title": "UpSetR: an R package for the visualization of intersecting sets and their properties",
+		"title-short": "UpSetR",
+		"URL": "https://academic.oup.com/bioinformatics/article/33/18/2938/3884387",
+		"volume": "33",
+		"author": [
+			{
+				"family": "Conway",
+				"given": "Jake R"
+			},
+			{
+				"family": "Lex",
+				"given": "Alexander"
+			},
+			{
+				"family": "Gehlenborg",
+				"given": "Nils"
+			}
+		],
+		"editor": [
+			{
+				"family": "Hancock",
+				"given": "John"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					9,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XG73GU4R",
+		"type": "article-journal",
+		"container-title": "The Journal of Open Source Software",
+		"DOI": "10.21105/joss.00355",
+		"ISSN": "2475-9066",
+		"issue": "16",
+		"journalAbbreviation": "JOSS",
+		"page": "355",
+		"source": "DOI.org (Crossref)",
+		"title": "visdat: Visualising whole data frames",
+		"title-short": "visdat",
+		"URL": "http://joss.theoj.org/papers/10.21105/joss.00355",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Tierney",
+				"given": "Nicholas J."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					8,
+					22
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/XWU6ERPF",
+		"type": "article",
+		"title": "OpenMetaAnalyst: Powerful open-source software for meta-analysis",
+		"URL": "https://effectivehealthcare.ahrq.gov/products/open-meta-analyst/abstract",
+		"author": [
+			{
+				"family": "Trikalinos",
+				"given": "Tom"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2012"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/S2XHUBCE",
+		"type": "article-journal",
+		"container-title": "Journal of Statistical Software",
+		"DOI": "10.18637/jss.v036.i03",
+		"ISSN": "1548-7660",
+		"issue": "3",
+		"journalAbbreviation": "J. Stat. Soft.",
+		"language": "en",
+		"source": "DOI.org (Crossref)",
+		"title": "Conducting meta-analyses in R with the metafor package",
+		"URL": "http://www.jstatsoft.org/v36/i03/",
+		"volume": "36",
+		"author": [
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2010"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/EVLALW8N",
+		"type": "article-journal",
+		"container-title": "BMJ",
+		"DOI": "10.1136/bmj.315.7109.629",
+		"ISSN": "0959-8138, 1468-5833",
+		"issue": "7109",
+		"journalAbbreviation": "BMJ",
+		"language": "en",
+		"page": "629-634",
+		"source": "DOI.org (Crossref)",
+		"title": "Bias in meta-analysis detected by a simple, graphical test",
+		"URL": "http://www.bmj.com/cgi/doi/10.1136/bmj.315.7109.629",
+		"volume": "315",
+		"author": [
+			{
+				"family": "Egger",
+				"given": "M."
+			},
+			{
+				"family": "Smith",
+				"given": "G. D."
+			},
+			{
+				"family": "Schneider",
+				"given": "M."
+			},
+			{
+				"family": "Minder",
+				"given": "C."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/X8RUF82W",
+		"type": "book",
+		"call-number": "H62 .L46 1984",
+		"event-place": "Cambridge, Mass",
+		"ISBN": "978-0-674-85430-7",
+		"number-of-pages": "191",
+		"publisher": "Harvard University Press",
+		"publisher-place": "Cambridge, Mass",
+		"source": "Library of Congress ISBN",
+		"title": "Summing up: the science of reviewing research",
+		"title-short": "Summing up",
+		"author": [
+			{
+				"family": "Light",
+				"given": "Richard J."
+			},
+			{
+				"family": "Pillemer",
+				"given": "David B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1984"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/87R7E9T8",
+		"type": "article-journal",
+		"container-title": "Journal of Educational Statistics",
+		"DOI": "10.2307/1164832",
+		"ISSN": "03629791",
+		"issue": "1",
+		"journalAbbreviation": "Journal of Educational Statistics",
+		"page": "61",
+		"source": "DOI.org (Crossref)",
+		"title": "Estimation of effect size under nonrandom sampling: The effects of censoring studies yielding statistically insignificant mean differences",
+		"title-short": "Estimation of Effect Size under Nonrandom Sampling",
+		"URL": "https://www.jstor.org/stable/1164832?origin=crossref",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1984"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/GFKLV43K",
+		"type": "book",
+		"call-number": "HA29 .H425 1985",
+		"event-place": "Orlando",
+		"ISBN": "978-0-12-336380-0",
+		"number-of-pages": "369",
+		"publisher": "Academic Press",
+		"publisher-place": "Orlando",
+		"source": "Library of Congress ISBN",
+		"title": "Statistical methods for meta-analysis",
+		"author": [
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Olkin",
+				"given": "Ingram"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1985"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/T9T6EX6T",
+		"type": "article-journal",
+		"container-title": "Psychological Bulletin",
+		"DOI": "10.1037/0033-2909.86.3.638",
+		"ISSN": "0033-2909",
+		"issue": "3",
+		"journalAbbreviation": "Psychological Bulletin",
+		"language": "en",
+		"page": "638-641",
+		"source": "DOI.org (Crossref)",
+		"title": "The file drawer problem and tolerance for null results.",
+		"URL": "http://content.apa.org/journals/bul/86/3/638",
+		"volume": "86",
+		"author": [
+			{
+				"family": "Rosenthal",
+				"given": "Robert"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1979"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/TJWRQDFQ",
+		"type": "article",
+		"call-number": "250440",
+		"publisher": "Office of Justice Programs",
+		"title": "Adolescent substance use treatment effectiveness: A systematic review and meta-analysis",
+		"author": [
+			{
+				"family": "Tanner-Smith",
+				"given": "Emily E."
+			},
+			{
+				"family": "Steinka-Fry",
+				"given": "Katarzyna T."
+			},
+			{
+				"family": "Kettrey",
+				"given": "Heather Hensman"
+			},
+			{
+				"family": "Lipsey",
+				"given": "Mark W."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2016",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/U6Z5LDZF",
+		"type": "article-journal",
+		"container-title": "The American Journal of Drug and Alcohol Abuse",
+		"DOI": "10.3109/00952990.2015.1136638",
+		"ISSN": "0095-2990, 1097-9891",
+		"issue": "2",
+		"journalAbbreviation": "The American Journal of Drug and Alcohol Abuse",
+		"language": "en",
+		"page": "140-151",
+		"source": "DOI.org (Crossref)",
+		"title": "A meta-analysis of brief alcohol interventions for adolescents and young adults: variability in effects across alcohol measures",
+		"title-short": "A meta-analysis of brief alcohol interventions for adolescents and young adults",
+		"URL": "http://www.tandfonline.com/doi/full/10.3109/00952990.2015.1136638",
+		"volume": "42",
+		"author": [
+			{
+				"family": "Tanner-Smith",
+				"given": "Emily E."
+			},
+			{
+				"family": "Risser",
+				"given": "Mark D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016",
+					3,
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HHM68DAT",
+		"type": "article-journal",
+		"container-title": "Journal of Substance Abuse Treatment",
+		"DOI": "10.1016/j.jsat.2012.05.006",
+		"ISSN": "07405472",
+		"issue": "2",
+		"journalAbbreviation": "Journal of Substance Abuse Treatment",
+		"language": "en",
+		"page": "145-158",
+		"source": "DOI.org (Crossref)",
+		"title": "The comparative effectiveness of outpatient treatment for adolescent substance abuse: A meta-analysis",
+		"title-short": "The comparative effectiveness of outpatient treatment for adolescent substance abuse",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0740547212001055",
+		"volume": "44",
+		"author": [
+			{
+				"family": "Tanner-Smith",
+				"given": "Emily E."
+			},
+			{
+				"family": "Wilson",
+				"given": "Sandra Jo"
+			},
+			{
+				"family": "Lipsey",
+				"given": "Mark W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/7Z4QAJ93",
+		"type": "book",
+		"abstract": "This text provides a concise and clearly presented discussion of all the elements in a meta-analysis. It is illustrated with worked examples throughout, with visual explanations, using screenshots from Excel spreadsheets and computer programs such as Comprehensive Meta-Analysis (CMA) or Strata.",
+		"event-place": "Chichester, U.K.",
+		"ISBN": "9780470743386",
+		"language": "English",
+		"note": "OCLC: 352835868",
+		"publisher": "John Wiley & Sons",
+		"publisher-place": "Chichester, U.K.",
+		"source": "Open WorldCat",
+		"title": "Introduction to meta-analysis",
+		"URL": "http://public.ebookcentral.proquest.com/choice/publicfullrecord.aspx?p=427912",
+		"author": [
+			{
+				"family": "Borenstein",
+				"given": "Michael"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/GRX63CCJ",
+		"type": "book",
+		"call-number": "Q180.55.M4 H35 2019",
+		"edition": "3rd edition",
+		"event-place": "New York",
+		"ISBN": "978-0-87154-005-8",
+		"publisher": "Russell Sage Foundation",
+		"publisher-place": "New York",
+		"source": "Library of Congress ISBN",
+		"title": "Handbook of research synthesis and meta-analysis",
+		"editor": [
+			{
+				"family": "Cooper",
+				"given": "Harris M."
+			},
+			{
+				"family": "Hedges",
+				"given": "Larry V."
+			},
+			{
+				"family": "Valentine",
+				"given": "Jeff C."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/G3MI89AX",
+		"type": "book",
+		"call-number": "R853.M48 P83 2005",
+		"event-place": "Chichester, England ; Hoboken, NJ",
+		"ISBN": "978-0-470-87014-3",
+		"note": "OCLC: ocm61211258",
+		"number-of-pages": "356",
+		"publisher": "Wiley",
+		"publisher-place": "Chichester, England ; Hoboken, NJ",
+		"source": "Library of Congress ISBN",
+		"title": "Publication bias in meta-analysis: prevention, assessment and adjustments",
+		"title-short": "Publication bias in meta-analysis",
+		"editor": [
+			{
+				"family": "Rothstein",
+				"given": "Hannah"
+			},
+			{
+				"family": "Sutton",
+				"given": "A. J."
+			},
+			{
+				"family": "Borenstein",
+				"given": "Michael"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2005"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/X33X7IDW",
+		"type": "article-journal",
+		"container-title": "Applied Statistics",
+		"DOI": "10.2307/2986113",
+		"ISSN": "00359254",
+		"issue": "1",
+		"journalAbbreviation": "Applied Statistics",
+		"page": "49",
+		"source": "DOI.org (Crossref)",
+		"title": "Informative drop-out in longitudinal data analysis",
+		"URL": "https://www.jstor.org/stable/2986113?origin=crossref",
+		"volume": "43",
+		"author": [
+			{
+				"family": "Diggle",
+				"given": "P."
+			},
+			{
+				"family": "Kenward",
+				"given": "M. G."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1994"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/QYZLB34G",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.1995.10476615",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "431",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "1112-1121",
+		"source": "DOI.org (Crossref)",
+		"title": "Modeling the drop-out mechanism in repeated-measures studies",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/01621459.1995.10476615",
+		"volume": "90",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1995",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/BWUP5G7D",
+		"type": "article-journal",
+		"container-title": "The Stata Journal: Promoting communications on statistics and Stata",
+		"DOI": "10.1177/1536867X1301300407",
+		"ISSN": "1536-867X, 1536-8734",
+		"issue": "4",
+		"journalAbbreviation": "The Stata Journal",
+		"language": "en",
+		"page": "795-809",
+		"source": "DOI.org (Crossref)",
+		"title": "Little's test of missing completely at random",
+		"URL": "http://journals.sagepub.com/doi/10.1177/1536867X1301300407",
+		"volume": "13",
+		"author": [
+			{
+				"family": "Li",
+				"given": "Cheng"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/CHJPYDVF",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.2015.1136826",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "517",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "314-320",
+		"source": "DOI.org (Crossref)",
+		"title": "Conditions for ignoring the missing-data mechanism in likelihood inferences for parameter subsets",
+		"URL": "https://www.tandfonline.com/doi/full/10.1080/01621459.2015.1136826",
+		"volume": "112",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			},
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			},
+			{
+				"family": "Zangeneh",
+				"given": "Sahar Z."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2017",
+					1,
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/VAPQI452",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.1988.10478722",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "404",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "1198-1202",
+		"source": "DOI.org (Crossref)",
+		"title": "A test of missing completely at random for multivariate data with missing values",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722",
+		"volume": "83",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1988",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/V5RF5YEC",
+		"type": "article-journal",
+		"container-title": "The Journal of Experimental Education",
+		"DOI": "10.1080/00220973.2018.1561404",
+		"ISSN": "0022-0973, 1940-0683",
+		"issue": "2",
+		"journalAbbreviation": "The Journal of Experimental Education",
+		"language": "en",
+		"page": "288-310",
+		"source": "DOI.org (Crossref)",
+		"title": "Testing Categorical Moderators in Mixed-Effects Meta-analysis in the Presence of Heteroscedasticity",
+		"URL": "https://www.tandfonline.com/doi/full/10.1080/00220973.2018.1561404",
+		"volume": "88",
+		"author": [
+			{
+				"family": "Rubio-Aparicio",
+				"given": "María"
+			},
+			{
+				"family": "López-López",
+				"given": "José Antonio"
+			},
+			{
+				"family": "Viechtbauer",
+				"given": "Wolfgang"
+			},
+			{
+				"family": "Marín-Martínez",
+				"given": "Fulgencio"
+			},
+			{
+				"family": "Botella",
+				"given": "Juan"
+			},
+			{
+				"family": "Sánchez-Meca",
+				"given": "Julio"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					7
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					2,
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ZZK6U3BF",
+		"type": "article-journal",
+		"container-title": "Journal of Statistical Software",
+		"DOI": "10.18637/jss.v045.i02",
+		"ISSN": "1548-7660",
+		"issue": "2",
+		"journalAbbreviation": "J. Stat. Soft.",
+		"language": "en",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation with diagnostics mi in R : Opening windows into the black box",
+		"title-short": "Multiple Imputation with Diagnostics ( <b>mi</b> ) in <i>R</i>",
+		"URL": "http://www.jstatsoft.org/v45/i02/",
+		"volume": "45",
+		"author": [
+			{
+				"family": "Su",
+				"given": "Yu-Sung"
+			},
+			{
+				"family": "Gelman",
+				"given": "Andrew"
+			},
+			{
+				"family": "Hill",
+				"given": "Jennifer"
+			},
+			{
+				"family": "Yajima",
+				"given": "Masanao"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2011"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/T82SAVZT",
+		"type": "article-journal",
+		"container-title": "Statistical Science",
+		"DOI": "10.1214/13-STS415",
+		"ISSN": "0883-4237",
+		"issue": "2",
+		"journalAbbreviation": "Statist. Sci.",
+		"language": "en",
+		"page": "257-268",
+		"source": "DOI.org (Crossref)",
+		"title": "What is meant by 'missing at random'?",
+		"URL": "http://projecteuclid.org/euclid.ss/1369147915",
+		"volume": "28",
+		"author": [
+			{
+				"family": "Seaman",
+				"given": "Shaun"
+			},
+			{
+				"family": "Galati",
+				"given": "John"
+			},
+			{
+				"family": "Jackson",
+				"given": "Dan"
+			},
+			{
+				"family": "Carlin",
+				"given": "John"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					5
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/RLSU3EQA",
+		"type": "article-journal",
+		"abstract": "Policy analysts involved in quantitative research have many options for\n                        handling missing data. The method chosen will often greatly influence the\n                        substantive policy conclusions that will be drawn from the data. The most\n                        frequent methods for handling missing data assume that the data are missing\n                        at random (MAR). The current paper notes that an omnibus, nonparametric test\n                        of the MAR assumption is impossible using the observed data alone.\n                        Nonetheless various purported tests of the missingness mechanism (including\n                        tests of MAR) appear in the literature. The current paper clarifies that all\n                        of these tests rely on some assumption that cannot be tested from the data.\n                        The paper notes that tests of the missingness mechanism are frequently\n                        misinterpreted and it clarifies the appropriate interpretation of such\n                        tests. Policy analysts are encouraged not to develop the false impression\n                        that modern procedures for handling missing data in conjunction with tests\n                        of the missingness mechanism provide protection against the ill effects of\n                        missing data. Any justification for a particular approach to handling\n                        missing data must be come from substantive knowledge of the missingness\n                        process, not from the data.",
+		"container-title": "Statistics, Politics, and Policy",
+		"DOI": "10.1515/2151-7509.1012",
+		"ISSN": "2151-7509",
+		"issue": "1",
+		"source": "DOI.org (Crossref)",
+		"title": "Problems with tests of the missingness mechanism in quantitative policy studies",
+		"URL": "http://www.degruyter.com/view/j/spp.2012.3.issue-1/2151-7509.1012/2151-7509.1012.xml",
+		"volume": "3",
+		"author": [
+			{
+				"family": "Rhoads",
+				"given": "Christopher H."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2012",
+					1,
+					26
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/HZ9N4EEJ",
+		"type": "article-journal",
+		"container-title": "Educational Research and Evaluation",
+		"DOI": "10.1076/edre.7.4.353.8937",
+		"ISSN": "1380-3611, 1744-4187",
+		"issue": "4",
+		"journalAbbreviation": "Educational Research and Evaluation",
+		"language": "en",
+		"page": "353-383",
+		"source": "DOI.org (Crossref)",
+		"title": "A review of methods for missing data",
+		"URL": "https://www.tandfonline.com/doi/full/10.1076/edre.7.4.353.8937",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/97CDSRY4",
+		"type": "article-journal",
+		"container-title": "Evaluation & the Health Professions",
+		"DOI": "10.1177/01632780122034920",
+		"ISSN": "0163-2787, 1552-3918",
+		"issue": "3",
+		"journalAbbreviation": "Eval Health Prof",
+		"language": "en",
+		"page": "277-307",
+		"source": "DOI.org (Crossref)",
+		"title": "Missing predictors in models of effect size",
+		"URL": "http://journals.sagepub.com/doi/10.1177/01632780122034920",
+		"volume": "24",
+		"author": [
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/RB37NZY8",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.1990.10474938",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "411",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "765-769",
+		"source": "DOI.org (Crossref)",
+		"title": "Incomplete data in generalized linear models",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/01621459.1990.10474938",
+		"volume": "85",
+		"author": [
+			{
+				"family": "Ibrahim",
+				"given": "Joseph G."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1990",
+					9
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/M4GYC5KE",
+		"type": "article-journal",
+		"container-title": "Annual Review of Psychology",
+		"DOI": "10.1146/annurev.psych.58.110405.085530",
+		"ISSN": "0066-4308, 1545-2085",
+		"issue": "1",
+		"journalAbbreviation": "Annu. Rev. Psychol.",
+		"language": "en",
+		"page": "549-576",
+		"source": "DOI.org (Crossref)",
+		"title": "Missing data analysis: Making it work in the real world",
+		"title-short": "Missing Data Analysis",
+		"URL": "http://www.annualreviews.org/doi/10.1146/annurev.psych.58.110405.085530",
+		"volume": "60",
+		"author": [
+			{
+				"family": "Graham",
+				"given": "John W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009",
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/WQUJ6G9P",
+		"type": "article-journal",
+		"container-title": "Communications in Statistics - Simulation and Computation",
+		"DOI": "10.1080/03610918.2014.911894",
+		"ISSN": "0361-0918, 1532-4141",
+		"issue": "3",
+		"journalAbbreviation": "Communications in Statistics - Simulation and Computation",
+		"language": "en",
+		"page": "968-985",
+		"source": "DOI.org (Crossref)",
+		"title": "Multiple imputation of predictor variables using generalized additive models",
+		"URL": "http://www.tandfonline.com/doi/full/10.1080/03610918.2014.911894",
+		"volume": "45",
+		"author": [
+			{
+				"family": "Jong",
+				"given": "Roel",
+				"non-dropping-particle": "de"
+			},
+			{
+				"family": "Buuren",
+				"given": "Stef",
+				"non-dropping-particle": "van"
+			},
+			{
+				"family": "Spiess",
+				"given": "Martin"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2016",
+					3,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/RLTDEIHA",
+		"type": "article-journal",
+		"container-title": "Journal of Statistical Software",
+		"DOI": "10.18637/jss.v068.i06",
+		"ISSN": "1548-7660",
+		"issue": "6",
+		"journalAbbreviation": "J. Stat. Soft.",
+		"language": "en",
+		"source": "DOI.org (Crossref)",
+		"title": "Visually exploring missing values in multivariable data using a graphical user interface",
+		"URL": "http://www.jstatsoft.org/v68/i06/",
+		"volume": "68",
+		"author": [
+			{
+				"family": "Cheng",
+				"given": "Xiaoyue"
+			},
+			{
+				"family": "Cook",
+				"given": "Dianne"
+			},
+			{
+				"family": "Hofmann",
+				"given": "Heike"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					24
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2015"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/G3BTFSUS",
+		"type": "article-journal",
+		"container-title": "Journal of Computational and Graphical Statistics",
+		"DOI": "10.2307/1390754",
+		"ISSN": "10618600",
+		"issue": "1",
+		"journalAbbreviation": "Journal of Computational and Graphical Statistics",
+		"page": "78",
+		"source": "DOI.org (Crossref)",
+		"title": "Interactive high-dimensional data visualization",
+		"URL": "https://www.jstor.org/stable/1390754?origin=crossref",
+		"volume": "5",
+		"author": [
+			{
+				"family": "Buja",
+				"given": "Andreas"
+			},
+			{
+				"family": "Cook",
+				"given": "Dianne"
+			},
+			{
+				"family": "Swayne",
+				"given": "Deborah F."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1996",
+					3
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/ECWZCLDI",
+		"type": "book",
+		"event-place": "Hoboken, NJ, USA",
+		"ISBN": "978-1-119-01356-3",
+		"language": "en",
+		"note": "DOI: 10.1002/9781119013563",
+		"publisher": "John Wiley & Sons, Inc.",
+		"publisher-place": "Hoboken, NJ, USA",
+		"source": "DOI.org (Crossref)",
+		"title": "Statistical Analysis with Missing Data",
+		"title-short": "Statistical Analysis with Missing Data",
+		"URL": "http://doi.wiley.com/10.1002/9781119013563",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			},
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					8,
+					26
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/YDKLMV5L",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.1339",
+		"ISSN": "17592879",
+		"issue": "2",
+		"journalAbbreviation": "Res Syn Meth",
+		"language": "en",
+		"page": "180-194",
+		"source": "DOI.org (Crossref)",
+		"title": "Current practices in meta-regression in psychology, education, and medicine",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.1339",
+		"volume": "10",
+		"author": [
+			{
+				"family": "Tipton",
+				"given": "Elizabeth"
+			},
+			{
+				"family": "Pustejovsky",
+				"given": "James E."
+			},
+			{
+				"family": "Ahmadi",
+				"given": "Hedyeh"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					30
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/DQBQZTDP",
+		"type": "article-journal",
+		"container-title": "Research Synthesis Methods",
+		"DOI": "10.1002/jrsm.1338",
+		"ISSN": "17592879",
+		"issue": "2",
+		"journalAbbreviation": "Res Syn Meth",
+		"language": "en",
+		"page": "161-179",
+		"source": "DOI.org (Crossref)",
+		"title": "A history of meta-regression: Technical, conceptual, and practical developments between 1974 and 2018",
+		"title-short": "A history of meta-regression",
+		"URL": "http://doi.wiley.com/10.1002/jrsm.1338",
+		"volume": "10",
+		"author": [
+			{
+				"family": "Tipton",
+				"given": "Elizabeth"
+			},
+			{
+				"family": "Pustejovsky",
+				"given": "James E."
+			},
+			{
+				"family": "Ahmadi",
+				"given": "Hedyeh"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					4,
+					30
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/926B7429",
+		"type": "chapter",
+		"container-title": "The Handbook for Research Synthesis and Meta-analysis",
+		"edition": "3",
+		"event-place": "New York",
+		"publisher": "Russell Sage",
+		"publisher-place": "New York",
+		"title": "Handling missing data",
+		"author": [
+			{
+				"family": "Pigott",
+				"given": "Therese D."
+			}
+		],
+		"editor": [
+			{
+				"literal": "Harris Cooper"
+			},
+			{
+				"literal": "Larry V. Hedges"
+			},
+			{
+				"literal": "Jeffrey C. Valentine"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/PNR2H5K3",
+		"type": "article-journal",
+		"container-title": "Biometrika",
+		"DOI": "10.1093/biomet/63.3.581",
+		"ISSN": "0006-3444, 1464-3510",
+		"issue": "3",
+		"journalAbbreviation": "Biometrika",
+		"language": "en",
+		"page": "581-592",
+		"source": "DOI.org (Crossref)",
+		"title": "Inference and missing data",
+		"URL": "https://academic.oup.com/biomet/article-lookup/doi/10.1093/biomet/63.3.581",
+		"volume": "63",
+		"author": [
+			{
+				"family": "Rubin",
+				"given": "Donald B."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1976"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/AMFYW4DE",
+		"type": "article-journal",
+		"abstract": "Statistical procedures for missing data have vastly improved, yet misconception and unsound practice still abound. The authors frame the missing-data problem, review methods, offer advice, and raise issues that remain unresolved. They clear up common misunderstandings regarding the missing at random (MAR) concept. They summarize the evidence against older procedures and, with few exceptions, discourage their use. They present, in both technical and practical language, 2 general approaches that come highly recommended: maximum likelihood (ML) and Bayesian multiple imputation (MI). Newer developments are discussed, including some for dealing with missing data that are not MAR. Although not yet in the mainstream, these procedures may eventually extend the ML and MI methods that currently represent the state of the art.",
+		"container-title": "Psychological Methods",
+		"ISSN": "1082-989X",
+		"issue": "2",
+		"journalAbbreviation": "Psychol Methods",
+		"language": "eng",
+		"note": "PMID: 12090408",
+		"page": "147-177",
+		"source": "PubMed",
+		"title": "Missing data: our view of the state of the art",
+		"title-short": "Missing data",
+		"volume": "7",
+		"author": [
+			{
+				"family": "Schafer",
+				"given": "Joseph L."
+			},
+			{
+				"family": "Graham",
+				"given": "John W."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2002",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/7S5X2T7Q",
+		"type": "chapter",
+		"title": "Handling missing data",
+		"author": [
+			{
+				"family": "T",
+				"given": ""
+			}
+		]
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/D7CMTDJR",
+		"type": "book",
+		"event-place": "New York, NY",
+		"ISBN": "978-1-4614-4017-8",
+		"language": "en",
+		"note": "DOI: 10.1007/978-1-4614-4018-5",
+		"publisher": "Springer New York",
+		"publisher-place": "New York, NY",
+		"source": "DOI.org (Crossref)",
+		"title": "Missing Data",
+		"URL": "http://link.springer.com/10.1007/978-1-4614-4018-5",
+		"author": [
+			{
+				"family": "Graham",
+				"given": "John W."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2012"
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/22CH7PLF",
+		"type": "book",
+		"edition": "2",
+		"event-place": "Second edition. | Boca Raton, Florida : CRC Press, [2019] |",
+		"ISBN": "978-0-429-49225-9",
+		"language": "en",
+		"note": "DOI: 10.1201/9780429492259",
+		"publisher": "Chapman and Hall/CRC",
+		"publisher-place": "Second edition. | Boca Raton, Florida : CRC Press, [2019] |",
+		"source": "DOI.org (Crossref)",
+		"title": "Flexible Imputation of Missing Data, Second Edition",
+		"URL": "https://www.taylorfrancis.com/books/9780429492259",
+		"author": [
+			{
+				"family": "Buuren",
+				"given": "Stef",
+				"non-dropping-particle": "van"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2018",
+					7,
+					17
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/UHPJTAE8",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.1992.10476282",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "420",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "1227-1237",
+		"source": "DOI.org (Crossref)",
+		"title": "Regression with missing <i>X</i> 's: A review",
+		"title-short": "Regression with Missing <i>X</i> 's",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10476282",
+		"volume": "87",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					11,
+					2
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "http://zotero.org/groups/2494705/items/CJV8PASB",
+		"type": "article-journal",
+		"container-title": "Cambridge, MA: Harvard School of Public Health, Department of Biostatistics",
+		"title": "Regression estimates and missing data: Complete case analysis",
+		"author": [
+			{
+				"family": "Glynn",
+				"given": "R. J."
+			},
+			{
+				"family": "Laird",
+				"given": "Nan M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1986"
+				]
+			]
+		}
+	}
+]
