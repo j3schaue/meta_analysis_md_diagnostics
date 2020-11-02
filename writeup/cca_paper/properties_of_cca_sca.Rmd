@@ -617,8 +617,8 @@ Under this selection model, the bias of the complete-case estimator for the inte
 \end{equation}
 where $\bar{v}_0$ is the average estimation error variance $v_i$ among effects for which $X_i = 0$ and $R_i = 1$.
 The expression in \@ref(eq:cc-bias-b0) depends on three key quantities, and is an increasing function of each of those quantities.
-First, the bias increases in $H_1(0)$, which is an approximation of the probability of being missing among studies for which $X_i = 0$. 
-While under model \@ref(eq:cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X$ among effects for which $X_i = 0$.
+First, the bias increases in $H_1(0)$, which is an approximation of the probability that $X_i$ is missing among studies for which $X_i = 0$. 
+While under model \@ref(eq:cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X_i$ among effects for which $X_i = 0$.
 Second, the bias in \@ref(eq:cc-bias-b0) is increasing in $\bar{v}_0 + \tau^2$, the average variation of $T_i$ for which $X_i = 0$; the greater the variation, the greater the bias.
 Because the $v_i$ are typically decreasing in sample size, if studies have smaller samples, the bias will be greater.
 Finally, the bias depends on $\psi_1$, which characterizes the relationship between an $X_i$ being observed and the size of $T_i$.
@@ -629,7 +629,7 @@ If we assume $T_i$ is on the scale of a standardized mean difference, $v_i \appr
 Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v/4$ to $\tau^2 = v$ [@hedgesPowerStatisticalTests2001; @hedgesPowerStatisticalTests2004; @hedgesStatisticalAnalysesStudying2019].
 Thus, we can write $\tau^2 + v = 4(1 + r)/n$ from some constant $r$ that ranges from 0 to 1. 
 
-Further, the parameter $\psi_1$ is in a log-odds ratio scale, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
+Further, the parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
 There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
 Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
 @fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
