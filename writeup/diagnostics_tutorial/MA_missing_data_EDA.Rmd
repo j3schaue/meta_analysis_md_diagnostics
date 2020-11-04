@@ -200,8 +200,6 @@ We are grateful to Tanner-Smith et al., who furnished their raw data, which will
 <!-- They also documented the demographics of subjects in the studies, such as the percentage of subjects who were minorities, as well as the substances that subjects reported using. -->
 
 Tanner-Smith et al. fit meta-regression models to their data in order to examine how treatment impacts varied according to the type of therapies and individuals studied. 
-<!-- Meta-regression is a statistical model analogous to linear regression, wherein effect estimates are regressed on covariates pertaining to those effects, including study- and effect-level information [@hedgesFittingContinuousModels24; @hedgesFittingCategoricalModels22; @cooperHandbookResearchSynthesis2019]. -->
-<!-- (JL) Moved to introduction. -->
 They found that assertive continuing care (ACC), behavioral therapy, (CBT), motivational enhancement therapy (MET), and family therapy tended to be more effective than generic "practice as usual" interventions that often involved referrals to community services.
 However, they found no association between characteristics of the adolescents in the studies and intervention effectiveness controlling for intervention type.
 In other words, intervention effectiveness was unrelated to the background characteristics of the adolescents in treatment.
@@ -212,14 +210,12 @@ To address this issue, Tanner-Smith et al. opted to estimate their meta-regressi
 The EM algorithm has also been studied as a useful approach to estimation when missing covariates in a statistical model, which was primarily the issue facing Tanner-Smith et al. [@ibrahimIncompleteDataGeneralized1990; @ibrahimMissingCovariatesGeneralized1999].
 
 There are several alternatives to the EM algorithm. 
-@pigottHandlingMissingData2019 discusses methods applicable to meta-analyses such as multiple imputation and full information maximum likelihood (FIML), as well as complete- and available-case analysis methods.
+@pigottHandlingMissingData2019 discusses methods applicable to meta-analyses such as multiple imputation (MI) and full information maximum likelihood (FIML), as well as complete- and available-case analysis methods.
 Each of these methods, including EM, rely on assumptions about the reason data are missing, and their effectiveness can be limited by how much data are missing [@grahamMissingDataAnalysis2009; @littleStatisticalAnalysisMissing2002; @pigottReviewMethodsMissing2001; @rubinMultipleImputationNonresponse1987; @rubinInferenceMissingData1976; @schaferMissingDataOur2002; @vanbuurenFlexibleImputationMissing2018]. 
 
 
 
 # Exploratory Missingness Analyses
-
-<!-- \textcolor{blue}{([JL] Because this section is more a general explanation, how about present this after introduction, before "Data" section? General -> Example using a real data)} -->
 
 The tools discussed in this article facilitate EMA to quantify and visualize missingness in a meta-analytic dataset [@bujaInteractiveHighdimensionalData1996; @chengVisuallyExploringMissing2015; @tierneyExpandingTidyData2018].
 The point of conducting an EMA is to better understand the pattern and potential impact of the missing data in a meta-analysis, which can aid researchers to make appropriate choices about an analysis strategy. Researchers can explore whether assumptions about the missingness mechanism are defensible and can also highlight areas where evidence is sparse. 
