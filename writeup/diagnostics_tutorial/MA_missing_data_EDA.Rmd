@@ -297,7 +297,7 @@ The observed data comprises all of the entries in $\mathbf{D}$ for which $R_{ij}
 For instance, the observed data would include the effect estimates $T_i$ and standard errors $\sigma_i$.
 The unobserved data comprises all of the entries of $\mathbf{D}$ for which $R_{ij} = 0$, including $X_{2, p-2}$ and $X_{k, 1}$.
 Denote the unobserved data as $\mathbf{D}_{mis}$.
-EMA differ from traditional exploratory data analyses (EDA) because they focus on missingness indicators in $\mathbf{R}$, as well as the relationship between those indicators and the observed data $\mathbf{D}_{obs}$.
+EMA differ from traditional exploratory data analyses (EDA) because they focus on response indicators in $\mathbf{R}$, as well as the relationship between those indicators and the observed data $\mathbf{D}_{obs}$.
 Many software tools, including most graphics software used to conduct a standard EDA omit observations with missing values, which would eliminate information about missingness [@tierneyVisdatVisualisingWhole2017].
 
 
@@ -311,9 +311,9 @@ any_sum = any_na_tab %>%
             wt_pct = sum(any_na/se^2)/sum(1/se^2) * 100)
 ```
 
-One issue with missingness involves how much data is missing, which can affect the accuracy of incomplete data analysis methods like the EM algorithm, multiple imputation, or even complete-case analyses.
+One issue with missingness involves how much data is missing, which can affect the accuracy of incomplete data analysis methods like the EM algorithm, multiple imputation (MI), or even complete-case analyses.
 @schaferMultipleImputationPrimer1999 suggests that if less than 5% of the data are missing, this can be inconsequential, and @bennettHowCanDeal2001 argues that a missingness rate of over 10% can induce non-negligible bias in statistical analyses.
-Statistical guidance regarding the effectiveness of procedures such as multiple imputation or FIML typically typically suggest that they are appropriate when missingness is less than 40% [@jakobsenWhenHowShould2017; @dongPrincipledMissingData2013]. 
+Statistical guidance regarding the effectiveness of procedures such as MI or FIML typically suggests that they are appropriate when missingness is less than 40% [@jakobsenWhenHowShould2017; @dongPrincipledMissingData2013]. 
 However, multiple imputation that involves informative auxiliary variables to impute missing data can perform well at higher rates of missingness under certain assumptions [@madley-dowdProportionMissingData2019].
 
 Missingness rates could refer to several different quantities in the datasets described in the previous section.
