@@ -14,7 +14,7 @@ output:
     toc: false
   bookdown::word_document2: 
     reference_docx: ../addons/styles_word.docx
-bibliography: ../addons/cca_references.json
+bibliography: ../addons/cca_references_1.json
 ---
 
 
@@ -513,8 +513,8 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 \label{eq:cc-mnar}
 \end{equation}
 Thus, if $R_i \perp T_i | X_i, v_i$, then the complete-case model will be the same as the complete-data model. 
-Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR. 
-\textcolor{blue}{[JL - This may be supported by Little \& Rubin (2002, CH3), citing "Glynn \& Laird (1986)". Note that the citation is in case of regression coefficients. I will use this later in the 5.1. Example section.]}
+Note that $R_i$ can still depend on $X_i$, including $X_{ij}$ that are not observed, which means that the data are MNAR.
+These findings are consistent with prior work regarding linear regression models with missing covariates [@glynnRegressionEstimatesMissing1986; @littleRegressionMissingReview1992].
 
 <!-- This result is consistent with the bias approximation in equation \@ref(eq:conditional-bias)).  There, the bias was a function of $f_{ij}'$, which is the derivative of $f_{ij}(T, X, v)$ with respect to $T$.  -->
 <!-- If $f_{ij}$ does not depend on $T$, so that $f_{ij}(T, X, v) \equiv f_{ij}(X, v)$ then the derivative will be zero, and hence $\psi_{ij}$ will not contribute to the bias. -->
@@ -578,14 +578,15 @@ The complete-case estimator for $\beta_1$ is given by the difference between the
 \label{eq:b1c-ex}
 \end{equation}
 
-Assume that the selection model is log-linear, and that missingness depends on the size of the effect $T_i$ and the value of $X_i$:
+Assume that the selection model is log-linear, and that for the sake of simplicity missingness depends on the size of the effect $T_i$ and the value of $X_i$:
 \begin{equation}
 \text{logit}[p(R_i = 1 | T_i, X_i, v_i)] 
   = \psi_0  + \psi_1 T_i + \psi_2 X_i
 \label{eq:cc-loglinear}
 \end{equation}
 Note that this is an MNAR mechanism, since the probability of being obesrved depends on $X_i$, however it differs from that in \@ref(eq:cc-mnar) in that it depends on $T_i$. 
-Because of this, $\delta_{ij} \neq 0$ for this selection model.
+A MAR mechanism would involve $\psi_2 = 0$ in equation \@ref(eq:cc-loglinear).
+Because \@ref(eq:cc-loglinear) depends on $T_i$, $\delta_{ij} \neq 0$ for this selection model, and hence the CCA estimators may be biased.
 
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
@@ -596,18 +597,18 @@ Given the result in equation \@ref(eq:conditional-bias), we can write
 \label{eq:cc-ex-delta}
 \end{equation}
 
-\textcolor{blue}{[JL - If this is changed for MAR:]}
+<!-- \textcolor{blue}{[JL - If this is changed for MAR:]} -->
 
-\textcolor{blue}{
-\begin{equation}
-\text{logit}[p(R_i = 1 | T_i, X_i, v_i)] 
-  = \psi_0  + \psi_1 T_i + \psi_2 v_i
-\label{eq:cc-loglinear}
-\end{equation}
-Note that this is an MAR mechanism, since the probability of being observed does not depend on $X_i$. 
-Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $v_i$ and not $X_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
-As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = v_i$. 
-*Other parts will remain the same except for the last part in this example.*]}
+<!-- \textcolor{blue}{ -->
+<!-- \begin{equation} -->
+<!-- \text{logit}[p(R_i = 1 | T_i, X_i, v_i)]  -->
+<!--   = \psi_0  + \psi_1 T_i + \psi_2 v_i -->
+<!-- \label{eq:cc-loglinear} -->
+<!-- \end{equation} -->
+<!-- Note that this is an MAR mechanism, since the probability of being observed does not depend on $X_i$.  -->
+<!-- Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $v_i$ and not $X_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.  -->
+<!-- As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = v_i$.  -->
+<!-- *Other parts will remain the same except for the last part in this example.*]} -->
 
 Under this selection model, the bias of the complete-case estimator for the intercept, $\beta_0$, is:
 \begin{equation}
@@ -701,6 +702,18 @@ However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is.
 \caption{This figure plots the bias of $\hat{\beta}_{1C}$ ($y$-axis). Each panel corresponds to a given value of residual heterogeneity $\tau^2$ and estimation error variance $v$. Within panels, the bias of $\hat{\beta}_{1C}$ is plotted as function of differential missingness rates ($p(R = 0 | X = 1) - p(R = 0 | X = 0)$), which is analogous to the correlation between the value of $X$ and whether it is observed. Bias is also shown as a function of $\psi_1$ which is the relationship between the probability of observing $X$ and the effect size $T$. Bias is shown on the scale of Cohen's $d$ and $\psi_1$ is on the scale of a log-odds ratio.}
 \label{fig:b1}
 \end{figure}
+
+The mechanism in these computations is assumed to be MNAR, since $\psi_2$ in \@ref(eq:cc-loglinear) is nonzero. 
+A MAR mechanism would require $\psi_2 = 0$. 
+In that case, the bias for the CCA intercept estimator is identical to the results above.
+However, the bias in the slope will be slightly different when $\psi_2 = 0$. 
+This is because, as noted noted in \@ref(eq:cc-bias-b1-simp), the bias in the intercept depends (loosely) on the correlation between $R$ and $X$. 
+Given the form of $H_1(X)$ in this example, it is possible for the bias of $\hat{\beta}_{1CC}$ to be greater when $\psi_2 \neq 0$ (MNAR) than when $\psi_2 = 0$ (MAR), which can occur if the correlation between $R$ and $T$ and $R$ and $X$ are in the same direction (i.e., $\psi_1, \psi_2$ are in the same direction).
+The bias of $\hat{\beta}_{1CC}$  when $\psi_2 \neq 0$ (MNAR) can be smaller in magnitude than when $\psi_2 = 0$ if $\psi_1$ and $\psi_2$ are in opposite directions.
+
+[NOTE1: We should run simulations to check]
+[NOTE2: We whould re-write the empirical example stuff, since I don't think it's well-justified]
+
 
 For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention ($X_1$). Among the observed cases of 54, 38 cases (about 70%) were coded as low-intensity intervention ($X_1 = 0|R=1$) and 16 cases (about 30%) were coded as high-intensity intervention ($X_1 = 1|R=1$). 
 
