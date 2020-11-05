@@ -14,7 +14,7 @@ bibliography: ../addons/references.json
 abstract: |
   | INTRODUCTION: While systematic reviews of substance abuse interventions hold great promise for informing what works for whom and under what conditions, such reviews must contend with missing data. Missing data can limit the accuracy of statistical analyses or the relevance of the evidence base.  Current methods for analyzing missing data require assumptions about the reasons that the missing data occur. 
   | OBJECTIVES: In this tutorial, we examine methods for exploring missingness in a dataset in ways that can help identify the sources and extent of missingness, as well as clarify gaps in evidence. 
-  | METHODS: Using a subset of data from Tanner et al. (2016), we demonstrate the use of exploratory missingness analysis (EMA) including techniques for numerical summaries and visual displays of missing data. 
+  | METHODS: Using raw data from Tanner et al. (2016), we demonstrate the use of exploratory missingness analysis (EMA) including techniques for numerical summaries and visual displays of missing data. 
   | RESULTS: These techniques examine the patterns of missing covariates in meta-analysis data and the relationships among variables with missing data and observed variables including the effect size. The case study shows complex relationships among missingness and other potential covariates in meta-regression, highlighting gaps in the evidence base.
   | CONCLUSION: We would advocate meta-analysts employ some form of EMA as they encounter missing data.
 ---
@@ -317,7 +317,7 @@ any_sum = any_na_tab %>%
 
 One issue with missingness involves how much data is missing, which can affect the accuracy of incomplete data analysis methods like the EM algorithm, multiple imputation, or even complete-case analyses.
 @schaferMultipleImputationPrimer1999 suggests that if less than 5% of the data are missing, this can be inconsequential, and @bennettHowCanDeal2001 argues that a missingness rate of over 10% can induce non-negligible bias in statistical analyses.
-Statistical guidance regarding the effectiveness of procedures such as multiple imputation or FIML typically typically suggest that they are appropriate when missingness is less than 40% [@jakobsenWhenHowShould2017; @dongPrincipledMissingData2013]. 
+Statistical guidance regarding the effectiveness of procedures such as multiple imputation or FIML  typically suggest that they are appropriate when missingness is less than 40% [@jakobsenWhenHowShould2017; @dongPrincipledMissingData2013]. 
 However, multiple imputation that involves informative auxiliary variables to impute missing data can perform well at higher rates of missingness under certain assumptions [@madley-dowdProportionMissingData2019].
 
 Missingness rates could refer to several different quantities in the datasets described in the previous section.
