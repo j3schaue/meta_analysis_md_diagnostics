@@ -119,6 +119,62 @@ rv_mod_hiint_g2 <- robu(formula = es_g ~ g2hi,
 rv_mod_hiint_g2
 ```
 
+## Correction for missingness
+
+```{r, echo = F, message = F, warning = F}
+dd_r <- dd %>%
+  select(studyid, es_g, v_g, g1hi, g2hi)
+
+m <- 100
+library(mice); set.seed(10)
+dd_mi <- mice(dd_r, m = m) # We can revise to completely random imputation.
+com <- complete(dd_mi, "long", include = FALSE) %>%
+  mutate(g1hi_na = rep(is.na(dd$g1hi), m), 
+         g2hi_na = rep(is.na(dd$g2hi), m))
+
+emp_bias_parmas <- com %>% 
+  group_by(.imp) %>%
+  summarize(H0_g1 = sum(g1hi == 0 & g1hi_na)/sum(g1hi_na == 0), 
+            H1_g1 = sum(g1hi == 1 & g1hi_na)/sum(g1hi_na == 1), 
+            H0_g2 = sum(g1hi == 0 & g1hi_na)/sum(g1hi_na == 0), 
+            H1_g2 = sum(g1hi == 1 & g1hi_na)/sum(g1hi_na == 1), 
+            p01 = sum(g2hi == 1 & g1hi == 0)/sum(g1hi == 0),
+            p11 = sum(g2hi == 1 & g1hi == 1)/sum(g1hi == 1),
+            v0_g1 = sum(v_g * (g1hi == 0))/sum(g1hi == 0), 
+            v1_g1 = sum(v_g * (g1hi == 1))/sum(g1hi == 1), 
+            v0_g2 = sum(v_g * (g2hi == 0))/sum(g2hi == 0), 
+            v1_g2 = sum(v_g * (g2hi == 1))/sum(g2hi == 1),
+            psi1_g1 = glm(I(1-g1hi_na) ~ g1hi + es_g, family = "binomial")$coefficients[["es_g"]],
+            psi1_g2 = glm(I(1-g2hi_na) ~ g2hi + es_g, family = "binomial")$coefficients[["es_g"]])
+
+betas <- lapply(1:m, 
+                FUN = function(i){
+                  dat <- com %>% filter(.imp == i)
+                  fit <- robu(es_g ~ g1hi + g2hi, data = dat, studynum = studyid, var.eff.size = v_g)
+                  mod <- fit$reg_table
+                  beta1 <- mod[[2, 2]]
+                  beta2 <- mod[[3, 2]]
+                  tau2 = as.numeric(sensitivity(fit)$`Rho = 0.2`[7])
+                  return(tibble(beta1 = beta1, beta2 = beta2, tau2 = tau2))
+                }) %>% 
+  bind_rows()
+
+ebp <- bind_cols(emp_bias_parmas, betas) %>%
+  mutate(
+    bias_b0CC = H0_g1 * (v0_g1 + tau2) * psi1_g1,
+    bias_b1CC = (H1_g1 * (v1_g1 + tau2) - H0_g1 * (v0_g1 * tau2)) * psi1_g1, 
+    omv_bias_b0 = beta2 * p01, 
+    omv_bias_b1 = beta2 * (p11 - p01)
+    )
+```
+
+```{r}
+summary(ebp$bias_b0CC)
+summary(ebp$bias_b1CC)
+summary(ebp$omv_bias_b0)
+summary(ebp$omv_bias_b1)
+```
+
 
 # Other models fit
 
@@ -207,4 +263,8 @@ glm(g2hrs_na ~ es_g + v_g,
 cor(dd$g1hrs, dd$g2hrs, use = "pairwise.complete")
 cor(dd$g1hi, dd$g2hi, use = "pairwise.complete")
 ```
+
+
+
+
 
