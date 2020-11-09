@@ -739,17 +739,6 @@ Moreover, because inference for the group of studies for which $X_i = 1$ will de
 NOTE1: We should run simulations to check the point made in the previous paragraph.
 }
 
-\textcolor{orange}{
-NOTE2: We must re-write the empirical example stuff, since I don't think it's well-justified. Maybe we do some imputation scheme? We could also set this apart in a separate section.
-My point here is this: quantities like $P[R = 1 | X]$ is not estimable from the data. 
-We could do something like simplifying our selection model so that it's MAR, but that doesn't fix this issue (though we could estimate $\psi_1$).
-One approach would be to use PMM to impute missing Xs. Then we could compute a pooled estimate of $P[R = 1 | X]$, which drives the bias of the intercept and slope.
-}
-
-\textcolor{blue}{
-[JL] You mean $P[R = 0 | X]$, right? 
-}
-
 <!-- For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention ($X_1$). Among the observed cases of 54, 38 cases (about 70%) were coded as low-intensity intervention ($X_1 = 0|R=1$) and 16 cases (about 30%) were coded as high-intensity intervention ($X_1 = 1|R=1$).  -->
 
 <!-- Suppose we assume the equal distribution for $p(X=0|R=0)$ and $p(X=1|R=0)$, so that 10 among 20 missing values would be $X_1=0$. Then, we can approximate $H_1(0)$ to be 21% (i.e., $\frac{10}{48}$). Using a logit model analogous to \@ref(eq:cc-loglinear), we get an estimate of $\psi_1 =$. \textcolor{blue}{[JL-Jake, I am not sure how we can get $\psi_1$ here. Are we assuming $\psi_0 = \psi_2 = 0$? Please add a value here.]} -->
@@ -960,6 +949,47 @@ Among the observed data, we find that $p(X_2 = 1 | X_1 = 0) = 0.08$ and $p(X_2 =
 Given these values, the omitted variable bias for the intercept $\beta_0$ would be $d = -0.02$, and the omitted variable bias for $\beta_1$ would be $d = -0.1$. 
 Note, however, that the total bias further depends on the bias due to missingness.
 Based on empirical estimates in the previous section, this would give a bias in the estimate of $\beta_0$ of about $d = 0.07$. 
+
+
+# Implications for Empirical Example
+
+```{r, echo = F}
+ebp <- read_csv("../../data/cca_bias_table.csv") # here to check
+summary(ebp$bias_b0CC)
+summary(ebp$bias_b1CC)
+summary(ebp$omv_bias_b0)
+summary(ebp$omv_bias_b1)
+```
+
+
+The theoretical results above suggest that there are conditions under which the coefficient estimates from the CCA and SCA of the substance abuse data in Table \@ref(tab:ccadtexample) are substantially biased.
+However, it will be difficult, if not impossible, to determine just how biased those estimates are, even given the simplified examples in the previous sections.
+This is because the formulas for the bias often depend on quantities that are not known and cannot be estimated from the data.
+For example, \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example) are functions of $H_1(X)$ and $\psi_1$, both of which are functions of or must be estimated with values of the covariates in the meta-regression model that are missing.
+
+While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample, we can get some sense of the magnitude of the bias using imputation. 
+By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula. 
+Repeating this process can provide a range of possible biases. 
+This range of estimated biases will be sensitive to the method used to impute missing values, and thus we use it to provide a general idea of *potential* biases. 
+Here, we impute $m = 1,000$ values for each missing covariate using a standard predictive mean matching algorithm implemented in the `mice` library in the `R` software language.
+
+Consider the CCA example that regressed effect estimates on whether Group 1 had a high-intensity intervention in the substance abuse data.
+This involved a meta-regression with a single binary covariate, which aligns with the model in the theoretical example in the previous sections.
+Using the 1,000 imputed datasets, we computed the bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ using \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example), respectively.
+This resulted in values of 0.03 to 0.08 for the bias of $\hat{\beta}_{0C}$ and 0.0 to 0.17 for $\hat{\beta}_{1C}$.
+
+Recall that the full model of interest included indicators for both Group 1 and Group 2 treatment intensity. 
+Thus, the SCA that includes only Group 1's covariate (and only cases where that covariate is observed) is also subject to omitted variable bias. 
+We computed the omitted variable bias for $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ using equations \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1), respectively. 
+This gave values of -0.05 to 0.05 for $\hat{\beta}_{0S}$ and -.3 to 0.1 for $\hat{\beta}_{1S}$.
+Taken alongside the missingness bias in the previous paragraph, the regression that includes only Group 1's covariate could possibly have bias that ranges from 0 to 0.18 for $\beta_0$ and from 0 to 0.27 for $\beta_1$. 
+
+
+
+
+
+
+
 
 
 # Discussion

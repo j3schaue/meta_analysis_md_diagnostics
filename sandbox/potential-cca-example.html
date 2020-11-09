@@ -531,6 +531,21 @@ rv_mod_hiint_g2</code></pre>
 ## Signif. codes: &lt; .01 *** &lt; .05 ** &lt; .10 *
 ## ---
 ## Note: If df &lt; 4, do not trust the results</code></pre>
+<div id="correction-for-missingness" class="section level2">
+<h2>Correction for missingness</h2>
+<pre class="r"><code>summary(ebp$bias_b0CC)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.03438 0.05614 0.05833 0.05920 0.06171 0.07693</code></pre>
+<pre class="r"><code>summary(ebp$bias_b1CC)</code></pre>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.00234  0.02268  0.03632  0.04224  0.06209  0.17732</code></pre>
+<pre class="r"><code>summary(ebp$omv_bias_b0)</code></pre>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.053082 -0.009177 -0.003400 -0.003887  0.001818  0.044837</code></pre>
+<pre class="r"><code>summary(ebp$omv_bias_b1)</code></pre>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.318418 -0.060673 -0.020755 -0.030900  0.009512  0.101538</code></pre>
+</div>
 </div>
 <div id="other-models-fit" class="section level1">
 <h1>Other models fit</h1>
