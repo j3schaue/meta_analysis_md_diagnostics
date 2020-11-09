@@ -280,7 +280,6 @@ p(\mathbf{T} | \mathbf{X}, \mathbf{v}, \eta) = p(\mathbf{T} | \mathbf{X}_{O}, \m
 \end{equation}
 Note that the complete-data model depends on entries of $\mathbf{X}_{M}$, which are unobserved. 
 It is worth pointing out that the *complete-data model*, which which refers to the model with no missing data, is distinct from the *complete-case analysis*, which is an estimation procedure that conditions only on observed data.
-<!-- \textcolor{blue}{[JL-Doesn't the complete-data model have no missingness? I am a bit confused with this sentence.]} -->
 <!-- When meta-analytic datasets are missing covariates, analyses involve incomplete data.  -->
 <!-- In practice, meta-analysts have frequently turned to CCA and SCA estimators for incomplete data meta-regression [@cooperResearchSynthesisMetaanalysis2017; @pigottHandlingMissingData2019; @pigottMissingPredictorsModels2001; @tiptonCurrentPracticesMetaregression2019; @tiptonHistoryMetaregressionTechnical2019].  -->
 
@@ -333,7 +332,7 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows for which all of those covariates are observed.
 The matrix $\mathbf{W}_U$ contains the rows of $\mathbf{W}$ for which $X_{iS}$ are observed (and similarly for $\mathbf{T}_U$).
-\textcolor{blue}{[JL - I think the notations in this paragraph are not clear to me with introducing $X_{US}$. Can we simplify this? Or, explain a bit further?]}
+\textcolor{blue}{[JL - May change the notations here.]}
 
 
 ## Missingness Mechanisms
@@ -487,7 +486,7 @@ This result is consistent with prior work regarding linear regression models wit
 
 An important aspect of this result is that whether or not a CCA produces unbiased coefficient estimates depends more on the role of $T_i$ in the selection model rather than traditional mechanism classifications of MCAR, MAR, or MNAR.
 If data are MCAR, by definition $R_i \perp T_i$, and so CCA estimators will be unbiased under MCAR. 
-However, it is possible to have MAR and MNAR mechanisms for where $R_i$ depends on $T_i$.
+However, it is possible to have MAR and MNAR mechanisms for where $R_i$ depends on $T_i$, so that CCA estimator is unbiased.
 For example, a selection model wherein $R_i \perp X_i | (T_i, v_i)$ would be MAR, but where $R_i \not\perp T_i$.
 
 
@@ -747,6 +746,9 @@ We could do something like simplifying our selection model so that it's MAR, but
 One approach would be to use PMM to impute missing Xs. Then we could compute a pooled estimate of $P[R = 1 | X]$, which drives the bias of the intercept and slope.
 }
 
+\textcolor{blue}{
+[JL] You mean $P[R = 0 | X]$, right? 
+}
 
 <!-- For context, suppose the analysis of interest in the substance abuse example involved only the indicator for whether Group 1 received a high-intensity intervention ($X_1$). Among the observed cases of 54, 38 cases (about 70%) were coded as low-intensity intervention ($X_1 = 0|R=1$) and 16 cases (about 30%) were coded as high-intensity intervention ($X_1 = 1|R=1$).  -->
 
