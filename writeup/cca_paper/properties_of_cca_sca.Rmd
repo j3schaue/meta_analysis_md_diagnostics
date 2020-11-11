@@ -474,7 +474,7 @@ When the distribution of $R_i$ depends on $T_i$, then complete-case estimators w
 There are different selection models for which $R_i$ is independent of $T_i$, and hence various selection models for which CCA estimators are unbiased.
 First, if the covariates are MCAR, then $R_i \perp (T_i, X_i, v_i)$. 
 Second, $R_i \perp T_i$ if covariates are MAR such that $R_i \perp (T_i, X_i) | v_i$, so that missingness depends only on the estimation error variance $v_i$, but not $X_i$ or $T_i$.
-Finally, $R_i \perp T_i$ if covariates are MNAR such that $R_i \perp T_i | (X_i, v_i)$, so that missingness depends solely on $T_i$.
+Finally, $R_i \perp T_i$ if covariates are MNAR such that $R_i \perp T_i | (X_i, v_i)$, so that missingness is independent of $T_i$, but depends on $X_i$ and $v_i$.
 Under each of these assumptions, it can be shown that the model that conditions on complete cases $R_i = \mathbbm{1}$ is identical to the complete-data model, and hence CCA estimators will be unbiased:
 \begin{equation}
 p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
@@ -485,8 +485,8 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 This result is consistent with prior work regarding linear regression models with missing covariates [@glynnRegressionEstimatesMissing1986; @littleRegressionMissingReview1992].
 
 An important aspect of this result is that whether or not a CCA produces unbiased coefficient estimates depends more on the role of $T_i$ in the selection model rather than traditional mechanism classifications of MCAR, MAR, or MNAR.
-If data are MCAR, by definition $R_i \perp T_i$, and so CCA estimators will be unbiased under MCAR. 
-However, it is possible to have MAR and MNAR mechanisms for where $R_i$ depends on $T_i$, so that CCA estimator is unbiased.
+<!-- If data are MCAR, by definition $R_i \perp T_i$, and so CCA estimators will be unbiased under MCAR.  -->
+It is possible to have unbiased estimates using CCA under MAR and MNAR mechanisms for where $R_i$ depends on $T_i$.
 For example, a selection model wherein $R_i \perp X_i | (T_i, v_i)$ would be MAR, but where $R_i \not\perp T_i$.
 
 
@@ -605,7 +605,7 @@ Assume that the selection model is log-linear, and that for the sake of simplici
 \label{eq:cc-loglinear}
 \end{equation}
 Note that this is an MNAR mechanism, since the probability $X_i$ is observed depends on $X_i$ itself; a MAR mechanism would involve $\psi_2 = 0$ in equation \@ref(eq:cc-loglinear).
-Because \@ref(eq:cc-loglinear) depends on $T_i$, $\delta_{ij} \neq 0$ for this selection model regardless of MAR or MNAR (i.e., regardless of whether $\psi_2 = 0$), the CCA estimators may be biased.
+Because \@ref(eq:cc-loglinear) depends on $T_i$, $\delta_{ij} \neq 0$ for this selection model regardless of MAR or MNAR (i.e., regardless of whether $\psi_2 = 0$ or not), the CCA estimators may be biased.
 
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
@@ -616,19 +616,6 @@ Given the result in equation \@ref(eq:conditional-bias), we can write
 \label{eq:cc-ex-delta}
 \end{equation}
 
-<!-- \textcolor{blue}{[JL - If this is changed for MAR:]} -->
-
-<!-- \textcolor{blue}{ -->
-<!-- \begin{equation} -->
-<!-- \text{logit}[p(R_i = 1 | T_i, X_i, v_i)]  -->
-<!--   = \psi_0  + \psi_1 T_i + \psi_2 v_i -->
-<!-- \label{eq:cc-loglinear} -->
-<!-- \end{equation} -->
-<!-- Note that this is an MAR mechanism, since the probability of being observed does not depend on $X_i$.  -->
-<!-- Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $v_i$ and not $X_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$.  -->
-<!-- As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = v_i$.  -->
-<!-- *Other parts will remain the same except for the last part in this example.*]} -->
-
 Given the selection model in \@ref(eq:cc-loglinear), the bias of the complete-case estimator for the intercept, $\beta_0$, is:
 \begin{equation}
 \text{Bias}[\hat{\beta}_{0C}] 
@@ -636,6 +623,7 @@ Given the selection model in \@ref(eq:cc-loglinear), the bias of the complete-ca
 \label{eq:cc-bias-b0}
 \end{equation}
 where $\bar{v}_0$ is the average estimation error variance $v_i$ among effects for which $X_i = 0$ and $R_i = 1$.
+\textcolor{blue}{[JL - Is the $\tau$ is only for $R=1$? or for complete-data analysis? OR, does it matter at all?]}
 The expression in \@ref(eq:cc-bias-b0) depends on three key quantities, and is an increasing function of each of those quantities.
 First, the bias increases in $H_1(0)$, which is an approximation of the probability that $X_i$ is missing among studies for which $X_i = 0$. 
 While under model \@ref(eq:cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X_i$ among effects for which $X_i = 0$.
@@ -726,7 +714,7 @@ The mechanism in these computations is assumed to be MNAR, since $\psi_2$ in \@r
 A MAR mechanism would require $\psi_2 = 0$. 
 In that case, the bias for the CCA intercept estimator $\hat{\beta}_{0C}$ is identical to that given in \@ref(eq:cc-bias-b0).
 However, the bias in the slope will be slightly different when $\psi_2 = 0$. 
-This is because, as noted noted in \@ref(eq:cc-bias-b1-simp), the bias in the intercept depends (loosely) on the correlation between $R$ and $X$. 
+This is because, as noted noted in \@ref(eq:cc-bias-b1-simp), the bias in the slope depends (loosely) on the correlation between $R$ and $X$. 
 Given the form of $H_1(X)$ in this example, it is possible for the bias of $\hat{\beta}_{1C}$ to be greater when $\psi_2 \neq 0$ (MNAR) than when $\psi_2 = 0$ (MAR), which can occur if the correlation between $R$ and $T$ and $R$ and $X$ are in the same direction (i.e., $\psi_1, \psi_2$ are in the same direction).
 However, when $\psi_2 \neq 0$ (MNAR) the bias of $\hat{\beta}_{1C}$ can also decrease in magnitude relative to when $\psi_2 = 0$ if $\psi_1$ and $\psi_2$ are in opposite directions.
 
@@ -967,7 +955,7 @@ However, it will be difficult, if not impossible, to determine just how biased t
 This is because the formulas for the bias often depend on quantities that are not known and cannot be estimated from the data.
 For example, \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example) are functions of $H_1(X)$ and $\psi_1$, both of which are functions of or must be estimated with values of the covariates in the meta-regression model that are missing.
 
-While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample, we can get some sense of the magnitude of the bias using imputation. 
+While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation. 
 By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula. 
 Repeating this process can provide a range of possible biases. 
 This range of estimated biases will be sensitive to the method used to impute missing values, and thus we use it to provide a general idea of *potential* biases. 
