@@ -623,7 +623,6 @@ Given the selection model in \@ref(eq:cc-loglinear), the bias of the complete-ca
 \label{eq:cc-bias-b0}
 \end{equation}
 where $\bar{v}_0$ is the average estimation error variance $v_i$ among effects for which $X_i = 0$ and $R_i = 1$.
-\textcolor{blue}{[JL - Is the $\tau$ is only for $R=1$? or for complete-data analysis? OR, does it matter at all?]}
 The expression in \@ref(eq:cc-bias-b0) depends on three key quantities, and is an increasing function of each of those quantities.
 First, the bias increases in $H_1(0)$, which is an approximation of the probability that $X_i$ is missing among studies for which $X_i = 0$. 
 While under model \@ref(eq:cc-loglinear), this probability is a function of $T_i$ and $X_i$, we can intuit $H_1(0)$ loosely as a missingness rate in $X_i$ among effects for which $X_i = 0$.
