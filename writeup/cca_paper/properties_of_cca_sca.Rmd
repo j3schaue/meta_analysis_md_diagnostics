@@ -27,7 +27,7 @@ Analyses of these models in the absence of missing data have been studied thorou
 However, it is common for meta-analytic datasets to be missing data [@pigottReviewMethodsMissing2001]. 
 In the context of meta-regression, issues with missing data frequently involve missing covariates [@pigottMissingPredictorsModels2001; @tiptonCurrentPracticesMetaregression2019].
 
-Precisely how to proceed with a meta-regression with missing covariates remains something of an open question.
+Precisely how to proceed with a meta-regression when missing covariates remains something of an open question.
 Statistical guidance suggests that analyses ought to consider the mechanism that causes covariates to be missing [@pigottMissingPredictorsModels2001; @pigottHandlingMissingData2019].
 However, it appears that doing so is less common in practice for meta-analyses.
 A recent review found that meta-regressions with missing data tend to take one of two strategies [@tiptonCurrentPracticesMetaregression2019]. 
@@ -43,7 +43,7 @@ In short, there is an understanding that these methods *can* induce bias, but le
 
 This article examines the potential bias of complete- and shifting-case analyses. 
 The following section provides a demonstration of these methods on data concerning a meta-analysis of substance abuse interventions [@tanner-smithAdolescentSubstanceUse2016].
-We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a data point is observed.
+We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a covariate is observed.
 Using this framework, we describe conditions under which complete- and shifting-case analyses are unbiased.
 When these conditions are not met, we derive an approximation for the bias of complete- and shifting-case analyses using standard models for missingness and examine the magnitude of bias.
 We find that bias is highly dependent on the the precise mechanism by which data are missing, and is less reliant on more traditional missingness mechanism classifications (e.g., missing at random vs. not at random).
@@ -106,6 +106,10 @@ rv_mod_hiint_g2 <- robu(formula = es_g ~ g2hi,
                         studynum = studyid,
                         var.eff.size = v_g, 
                         small = TRUE)
+
+selection_mod <- glm(!is.na(g1hi) ~ es_g, family = "binomial", data = dd)
+psi1_example <- selection_mod$coefficients[["es_g"]]
+psi0_example <- as.numeric(selection_mod$coefficients[1])
 
 cc <- rv_mod_hiint$reg_table %>%
   select(labels, estimate = b.r, se = SE, p = prob) %>%
@@ -921,7 +925,7 @@ Figure \@ref(fig:omitted-bias) does not take into account any bias induced by mi
 However, because the missingness mechanism in \@ref(eq:logit-sca) is the same as the mechanism for the complete-case example \@ref(eq:cc-loglinear), the missingness bias for $\hat{\beta}_{0S}$ is the same as that for $\hat{\beta}_{0C}$ in \@ref(eq:cc-bias-b0), which is shown in Figure \@ref(fig:delta). 
 Likewise, the missingness bias for $\hat{\beta}_{1S}$ is the same as that for $\hat{\beta}_{1C}$ in \@ref(eq:cc-bias-beta1-example), which is shown in Figure \@ref(fig:b1).
 
-Thus, the total bias of $\hat{\beta}_{0S}$ will be the sum of the omitted variable biases shown in Figure \@ref(fig:delta) and the missingness biases shown in Figure \@ref(fig:omitted-bias).
+Thus, the total bias of $\hat{\beta}_{0S}$ will be the sum of the omitted variable biases shown in Figure \@ref(fig:omitted-bias) and the missingness biases shown in Figures \@ref(fig:delta) and \@ref(fig:b1).
 If both the omitted and missingness biases are on the higher end, the total bias of $\hat{\beta}_0$ might be as large as $d = 0.6$ to over 1.0.
 Likewise, the total bias of $\hat{\beta}_{1S}$ will be the sum of the omitted variable biases shown in Figure \@ref(fig:b1) and the missingness biases shown in Figure \@ref(fig:omitted-bias), and can be larger than $d = 0.6$.
 
@@ -930,17 +934,17 @@ For instance, if $\beta_2 < 0$ but $\tilde{\delta}_{ij} > 0$, then the omitted v
 In such cases, the bias of the shifting case estimators could be smaller than the bias of the complete-case estimators.
 However, because the biases depend on unknown (and potentially unobserved) quantities, it will often be impossible to empirically verify the magnitude or direction of the bias. 
 
-In the substance abuse example, consider the regression that omits Group 2's covariates. 
-Recall that the estimate for $\beta_2$ on complete cases was $\hat{\beta}_2 = -0.21$.
-Among the observed data, we find that $p(X_2 = 1 | X_1 = 0) = 0.08$ and $p(X_2 = 1 | X_1 = 1) = 0.55$. 
-Given these values, the omitted variable bias for the intercept $\beta_0$ would be $d = -0.02$, and the omitted variable bias for $\beta_1$ would be $d = -0.1$. 
-Note, however, that the total bias further depends on the bias due to missingness.
-Based on empirical estimates in the previous section, this would give a bias in the estimate of $\beta_0$ of about $d = 0.07$. 
+<!-- In the substance abuse example, consider the regression that omits Group 2's covariates.  -->
+<!-- Recall that the estimate for $\beta_2$ on complete cases was $\hat{\beta}_2 = -0.21$. -->
+<!-- Among the observed data, we find that $p(X_2 = 1 | X_1 = 0) = 0.08$ and $p(X_2 = 1 | X_1 = 1) = 0.55$.  -->
+<!-- Given these values, the omitted variable bias for the intercept $\beta_0$ would be $d = -0.02$, and the omitted variable bias for $\beta_1$ would be $d = -0.1$.  -->
+<!-- Note, however, that the total bias further depends on the bias due to missingness. -->
+<!-- Based on empirical estimates in the previous section, this would give a bias in the estimate of $\beta_0$ of about $d = 0.07$.  -->
 
 
 # Implications for Empirical Example
 
-```{r, echo = F}
+```{r, include = F}
 ebp <- read_csv("../../data/cca_bias_table.csv") # here to check
 summary(ebp$bias_b0CC)
 summary(ebp$bias_b1CC)
@@ -951,25 +955,50 @@ summary(ebp$omv_bias_b1)
 
 The theoretical results above suggest that there are conditions under which the coefficient estimates from the CCA and SCA of the substance abuse data in Table \@ref(tab:ccadtexample) are substantially biased.
 However, it will be difficult, if not impossible, to determine just how biased those estimates are, even given the simplified examples in the previous sections.
-This is because the formulas for the bias often depend on quantities that are not known and cannot be estimated from the data.
-For example, \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example) are functions of $H_1(X)$ and $\psi_1$, both of which are functions of or must be estimated with values of the covariates in the meta-regression model that are missing.
+First, the missingness mechanism is not known. 
+Even if we assume that the mechanism follows a log-linear model like that in \@ref(eq:cc-loglinear), the resulting formulas for the bias depend on quantities, such as $\psi$ and $\eta$ that are not known.
+The parameters that govern bias under log-linear selection models *may* be estimated if no data were missing. 
 
-While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation. 
-By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula. 
-Repeating this process can provide a range of possible biases. 
-This range of estimated biases will be sensitive to the method used to impute missing values, and thus we use it to provide a general idea of *potential* biases. 
-Here, we impute $m = 1,000$ values for each missing covariate using a standard predictive mean matching algorithm implemented in the `mice` library in the `R` software language.
+Taken together, it is possible to quantify the potential biases in the substance abuse example assuming that both $X_{i1}$ and $X_{i2}$ are MAR, and that $R_{i1}$ follows a log-linear distribution: 
+\begin{equation}
+\text{logit}[p(R_{i1} = 1 | T_i, X_i, v_i)] = \psi_0 + \psi_1 T_i
+\end{equation}
+This is similar to the examples discussed in the previous sections.
+The resulting bias in $\hat{\beta}){C}$ for a CCA that includes only $X_{i1}$ is given in equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example), which depend on $\psi_0, \psi_1$, and $\eta$. 
+Similarly, the omitted variable bias in an SCA regression of $T_i$ on $X_{i1}$ is a function of $X_i$ and $\eta$.
 
-Consider the CCA example that regressed effect estimates on whether Group 1 had a high-intensity intervention in the substance abuse data.
-This involved a meta-regression with a single binary covariate, which aligns with the model in the theoretical example in the previous sections.
-Using the 1,000 imputed datasets, we computed the bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ using \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example), respectively.
-This resulted in values of 0.03 to 0.08 for the bias of $\hat{\beta}_{0C}$ and 0.0 to 0.17 for $\hat{\beta}_{1C}$.
+Under this selection model, $\psi$ can be estimated directly from the data using a logistic regression of $R_{i1}$ on $T_i$. 
+This gives estimates of $\hat{\psi}_0 =$ `r round(psi0_example, 2)`, and $\hat{\psi}_1 =$ `r round(psi1_example, 2)`.
+Further, when $X_{i1}$ and $X_{i2}$ are MAR, we can estimate $\eta$ via multiple imputation. 
+We used the `mice` library in the `R` programming language to generate $m = 1,000$ imputed datasets. 
+Imputations relied on the default predictive mean matching approach in `mice`. 
+Within each dataset $i$, we estimated $\hat{\eta}^{(i)}$ using the standard approach outlined in the previous section.
 
-Recall that the full model of interest included indicators for both Group 1 and Group 2 treatment intensity. 
-Thus, the SCA that includes only Group 1's covariate (and only cases where that covariate is observed) is also subject to omitted variable bias. 
-We computed the omitted variable bias for $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ using equations \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1), respectively. 
-This gave values of -0.05 to 0.05 for $\hat{\beta}_{0S}$ and -.3 to 0.1 for $\hat{\beta}_{1S}$.
-Taken alongside the missingness bias in the previous paragraph, the regression that includes only Group 1's covariate could possibly have bias that ranges from 0 to 0.18 for $\beta_0$ and from 0 to 0.27 for $\beta_1$. 
+Given the values of $\psi$ and $\hat{\eta}^{(i)}$ we can compute the missingness bias in a regression of $T_i$ on $X_{i1}$ using equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example).
+The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0C}$ could feasibly range from 0.04 to 0.07 with a mean of 0.06; 
+the bias of $\hat{\beta}_{1C}$ might range from 0 to 0.12.
+Similarly, if we consider the regression of $T_i$ on $X_{i1}$ as part of an SCA, we can also compute the omitted variable bias in each imputed dataset using \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1).
+This gives omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.05 to 0.02 with a mean of -0.01; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
+Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.09 for $\hat{\beta}_0$ and from -0.22 to 0.18 for $\hat{\beta}_1$.
+
+\textcolor{orange}{Jihyun, play around with some plots for this.}
+
+<!-- While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation.  -->
+<!-- By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula.  -->
+<!-- Repeating this process can provide a range of possible biases.  -->
+<!-- This range of estimated biases will be sensitive to the method used to impute missing values, and thus we use it to provide a general idea of *potential* biases.  -->
+<!-- Here, we impute $m = 1,000$ values for each missing covariate using a standard predictive mean matching algorithm implemented in the `mice` library in the `R` software language. -->
+
+<!-- Consider the CCA example that regressed effect estimates on whether Group 1 had a high-intensity intervention in the substance abuse data. -->
+<!-- This involved a meta-regression with a single binary covariate, which aligns with the model in the theoretical example in the previous sections. -->
+<!-- Using the 1,000 imputed datasets, we computed the bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ using \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example), respectively. -->
+<!-- This resulted in values of 0.03 to 0.08 for the bias of $\hat{\beta}_{0C}$ and 0.0 to 0.17 for $\hat{\beta}_{1C}$. -->
+
+<!-- Recall that the full model of interest included indicators for both Group 1 and Group 2 treatment intensity.  -->
+<!-- Thus, the SCA that includes only Group 1's covariate (and only cases where that covariate is observed) is also subject to omitted variable bias.  -->
+<!-- We computed the omitted variable bias for $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ using equations \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1), respectively.  -->
+<!-- This gave values of -0.05 to 0.05 for $\hat{\beta}_{0S}$ and -.3 to 0.1 for $\hat{\beta}_{1S}$. -->
+<!-- Taken alongside the missingness bias in the previous paragraph, the regression that includes only Group 1's covariate could possibly have bias that ranges from 0 to 0.18 for $\beta_0$ and from 0 to 0.27 for $\beta_1$.  -->
 
 
 
