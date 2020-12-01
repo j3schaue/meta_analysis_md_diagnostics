@@ -166,6 +166,7 @@ com <- complete(dd_mi, "long", include = FALSE) %>%
 
 
 psi1_g1 = glm(I(1-g1hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g1hi_na = is.na(g1hi)))$coefficients[["es_g"]] # psi1 for X1
+  # psi0 = .8019
 psi1_g2 = glm(I(1-g2hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g2hi_na = is.na(g2hi)))$coefficients[["es_g"]]
 
 ###### Edits - change for H_g2 denominators (JL)
@@ -220,10 +221,10 @@ ebp <- bind_cols(emp_bias_parmas, betas) %>%
     omv_bias_b1 = beta2 * (p11 - p01)
     )
 
-write_csv(x = ebp, file = "../data/cca_bias_table.csv")
+write.csv(x = ebp, file = "../data/cca_bias_table.csv")
 
-######## JL updated version
-# write.csv(ebp, file = "../data/cca_bias_table_JL.csv")
+# save RData for mice
+#save.image("../sandbox/Data_potential cca example.RData")
 ```
 
 

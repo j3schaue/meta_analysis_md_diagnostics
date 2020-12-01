@@ -191,7 +191,7 @@ ggsave(plot = p3grid,
 
 ############################################################################
 
-ebp <- read_csv("./data/cca_bias_table.csv") # here to check
+ebp <- read.csv("./data/cca_bias_table.csv") # here to check
 
 cc_ebp <- ebp %>%
   select(`beta[0]` = bias_b0CC, 
