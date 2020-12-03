@@ -1,5 +1,10 @@
 ---
 title: "Exploratory Analyses for Missing Data in Meta-Analyses and Meta-Regression: A Tutorial"
+author:
+  - Jacob M. Schauer, Northwestern University
+  - Karina Diaz, Columbia University
+  - Therese D. Pigott, Georgia State University
+  - Jihyun Lee, The University of Texas at Austin
 csl: ../addons/alcohol-and-alcoholism.csl
 output:
   bookdown::pdf_document2: 
@@ -12,10 +17,10 @@ output:
     reference_docx: ../addons/styles_word.docx
 bibliography: ../addons/references.json
 abstract: |
-  | OBJECTIVES: In this tutorial, we examine methods for exploring missingness in a dataset in ways that can help identify the sources and extent of missingness, as well as clarify gaps in evidence. 
-  | METHODS: Using raw data from Tanner et al. (2016), we demonstrate the use of exploratory missingness analysis (EMA) including techniques for numerical summaries and visual displays of missing data. 
-  | RESULTS: These techniques examine the patterns of missing covariates in meta-analysis data and the relationships among variables with missing data and observed variables including the effect size. The case study shows complex relationships among missingness and other potential covariates in meta-regression, highlighting gaps in the evidence base.
-  | CONCLUSION: Meta-analysts could often benefit by employing some form of EMA as they encounter missing data.
+  | \noindent OBJECTIVES: In this tutorial, we examine methods for exploring missingness in a dataset in ways that can help identify the sources and extent of missingness, as well as clarify gaps in evidence. \vspace{0.75\baselineskip} 
+  | \noindent METHODS: Using raw data from a meta-analysis of substance abuse interventions, we demonstrate the use of exploratory missingness analysis (EMA) including techniques for numerical summaries and visual displays of missing data. \vspace{0.75\baselineskip} 
+  | \noindent RESULTS: These techniques examine the patterns of missing covariates in meta-analysis data and the relationships among variables with missing data and observed variables including the effect size. The case study shows complex relationships among missingness and other potential covariates in meta-regression, highlighting gaps in the evidence base. \vspace{0.75\baselineskip} 
+  | \noindent CONCLUSION: Meta-analysts could often benefit by employing some form of EMA as they encounter missing data.
 ---
 
 ```{r setup, include=FALSE}
