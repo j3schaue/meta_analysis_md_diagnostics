@@ -328,8 +328,7 @@ In the first substance abuse SCA regression, $T_i$ was regressed on only $X_{i1}
 Denote $\mathcal{R}_j$ as the set of missingness patterns such that all included covariates are observed: $\mathcal{R}_j = \{R \in \mathcal{R}: R_S = \mathbbm{1}\}$.
 Note that $\mathcal{R}_j$ contains missingness patterns such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
 For instance, in the first substance abuse SCA regression of $T_i$ on $X_{i1}$, the analysis included effects such that $R_i \in \mathcal{R}_1 = \{[1,1], [1,0]\}$.
-Finally, let $U$ be the rows of data that are observed.
-<!-- $U(S)$ be the set of effects for which $X_{iS}$ are observed $U(S) = \{i : R_i \in \mathcal{R}_j\}$. -->
+Finally, let  $U$ be the set of effects for which $X_{iS}$ are observed; note that $U$ depends on $S$, so we may write $U(S) = \{i : R_i \in \mathcal{R}_j\}$. 
 Then, the shifting-case estimators for $\beta_S$ are given by:
 \begin{equation}
 \hat{\beta}_S = 
@@ -337,8 +336,9 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \label{eq:beta-s}
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns ($S$) of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows ($U$) for which all of those covariates are observed.
-The matrix $\mathbf{W}_U$ contains the rows of $\mathbf{W}$ for which $X_{iS}$ are observed (and similarly for $\mathbf{T}_U$).
-\textcolor{blue}{[JL - May change the notations here. Why W and T have only $U$, without $S$?]}
+The matrix $\mathbf{W}_U$ is a square matrix containing the relevant rows and columns of $\mathbf{W}$ for which $X_{iS}$ are observed, while  $\mathbf{T}_U$ contains the effect sizes in $\mathbf{T}$ for which $X_{iS}$ is observed.
+\textcolor{blue}{[JL - Why W and T have only $U$, without $S$?]}
+\textcolor{orange}{[Does that make more sense?]}
 
 
 ## Missingness Mechanisms
@@ -491,11 +491,9 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
 This result is consistent with prior work regarding linear regression models with missing covariates [@glynnRegressionEstimatesMissing1986; @littleRegressionMissingReview1992].
 
 An important aspect of this result is that whether or not a CCA produces unbiased coefficient estimates depends more on the role of $T_i$ in the selection model rather than traditional mechanism classifications of MCAR, MAR, or MNAR. 
-We should note that one type of selection model does not represent one category of missingness mechanism and they are not one-on-one relationship. There can be various types of selection models that induce missingness within MAR or MNAR.
-<!-- If data are MCAR, by definition $R_i \perp T_i$, and so CCA estimators will be unbiased under MCAR.  -->
-It is possible to have unbiased estimates using CCA under MAR and MNAR mechanisms for where $R_i$ depends on $T_i$.
-For example, a selection model wherein $R_i \perp X_i | (T_i, v_i)$ would be MAR, but where $R_i \not\perp T_i$.
-
+Though various selection models satisfy the conditions of MAR, and similarly with MNAR, the key factor for bias in CCA estimators is the relationship between $R_i$ and $T_i$.
+Should $R_i \not\perp T_i$, then CCA estimators can be biased, regardless of whether the mechanism is MAR or MNAR.
+Similarly, if $R_i \perp T_i$, CCA estimators can be unbaised, regardless of MAR or MNAR.
 
 
 <!-- \[ -->
@@ -697,6 +695,7 @@ Recall that $H_1$ is an approximation of the probability $X_i$ is missing given 
 Viewed this way, the difference $H_1(1) - H_1(0)$, and hence the bias of $\hat{\beta}_{1C}$ will be greater if $R_i$ is strongly correlated with $X_i$ or if it is strongly correlated with $T_i$.
 Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects or the value of the covariate $X_i$. 
 \textcolor{blue}{[JL - Can we interpret H(1) - H(0) as following?: Does the large magnitude of H(1) - H(0) indicate basically MNAR? So, if MAR is assumed, this quantity will be close to zero, then bias of the slope = 0?]}
+\textcolor{orange}{No. H(X) is really $H(X, \eta, \psi)$. You should be thinking of $H(X)$ more as the probability that $R_i = 0$ given $X_i$ and $\theta_i$ (and maybe even $v_i$, depending on the model).}
 
 To gain insight into the magnitude of bias in \@ref(eq:cc-bias-b1-simp), consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
 Note that the difference $H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is a difference in conditional probabilities. 
@@ -717,7 +716,7 @@ However, the less $R_i$ depends on $T_i$ or $X_i$, the lower the bias is.
 \label{fig:b1}
 \end{figure}
 
-Remind that the mechanism in these computations is assumed to be MNAR, since $\psi_2$ in \@ref(eq:cc-loglinear) is nonzero. 
+Recall that the mechanism in these computations is assumed to be MNAR, since $\psi_2$ in \@ref(eq:cc-loglinear) is nonzero. 
 A MAR mechanism would require $\psi_2 = 0$. 
 In that case, the bias for the CCA intercept estimator $\hat{\beta}_{0C}$ is identical to that given in \@ref(eq:cc-bias-b0).
 However, the bias in the slope will be slightly different when $\psi_2 = 0$. 
@@ -725,6 +724,7 @@ This is because, as noted noted in \@ref(eq:cc-bias-b1-simp), the bias in the sl
 Given the form of $H_1(X)$ in this example, it is possible for the bias of $\hat{\beta}_{1C}$ to be greater when $\psi_2 \neq 0$ (MNAR) than when $\psi_2 = 0$ (MAR), which can occur if the correlation between $R$ and $T$ and $R$ and $X$ are in the same direction (i.e., $\psi_1, \psi_2$ are in the same direction).
 However, when $\psi_2 \neq 0$ (MNAR) the bias of $\hat{\beta}_{1C}$ can also decrease in magnitude relative to when $\psi_2 = 0$ if $\psi_1$ and $\psi_2$ are in opposite directions.
 \textcolor{blue}{[JL-Need to revisit this part.] Could you explain why the direction of psi1 and psi2 play a role, not only a psi2? I think it is just due to the sign of psi2, regardless of psi0 and psi1’s sign. ??}
+\textcolor{orange}{Take the derivative of the bias wrt $\psi_2$, and you'll see that it depends on $\psi_1$. So, whether the bias is increasing or decreasing as a function of $\psi_2$ depends on the value (and sign) of $\psi_1$.}
 
 A key implication of this example is that under the relatively simple selection model in \@ref(eq:cc-loglinear), CCA intercept estimators can have substantial bias. 
 This bias does not change even if $\psi_2 = 0$ and the data are MAR.
