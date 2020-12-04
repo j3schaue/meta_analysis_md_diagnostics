@@ -724,7 +724,7 @@ This is because, as noted noted in \@ref(eq:cc-bias-b1-simp), the bias in the sl
 Given the form of $H_1(X)$ in this example, it is possible for the bias of $\hat{\beta}_{1C}$ to be greater when $\psi_2 \neq 0$ (MNAR) than when $\psi_2 = 0$ (MAR), which can occur if the correlation between $R$ and $T$ and $R$ and $X$ are in the same direction (i.e., $\psi_1, \psi_2$ are in the same direction).
 However, when $\psi_2 \neq 0$ (MNAR) the bias of $\hat{\beta}_{1C}$ can also decrease in magnitude relative to when $\psi_2 = 0$ if $\psi_1$ and $\psi_2$ are in opposite directions.
 \textcolor{blue}{[JL-Need to revisit this part.] Could you explain why the direction of psi1 and psi2 play a role, not only a psi2? I think it is just due to the sign of psi2, regardless of psi0 and psi1’s sign. ??}
-\textcolor{orange}{Take the derivative of the bias wrt $\psi_2$, and you'll see that it depends on $\psi_1$. So, whether the bias is increasing or decreasing as a function of $\psi_2$ depends on the value (and sign) of $\psi_1$.}
+\textcolor{orange}{Take the derivative of the bias wrt $\psi_2$, and you'll see that it depends on $\psi_1$. So, whether the bias is increasing or decreasing as a function of $\psi_2$ depends on the value (and sign) of $\psi_1$. More important, the sign of the derivative depends on the sign of $\psi_1$.}
 
 A key implication of this example is that under the relatively simple selection model in \@ref(eq:cc-loglinear), CCA intercept estimators can have substantial bias. 
 This bias does not change even if $\psi_2 = 0$ and the data are MAR.
@@ -996,7 +996,10 @@ Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range fr
 Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from -0.01 to 0.10 for $\hat{\beta}_0$ and from -0.31 to 0.23 for $\hat{\beta}_1$. \textcolor{blue}{[JL - Is this range from combining the biases of $X_1$ and $X_2$?]}
 \textcolor{blue}{[From another approach]: \textit{Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.03 to 0.03 with a mean of 0; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.19 to 0.09 with a mean of -0.01. Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.10 for $\hat{\beta}_0$ and from -0.19 to 0.20 for $\hat{\beta}_1$.}}
 
-\textcolor{orange}{Jihyun, play around with some plots for this.}
+\textcolor{orange}{No preference on imputation model here, Jihyun, since the results are pretty similar. The logreg option may be simpler to explain, but we may get pushback on it.}
+
+\textcolor{orange}{How about this: Boxplots of bias for beta0 and beta1. Two horizontal panels: one for beta0, one for beta1. In each panel, boxplot of (a) total bias, (b) missingness bias, (c) omitted variable bias. 
+If we really wanted to, we could add beta2 to this, too.}
 
 We present the distribution of biases of intercept and slope from CCA in Figure \@ref(fig:density_cca).
 
