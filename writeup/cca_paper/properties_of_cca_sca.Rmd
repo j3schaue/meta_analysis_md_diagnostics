@@ -695,7 +695,7 @@ Recall that $H_1$ is an approximation of the probability $X_i$ is missing given 
 Viewed this way, the difference $H_1(1) - H_1(0)$, and hence the bias of $\hat{\beta}_{1C}$ will be greater if $R_i$ is strongly correlated with $X_i$ or if it is strongly correlated with $T_i$.
 Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects or the value of the covariate $X_i$. 
 \textcolor{blue}{[JL - Can we interpret H(1) - H(0) as following?: Does the large magnitude of H(1) - H(0) indicate basically MNAR? So, if MAR is assumed, this quantity will be close to zero, then bias of the slope = 0?]}
-\textcolor{orange}{No. H(X) is really $H(X, \eta, \psi)$. You should be thinking of $H(X)$ more as the probability that $R_i = 0$ given $X_i$ and $\theta_i$ (and maybe even $v_i$, depending on the model).}
+\textcolor{orange}{I don't think that's right. $H(X)$ is really $H(X, \eta, \psi)$. You should be thinking of $H(X)$ more as the probability that $R_i = 0$ given $X_i$ and $\theta_i$ (and maybe even $v_i$, depending on the model).}
 
 To gain insight into the magnitude of bias in \@ref(eq:cc-bias-b1-simp), consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
 Note that the difference $H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is a difference in conditional probabilities. 
