@@ -150,7 +150,6 @@ ggplot(fig2b) +
 
 
 
-
 ############################################################################
 
 fig3 = tibble(beta2 = seq(-.5, .5, length.out = 50)) %>%
@@ -191,6 +190,92 @@ ggsave(plot = p3grid,
        width = 12, height = 6)
 
 ############################################################################
+
+ebp <- read.csv("./data/cca_bias_table.csv") # here to check
+
+cc_ebp <- ebp %>%
+  select(`beta[0]` = bias_b0CC, 
+         `beta[1]` = bias_b1CC) %>%
+  pivot_longer(cols = `beta[0]`:`beta[1]`, names_to = "parameter") 
+
+p4 <- ggplot(cc_ebp) + 
+  stat_density(aes(value)) +
+  geom_vline(data = cc_ebp %>% group_by(parameter) %>% summarize(pl = mean(value)),
+             aes(xintercept = pl), color = "red") +
+  facet_wrap(~parameter, labeller = label_parsed) +
+  labs(x = "Bias", y = "Density") +
+  theme_bw() + 
+  scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
+  textsize
+
+ggsave(plot = p4,
+       filename = "./writeup/cca_paper/graphics/emp_miss_bias.pdf", 
+       width = 12, height = 6)
+
+sc_ebp <- ebp %>%
+  select(`beta[0]` = omv_bias_b0, 
+         `beta[1]` = omv_bias_b1) %>%
+  pivot_longer(cols = `beta[0]`:`beta[1]`, names_to = "parameter") 
+
+
+p5 <- ggplot(sc_ebp) + 
+  stat_density(aes(value)) +
+  geom_vline(data = sc_ebp %>% group_by(parameter) %>% summarize(pl = mean(value)),
+             aes(xintercept = pl), color = "red") +
+  facet_wrap(~parameter, labeller = label_parsed) +
+  labs(x = "Bias", y = "Density") +
+  theme_bw() + 
+  # scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
+  textsize
+
+p5
+
+ggsave(plot = p5,
+       filename = "./writeup/cca_paper/graphics/emp_omv_bias.pdf", 
+       width = 12, height = 6)
+
+
+tot_emp <- sc_ebp %>% rename(vv1 = value) %>%
+  bind_cols(cc_ebp %>% select(vv2 = value)) %>%
+  mutate(
+    value = vv1 + vv2
+    )
+
+p6 <- ggplot(tot_emp) + 
+  stat_density(aes(value)) +
+  geom_vline(data = tot_emp %>% group_by(parameter) %>% summarize(pl = mean(value)),
+             aes(xintercept = pl), color = "red") +
+  facet_wrap(~parameter, labeller = label_parsed) +
+  labs(x = "Bias", y = "Density") +
+  theme_bw() + 
+  # scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
+  textsize
+
+p6
+
+ggsave(plot = p6,
+       filename = "./writeup/cca_paper/graphics/emp_tot_bias.pdf", 
+       width = 12, height = 6)
+
+
+p7dat <- tot_emp %>%
+  mutate(bias = "Total Bias") %>%
+  bind_rows(cc_ebp %>% mutate(bias = "Missingness Bias"), 
+            sc_ebp %>% mutate(bias = "Omitted Var. Bias"))
+
+p7 <- ggplot(p7dat) + 
+  stat_density(aes(value, color = bias), geom = "line") +
+  # geom_vline(data = tot_emp %>% group_by(parameter) %>% summarize(pl = mean(value)),
+  #            aes(xintercept = pl), color = "red") +
+  facet_wrap(~parameter, labeller = label_parsed) +
+  labs(x = "Bias", y = "Density") +
+  theme_bw() + 
+  # scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
+  textsize
+p7
+
+
+
 
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
   crossing(pi0 = c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6), 

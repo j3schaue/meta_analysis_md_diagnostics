@@ -15,7 +15,7 @@ output:
     extra_dependencies: "subfig"
   bookdown::word_document2: 
     reference_docx: ../addons/styles_word.docx
-bibliography: ../addons/cca_references_1.json
+bibliography: ../addons/cca_references_alt.json
 ---
 
 

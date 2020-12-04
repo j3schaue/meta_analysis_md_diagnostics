@@ -119,6 +119,124 @@ rv_mod_hiint_g2 <- robu(formula = es_g ~ g2hi,
 rv_mod_hiint_g2
 ```
 
+## Correction for missingness
+
+```{r, echo = F, include = F}
+dd_r <- dd %>% # select just the relevant variables
+  select(studyid, es_g, v_g, g1hi, g2hi)
+v0_g1 = sum(dd_r$v_g * (dd_r$g1hi == 0), na.rm = T)/sum((dd_r$g1hi == 0), na.rm = T)
+v1_g1 = sum(dd_r$v_g * (dd_r$g1hi == 1), na.rm = T)/sum((dd_r$g1hi == 1), na.rm = T)
+v0_g2 = sum(dd_r$v_g * (dd_r$g2hi == 0), na.rm = T)/sum((dd_r$g2hi == 0), na.rm = T)
+v1_g2 = sum(dd_r$v_g * (dd_r$g2hi == 1), na.rm = T)/sum((dd_r$g2hi == 1), na.rm = T)
+
+# generate imputations
+m <- 1000 # number of imputations
+library(mice); set.seed(10)
+
+### (JL) Revise Predictor matrix to remove studyid from imputation model.
+ini <- mice(dd_r, print = FALSE, maxit= 0)
+pred <- ini$predictorMatrix
+pred[,c("studyid", "v_g")] <- 0
+
+
+dd_mi <- mice(dd_r, # impute missing Xs 
+              m = m, 
+              method = "logreg", print = FALSE, predictorMatrix = pred) # Completely random Xs
+
+# extract imputed data
+com <- complete(dd_mi, "long", include = FALSE) %>%
+  mutate(g1hi_na = rep(is.na(dd$g1hi), m), 
+         g2hi_na = rep(is.na(dd$g2hi), m))
+
+# summarize imputations
+# emp_bias_parmas <- com %>% 
+#   group_by(.imp) %>%
+#   summarize(H0_g1 = sum(g1hi == 0 & g1hi_na)/sum(g1hi_na == 0), # H0 for X1
+#             H1_g1 = sum(g1hi == 1 & g1hi_na)/sum(g1hi_na == 1), # H1 for X1
+#             H0_g2 = sum(g1hi == 0 & g1hi_na)/sum(g1hi_na == 0), # H0 for X2
+#             H1_g2 = sum(g1hi == 1 & g1hi_na)/sum(g1hi_na == 1), # H1 for X2
+#             p01 = sum(g2hi == 1 & g1hi == 0)/sum(g1hi == 0), # P[X2 = 1 | X1 = 0]
+#             p11 = sum(g2hi == 1 & g1hi == 1)/sum(g1hi == 1), # P[X2 = 1 | X1 = 1]
+#             v0_g1 = sum(v_g * (g1hi == 0))/sum(g1hi == 0), # mean var for X1 = 0
+#             v1_g1 = sum(v_g * (g1hi == 1))/sum(g1hi == 1), # mean var for X1 = 1
+#             v0_g2 = sum(v_g * (g2hi == 0))/sum(g2hi == 0), # mean var for X2 = 0
+#             v1_g2 = sum(v_g * (g2hi == 1))/sum(g2hi == 1), # mean var for X2 = 1
+#             psi1_g1 = glm(I(1-g1hi_na) ~ g1hi + es_g, family = "binomial")$coefficients[["es_g"]], # psi1 for X1
+#             psi1_g2 = glm(I(1-g2hi_na) ~ g2hi + es_g, family = "binomial")$coefficients[["es_g"]]) # psi1 for X2
+
+
+psi1_g1 = glm(I(1-g1hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g1hi_na = is.na(g1hi)))$coefficients[["es_g"]] # psi1 for X1
+  # psi0 = .8019
+psi1_g2 = glm(I(1-g2hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g2hi_na = is.na(g2hi)))$coefficients[["es_g"]]
+
+###### Edits - change for H_g2 denominators (JL)
+emp_bias_parmas <- com %>% 
+  group_by(.imp) %>%
+  summarize(
+    H0_g1 = sum(g1hi == 0 & g1hi_na==TRUE)/sum(g1hi == 0), # H0 for X1
+    H1_g1 = sum(g1hi == 1 & g1hi_na==TRUE)/sum(g1hi == 1), # H1 for X1
+    H0_g2 = sum(g2hi == 0 & g2hi_na==TRUE)/sum(g2hi == 0), # H0 for X2
+    H1_g2 = sum(g2hi == 1 & g2hi_na==TRUE)/sum(g2hi == 1), # H1 for X2
+    p01 = sum(g2hi == 1 & g1hi == 0)/sum(g1hi == 0), # P[X2 = 1 | X1 = 0]
+    p11 = sum(g2hi == 1 & g1hi == 1)/sum(g1hi == 1) # P[X2 = 1 | X1 = 1]
+  )
+
+# table(com$g1hi_na==TRUE) # Missing
+# table(com$g1hi_na==1) # Missing
+
+# get params from fitted model
+# betas <- lapply(1:m, 
+#                 FUN = function(i){
+#                   dat <- com %>% filter(.imp == i)
+#                   fit <- robu(es_g ~ g1hi + g2hi, data = dat, studynum = studyid, var.eff.size = v_g, print = FALSE) # fit MR model
+#                   mod <- fit$reg_table # extract coefficients
+#                   beta1 <- mod[[2, 2]]
+#                   beta2 <- mod[[3, 2]]
+#                   tau2 = as.numeric(sensitivity(fit)$`Rho = 0.2`[7]) # extract variance components
+#                   return(tibble(beta1 = beta1, beta2 = beta2, tau2 = tau2))
+#                 }) %>% 
+#   bind_rows()
+
+
+######## Edits (JL) to remove printing the results
+betas <- lapply(1:m, 
+                FUN = function(i){
+                  dat <- com %>% filter(.imp == i)
+                  fit <- robu(es_g ~ g1hi + g2hi, data = dat, studynum = studyid, var.eff.size = v_g, print = FALSE) # fit MR model
+                  mod <- fit$reg_table # extract coefficients
+                  beta1 <- mod[[2, 2]]
+                  beta2 <- mod[[3, 2]]
+                  tau2 <- as.numeric(fit$mod_info$tau.sq) # extract variance components
+                  return(tibble(beta1 = beta1, beta2 = beta2, tau2 = tau2))
+                }) %>% 
+  bind_rows()
+
+
+# aggregate components for bias and compute bias for example
+ebp <- bind_cols(emp_bias_parmas, betas) %>%
+  mutate(
+    bias_b0CC = H0_g1 * (v0_g1 + tau2) * psi1_g1, 
+    bias_b1CC = (H1_g1 * (v1_g1 + tau2) - H0_g1 * (v0_g1 * tau2)) * psi1_g1, 
+    omv_bias_b0 = beta2 * p01, 
+    omv_bias_b1 = beta2 * (p11 - p01)
+    )
+
+write.csv(x = ebp, file = "../data/cca_bias_table.csv")
+
+# save RData for mice
+#save.image("../sandbox/Data_potential cca example.RData")
+```
+
+
+
+
+```{r}
+summary(ebp$bias_b0CC)
+summary(ebp$bias_b1CC)
+summary(ebp$omv_bias_b0)
+summary(ebp$omv_bias_b1)
+```
+
 
 # Other models fit
 
@@ -207,4 +325,8 @@ glm(g2hrs_na ~ es_g + v_g,
 cor(dd$g1hrs, dd$g2hrs, use = "pairwise.complete")
 cor(dd$g1hi, dd$g2hi, use = "pairwise.complete")
 ```
+
+
+
+
 
