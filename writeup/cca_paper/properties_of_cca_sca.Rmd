@@ -337,8 +337,9 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns ($S$) of $\mathbf{X}$ that pertain to the covariates that are included in the model, and the rows ($U$) for which all of those covariates are observed.
 The matrix $\mathbf{W}_U$ is a square matrix containing the relevant rows and columns of $\mathbf{W}$ for which $X_{iS}$ are observed, while  $\mathbf{T}_U$ contains the effect sizes in $\mathbf{T}$ for which $X_{iS}$ is observed.
-\textcolor{blue}{[JL - Why W and T have only $U$, without $S$?]}
-\textcolor{orange}{[Does that make more sense?]}
+<!-- \textcolor{blue}{[JL - Why W and T have only $U$, without $S$?]} -->
+<!-- \textcolor{orange}{[Does that make more sense?]} -->
+<!-- \textcolor{blue}{[I think I understand. $U$ essentially has $X_S$ information.]} -->
 
 
 ## Missingness Mechanisms
@@ -696,6 +697,7 @@ Viewed this way, the difference $H_1(1) - H_1(0)$, and hence the bias of $\hat{\
 Taken together, the bias of $\hat{\beta}_{1C}$ will be greatest when there are fewer complete cases, missingness is strongly related to the size of effects or the value of the covariate $X_i$. 
 \textcolor{blue}{[JL - Can we interpret H(1) - H(0) as following?: Does the large magnitude of H(1) - H(0) indicate basically MNAR? So, if MAR is assumed, this quantity will be close to zero, then bias of the slope = 0?]}
 \textcolor{orange}{I don't think that's right. $H(X)$ is really $H(X, \eta, \psi)$. You should be thinking of $H(X)$ more as the probability that $R_i = 0$ given $X_i$ and $\theta_i$ (and maybe even $v_i$, depending on the model).}
+\textcolor{blue}{[Thank you. Checked!]}
 
 To gain insight into the magnitude of bias in \@ref(eq:cc-bias-b1-simp), consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
 Note that the difference $H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is a difference in conditional probabilities. 
@@ -725,6 +727,7 @@ Given the form of $H_1(X)$ in this example, it is possible for the bias of $\hat
 However, when $\psi_2 \neq 0$ (MNAR) the bias of $\hat{\beta}_{1C}$ can also decrease in magnitude relative to when $\psi_2 = 0$ if $\psi_1$ and $\psi_2$ are in opposite directions.
 \textcolor{blue}{[JL-Need to revisit this part.] Could you explain why the direction of psi1 and psi2 play a role, not only a psi2? I think it is just due to the sign of psi2, regardless of psi0 and psi1’s sign. ??}
 \textcolor{orange}{Take the derivative of the bias wrt $\psi_2$, and you'll see that it depends on $\psi_1$. So, whether the bias is increasing or decreasing as a function of $\psi_2$ depends on the value (and sign) of $\psi_1$. More important, the sign of the derivative depends on the sign of $\psi_1$.}
+\textcolor{blue}{Thanks. Checked.}
 
 A key implication of this example is that under the relatively simple selection model in \@ref(eq:cc-loglinear), CCA intercept estimators can have substantial bias. 
 This bias does not change even if $\psi_2 = 0$ and the data are MAR.
@@ -980,26 +983,26 @@ Under this selection model, $\psi$ can be estimated directly from the data using
 This gives estimates of $\hat{\psi}_0 =$ `r round(psi0_example, 2)`, and $\hat{\psi}_1 =$ `r round(psi1_example, 2)`.
 Further, when $X_{i1}$ and $X_{i2}$ are MAR, we can approximate $\eta$ via multiple imputation. 
 We used the `mice` library in the `R` programming language to generate $m = 1,000$ imputed complete datasets. 
-Imputations relied on logistic regression approach for binary covariates in `mice`. 
-<!-- the default predictive mean matching -->
-\textcolor{blue}{[JL - I see you used `logreg` option in mice because $X$s are binary.]}
-\textcolor{blue}{[Another approach]:\textit{We used the original continuous covariates ($X_1$ and $X_2$) to be imputed using the default predictive mean matching approach in `mice`. Then, we dichotomized the variables as we did in the earlier example to fit meta-regression model.}}
+Imputations relied on logistic regression approach (`logreg`) for binary covariates in `mice`. 
+<!-- \textcolor{blue}{[Another approach]:\textit{We used the original continuous covariates ($X_1$ and $X_2$) to be imputed using the default predictive mean matching approach in `mice`. Then, we dichotomized the variables as we did in the earlier example to fit meta-regression model.}} -->
 Within each dataset $i$, we estimated $\hat{\eta}^{(i)}$ using the standard approach outlined in the previous section.
 Given the values of $\psi$ and $\hat{\eta}^{(i)}$ we can compute the missingness bias in a regression of $T_i$ on $X_{i1}$ from CCA using equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example).
 The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.04 to 0.08 with a mean of 0.06; 
 the bias of $\hat{\beta}_{1}$ might range from 0 to 0.12 with a mean of 0.06.
-\textcolor{blue}{[From another approach]: \textit{The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.05 to 0.08 with a mean of 0.07; the bias of $\hat{\beta}_{1}$ might range from 0 to 0.11 with a mean of 0.05.}}
+<!-- \textcolor{blue}{[From another approach]: \textit{The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.05 to 0.08 with a mean of 0.07; the bias of $\hat{\beta}_{1}$ might range from 0 to 0.11 with a mean of 0.05.}} -->
 
 Using a similar approach, we can also compute the omitted variable bias in each imputed dataset using \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1).
 This involves computing $\hat{\beta}_2$ in each imputed dataset, as well as $p(X_2 | X_1)$ in each dataset.
 Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.05 to 0.02 with a mean of -0.01; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
 Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from -0.01 to 0.10 for $\hat{\beta}_0$ and from -0.31 to 0.23 for $\hat{\beta}_1$. \textcolor{blue}{[JL - Is this range from combining the biases of $X_1$ and $X_2$?]}
-\textcolor{blue}{[From another approach]: \textit{Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.03 to 0.03 with a mean of 0; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.19 to 0.09 with a mean of -0.01. Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.10 for $\hat{\beta}_0$ and from -0.19 to 0.20 for $\hat{\beta}_1$.}}
+<!-- \textcolor{blue}{[From another approach]: \textit{Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.03 to 0.03 with a mean of 0; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.19 to 0.09 with a mean of -0.01. Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.10 for $\hat{\beta}_0$ and from -0.19 to 0.20 for $\hat{\beta}_1$.}} -->
 
 \textcolor{orange}{No preference on imputation model here, Jihyun, since the results are pretty similar. The logreg option may be simpler to explain, but we may get pushback on it.}
+\textcolor{blue}{Sure. I commented out those.}
 
 \textcolor{orange}{How about this: Boxplots of bias for beta0 and beta1. Two horizontal panels: one for beta0, one for beta1. In each panel, boxplot of (a) total bias, (b) missingness bias, (c) omitted variable bias. 
 If we really wanted to, we could add beta2 to this, too.}
+\textcolor{blue}{[This is in Way 4 below.]}
 
 We present the distribution of biases of intercept and slope from CCA in Figure \@ref(fig:density_cca).
 
@@ -1027,12 +1030,12 @@ p_slpX1
 
 \textcolor{blue}{NOTE: It is possible to change legend to $\tau^2/v$ as in Figure 1 and 2.}
 
-\textcolor{blue}{[Way3]}
+\textcolor{blue}{[Way3 - Figure \@ref(fig:bias_density_b0), \@ref(fig:bias_density_b1)]}
 
 
 \begin{figure}
 \begin{center}
-\includegraphics[width = \textwidth]{../../writeup/cca_paper/graphics/p_int_m.pdf}
+\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_int_m.pdf}
 \end{center}
 \caption{Bias of intercept with density [ADD MORE DESCRIPTION]}
 \label{fig:bias_density_b0}
@@ -1040,7 +1043,7 @@ p_slpX1
 
 \begin{figure}
 \begin{center}
-\includegraphics[width = \textwidth]{../../writeup/cca_paper/graphics/p_b1_m.pdf}
+\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_b1_m.pdf}
 \end{center}
 \caption{Bias of slope with density [ADD MORE DESCRIPTION]}
 \label{fig:bias_density_b1}
@@ -1049,6 +1052,15 @@ p_slpX1
 \textcolor{blue}{[Need to re-align these figures as sub-figures, side-by-side.]}
 
 
+\textcolor{blue}{[Way4 - Figure \@ref(fig:bias_box)]}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/Boxplot.pdf}
+\end{center}
+\caption{Bias of intercept and slope [ADD MORE DESCRIPTION]}
+\label{fig:bias_box}
+\end{figure}
 
 <!-- While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation.  -->
 <!-- By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula.  -->

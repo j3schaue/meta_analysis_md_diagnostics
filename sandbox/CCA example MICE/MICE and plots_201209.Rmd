@@ -1,0 +1,231 @@
+---
+title: "Empirical example"
+author: "JIhyun Lee"
+date: "11/30/2020"
+output: html_document
+---
+```{r, message = F}
+library(dplyr)
+library(mice) # MI
+library(robumeta) # robu
+# graph
+library(ggplot2)
+library(tidyr)
+library(ggExtra)
+library(latex2exp)
+```
+
+# Load data
+```{r}
+adt <- readRDS("../../data/adt_data.RDS")
+dd <- adt %>%
+  group_by(studyid, groupid1, groupid2) %>%
+  arrange(desc(estimingpost)) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(studyid, es_g, se_g, 
+         g1hrs = g1hrsperweek, g2hrs = g2hrsperweek) %>%
+  mutate(v_g = se_g^2, 
+         g1hi = (g1hrs > 1.5), # dichotomize g1hrs
+         g2hi = (g2hrs > 1.5), 
+         g1_obs = ifelse(is.na(g1hi), 0, 1), 
+         g2_obs = ifelse(is.na(g2hi), 0, 1), 
+         g1_obs = factor(g1_obs), 
+         g2_obs = factor(g2_obs))
+```
+
+# MI
+
+* Impute for the original continuous covariates, then, dichotomize to make binary covariates.
+
+```{r message = F}
+# Use the original numerical variables
+data <- dd %>% select(studyid, es_g, v_g, g1hrs, g2hrs)
+md.pattern(data)
+ini <- mice(data, m = 1000, print = FALSE, maxit= 0)
+pred <- ini$predictorMatrix
+pred[,c("studyid")] <- 0
+
+# Impute
+set.seed(10)
+imp <- mice(data, predictorMatrix = pred, print = FALSE, m = 1000) 
+imp$method
+imp$predictorMatrix
+
+
+imp_g1hrs <- imp$imp$g1hrs
+id_g1hrs<- as.numeric(rownames(imp_g1hrs))
+
+imp_g2hrs <- imp$imp$g2hrs
+id_g2hrs<- as.numeric(rownames(imp_g2hrs))
+
+complete_imp <- mice::complete(imp, action = "long")
+
+### Dichotomize variable
+impdat <- complete_imp %>%
+    group_by(.imp)%>%
+    mutate(g1hi = ifelse(g1hrs > 1.5,1,0), # dichotomize g1hrs
+         g2hi = ifelse(g2hrs > 1.5, 1, 0),
+         g1obs = ifelse(.id %in% id_g1hrs, 0, 1),
+          g2obs = ifelse(.id %in% id_g2hrs, 0, 1))
+
+
+
+# summarize imputations
+emp_bias_parmas <- impdat %>% 
+  group_by(.imp) %>%
+  summarise(H0_g1 = sum(g1hi == 0 & g1obs==0)/sum(g1hi == 0), # H0 for X1
+            H1_g1 = sum(g1hi == 1 & g1obs==0)/sum(g1hi == 1), # H1 for X1
+            H0_g2 = sum(g2hi == 0 & g2obs==0)/sum(g2hi == 0), # H0 for X2
+            H1_g2 = sum(g2hi == 1 & g2obs==0)/sum(g2hi == 1), # H1 for X2
+            p01 = sum(g2hi == 1 & g1hi == 0)/sum(g1hi == 0), # P[X2 = 1 | X1 = 0]
+            p11 = sum(g2hi == 1 & g1hi == 1)/sum(g1hi == 1)) # P[X2 = 1 | X1 = 1]
+
+glm(g1_obs ~ es_g, family ="binomial", data = dd)
+
+psi1_g1 = glm(I(1-g1_obs==0) ~ es_g, family = "binomial", data = dd_r %>% mutate(g1hi_na = is.na(g1hi)))$coefficients[["es_g"]] # psi1 for X1
+psi1_g2 = glm(I(1-g2hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g2hi_na = is.na(g2hi)))$coefficients[["es_g"]]
+
+
+betas <- lapply(1:m, 
+                FUN = function(i){
+                  dat <- impdat %>% filter(.imp == i)
+                  fit <- robu(es_g ~ g1hi + g2hi, data = dat, studynum = studyid, var.eff.size = v_g, print = FALSE) # fit MR model
+                  mod <- fit$reg_table # extract coefficients
+                  beta1 <- mod[[2, 2]]
+                  beta2 <- mod[[3, 2]]
+                  tau2 <- as.numeric(fit$mod_info$tau.sq) # extract variance components
+                  return(tibble(beta1 = beta1, beta2 = beta2, tau2 = tau2))
+                }) %>% 
+  bind_rows()
+
+# aggregate components for bias and compute bias for example
+ebp <- bind_cols(emp_bias_parmas, betas) %>%
+  mutate(
+    bias_b0CC = H0_g1 * (v0_g1 + tau2) * psi1_g1, 
+    bias_b1CC = (H1_g1 * (v1_g1 + tau2) - H0_g1 * (v0_g1 * tau2)) * psi1_g1, 
+    omv_bias_b0 = beta2 * p01, 
+    omv_bias_b1 = beta2 * (p11 - p01)
+    )
+
+#save(ebp, file = "/Users/jihyunl/Box/CCA paper/ebp_JL_201117.csv")
+save(ebp, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/sandbox/CCA example MICE/imp_dat.csv")
+
+summary(ebp$bias_b0CC)
+summary(ebp$bias_b1CC)
+summary(ebp$omv_bias_b0)
+summary(ebp$omv_bias_b1)
+
+```
+
+
+# Graphs
+
+```{r}
+v <- (v0_g1 + v1_g1)/2 # mean of v 
+
+grdat <- ebp %>%
+  mutate(tau2_v = tau2/v,
+         TotalV = tau2 + v)
+
+grdat %>% ggplot() +
+  geom_point(aes(x = H0_g1, y = bias_b0CC, color = tau2_v)) +
+  labs(color = TeX("$\\tau^2/v$"), x = TeX("$H_1(0)$"), y = TeX("bias of $\\beta_0$")) +
+  theme_minimal() # somewhat matched to Figure 1. (N = 74, psi1 = 1.63)
+```
+
+```{r}
+# With total variance - Intercept
+p_intX1 <-grdat %>% ggplot() +
+  geom_point(aes(x = H0_g1, y = bias_b0CC, color = TotalV)) +
+  labs(color = TeX("Total variance ($\\tau^2 + v$)"), x = TeX("$H_1(0)$"), y = TeX("bias of $\\beta_0$")) +
+  theme_minimal() 
+
+# ggsave(plot = p_intX1,
+#        filename = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/CCA_bias_int_X1.pdf")
+# 
+# save(p_intX1, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/p_intX1.rds")
+```
+
+```{r}
+## Slope
+grdat <- grdat %>% mutate(`H1-H0` = H1_g1 - H0_g1)
+
+p_slpX1 <- ggplot(grdat) +
+  geom_point(aes(x = `H1-H0`, y = bias_b1CC, color = TotalV)) +
+  labs(color = TeX("Total variance ($\\tau^2 + v$)"), x = TeX("$H_1(1)-H_1(0)$"), y = TeX("Bias of $\\beta_1$")) +
+  # ggtitle(TeX("Bias in slope of $X_1$"))+
+  theme_minimal() 
+
+# ggsave(plot = p_slpX1,
+#        filename = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/CCA_bias_slp_X1.pdf")
+# 
+# save(p_slpX1, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/p_slpX1.rds")
+```
+
+## With marginal distribution
+### Intercept
+```{r}
+## Intercept Total variance
+p_int_m <- grdat %>% ggplot() +
+  geom_point(aes(x = H0_g1, y = bias_b0CC, color = TotalV)) +
+  theme_minimal()+
+  theme(legend.position = "bottom") +
+  labs(color = TeX("Total variance ($\\tau^2 + v$)"), x = TeX("$H_1(0)$"), y = TeX("Bias of $\\beta_0$")) 
+
+p_int_m <- ggMarginal(p_int_m, type = "density")
+
+# save(p_int_m, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/p_intX1_m.rds")
+# 
+# ggsave(p_int_m, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/p_int_m.pdf", width = 14, height = 7)
+```
+
+
+### Slope
+```{r}
+#### Slope
+p_b1_m <- grdat %>% ggplot() +
+  geom_point(aes(x = `H1-H0`, y = bias_b1CC, color = TotalV)) +
+  theme_minimal()+
+  theme(legend.position = "bottom") +
+  labs(color = TeX("Total variance ($\\tau^2 + v$)"), x = TeX("$H_1(1)-H_1(0)$"), y = TeX("Bias of $\\beta_1$")) 
+
+p_b1_m <- ggMarginal(p_b1_m, type = "density")
+
+# ggsave(p_b1_m, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/p_b1_m.pdf", width = 14, height = 7)
+```
+
+## Boxplots
+
+
+```{r}
+# reshape data 
+grdat_sub <- grdat %>% 
+  select(bias_b0CC:omv_bias_b1, TotalV) %>%
+  mutate(TotalBias_b0 = bias_b0CC + omv_bias_b0,
+         TotalBias_b1 = bias_b1CC + omv_bias_b1)
+
+grdat_sub_long <- grdat_sub %>%
+  pivot_longer(cols = c(bias_b0CC:omv_bias_b1, TotalBias_b0:TotalBias_b1),
+               names_to = "Bias Type",
+               values_to = "Bias")
+
+grdat_sub_long <- grdat_sub_long %>% 
+  mutate(Parameter = ifelse(`Bias Type`=="bias_b0CC"|`Bias Type`=="omv_bias_b0"|`Bias Type` == "TotalBias_b0", "b0", "b1"))
+
+table(grdat_sub_long$`Bias Type`)
+table(grdat_sub_long$Parameter)
+
+grdat_sub_long <- grdat_sub_long %>%
+  mutate(`Bias Type` = ifelse(`Bias Type` == "bias_b0CC" | `Bias Type` == "bias_b1CC", "Missingness Bias", ifelse(`Bias Type` == "omv_bias_b0" | `Bias Type` == "omv_bias_b1", "Omitted  Variable Bias", "Total Bias")))
+
+## graph
+boxplot_x1<-ggplot(grdat_sub_long) +
+  geom_boxplot(aes(x = `Bias Type`, y = Bias, fill = `Bias Type`)) +
+  facet_wrap(~ Parameter) +
+  theme_bw() +
+  theme(axis.text.x.bottom =  element_blank(), axis.text = element_text(size = 12)) 
+
+ggsave(boxplot_x1, file = "/Users/jihyunl/Documents/GitHub/meta_analysis_md_diagnostics/writeup/cca_paper/graphics/Boxplot.pdf", width = 14, height = 7)
+```
+
