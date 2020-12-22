@@ -207,7 +207,7 @@ p4 <- ggplot(cc_ebp) +
   theme_bw() + 
   scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
   textsize
-
+p4
 ggsave(plot = p4,
        filename = "./writeup/cca_paper/graphics/emp_miss_bias.pdf", 
        width = 12, height = 6)
@@ -259,19 +259,18 @@ ggsave(plot = p6,
 
 
 p7dat <- tot_emp %>%
-  mutate(bias = "Total Bias") %>%
-  bind_rows(cc_ebp %>% mutate(bias = "Missingness Bias"), 
-            sc_ebp %>% mutate(bias = "Omitted Var. Bias"))
+  mutate(bias = "Total") %>%
+  bind_rows(cc_ebp %>% mutate(bias = "Missingness"), 
+            sc_ebp %>% mutate(bias = "Omitted Var."))
 
 p7 <- ggplot(p7dat) + 
-  stat_density(aes(value, color = bias), geom = "line") +
-  # geom_vline(data = tot_emp %>% group_by(parameter) %>% summarize(pl = mean(value)),
-  #            aes(xintercept = pl), color = "red") +
-  facet_wrap(~parameter, labeller = label_parsed) +
-  labs(x = "Bias", y = "Density") +
+  geom_boxplot(aes(value, bias)) +
+  geom_vline(xintercept = 0) +
+  facet_grid(parameter ~ ., labeller = label_parsed) +
+  labs(x = "Bias", y = "") +
   theme_bw() + 
-  # scale_x_continuous(breaks = c(0, 0.05, 0.1)) +
-  textsize
+  textsize +
+  theme(strip.text.y = element_text(angle = 0))
 p7
 
 

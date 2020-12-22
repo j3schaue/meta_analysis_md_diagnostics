@@ -15,7 +15,7 @@ output:
     extra_dependencies: "subfig"
   bookdown::word_document2: 
     reference_docx: ../addons/styles_word.docx
-bibliography: ../addons/cca_references_alt.json
+bibliography: ../addons/cca_references.json
 ---
 
 
@@ -966,104 +966,126 @@ summary(ebp$omv_bias_b1)
 The theoretical results above suggest that there are conditions under which the coefficient estimates from the CCA and SCA of the substance abuse data in Table \@ref(tab:ccadtexample) are substantially biased.
 However, it will be difficult, if not impossible, to determine just how biased those estimates are, even given the simplified examples in the previous sections.
 First, the missingness mechanism is not known for the substance abuse data. 
-Even if we assume that the mechanism follows a log-linear model like that in \@ref(eq:cc-loglinear), the resulting formulas for the bias depend on quantities, such as $\psi$ and $\eta$ that are not known.
-The parameters that govern bias under log-linear selection models *may* be estimated if no data were missing, or under stronger assumptions. 
-Thus, it is possible to quantify the potential biases in the substance abuse example assuming that both $X_{i1}$ and $X_{i2}$ are MAR, and that $R_{i1}$ follows a log-linear distribution: 
-\begin{equation}
-\text{logit}[p(R_{i1} = 1 | T_i, X_i, v_i)] = \psi_0 + \psi_1 T_i
-\end{equation}
-This is similar to the examples discussed in the previous sections, and the bias will follow from the expressions derived in those sections.
+Even if we assume that the mechanism follows a log-linear model like that in \@ref(eq:cc-loglinear) or \@ref(eq:logit-sca), the resulting formulas for the bias depend on quantities, such as $\psi$ and $\eta$ that are not known, and cannot be estimated in the presence of missing data without further assumptions.
 
+However, one approach to examining bias in the estimates presented in Table \@ref(tab:ccadtexample) would involve stochastically imputing the missing $X_{ij}$ in the data.
+In the same vein as multiple imputation (MI), each set of imputed values constitutes a "complete" dataset from which we can compute the parameters relevant to bias [@rubinMultipleImputationNonresponse1987; @littleStatisticalAnalysisMissing2002]. 
+Given an imputed dataset, we can compute (a) the difference in the resulting $\hat{\beta}^{(i)}$ for the $i$th imputed dataset and $\hat{\beta}_S$, (b) the quantities that govern bias in the formulas above, including $\psi$, $H(X)$, and $\tau^2$.
+This allows us not only to assess the bias, but also to examine which aspects of the missing data are driving it.
+
+As with MI, the accuracy of the resulting estimated quantities depends on the validity of assumptions regarding missingness and the accuracy of the imputation model. 
+Thus, we would urge interpretation of the following results as *potential* biases in the CCA and SCA estimators presented earlier in this article, rather than a precise estimate of the bias.
+We generated $m = 1,000$ imputations using the `mice` software in the `R` programming language [@vanbuurenMiceMultivariateImputation2011].
+Estimates of $\eta$ were computed using `metafor`, specifying a Paule-Mandel estimator for the variance component $\tau^2$ [@viechtbauerConductingMetaanalysesMetafor2010]. 
+To estimate the log-linear model selection parameters $\psi$ in \@ref(eq:logit-sca), as well as $H(X)$, we used a logistic regression with the missingness indicator $R_{ij}$ and $T_i$ and $X_{ij}$ as the predictors.
+
+Here, we focus on results for $\beta_0$ and $\beta_1$. 
 Consider the regression of $T_i$ on $X_{i1}$ reported in Table \@ref(tab:ccadtexample). 
 We can view this as a single regression in an SCA that includes only observations for which $X_{i1}$ is observed. 
-As noted above, the resulting estimators of the intercept and slope will exhibit bias due to missingness given in \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example) and bias due to omitting variables as in \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1).
+As noted above, the resulting estimators of the intercept $\beta_0$ and slope $\beta_1$ will exhibit bias due to missingness given in \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example) and bias due to omitting variables as in \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1).
 Recall that the bias due to missingness in an SCA under this model will be similar to the bias derived for a CCA.
+
+Figure \@ref(fig:bias-box) plots the omitted variable bias, missingness bias, and total bias for both $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$.
+Results are reported on the scale of Cohen's $d$.
+Omitted variable biases for $\hat{\beta}_{0S}$ range from -0.05 to 0.02 with a mean of -0.01; omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
+Similarly the bias due to missingness could feasibly range from 0.04 to 0.08 with a mean of 0.06 for $\hat{\beta}_{0S}$, while the missingness bias of $\hat{\beta}_{1S}$ might range from 0 to 0.12 with a mean of 0.06.
+In sum, this amounts to a total bias of -0.01 to 0.10 for $\hat{\beta}_{0S}$ and from -0.31 to 0.23 for $\hat{\beta}_{1S}$.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/bias_boxplot.jpg}
+\end{center}
+\caption{Bias SCA regression of $T_i$ on $X_{i1}$. For both the intercept $\beta_0$ and slope $\beta_1$, these boxplots show the total potential bias of the SCA estimators, as well as the omitted variable and missingness bias. Units are shown on the scale of Cohen's $d$.}
+\label{fig:bias-box}
+\end{figure}
+
+
+<!-- The parameters that govern bias under log-linear selection models *may* be estimated if no data were missing, or under stronger assumptions.  -->
+<!-- Thus, it is possible to quantify the potential biases in the substance abuse example assuming that both $X_{i1}$ and $X_{i2}$ are MAR, and that $R_{i1}$ follows a log-linear distribution:  -->
+<!-- \begin{equation} -->
+<!-- \text{logit}[p(R_{i1} = 1 | T_i, X_i, v_i)] = \psi_0 + \psi_1 T_i -->
+<!-- \end{equation} -->
+<!-- This is similar to the examples discussed in the previous sections, and the bias will follow from the expressions derived in those sections. -->
+
 
 <!-- The resulting bias in $\hat{\beta}_{C}$ for a CCA that includes only $X_{i1}$ is given in equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example), which depend on $\psi_0, \psi_1$, and $\eta$.  -->
 <!-- Similarly, the omitted variable bias in an SCA regression of $T_i$ on $X_{i1}$ is a function of $X_i$ and $\eta$. -->
-First, we consider the missingness bias, which depends on $\psi_0, \psi_1$, and $\eta$ per equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example).
-Under this selection model, $\psi$ can be estimated directly from the data using a logistic regression of $R_{i1}$ on $T_i$. 
-This gives estimates of $\hat{\psi}_0 =$ `r round(psi0_example, 2)`, and $\hat{\psi}_1 =$ `r round(psi1_example, 2)`.
-Further, when $X_{i1}$ and $X_{i2}$ are MAR, we can approximate $\eta$ via multiple imputation. 
-We used the `mice` library in the `R` programming language to generate $m = 1,000$ imputed complete datasets. 
-Imputations relied on logistic regression approach (`logreg`) for binary covariates in `mice`. 
+<!-- First, we consider the missingness bias, which depends on $\psi_0, \psi_1$, and $\eta$ per equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example). -->
+<!-- Under this selection model, $\psi$ can be estimated directly from the data using a logistic regression of $R_{i1}$ on $T_i$.  -->
+<!-- This gives estimates of $\hat{\psi}_0 =$ `r round(psi0_example, 2)`, and $\hat{\psi}_1 =$ `r round(psi1_example, 2)`. -->
+<!-- Further, when $X_{i1}$ and $X_{i2}$ are MAR, we can approximate $\eta$ via multiple imputation.  -->
+<!-- We used the `mice` library in the `R` programming language to generate $m = 1,000$ imputed complete datasets.  -->
+<!-- Imputations relied on logistic regression approach (`logreg`) for binary covariates in `mice`.  -->
 <!-- \textcolor{blue}{[Another approach]:\textit{We used the original continuous covariates ($X_1$ and $X_2$) to be imputed using the default predictive mean matching approach in `mice`. Then, we dichotomized the variables as we did in the earlier example to fit meta-regression model.}} -->
-Within each dataset $i$, we estimated $\hat{\eta}^{(i)}$ using the standard approach outlined in the previous section.
-Given the values of $\psi$ and $\hat{\eta}^{(i)}$ we can compute the missingness bias in a regression of $T_i$ on $X_{i1}$ from CCA using equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example).
-The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.04 to 0.08 with a mean of 0.06; 
-the bias of $\hat{\beta}_{1}$ might range from 0 to 0.12 with a mean of 0.06.
+<!-- Within each dataset $i$, we estimated $\hat{\eta}^{(i)}$ using the standard approach outlined in the previous section. -->
+<!-- Given the values of $\psi$ and $\hat{\eta}^{(i)}$ we can compute the missingness bias in a regression of $T_i$ on $X_{i1}$ from CCA using equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example). -->
+<!-- The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.04 to 0.08 with a mean of 0.06;  -->
+<!-- the bias of $\hat{\beta}_{1}$ might range from 0 to 0.12 with a mean of 0.06. -->
 <!-- \textcolor{blue}{[From another approach]: \textit{The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.05 to 0.08 with a mean of 0.07; the bias of $\hat{\beta}_{1}$ might range from 0 to 0.11 with a mean of 0.05.}} -->
 
-Using a similar approach, we can also compute the omitted variable bias in each imputed dataset using \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1).
-This involves computing $\hat{\beta}_2$ in each imputed dataset, as well as $p(X_2 | X_1)$ in each dataset.
-Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.05 to 0.02 with a mean of -0.01; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
-Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from -0.01 to 0.10 for $\hat{\beta}_0$ and from -0.31 to 0.23 for $\hat{\beta}_1$. \textcolor{blue}{[JL - Is this range from combining the biases of $X_1$ and $X_2$?]}
+<!-- Using a similar approach, we can also compute the omitted variable bias in each imputed dataset using \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1). -->
+<!-- This involves computing $\hat{\beta}_2$ in each imputed dataset, as well as $p(X_2 | X_1)$ in each dataset. -->
+<!-- Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.05 to 0.02 with a mean of -0.01; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05. -->
+<!-- Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from -0.01 to 0.10 for $\hat{\beta}_0$ and from -0.31 to 0.23 for $\hat{\beta}_1$. \textcolor{blue}{[JL - Is this range from combining the biases of $X_1$ and $X_2$?]} -->
 <!-- \textcolor{blue}{[From another approach]: \textit{Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.03 to 0.03 with a mean of 0; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.19 to 0.09 with a mean of -0.01. Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.10 for $\hat{\beta}_0$ and from -0.19 to 0.20 for $\hat{\beta}_1$.}} -->
 
-\textcolor{orange}{No preference on imputation model here, Jihyun, since the results are pretty similar. The logreg option may be simpler to explain, but we may get pushback on it.}
-\textcolor{blue}{Sure. I commented out those.}
+<!-- \textcolor{orange}{No preference on imputation model here, Jihyun, since the results are pretty similar. The logreg option may be simpler to explain, but we may get pushback on it.} -->
+<!-- \textcolor{blue}{Sure. I commented out those.} -->
 
-\textcolor{orange}{How about this: Boxplots of bias for beta0 and beta1. Two horizontal panels: one for beta0, one for beta1. In each panel, boxplot of (a) total bias, (b) missingness bias, (c) omitted variable bias. 
-If we really wanted to, we could add beta2 to this, too.}
-\textcolor{blue}{[This is in Way 4 below.]}
+<!-- \textcolor{orange}{How about this: Boxplots of bias for beta0 and beta1. Two horizontal panels: one for beta0, one for beta1. In each panel, boxplot of (a) total bias, (b) missingness bias, (c) omitted variable bias.  -->
+<!-- If we really wanted to, we could add beta2 to this, too.} -->
+<!-- \textcolor{blue}{[This is in Way 4 below.]} -->
 
-We present the distribution of biases of intercept and slope from CCA in Figure \@ref(fig:density_cca).
+<!-- We present the distribution of biases of intercept and slope from CCA in Figure \@ref(fig:density_cca). -->
 
-\textcolor{blue}{[Way1]}
+<!-- \textcolor{blue}{[Way1]} -->
 
-\begin{figure}
-\begin{center}
-\includegraphics[width = \textwidth]{../../writeup/cca_paper/graphics/emp_miss_bias.pdf}
-\end{center}
-\caption{This figure shows the density of complete-case bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ for $X_{i1}$. The vertical lines indicate the means of each bias.}
-\label{fig:density_cca}
-\end{figure}
+<!-- \begin{figure} -->
+<!-- \begin{center} -->
+<!-- \includegraphics[width = \textwidth]{../../writeup/cca_paper/graphics/emp_miss_bias.pdf} -->
+<!-- \end{center} -->
+<!-- \caption{This figure shows the density of complete-case bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ for $X_{i1}$. The vertical lines indicate the means of each bias.} -->
+<!-- \label{fig:density_cca} -->
+<!-- \end{figure} -->
 
-\textcolor{blue}{[Way2]}
+<!-- \textcolor{blue}{[Way2]} -->
 
-```{r, fig.cap='Figure', fig.subcap=c('(a)', '(b)'), fig.ncol = 2, out.width = "50%", echo = F}
-load("../../writeup/cca_paper/graphics/p_intX1.rds")
+<!-- ```{r, fig.cap='Figure', fig.subcap=c('(a)', '(b)'), fig.ncol = 2, out.width = "50%", echo = F} -->
+<!-- load("../../writeup/cca_paper/graphics/p_intX1.rds") -->
 
-p_intX1
+<!-- p_intX1 -->
 
-load("../..//writeup/cca_paper/graphics/p_slpX1.rds")
+<!-- load("../..//writeup/cca_paper/graphics/p_slpX1.rds") -->
 
-p_slpX1
-```
+<!-- p_slpX1 -->
+<!-- ``` -->
 
-\textcolor{blue}{NOTE: It is possible to change legend to $\tau^2/v$ as in Figure 1 and 2.}
+<!-- \textcolor{blue}{NOTE: It is possible to change legend to $\tau^2/v$ as in Figure 1 and 2.} -->
 
-\textcolor{blue}{[Way3 - Figure \@ref(fig:bias_density_b0), \@ref(fig:bias_density_b1)]}
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_int_m.pdf}
-\end{center}
-\caption{Bias of intercept with density [ADD MORE DESCRIPTION]}
-\label{fig:bias_density_b0}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_b1_m.pdf}
-\end{center}
-\caption{Bias of slope with density [ADD MORE DESCRIPTION]}
-\label{fig:bias_density_b1}
-\end{figure}
-
-\textcolor{blue}{[Need to re-align these figures as sub-figures, side-by-side.]}
+<!-- \textcolor{blue}{[Way3 - Figure \@ref(fig:bias_density_b0), \@ref(fig:bias_density_b1)]} -->
 
 
-\textcolor{blue}{[Way4 - Figure \@ref(fig:bias_box)]}
+<!-- \begin{figure} -->
+<!-- \begin{center} -->
+<!-- \includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_int_m.pdf} -->
+<!-- \end{center} -->
+<!-- \caption{Bias of intercept with density [ADD MORE DESCRIPTION]} -->
+<!-- \label{fig:bias_density_b0} -->
+<!-- \end{figure} -->
 
-\begin{figure}
-\begin{center}
-\includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/Boxplot.pdf}
-\end{center}
-\caption{Bias of intercept and slope [ADD MORE DESCRIPTION]}
-\label{fig:bias_box}
-\end{figure}
+<!-- \begin{figure} -->
+<!-- \begin{center} -->
+<!-- \includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_b1_m.pdf} -->
+<!-- \end{center} -->
+<!-- \caption{Bias of slope with density [ADD MORE DESCRIPTION]} -->
+<!-- \label{fig:bias_density_b1} -->
+<!-- \end{figure} -->
+
+<!-- \textcolor{blue}{[Need to re-align these figures as sub-figures, side-by-side.]} -->
+
+
+<!-- \textcolor{blue}{[Way4 - Figure \@ref(fig:bias_box)]} -->
+
 
 <!-- While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation.  -->
 <!-- By imputing missing covariates $X$, and retaining information about $\mathbf{R}$, we can estimate the quantities in the bias formula.  -->
@@ -1121,7 +1143,7 @@ However, we would discourage analysts from continuing to use shifting-case analy
 We would also suggest analysts investigate the feasibility of alternative estimation methods. 
 @ibrahimIncompleteDataGeneralized1990 describes an EM algorithm for generalized linear models with missing covariates, and @ibrahimMissingCovariatesGeneralized1999 extend that algorithm when covariates are MNAR.
 In addition, full-information maximum likelihood (FIML) has long been used in linear models [@grahamMissingDataAnalysis2009; @grahamMissingData2012], and has shown some promise for meta-regression involving continuous covariates. 
-Finally, multiple imputation (MI) has become something of a standard approach for handling missing data across a number of fields [@rubinMultipleImputationNonresponse1987; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018]. 
+Finally, multiple imputation has become something of a standard approach for handling missing data across a number of fields [@rubinMultipleImputationNonresponse1987; @littleStatisticalAnalysisMissing2002; @vanbuurenFlexibleImputationMissing2018]. 
 
 However, employing any of these alternative strategies is not necessarily straightforward for meta-analysts.
 To our knowledge, the EM algorithm for missing covariates has yet to be implemented in standard meta-analytic software.

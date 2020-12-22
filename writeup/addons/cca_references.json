@@ -4432,5 +4432,287 @@
 				]
 			]
 		}
+	},
+	{
+		"id": "duvalTrimFillSimple2000",
+		"type": "article-journal",
+		"container-title": "Biometrics",
+		"DOI": "10.1111/j.0006-341X.2000.00455.x",
+		"ISSN": "0006341X",
+		"issue": "2",
+		"language": "en",
+		"page": "455-463",
+		"source": "DOI.org (Crossref)",
+		"title": "Trim and Fill: A Simple Funnel-Plot-Based Method of Testing and Adjusting for Publication Bias in Meta-Analysis",
+		"title-short": "Trim and Fill",
+		"URL": "http://doi.wiley.com/10.1111/j.0006-341X.2000.00455.x",
+		"volume": "56",
+		"author": [
+			{
+				"family": "Duval",
+				"given": "Sue"
+			},
+			{
+				"family": "Tweedie",
+				"given": "Richard"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2000",
+					6
+				]
+			]
+		}
+	},
+	{
+		"id": "polaninLocatingUnregisteredUnreported2020",
+		"type": "article-journal",
+		"container-title": "Systematic Reviews",
+		"DOI": "10.1186/s13643-020-01376-9",
+		"ISSN": "2046-4053",
+		"issue": "1",
+		"journalAbbreviation": "Syst Rev",
+		"language": "en",
+		"page": "116",
+		"source": "DOI.org (Crossref)",
+		"title": "Locating unregistered and unreported data for use in a social science systematic review and meta-analysis",
+		"URL": "https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/s13643-020-01376-9",
+		"volume": "9",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Espelage",
+				"given": "Dorothy L."
+			},
+			{
+				"family": "Grotpeter",
+				"given": "Jennifer K."
+			},
+			{
+				"family": "Valido",
+				"given": "Alberto"
+			},
+			{
+				"family": "Ingram",
+				"given": "Katherine M."
+			},
+			{
+				"family": "Torgal",
+				"given": "Cagil"
+			},
+			{
+				"family": "El Sheikh",
+				"given": "America"
+			},
+			{
+				"family": "Robinson",
+				"given": "Luz E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "polaninDatasharingAgreementHelps2019",
+		"type": "article-journal",
+		"container-title": "Journal of Clinical Epidemiology",
+		"DOI": "10.1016/j.jclinepi.2018.10.006",
+		"ISSN": "08954356",
+		"journalAbbreviation": "Journal of Clinical Epidemiology",
+		"language": "en",
+		"page": "60-69",
+		"source": "DOI.org (Crossref)",
+		"title": "A data-sharing agreement helps to increase researchers’ willingness to share primary data: results from a randomized controlled trial",
+		"title-short": "A data-sharing agreement helps to increase researchers’ willingness to share primary data",
+		"URL": "https://linkinghub.elsevier.com/retrieve/pii/S0895435617313306",
+		"volume": "106",
+		"author": [
+			{
+				"family": "Polanin",
+				"given": "Joshua R."
+			},
+			{
+				"family": "Terzian",
+				"given": "Mary"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					9,
+					9
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2019",
+					2
+				]
+			]
+		}
+	},
+	{
+		"id": "glynnRegressionEstimatesMissing1986",
+		"type": "article-journal",
+		"container-title": "Cambridge, MA: Harvard School of Public Health, Department of Biostatistics",
+		"title": "Regression estimates and missing data: Complete case analysis",
+		"author": [
+			{
+				"family": "Glynn",
+				"given": "R. J."
+			},
+			{
+				"family": "Laird",
+				"given": "Nan M."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1986"
+				]
+			]
+		}
+	},
+	{
+		"id": "littleRegressionMissingReview1992",
+		"type": "article-journal",
+		"container-title": "Journal of the American Statistical Association",
+		"DOI": "10.1080/01621459.1992.10476282",
+		"ISSN": "0162-1459, 1537-274X",
+		"issue": "420",
+		"journalAbbreviation": "Journal of the American Statistical Association",
+		"language": "en",
+		"page": "1227-1237",
+		"source": "DOI.org (Crossref)",
+		"title": "Regression with missing <i>X</i> 's: A review",
+		"title-short": "Regression with Missing <i>X</i> 's",
+		"URL": "http://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10476282",
+		"volume": "87",
+		"author": [
+			{
+				"family": "Little",
+				"given": "Roderick J. A."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					11,
+					2
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1992",
+					12
+				]
+			]
+		}
+	},
+	{
+		"id": "whiteBiasEfficiencyMultiple2010",
+		"type": "article-journal",
+		"container-title": "Statistics in medicine",
+		"issue": "28",
+		"page": "2920 - 2931",
+		"title": "Bias and efficiency of multiple imputation compared with complete-case analysis for missing covariate values",
+		"URL": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.3944?casa_token=5ez5Z7izigIAAAAA:cgHai9_QB11u3aRQvs7ObpoASN6EpzT0DhXTfLJCu2DEd_ifaBCzJkJj8fRYwSVtOKPhYW94zaQ",
+		"volume": "29",
+		"author": [
+			{
+				"family": "White",
+				"given": "Ian R."
+			},
+			{
+				"family": "Carlin",
+				"given": "John B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2010"
+				]
+			]
+		}
+	},
+	{
+		"id": "vanbuurenMiceMultivariateImputation2011",
+		"type": "article-journal",
+		"container-title": "Journal of Statistical Software",
+		"DOI": "10.18637/jss.v045.i03",
+		"ISSN": "1548-7660",
+		"issue": "3",
+		"journalAbbreviation": "J. Stat. Soft.",
+		"language": "en",
+		"source": "DOI.org (Crossref)",
+		"title": "<b>mice</b> : Multivariate Imputation by Chained Equations in <i>R</i>",
+		"title-short": "<b>mice</b>",
+		"URL": "http://www.jstatsoft.org/v45/i03/",
+		"volume": "45",
+		"author": [
+			{
+				"family": "Buuren",
+				"given": "Stef",
+				"non-dropping-particle": "van",
+				"dropping-particle": "van"
+			},
+			{
+				"family": "Groothuis-Oudshoorn",
+				"given": "Karin"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					12,
+					22
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2011"
+				]
+			]
+		}
 	}
 ]
