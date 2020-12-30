@@ -745,11 +745,8 @@ Moreover, because inference for the group of studies for which $X_i = 1$ will de
 <!-- In this case, the hypothetical difference in missingness rates ($H_1(0) - H_1(1)$) becomes zero. Then, the bias in slope is also to be zero.  -->
 
 <!-- We may often encounter the unbiased regression slope estimate using CCA and it has been known in missing data literature (Glynn & Laird, 1986, as cited in Little \& Rubin, 2002, Chapter 3).  -->
-<!-- \textcolor{blue}{[JL - Jake, I wasn't sure how to add this to reference. It is "Glynn,R. J.,and Laird,N. M., (1986), "Regression Estimates and Missing Data: Complete-Case Analysis, "Technical Report, Harvard School of Public Health, Dept. of Biostatistic"]} -->
 <!-- However, we should note that it does not imply that CCA is ok to be used. With the biased intercept related to $H_1(0)$, the estimated pooled effect sizes for each group ($X_1=0$ vs. $X_1=1$) are still biased. Thus, overall, we will end up interpret the meta-regression model with bias with CCA. -->
 
-<!-- \textcolor{blue}{[PREVIOUS VERSION:]} -->
-<!-- \textit{The missingness rate for Group 1's intensity is 27%.} \textcolor{blue}{[JL- I think this is the missingness rate in $X_1$, not necessarily about missing in $X_1=0$?]} -->
 
 <!-- Lastly, it is worth noting that the missingness mechanism in this example is MNAR because the selection model involves $X_i$.  -->
 <!-- However, the bias is largely a function of $\psi_1$, which is the coefficient in the selection model for the effect size $T_i$. Including $X_i$ or not in the selection model does not influence on the magnitude of bias because the approximation is respect to $T_i$ \footnote{Any components of the selection model without involving $T_i$ would be canceled out and not impact on the bias.}. -->
@@ -1005,75 +1002,22 @@ In sum, this amounts to a total bias of -0.01 to 0.10 for $\hat{\beta}_{0S}$ and
 <!-- Further, when $X_{i1}$ and $X_{i2}$ are MAR, we can approximate $\eta$ via multiple imputation.  -->
 <!-- We used the `mice` library in the `R` programming language to generate $m = 1,000$ imputed complete datasets.  -->
 <!-- Imputations relied on logistic regression approach (`logreg`) for binary covariates in `mice`.  -->
-<!-- \textcolor{blue}{[Another approach]:\textit{We used the original continuous covariates ($X_1$ and $X_2$) to be imputed using the default predictive mean matching approach in `mice`. Then, we dichotomized the variables as we did in the earlier example to fit meta-regression model.}} -->
 <!-- Within each dataset $i$, we estimated $\hat{\eta}^{(i)}$ using the standard approach outlined in the previous section. -->
 <!-- Given the values of $\psi$ and $\hat{\eta}^{(i)}$ we can compute the missingness bias in a regression of $T_i$ on $X_{i1}$ from CCA using equations \@ref(eq:cc-bias-b0) and \@ref(eq:cc-bias-beta1-example). -->
 <!-- The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.04 to 0.08 with a mean of 0.06;  -->
 <!-- the bias of $\hat{\beta}_{1}$ might range from 0 to 0.12 with a mean of 0.06. -->
-<!-- \textcolor{blue}{[From another approach]: \textit{The values computed in each imputed dataset suggest the bias of $\hat{\beta}_{0}$ could feasibly range from 0.05 to 0.08 with a mean of 0.07; the bias of $\hat{\beta}_{1}$ might range from 0 to 0.11 with a mean of 0.05.}} -->
 
 <!-- Using a similar approach, we can also compute the omitted variable bias in each imputed dataset using \@ref(eq:omvar-b0) and \@ref(eq:omvar-b1). -->
 <!-- This involves computing $\hat{\beta}_2$ in each imputed dataset, as well as $p(X_2 | X_1)$ in each dataset. -->
 <!-- Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.05 to 0.02 with a mean of -0.01; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05. -->
 <!-- Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from -0.01 to 0.10 for $\hat{\beta}_0$ and from -0.31 to 0.23 for $\hat{\beta}_1$. \textcolor{blue}{[JL - Is this range from combining the biases of $X_1$ and $X_2$?]} -->
-<!-- \textcolor{blue}{[From another approach]: \textit{Doing so results in omitted variable biases for $\hat{\beta}_{0S}$ that range from -0.03 to 0.03 with a mean of 0; the omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.19 to 0.09 with a mean of -0.01. Taken together, the imputed datasets suggest the total bias of $\hat{\beta}$ viewed as part of an SCA might range from 0.01 to 0.10 for $\hat{\beta}_0$ and from -0.19 to 0.20 for $\hat{\beta}_1$.}} -->
 
 <!-- \textcolor{orange}{No preference on imputation model here, Jihyun, since the results are pretty similar. The logreg option may be simpler to explain, but we may get pushback on it.} -->
-<!-- \textcolor{blue}{Sure. I commented out those.} -->
 
 <!-- \textcolor{orange}{How about this: Boxplots of bias for beta0 and beta1. Two horizontal panels: one for beta0, one for beta1. In each panel, boxplot of (a) total bias, (b) missingness bias, (c) omitted variable bias.  -->
 <!-- If we really wanted to, we could add beta2 to this, too.} -->
-<!-- \textcolor{blue}{[This is in Way 4 below.]} -->
 
 <!-- We present the distribution of biases of intercept and slope from CCA in Figure \@ref(fig:density_cca). -->
-
-<!-- \textcolor{blue}{[Way1]} -->
-
-<!-- \begin{figure} -->
-<!-- \begin{center} -->
-<!-- \includegraphics[width = \textwidth]{../../writeup/cca_paper/graphics/emp_miss_bias.pdf} -->
-<!-- \end{center} -->
-<!-- \caption{This figure shows the density of complete-case bias of $\hat{\beta}_{0C}$ and $\hat{\beta}_{1C}$ for $X_{i1}$. The vertical lines indicate the means of each bias.} -->
-<!-- \label{fig:density_cca} -->
-<!-- \end{figure} -->
-
-<!-- \textcolor{blue}{[Way2]} -->
-
-<!-- ```{r, fig.cap='Figure', fig.subcap=c('(a)', '(b)'), fig.ncol = 2, out.width = "50%", echo = F} -->
-<!-- load("../../writeup/cca_paper/graphics/p_intX1.rds") -->
-
-<!-- p_intX1 -->
-
-<!-- load("../..//writeup/cca_paper/graphics/p_slpX1.rds") -->
-
-<!-- p_slpX1 -->
-<!-- ``` -->
-
-<!-- \textcolor{blue}{NOTE: It is possible to change legend to $\tau^2/v$ as in Figure 1 and 2.} -->
-
-<!-- \textcolor{blue}{[Way3 - Figure \@ref(fig:bias_density_b0), \@ref(fig:bias_density_b1)]} -->
-
-
-<!-- \begin{figure} -->
-<!-- \begin{center} -->
-<!-- \includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_int_m.pdf} -->
-<!-- \end{center} -->
-<!-- \caption{Bias of intercept with density [ADD MORE DESCRIPTION]} -->
-<!-- \label{fig:bias_density_b0} -->
-<!-- \end{figure} -->
-
-<!-- \begin{figure} -->
-<!-- \begin{center} -->
-<!-- \includegraphics[width = .8\textwidth]{../../writeup/cca_paper/graphics/p_b1_m.pdf} -->
-<!-- \end{center} -->
-<!-- \caption{Bias of slope with density [ADD MORE DESCRIPTION]} -->
-<!-- \label{fig:bias_density_b1} -->
-<!-- \end{figure} -->
-
-<!-- \textcolor{blue}{[Need to re-align these figures as sub-figures, side-by-side.]} -->
-
-
-<!-- \textcolor{blue}{[Way4 - Figure \@ref(fig:bias_box)]} -->
 
 
 <!-- While we may not be able to definitively estimate the bias of the estimates in Table \@ref(tab:ccadtexample), we can get some sense of the magnitude of the bias using imputation.  -->
@@ -1103,16 +1047,16 @@ In sum, this amounts to a total bias of -0.01 to 0.10 for $\hat{\beta}_{0S}$ and
 
 # Discussion
 
-This article described a selection model approach to studying the bias of two common methods for conducting meta-regressions with missing covariates: complete-case and shifting-case analyses. 
+This article described a selection model approach to study the bias of two common methods for conducting meta-regressions with missing covariates: complete-case and shifting-case analyses. 
 Under certain assumptions regarding the selection model, we obtained expressions for the approximate bias of coefficient estimators.
 These expressions were presented in a general form, which was then unpacked by way of examples. 
 
 We found that both complete-case and shifting-case analyses will produce biased coefficient estimates unless certain conditions are met.
 While discussion regarding potential bias of these analyses have largely focused on traditional mechanism taxonomy of MCAR, MAR, and MNAR, we found that bias depends more on the precise model for missingness rather than these broader classifications.
-Certain mechanisms that are MAR or MNAR can lead to unbiased CCA and SCA, while other MAR or MNAR mechanisms can induce substantial bias.
+Certain mechanisms that are MAR or MNAR can lead to unbiased estimates with CCA and SCA, while other MAR or MNAR mechanisms can induce substantial bias.
 Complete-case estimators are unbiased if the probability that all relevant covariates are observed is (conditionally) independent of the effect size estimate.
-Shifting-estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
-When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism, the missingness rate, an the relevance of any omitted covariates.
+Shifting-case estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
+When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism (i.e., parameters in the selection model), the missingness rate, an the relevance of any omitted covariates.
 
 An important aspect of these results is that bias will depend on unknown parameters and unobserved data. 
 This means that it will be impossible to empirically verify the magnitude or direction of the bias.
@@ -1120,7 +1064,7 @@ Even the estimated biases from the substance abuse data, which were on the order
 Further, it will require strong assumptions regarding the missingness mechanism to correct any bias. 
 These assumptions may be buttressed by theory about scientific report, data collection, and data curation.
 
-It is not immediately clear how commonly the conditions required for unbiased complete- and shifting-case estimators arise.
+In addition, it is not immediately clear how commonly the conditions required for unbiased complete- and shifting-case estimators arise.
 Recent empirical work on examining missingness in meta-analytic datasets found that effect sizes can be strongly correlated with missingness, though this is not always the case [@schauerExploratoryAnalysesMissingunderreview]. 
 Further, the issues of multicollinearity and confounding in meta-regression, including those discussed by @lipseyThoseConfoundedModerators2003, would suggest that omitting variables in a shifting-case analysis are likely to induce bias.
 
