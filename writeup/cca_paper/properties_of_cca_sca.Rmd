@@ -281,7 +281,7 @@ p(\mathbf{T} | \mathbf{X}, \mathbf{v}, \eta) = p(\mathbf{T} | \mathbf{X}_{O}, \m
 \label{eq:full-data-prob_mis}
 \end{equation}
 Note that the complete-data model depends on entries of $\mathbf{X}_{M}$, which are unobserved. 
-It is worth pointing out that the *complete-data model*, which which refers to the model with no missing data, is distinct from the *complete-case analysis*, which is an estimation procedure that conditions only on observed data.
+It is worth pointing out that the *complete-data model*, which refers to the model with no missing data, is distinct from the *complete-case analysis*, which is an estimation procedure that conditions only on observed data.
 <!-- When meta-analytic datasets are missing covariates, analyses involve incomplete data.  -->
 <!-- In practice, meta-analysts have frequently turned to CCA and SCA estimators for incomplete data meta-regression [@cooperResearchSynthesisMetaanalysis2017; @pigottHandlingMissingData2019; @pigottMissingPredictorsModels2001; @tiptonCurrentPracticesMetaregression2019; @tiptonHistoryMetaregressionTechnical2019].  -->
 
@@ -356,7 +356,7 @@ Covariates could be missing at random (MAR), which implies the distribution of m
   p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O,\mathbf{v}, \psi)
 \]
 MAR differs from MCAR in that missingness might be related to observed values. 
-As an example, if with larger standard errors are less likely to report the racial composition of their samples, then missingness would depend on the (observed) estimation error variances. 
+As an example, if studies with larger standard errors are less likely to report the racial composition of their samples, then missingness would depend on the (observed) estimation error variances. 
 Data missing according to this mechanism would violate an assumption of MCAR, since missingness is related to an observed value.
 
 Finally, data are said to be missing not at random (MNAR) if the distribution of $R$ depends on unobserved data in some way.
