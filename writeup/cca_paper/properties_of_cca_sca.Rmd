@@ -159,7 +159,7 @@ tabcc <- left_join(
 @tanner-smithAdolescentSubstanceUse2016 conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents. 
 The studies included in this meta-analysis involved a variety of different treatment types (e.g., cognitive behavioral therapy, family therapy, and pharmacological therapy) and treatment intensities (measured in hours per week), and were carried out in a variety of contexts, including in-patient and out-patient centers.
 Tanner-Smith et al. used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates. 
-While in practice, models were estimated via the expectation-maximization (EM) algorithm rather than complete- or shifting-case methods, we use a subset of this data in in order to illustrate complete- and shifting-case analyses.
+While in practice, models were estimated via the expectation-maximization (EM) algorithm rather than complete- or shifting-case methods, we use a subset of this data in order to illustrate complete- and shifting-case analyses.
 
 Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. 
 These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*, so that each treatment effect can be thought of as Group 1 minus Group 2.
@@ -305,7 +305,7 @@ The complete-case analysis estimates coefficients $\beta$ with:
 ## Shifting-Case Estimators
 
 When there are multiple covariates of interest, each of which has some missingness, there may only be a few effects for which all covariates of interest are observed. 
-When that happens, a complete case analysis can be unfeasible. 
+When that happens, a complete-case analysis can be unfeasible. 
 A common solution to this in meta-analysis is to use an available-case analysis [@pigottHandlingMissingData2019].
 In practice, an *available-case* meta-regression is often equivalent to a shifting-case analysis, referred to in the literature as *shifting units of analysis* [@cooperResearchSynthesisMetaanalysis2017; @tiptonCurrentPracticesMetaregression2019]. 
 
@@ -429,7 +429,7 @@ While log-linear models are not the only applicable or appropriate selection mod
 As argued above, the bias of complete-case estimators $\hat{\beta}_C$ or shifting-case estimators $\hat{\beta}_S$ will depend in some way on the bias $\delta_{ij}$ induced in $T_i$ by conditioning on $R_i \in \mathcal{R}_j$.
 The magnitude and direction of $\delta_{ij}$ will in turn depend on the missingness mechanism.
 
-It is possible to derive an approximation for $\delta_{ij}$ under certain conditions when the distribution of $R_i | T_i, X_i, v_i$ follows a log-linear model. 
+It is possible to derive an approximation for $\delta_{ij}$ under certain conditions.
 If $p(T_i | X_i, v_i)$ is the standard fixed- or random effects meta-regression model in equation \@ref(eq:full-data-prob), and $p(R_i \in \mathcal{R}_j | T_i, X_i, v_i)$ follows the log-linear model in \@ref(eq:r-loglinear), and the $f_{mj}$ are differentiable with respect to $T_i$, then
 \begin{equation}
 \delta_{ij} \approx H_j(X_i \beta, X_i, v_i)(\tau^2 + v_i)\sum_{m = 0}^{m_j} \psi_{mj} f_{mj}'(X_i \beta, X_i, v_i)
@@ -582,7 +582,7 @@ Suppose the model of interest includes a single binary covariate $X_{i1} \equiv 
 T_i = \beta_0 + \beta_1 X_i + u_i + e_i
 \label{eq:cc-example}
 \end{equation}
-where $\beta_0, \beta_1$ are the regression coefficients of interest.
+where $\beta_0$ and $\beta_1$ are the regression coefficients of interest.
 Note that $\beta_0$ is the average effect when $X_i = 0$ and $\beta_1$ is the contrast in mean effects for when $X_i = 1$ versus when $X_i = 0$.
 
 Because $X_i$ is a scalar, so is $R_i$; $R_i = 0$ indicates that $X_i$ is missing, $R_i = 1$ indicates that $X_i$ is observed. 
@@ -605,7 +605,7 @@ Assume that the selection model is log-linear, and that for the sake of simplici
 \label{eq:cc-loglinear}
 \end{equation}
 Note that this is an MNAR mechanism, since the probability $X_i$ is observed depends on $X_i$ itself; a MAR mechanism would involve $\psi_2 = 0$ in equation \@ref(eq:cc-loglinear).
-Because \@ref(eq:cc-loglinear) depends on $T_i$, $\delta_{ij} \neq 0$ for this selection model regardless of MAR or MNAR (i.e., regardless of whether $\psi_2 = 0$ or not), the CCA estimators may be biased.
+Because \@ref(eq:cc-loglinear) depends on $T_i$, $\delta_{ij} \neq 0$ for this selection model regardless of MAR or MNAR (i.e., regardless of whether $\psi_2 = 0$ or not). Thus, the CCA estimators may be biased.
 
 Under this model, $H_{1}(X_i\beta, X_i, v_i)$ depends only on $X_i$ and not $v_i$, so we can write $H_1(X_i) = p(R \neq \mathbbm{1} | T_i, X_i, v_i)\rvert_{T_i = X_i^T \beta}$. 
 As well, $f_{11}(T_i, X_i, v_i) = T_i$ and $f_{21}(T_i, X_i, v_i) = X_i$. 
@@ -636,7 +636,7 @@ If we assume $T_i$ is on the scale of a standardized mean difference, $v_i \appr
 Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v/4$ to $\tau^2 = v$ [@hedgesPowerStatisticalTests2001; @hedgesPowerStatisticalTests2004; @hedgesStatisticalAnalysesStudying2019].
 Thus, we can write $\tau^2 + v = 4(1 + r)/n$ from some constant $r$ that ranges from 0 to 1. 
 
-Further, the parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
+Further, the parameter $\psi_1$ is on a log-odds ratio scale, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
 There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
 Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
 @fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
@@ -898,7 +898,7 @@ Because both $X_{i1}$ and $X_{i2}$ are binary, this difference is roughly equiva
 If $X_{i1} \perp X_{i2}$, then their correlation is zero, and the omitted variable bias will be zero.
 But if $X_{i1}$ and $X_{i2}$ are correlated, the bias of $\hat{\beta}_1$ will depend on how strongly correlated $X_{i1}$ and $X_{i2}$ are, and how big $\beta_2$ is.
 
-Figure \@ref(fig:omitted-bias) shows the omitted variable bias of $\hat{\beta}_0$ (left plot) and $\hat{\beta}_1$ as a function of $\beta_2$. 
+Figure \@ref(fig:omitted-bias) shows the omitted variable bias of $\hat{\beta}_0$ (left plot) and $\hat{\beta}_1$ (right plot) as a function of $\beta_2$. 
 Both the bias and $\beta_2$ are shown on the scale of Cohen's $d$. 
 In the left plot $\pi_{01} = p(X_{i2} = 1 | X_{i1} = 0)$ is the proportion of $X_{i2} = 1$ when $X_{i1} = 0$. 
 In the right plot, $\rho_{12} = p(X_{i2} = 1 | X_{i1} = 1) - p(X_{i2} = 1 | X_{i1} = 0)$, which is roughly the correlation between $X_{i1}$ and $X_{i2}$.
