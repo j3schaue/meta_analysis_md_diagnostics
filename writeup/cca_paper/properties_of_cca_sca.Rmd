@@ -1,13 +1,10 @@
 ---
 title: "On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates"
-author: 
-  - Jacob M. Schauer, Northwestern University
-  - Karina Diaz, Columbia University
-  - Jihyun Lee, The University of Texas at Austin
-  - Therese D. Pigott, Georgia State University
+# author: 
 csl: ../addons/apa.csl
 output:
   bookdown::pdf_document2: 
+    keep_tex: true
     fig_caption: yes
     includes:
       in_header: ../addons/style.sty
@@ -39,7 +36,7 @@ In a SCA, analysts fit a series of meta-regression models on subsets of relevant
 Both CCA and SCA in some sense ignore effects for which a covariate is missing.
 Ignoring missing data can potentially lead to biased estimates of parameters of interest [see @littleStatisticalAnalysisMissing2002; @grahamMissingData2012].
 Despite authors pointing out such issues in meta-analysis, these methods continue to enjoy widespread use [@pigottHandlingMissingData2019].
-Existing meta-analytis literature on this discussion has yet to detail precisely how much bias can arise in a complete- or shifting-case analysis, nor is there exhaustive guidance on when these methods produce unbiased estimates.
+Existing meta-analysis literature on this discussion has yet to detail precisely how much bias can arise in a complete- or shifting-case analysis, nor is there exhaustive guidance on when these methods produce unbiased estimates.
 In short, there is an understanding that these methods *can* induce bias, but less is known about *how much* and *under what conditions*.
 
 This article examines the potential bias of complete- and shifting-case analyses. 
@@ -469,13 +466,13 @@ Thus, $\delta_{ij}$ depends on the components of the selection model that are fu
 Complete-case analyses only include effects for which all relevant covariates are observed. 
 The complete-case coefficient estimator $\hat{\beta}_C$ given in equation \@ref(eq:beta-c) conditions on $R_i = \mathbbm{1}$.
 As noted above, conditioning on $R_i$ can induce bias, however there are conditions under which the complete case analysis will lead to unbiased coefficient estimates. 
-These conditions largely amount to whether or not an observation is observed $R_i$ being independent of the effect size estimate $T_i$, the outcome of meta-regression model. 
+These conditions largely amount to whether or not $R_i$ is independent of the effect size estimate $T_i$, the outcome of meta-regression model. 
 When the distribution of $R_i$ depends on $T_i$, then complete-case estimators will be biased.
 
 The general condition under which CCA estimators are unbiased is that $R_i \perp T_i$, which occurs for different types of selection models.
 First, if the covariates are MCAR, then $R_i \perp (T_i, X_i, v_i)$.
 Alternatively, if the selection model depends only on $v_i$, but not $X_i$ or $T_i$, then $R_i \perp (T_i, X_i) | v_i$; this would constitute a MAR mechanism.
-Finally, is the selection model depends only on $v_i$ and $X_i$, but not $T_i$, then $R_i \perp T_i | (X_i, v_i)$, which would correspond to an MNAR mechanism.
+Finally, if the selection model depends only on $v_i$ and $X_i$, but not $T_i$, then $R_i \perp T_i | (X_i, v_i)$, which would correspond to an MNAR mechanism.
 Under each of these assumptions, it can be shown that the model that conditions on complete cases $R_i = \mathbbm{1}$ is identical to the complete-data model, and hence CCA estimators will be unbiased:
 \begin{equation}
 p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi) 
@@ -571,7 +568,7 @@ is a $k \times m_1$ matrix of derivatives, and $\psi_1 = [\psi_{01}, \ldots, \ps
 Note that the bias in \@ref(eq:cc-bias-loglinear) involves $\mathbf{H}_{1C}$ which contains the rows of $\mathbf{H}_1$ for which $R_i = \mathbbm{1}$; similarly for $\mathbf{f}_{1C}$.
 
 While \@ref(eq:cc-bias-loglinear) provides a general expression for the approximate bias of $\hat{\beta}_C$, it can be a little difficult to interpret.
-Loosely, we can see that the bias depends on the probability that observations are omitted due to missingness $\mathbf{H}_{1C}$, as well as some function of the components of the log-linear selection model $\mathbf{f}_{1C} \psi_1$.
+Loosely, we can see that the bias depends on the probability that covariates are missing, reflected in $\mathbf{H}_{1C}$, as well as some function of the components of the log-linear selection model $\mathbf{f}_{1C} \psi_1$.
 To better intuit this bias, we provide a simple example in the following section.
 
 
@@ -1085,6 +1082,16 @@ How best to specify quality imputation models for MI analyses is something of an
 Research on and clear implementation of these methods for meta-regression model would seem to be of great use for meta-analysts.
 
 
+\clearpage
+
+# Highlights
+
+Missing covariates are a common problem when conducting meta-regressions.
+A common practice has been for meta-regression analyses to ignore effects for which covariates are missing.
+However, a vast statistical literature suggests that analyses that ignore missing data can only provide accurate estimates of relevant quantitites under certain conditions. 
+In this article, we examine conditions under which ignoring missing covariates in a meta-regression can still lead to unbiased estimation of regression coefficients. 
+We also investigate the possible magnitude and sources of bias when those conditions do not hold. 
+Our findings highlight that substantial bias can be induced by ignoring missing data in a meta-regression.
 
 \clearpage
 
