@@ -1093,6 +1093,11 @@ In this article, we examine conditions under which ignoring missing covariates i
 We also investigate the possible magnitude and sources of bias when those conditions do not hold. 
 Our findings highlight that substantial bias can be induced by ignoring missing data in a meta-regression.
 
+
+# Data Availability
+
+The data that support the findings of this study are available from the corresponding author upon reasonable request. Note that the key findings of this article concern statistical properties of various incomplete data estimators, while the data were used for demonstration purposes only.
+
 \clearpage
 
 \appendix
