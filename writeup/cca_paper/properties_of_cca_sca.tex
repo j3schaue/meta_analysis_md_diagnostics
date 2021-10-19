@@ -4,8 +4,8 @@
 %
 \documentclass[
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
@@ -41,7 +41,8 @@
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -50,7 +51,7 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -100,6 +101,29 @@
 % \floatsetup[figure]{capposition=top}
 % \captionsetup{width=.75\textwidth}
 \usepackage{subfig}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \title{On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates}
 \author{}
@@ -111,27 +135,29 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Meta-regression is a useful tool for studying important sources of variation between effects in a meta-analysis (Borenstein, 2009; Tipton et al., 2019a).
-Analyses of these models in the absence of missing data have been studied thoroughly in the literature (e.g., Berkey et al., 1995; Hedges, 1983b; Hedges et al., 2010; Konstantopoulos, 2011; Viechtbauer, 2007).
-However, it is common for meta-analytic datasets to be missing data (Pigott, 2001a).
-In the context of meta-regression, issues with missing data frequently involve missing covariates (Pigott, 2001b; Tipton et al., 2019b).
+Meta-regression is a useful tool for studying important sources of variation between effects in a meta-analysis.\textsuperscript{1,2}
+Analyses of these models in the absence of missing data have been studied thoroughly in the literature.\textsuperscript{3--7}
+However, it is common for meta-analytic datasets to be missing data.\textsuperscript{8}
+In the context of meta-regression, issues with missing data frequently involve missing covariates.\textsuperscript{9,10}
 
 Precisely how to proceed with a meta-regression when missing covariates remains something of an open question.
-Statistical guidance suggests that analyses ought to consider the mechanism that causes covariates to be missing (Pigott, 2001b, 2019).
+Statistical guidance suggests that analyses ought to consider the mechanism that causes covariates to be missing.\textsuperscript{9,11}
 However, it appears that doing so is less common in practice for meta-analyses.
-A recent review found that meta-regressions with missing data tend to take one of two strategies (Tipton et al., 2019b).
+A recent review found that meta-regressions with missing data tend to take one of two strategies.\textsuperscript{10}
 An analyst may conduct a \emph{complete-case analysis} (CCA) that excludes any effects for which a relevant covariate is missing (i.e., only analyze complete cases).
-However, if there are very few such effects, a common approach is to use \emph{shifting units of analysis}, which we refer to in this article as a \emph{shifting-case analysis} (SCA) (Cooper, 2017).
+This is often referred to as ``listwise deletion'' in data analyses.
+However, if there are very few such effects, a common approach is to use \emph{shifting units of analysis}, which we refer to in this article as a \emph{shifting-case analysis} (SCA).\textsuperscript{12}
 In a SCA, analysts fit a series of meta-regression models on subsets of relevant covariates, so that each model selectively omits certain covariates.
+This is equivalent to ``pairwise deletion'' in data analyses.
 
-Both CCA and SCA in some sense ignore effects for which a covariate is missing.
-Ignoring missing data can potentially lead to biased estimates of parameters of interest (see Little \& Rubin, 2002; Graham, 2012).
-Despite authors pointing out such issues in meta-analysis, these methods continue to enjoy widespread use (Pigott, 2019).
+Both CCA and SCA ignore effects for which a covariate is missing.
+Ignoring missing data can potentially lead to biased estimates of parameters of interest.\textsuperscript{13,14}
+Despite authors pointing out such issues in meta-analysis, these methods continue to enjoy widespread use.\textsuperscript{11}
 Existing meta-analysis literature on this discussion has yet to detail precisely how much bias can arise in a complete- or shifting-case analysis, nor is there exhaustive guidance on when these methods produce unbiased estimates.
 In short, there is an understanding that these methods \emph{can} induce bias, but less is known about \emph{how much} and \emph{under what conditions}.
 
 This article examines the potential bias of complete- and shifting-case analyses.
-The following section provides a demonstration of these methods on data concerning a meta-analysis of substance abuse interventions (Tanner-Smith et al., 2016).
+The following section provides a demonstration of these methods on data concerning a meta-analysis of substance abuse interventions.\textsuperscript{15}
 We then introduce a statistical framework for studying bias for incomplete data meta-regressions that incorporates a model for whether or not a covariate is observed.
 Using this framework, we describe conditions under which complete- and shifting-case analyses are unbiased.
 When these conditions are not met, we derive an approximation for the bias of complete- and shifting-case analyses using standard models for missingness and examine the magnitude of bias.
@@ -140,18 +166,18 @@ We find that bias is highly dependent on the precise mechanism by which data are
 \hypertarget{example-substance-abuse-interventions}{%
 \section{Example: Substance Abuse Interventions}\label{example-substance-abuse-interventions}}
 
-Tanner-Smith et al. (2016) conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents.
+Tanner-Smith et al.\textsuperscript{15} conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents.
 The studies included in this meta-analysis involved a variety of different treatment types (e.g., cognitive behavioral therapy, family therapy, and pharmacological therapy) and treatment intensities (measured in hours per week), and were carried out in a variety of contexts, including in-patient and out-patient centers.
 Tanner-Smith et al.~used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates.
 While in practice, models were estimated via the expectation-maximization (EM) algorithm rather than complete- or shifting-case methods, we use a subset of this data in order to illustrate complete- and shifting-case analyses.
 
 Consider a subset of the Tanner-Smith et al.~data comprising 74 effect estimates of substance abuse interventions from 46 studies.
 These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as \emph{Group 1} and \emph{Group 2}, so that each treatment effect can be thought of as Group 1 minus Group 2.
-Each effect estimate corresponds to a given contrast within a study.
-Effect sizes are measures on the scale of bias-corrected standardized mean differences.
-Often the same group (typically the control group) in a study was used in multiple contrasts, so that effect sizes in this meta-analysis are likely correlated.
+Typically, researchers avoided no-treatment or placebo conditions in studies over ethical concerns surrounding the failure to treat adolescents with substance abuse disorders.
+Thus, contrasts within studies (i.e., effect estimates) tended to focus on a specific treatment of interest to the researcher versus some alternate treatment.
+Effect estimates are reported on the scale of bias-corrected standardized mean differences.
 
-Suppose an analysis of interest involves the impact of high- versus low-intensity interventions on treatment effects, where a high-intensity intervention consisted of more than 1.5 hours per week of treatment.
+Suppose the analysis of interest involves the impact of high- versus low-intensity interventions on treatment effects, where a high-intensity intervention consisted of more than 1.5 hours per week of treatment.
 Then this analysis might use a pair of binary covariates for each effect: one would indicate whether group 1 received a high-intensity intervention (i.e., \(X_1 = 1\) if group 1 treatment was high-intensity) and the other would indicate whether group 2 received a high intensity (i.e., \(X_{2} = 1\) if group 2 treatment was high-intensity).
 The relevant meta-regression model would regress the effect estimates on these two covariates.
 
@@ -204,9 +230,10 @@ Note that the coefficient estimate for Group 1's treatment intensity is still po
 Finally, an analogous model in a shifting-case analysis would include the 55 effects for which Group 2's intensity is observed, and include only that covariate in the model.
 The third column of Table \ref{tab:ccadtexample} shows that this results in a coefficient estimate for Group 2's treatment intensity (0.16) that is in the opposite direction of the estimate from the complete case analysis (-0.21).
 
-It should be noted that all of these estimates ought to be interpreted with caution.
-The complete-case analysis includes only half of the effect sizes, which comprises a missingness rate well beyond what might be considered negligible (Bennett, 2001; Schafer, 1999).
-The shifting-case analyses include more of the data, but because each shifting-case model omits one of the covariates, these models are not equivalent to the model that includes both covariates (Cooper, 1998).
+It should be noted that all of these estimates and comparisons between them ought to be interpreted with caution.
+The complete-case analysis includes only half of the effect sizes, which comprises a missingness rate well beyond what might be considered negligible.\textsuperscript{16,17}
+The shifting-case analyses include more of the data, but because each shifting-case model omits one of the covariates, these models are not equivalent to the model that includes both covariates.\textsuperscript{18}
+It could even be argued that the parameters in the model with both covariates are not comparable to parameters in models with only one covariate; coefficients in a model with multiple covariates must be interpreted in relation to other variables in the model.
 The remainder of this article quantifies the bias induced by omitting effect sizes and/or covariates from meta-regressions.
 
 \hypertarget{model-and-notation}{%
@@ -214,23 +241,25 @@ The remainder of this article quantifies the bias induced by omitting effect siz
 
 Suppose a meta-analysis involves \(k\) effects estimated from collection of studies.
 For the \(i\)th effect, let \(T_i\) be the estimate of the effect parameter \(\theta_i\), and let \(v_i\) be the estimation error variance of \(T_i\).
-Denote a vector of covariates that pertain to \(T_i\) as \(X_i =[1, X_{i1}, \ldots, X_{ip}]\). Note that the first element of \(X_i\) is a 1, which corresponds to an intercept term in a meta-regression model, and that \(X_{ij}\) for \(j = 1, \ldots p\) corresponds to different covariates.
+Denote a vector of covariates that pertain to effect estimate \(T_i\) as \(X_i =[1, X_{i1}, \ldots, X_{ip}]\). Note that the first element of \(X_i\) is a 1, which corresponds to an intercept term in a meta-regression model, and that \(X_{ij}\) for \(j = 1, \ldots p\) corresponds to different covariates.
 The meta-regression model can be expressed as:
 \begin{equation}
 T_i | X_i, v_i, \eta = X_i \beta + u_i + e_i 
 \label{eq:full-data-reg}
 \end{equation}
 Here, \(\beta \in \mathbb{R}^{p+1}\) is the vector of regression coefficients.
-The estimation errors \(e_i\) are typically assumed to be normally distributed with mean zero and variance \(V[e_i] = v_i\), which is true of some effect sizes, and is an accurate large-sample approximation for others (Cooper et al., 2019).
+The estimation errors \(e_i\) are typically assumed to be normally distributed with mean zero and variance \(V[e_i] = v_i\).
+This assumption is true of some effect size indices and is a very accurate large-sample approximation for others.\textsuperscript{19}
 The term \(u_i\) represents the random effect such that \(u_i \perp e_i\) and \(V[u_i] = \tau^2\).
-This model is equivalent to the standard mixed-effects meta-regression model, and it is also consistent with subgroup analysis models (Cooper et al., 2019; Hedges \& Vevea, 1998).
+This model is equivalent to the standard mixed-effects meta-regression model, and it is also consistent with subgroup analysis models.\textsuperscript{19,20}
 The vector \(\eta = [\beta, \tau^2]\) refers to the parameters of model.
 Under a fixed-effects model, it is assumed that \(\tau^2 = 0\), in which case \(\eta = \beta\), and \(u_i \equiv 0\).
 
-A common assumption in random effects meta-regression is that the random effects \(u_i\) are independent and normally distributed with mean zero and variance \(\tau^2\) (Hedges, 1983a; Hedges \& Vevea, 1998; Laird \& Mosteller, 1990; Viechtbauer, 2005):
+A common assumption in random effects meta-regression is that the random effects \(u_i\) are independent and normally distributed with mean zero and variance \(\tau^2\):\textsuperscript{20--23}
 \[
 u_i \sim N(0, \tau^2).
 \]
+This could correspond to a scenario of \(k\) independent effect estimates presumably from \(k\) different studies.
 In that case, the distribution \(p(T | X, v, \eta)\) can be written as
 \begin{equation}
 p(T_i | X_i, v_i, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v_i)}} e^{-\frac{(T_i - X_i\beta)^2}{2(\tau^2 + v_i)}}
@@ -243,7 +272,7 @@ p(\mathbf{T} | \mathbf{X}, \mathbf{v}, \eta) = (2\pi)^{-k/2} \left[\prod_{i = 1}
 \end{equation}
 where \(\mathbf{T} \in \mathbb{R}^k\) is the vector of effect estimates, \(\mathbf{v} \in \mathbb{R}^k\) is the vector of estimation variances, and \(\mathbf{X} \in \mathbb{R}^{k \times (p+1)}\) is the matrix of covariates where each row of \(\mathbf{X}\) is simply the row vector \(X_i\).
 Note that the functions in both \eqref{eq:full-data-prob} and \eqref{eq:full-data-prob-vec} assume that \emph{all} of the \(p\) covariates are observed.
-Equation \eqref{eq:full-data-prob-vec} is referred to as the \emph{complete-data likelihood function} (Gelman, 2014; Little \& Rubin, 2002).
+Equation \eqref{eq:full-data-prob-vec} is referred to as the \emph{complete-data likelihood function}.\textsuperscript{13,24}
 We note that a meta-regression with no missing data will be accurate if the complete-data model is correctly specified.
 Thus, to illustrate the properties of incomplete data meta-regression, we assume that the complete-data model is correctly specified.
 
@@ -252,14 +281,20 @@ The vector of regression coefficient estimates for the complete-data model when 
 \hat{\beta} = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{T}
 \label{eq:betahat-cd}
 \end{equation}
-Here, \(\mathbf{W} = \text{diag}[1/(v_i + \tau^2)]\) is the diagonal matrix of weights.
+Here, \(\mathbf{W} = \text{diag}[w_i]\) is the diagonal matrix of weights such that \(w_i = 1/(v_i + \tau^2)\).
 The covariance matrix of \(\hat{\beta}\) is given by
 \begin{equation}
 V[\hat{\beta}] = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} 
 \label{eq:v-betahat-cd}
 \end{equation}
+Note that the weights involve the true variance component \(\tau^2\).
+In practice, \(\tau^2\) must be estimated by \(\hat{\tau}^2\), and the resulting weights used in analyses can be written \(\hat{w}_i = 1/(v_i + \hat{\tau}^2)\).
+For the sake of simplicity, we use \(w_i\) to derive results in this article, and so results do not depend on variance component estimators.
+Presumably, use of \(\hat{w}_i\) would induce additional variation into analyses.
 
-This model can be expanded to account for dependent effect sizes by assuming that \(T_i \in \mathbb{R}^{k_i}\) is a vector of \(k_i\) effects from the same study, \(e_i\) is vector of estimation errors, \(u_i\) is a vector of random effects, and \(e_i + u_i\) has covariance matrix \(\Sigma_i\).
+The substance abuse data contains multiple effect estimates per study that are likely correlated.
+This differs from the model above.
+However, we can expand this model to account for dependent effect sizes by assuming that \(T_i \in \mathbb{R}^{k_i}\) is a vector of \(k_i\) effects from the same study, \(e_i\) is vector of estimation errors, \(u_i\) is a vector of random effects, and \(e_i + u_i\) has covariance matrix \(\Sigma_i\).
 In this model, \(X_i\) is a matrix of covariates for each effect in \(T_i\).
 The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex (including a variance-covariance weight matrix), but they will have a similar form as the independent effect size model.
 
@@ -283,7 +318,7 @@ It is worth pointing out that the \emph{complete-data model}, which refers to th
 \hypertarget{complete-case-estimators}{%
 \subsection{Complete-Case Estimators}\label{complete-case-estimators}}
 
-A common approach in meta-regression with missing covariates is to use a complete-case analysis (Pigott, 2019; Tipton et al., 2019b).
+A common approach in meta-regression with missing covariates is to use a complete-case analysis.\textsuperscript{10,11}
 This approach simply omits rows in the data for which any covariate is missing.
 Thus, this analysis method only uses effects and covariates for which \(R_i = [1, \ldots, 1] = \mathbbm{1}\).
 
@@ -300,11 +335,11 @@ The complete-case analysis estimates coefficients \(\beta\) with:
 
 When there are multiple covariates of interest, each of which has some missingness, there may only be a few effects for which all covariates of interest are observed.
 When that happens, a complete-case analysis can be unfeasible.
-A common solution to this in meta-analysis is to use an available-case analysis (Pigott, 2019).
-In practice, an \emph{available-case} meta-regression is often equivalent to a shifting-case analysis, referred to in the literature as \emph{shifting units of analysis} (Cooper, 2017; Tipton et al., 2019b).
+A common solution to this in meta-analysis is to use an available-case analysis.\textsuperscript{11}
+In practice, an \emph{available-case} meta-regression is often equivalent to a shifting-case analysis, referred to in the literature as \emph{shifting units of analysis}.\textsuperscript{10,12}
 
 Shifting-case analyses involve fitting multiple regression models, each including a subset of the covariates of interest.
-Sometimes this even takes the form of regressing effect estimates on one covariate at a time (Pigott, 2019; Tipton et al., 2019b).
+Sometimes this even takes the form of regressing effect estimates on one covariate at a time.\textsuperscript{10,11}
 In the substance abuse data example, we focused on two covariates of interest \(X_{i1}\) and \(X_{i2}\).
 The SCA first regressed \(T_i\) on observed values of \(X_{i1}\).
 This regression included observations for which both \(X_{i1}\) and \(X_{i2}\) are observed (i.e., \(R_i = [1, 1]\)) and observations for which \(X_{i1}\) is observed but \(X_{i2}\) is missing (i.e., \(R_i = [1, 0])\).
@@ -313,8 +348,10 @@ In sum, the SCA demonstrated in the previous section involved two regressions, e
 
 To formalize SCA estimators, consider a single regression in an SCA, and let \(S\) index the component of \(X_i\) (i.e., the intercept term and relevant covariates) included in that model \(S = \{j : j = 0 \text{ or } X_{ij} \text{ in analysis}\}\).
 Let \(E\) be the complement of \(S\) so that \(E\) indexes the covariates excluded from the regression.
-Then the regression is used to estimate and make inferences about \(\beta_S\), which is a subset of the full vector of coefficients \(\beta\).
-In the first substance abuse SCA regression, \(T_i\) was regressed on only \(X_{i1}\), so that \(\beta_S = [\beta_0, \beta_1]\).
+Then the regression is used to estimate and make inferences about coefficients \(\beta_S\).
+In the following section, we discuss \(\beta_S\) and its relationship to \(\beta\), but here assume that the target of inference for an SCA is \(\beta\) and hence \(\beta_S\) comprises a subset of the components of \(\beta\).
+For instance, in the first substance abuse SCA regression, \(T_i\) was regressed on only \(X_{i1}\), so that \(\beta_S = [\beta_0, \beta_1]\).
+
 Denote \(\mathcal{R}_j\) as the set of missingness patterns such that all included covariates are observed: \(\mathcal{R}_j = \{R \in \mathcal{R}: R_S = \mathbbm{1}\}\).
 Note that \(\mathcal{R}_j\) contains missingness patterns such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
 For instance, in the first substance abuse SCA regression of \(T_i\) on \(X_{i1}\), the analysis included effects such that \(R_i \in \mathcal{R}_1 = \{[1,1], [1,0]\}\).
@@ -328,6 +365,27 @@ Then, the shifting-case estimators for \(\beta_S\) are given by:
 where \(\mathbf{X}_{US}\) contains the columns (\(S\)) of \(\mathbf{X}\) that pertain to the covariates that are included in the SCA regression, and the rows (\(U\)) for which all of those covariates are observed.
 The matrix \(\mathbf{W}_U\) is a square matrix containing the relevant rows and columns of \(\mathbf{W}\) for which \(X_{iS}\) are observed, while \(\mathbf{T}_U\) contains the effect sizes in \(\mathbf{T}\) for which \(X_{iS}\) is observed.
 
+\hypertarget{omitted-variables}{%
+\subsection{Omitted Variables}\label{omitted-variables}}
+
+A common concern in meta-regression is that models may not be able to account for all relevant covariates, either due to sample size constraints or because because some covariates were not observed.\textsuperscript{25}
+Such concerns pertain to meta-regressions both with and without missing data.
+It seems logical that if variables omitted from a model would have been of concern in the absence of missing data, that same concern holds for models estimated with CCA or SCA.
+Moreover, in SCA, the nature of omitted variables requires some additional considerations, since observed covariates are sequentially omitted from each meta-regression in an SCA.
+
+The implication of omitting observed variables in SCA can be understood via the parameter \(\beta_S\).
+It has been noted that there are various conditions under which components of \(\beta_S\) are unequal to their counterparts in \(\beta\).\textsuperscript{26}
+For instance, it can be the case that \(\beta_S = [\tilde{\beta}_0, \tilde{\beta}_1] \neq [\beta_0, \beta_1] \subset \beta\) (see section XX).
+The difference between \(\beta_S\) and components of \(\beta\) is often referred to as \emph{omitted variable bias} in the statistical and econometric literature.\textsuperscript{27,28}
+This conception inherently assumes that \(\beta\) in the full model is of interest to the analyst.
+Alternatively one may assume that \(\beta_S\) is of interest, rather than \(\beta\), so that the components of \(\beta_S\) comprise parameters distinct from \(\beta\).
+In this approach, \(\beta_S\) characterizes the relationship between \(X_{iS}\) and \(T_i\) in a more restricted model that does not account for \(X_{iE}\).
+
+We refer to the difference between \(\beta_S\) and \(\beta\) as omitted variable bias, in keeping with the literature.
+This is consistent with SCA as a missing data analytic strategy, wherein the target of inference is \(\beta\), and it reflects the findings of Lipsey (2003), who points out that interpretation of meta-regression coefficients when covariates are omitted can lead to misleading interpretations about the correlates of effective interventions.
+To that end, subsequent sections present findings on bias induced by omitting observed covariates in an SCA.
+However, if the intent of the analysis is to examine restricted models, the omitted variable bias presented in this article may be less applicable, though Lipsey's caveats for interpreting such models still apply.
+
 \hypertarget{missingness-mechanisms}{%
 \subsection{Missingness Mechanisms}\label{missingness-mechanisms}}
 
@@ -337,7 +395,7 @@ The mechanism by which missingness arises is typically modeled through the distr
 Let \(\psi\) denote the parameter (or vector of parameters) that index the distribution of \(R\) so that the probability mass function of \(R\) can be written as \(p(R | T, X, v, \psi)\).
 Assumptions about the missingness mechanism are therefore equivalent to assumptions about \(p(R | T, X, v, \psi)\).
 
-Rubin (1976) defined three types of mechanisms in terms of the distribution of \(R\).
+\textsuperscript{29} defined three types of mechanisms in terms of the distribution of \(R\).
 Data could be missing completely at random (MCAR), which means that the probability that a given value is missing is independent of all of the observed or unobserved data:
 \[
   p(\mathbf{R} | \mathbf{T}, \mathbf{X}_O, \mathbf{X}_M, \mathbf{v}, \psi) = p(\mathbf{R} | \psi)
@@ -358,7 +416,7 @@ In the context of the meta-regression data, this would imply that \(R\) is relat
 For instance, data would be MNAR if studies with larger standard errors and a greater proportion of minorities are less likely to report the racial composition of their samples because the likelihood that racial composition is not reported will depend on the composition itsef.
 
 A related concept in missing data is that of \emph{ignorability}, which means that the missingness pattern does not contribute any additional information.
-When missing data are ignorable, it is not necessary to know (or estimate) \(\psi\) in order to conduct inference on \(\eta\) (Gelman, 2014; Graham, 2012; Little \& Rubin, 2002; van Buuren, 2018).
+When missing data are ignorable, it is not necessary to know (or estimate) \(\psi\) in order to conduct inference on \(\eta\).\textsuperscript{13,14,24,30}
 In practice, missing data are ignorable if they are MAR and if \(\psi\) and \(\eta\) are distinct.
 
 \hypertarget{conditional-incomplete-data-meta-regression}{%
@@ -370,7 +428,7 @@ Yet, complete- and available-case analyses proceed as if the complete-data and c
 Doing so ignores the missingness mechanism and its potential impact on the accuracy of analytic results.
 
 The complete-data model can be related to the conditional models through the distribution of missingness \(R_i\).
-This approach is referred to as a \emph{selection model} in the missing data literature (Gelman, 2014; Little \& Rubin, 2002; van Buuren, 2018).
+This approach is referred to as a \emph{selection model} in the missing data literature.\textsuperscript{13,24,30}
 We can write the selection model for meta-regression with missing covariates as:
 \begin{equation}
 p(T_i | X_i, v_i, R_i \in \mathcal{R}_j, \eta, \psi) 
@@ -395,22 +453,29 @@ E[T_i | X_i, v_i, R_i \in \mathcal{R}_j]
   = X_i \beta + \delta_{ij}
 \label{eq:bias-delta}
 \end{equation}
-Here, we see that the expectation of \(T_i\) conditional on \(R_i\) can be written as the complete-data expectation \(X_i \beta\) plus a bias term \(\delta_{ij}\).
-The bias term \(\delta_{ij}\) refers to the bias induced in effect estimate \(i\) due to conditioning on missingness pattern \(\mathcal{R}_j\).
+Here, we see that the expectation of \(T_i\) given \(X_i\) and \(R_i\) can be written as the complete-data expectation \(X_i \beta\) (i.e., the regression model) plus a bias term \(\delta_{ij}\).
+The bias term \(\delta_{ij}\) refers to the bias induced in regression model due to conditioning on missingness pattern \(\mathcal{R}_j\), which can affect individual components of \(\eta\).
 If \(\delta_{ij} \neq 0\), it follows that conditioning on \(R_i\) induces bias in the distribution of \(T_i\) used in an analysis.
 Because the CCA estimator \eqref{eq:beta-c} and SCA estimator in \eqref{eq:beta-s} are weighted averages of the \(T_i\), they can be biased if \(\delta_{ij} \neq 0\).
 The precise magnitude of the \(\delta_{ij}\) will depend on the selection model in \eqref{eq:selection-model} and hence on the missingness mechanism.
 It is worth noting that the subsequent sections show that bias depends on the precise selection model rather than the class of mechanism (MCAR or MAR).
 
-A standard approach for modeling missingness mechanisms for covariates is to assume \(R_i\) follows some log-linear distribution (Agresti, 2013).
-Various authors have described approaches to modelling \(R\) for missing covariates in generalized linear models that include logistic and multinomial logistic models (Ibrahim, 1990; Ibrahim et al., 1999; Lipsitz, 1996).
+A standard approach for modeling missingness mechanisms for covariates is to assume \(R_i\) follows some log-linear distribution.\textsuperscript{31}
+Various authors have described approaches to modelling \(R\) for missing covariates in generalized linear models that include logistic and multinomial logistic models.\textsuperscript{32--34}
 Thus, one class of models for missingness would involve the logit probability of observing some missingness patterns \(R_i \in \mathcal{R}_j \subset \mathcal{R}\):
 \begin{equation}
 \text{logit}[p(R_i \in \mathcal{R}_j | T_i, X_i, v_i)] = \sum_{m = 0}^{m_j} \psi_{mj} f_{mj}(T_i, X_i, v_i) 
 \label{eq:r-loglinear}
 \end{equation}
-where \(f_{0j}(T_i, X_i, v_i) = 1\), so that \(\psi_{0j}\) would be the intercept term for the logit model for the set of missingness patterns \(\mathcal{R}_j\).
-While log-linear models are not the only applicable or appropriate selection model, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate, and how inaccurate they can be.
+Here, \(f_{mj}(T_i, X_i, v_i)\) are assumed to be differentiable basis functions of the data and \(m_j\) is the number of terms in the selection model.
+In theory, \(m_j\) could be arbitrarily large, but the model is only estimable if \(m_j < k\).
+Finally, we assume \(f_{0j}(T_i, X_i, v_i) = 1\), so that \(\psi_{0j}\) would be the intercept term for the logit model for the set of missingness patterns \(\mathcal{R}_j\).
+
+In general, it will be impossible to know whether a selection model is correctly specified, but the formulation in \eqref{eq:r-loglinear} offers a few important advantages.
+First, it is fairly general: the only assumption made of the basis functions \(f_{mj}\) is that they are differentiable, which means model \eqref{eq:r-loglinear} allows for nonlinear or interaction terms.
+Second, it expresses the relationships between the probability of the event \(\{R_i \in \mathcal{R}_j\}\) and observed variables on the scale of the log odds ratio, a well-understood scale in meta-analysis.
+Third, it allows for closed-form expressions for the approximate bias of coefficient estimates by virtue of the the logit link function.
+Thus, it comprises a large class of models for selection that can be more clearly interpreted.
 
 \hypertarget{approximate-bias-for-log-linear-selection-models}{%
 \subsection{Approximate Bias for Log-linear Selection Models}\label{approximate-bias-for-log-linear-selection-models}}
@@ -460,7 +525,7 @@ p(T_i | X_i, v_i, R_i = \mathbbm{1}, \eta, \psi)
   = p(T_i | X_i, v_i, \eta)
 \label{eq:cc-unbiased}
 \end{equation}
-This result is consistent with prior work regarding linear regression models with missing covariates (Glynn \& Laird, 1986; Little, 1992).
+This result is consistent with prior work regarding linear regression models with missing covariates.\textsuperscript{35,36}
 
 An important aspect of this result is that whether or not a CCA produces unbiased coefficient estimates depends more on the role of \(T_i\) in the selection model rather than traditional mechanism classifications of MCAR, MAR, or MNAR.
 Though various selection models satisfy the conditions of MAR, and similarly with MNAR, the key factor for bias in CCA estimators is the relationship between \(R_i\) and \(T_i\).
@@ -560,20 +625,15 @@ When \(\psi_1\) is positive, larger effect estimates \(T_i\) are more likely to 
 
 To gain better insight into equation \eqref{eq:cc-bias-b0}, suppose \(v_i \approx v = \bar{v}_0\) so that each study has roughly the same estimation error variance.
 If we assume \(T_i\) is on the scale of a standardized mean difference, \(v_i \approx 4/n_i\) where \(n_i\) is the total sample size used to compute \(T_i\).
-Various researchers have described conventions for the magnitude of \(\tau^2\) that range from \(\tau^2 = v/4\) to \(\tau^2 = v\) (Hedges \& Pigott, 2001, 2004; Hedges \& Schauer, 2019).
+Various researchers have described conventions for the magnitude of \(\tau^2\) that range from \(\tau^2 = v/4\) to \(\tau^2 = v\).\textsuperscript{37--39}
 Thus, we can write \(\tau^2 + v = 4(1 + r)/n\) from some constant \(r\) that ranges from 0 to 1.
 
-Further, the parameter \(\psi_1\) is on a log-odds ratio scale, which reflects the odds of a complete case for \(T_i\) versus \(T_i - 1\).
-There are various conventions for the size of an odds ratio that depend on base rates \(P[R = \mathbbm{1} | T]\).
-Conventions used by Cohen (1988) have been interpreted as implying that a ``small'' odds ratio is about 1.49, a ``medium'' odds ratio is about 3.45, and a ``large'' odds ratio is about 9.0.
-Ferguson (2009) suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while Chen et al. (2010) provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large.
-Haddock et al. (1998) suggests any odds ratio over 3.0 would be considered quite large.
-Thus, consider a range of odds ratios from about 1.5 to 4.5.
-However, the actual size of \(\psi_1\) will depend on the scale of \(T_i\).
-A difference of \(T_i - T_j = 1\) is considered quite large for standardized mean differences.
-A less extreme difference \(D_T = |T_i - T_j|\) for a standardized mean difference would be no larger than the size of an individual \(T_i\).
-Conventions for standardized mean differences imply that a ``small'' effect would be about \(T_i = 0.2\), a ``medium'' effect would be \(T_i = 0.5\), and a ``large'' effect would be \(T_i = 0.8\) (Cohen, 1988).
-Thus, meaningful values of \(D_T\) might feasibly range from 0.2 to 1.0.
+Further, the parameter \(\psi_1\) is a log-odds ratio, which reflects the odds of a complete case for \(T_i\) versus \(T_i - 1\).
+There are various conventions for the size of an odds ratio that depend on base rates \(P[R = \mathbbm{1} | T]\) that could be interpreted as ranging from 1.5 to as large as 9.0, though various researchers have noted that odds ratios greater than 3.0 or 4.0 could be considered large.\textsuperscript{40--43}
+Thus, we consider a range of odds ratios from about 1.5 to 4.5.
+However, the actual size of \(\psi_1\) will depend on the scale of a change in effect size \(D_T = |T_i - \tilde{T}_i|\).
+Since it corresponds to a difference, \(D_T\) should be no larger than an individual \(|T_i|\).
+Based on conventions in the social and medical sciences (some arbitrary, some empirical), meaningful values of \(D_T\) might feasibly range from 0.2 to 1.0.\textsuperscript{40,44}
 These conventions for odds ratios and \(D_T\) would imply that relevant values of \(|\psi_1|\) might range from 0.4 (large \(D_T\) with small odds ratio) to over 7.5 (small \(D_T\) with large odds ratio).
 
 Based on these conventions, Figure \ref{fig:delta} shows the potential (approximate) bias of \(\hat{\beta}_{0C}\) for this example.
@@ -622,7 +682,7 @@ Viewed this way, the bias of \(\hat{\beta}_{1C}\) will be greatest when there ar
 To gain insight into the magnitude of bias in \eqref{eq:cc-bias-b1-simp}, consider the values of \(\psi_1 \in [0.4, 7.5]\) and \(\tau^2 + v = 4(1 + r)/n\) discussed above.
 Note that the difference \(H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)\) is a difference in conditional probabilities.
 For reference, because both \(R_i\) and \(X_i\) are binary, then \(p(R = 0 | X = 1) - p(R = 0 | X = 0)\) would be equal to the correlation between \(R_i\) and \(X_i\) (assuming equal marginals in a \(2 \times 2\) table).
-Thus, \(|p(R = 0 | X = 1) - p(R = 0 | X = 0)|\) could be as small as 0, but could possibly be as large as 1, though conventions on the size of correlations suggest that \(|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5\) would be a ``large'' value (Cohen, 1988).
+Thus, \(|p(R = 0 | X = 1) - p(R = 0 | X = 0)|\) could be as small as 0, but could possibly be as large as 1; arbitrary conventions on the size of correlations suggest that \(|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5\) would be a ``large'' value.\textsuperscript{40}
 
 Figure \ref{fig:b1} shows the potential bias of \(\hat{\beta}_{1C}\) for this example assuming the values of \(\tau^2 + v\), \(\psi_1\), and \(H_1(1) - H_1(0)\) discussed above.
 Each panel corresponds to a given amount of heterogeneity \(\tau^2 + v\), and within panels the bias is shown as a function of the difference \(H_1(1) - H_1(0)\) (\(x\)-axis) and \(\psi_1\) (color).
@@ -680,7 +740,7 @@ In effect, this assumption implies that missingness is independent of effect siz
 Second, any excluded covariates must be completely irrelevant to effect sizes given the included covariates: \(T_i \perp X_{iE} | X_{iS}, v_i\).
 This assumption is equivalent to assuming that \(\beta_j = 0\) for all \(j \in E\), so that any omitted variables in a given shifting-case regression are assumed to have a coefficient of zero.
 A related assumption is that \((T_i, X_{iS}) \perp X_{iE} | v_i\), which would imply that the complete-data likelihood involves no interactions between \(X_{iS}\) and \(X_{iE}\) and that \(X_{iS}\) and \(X_{iE}\) are orthogonal.
-Given the nature of many meta-analyses wherein included studies and effects are ostensibly ``found objects,'' correlation among multiple covariates is a common issue in meta-regression (Lipsey, 2003).
+Given the nature of many meta-analyses wherein included studies and effects are ostensibly ``found objects,'' correlation among multiple covariates is a common issue in meta-regression.\textsuperscript{25}
 Note that conditions on omitted covariates \emph{and} omitted observations must hold in order for \(\hat{\beta}_S\) to be unbiased.
 
 When the assumptions about omitted variables and effect sizes are not met, \(\hat{\beta}_S\) will be biased.
@@ -697,9 +757,9 @@ Note that the \(\delta_{ij}\) are the biases due solely to missingness as in equ
 \]
 
 The expression in \eqref{eq:bias-sca} shows that a shifting-case analysis suffers from two sources of bias.
-The first source, captured in the first term in \eqref{eq:bias-sca}, is a function of the coefficients for the excluded covariates \(\beta_E\).
-This is referred to in the statistical and econometric literature as \emph{omitted variable bias} (e.g., Farrar \& Glauber, 1967; Mela \& Kopalle, 2002).
-Omitted variable bias arises even if no \(X_{iS}\) are missing, and is related to the issue of multicollinearity in linear models.
+The first source, captured in the first term in \eqref{eq:bias-sca}, is a function of the coefficients for the excluded covariates \(\beta_E\), which we refer to as as omitted variable bias.
+Discussion in a previous section argued that the term \emph{omitted variable bias} assumes that \(\beta\) is the target of inference in an SCA, which may or may not be the case.
+If \(\beta\) is the target of inference, omitted variable bias arises even if no \(X_{iS}\) are missing, and is related to the issue of multicollinearity in linear models.
 In fact, if the columns in \(\mathbf{X}_{US}\) and \(\mathbf{X}_{UE}\) are orthogonal, so that the omitted variables are independent of the included variables, then the omitted variable bias will be zero.
 When the omitted variables are not orthogonal to the included variables, the bias will be nonzero, and it will depend in large part on the contribution of the omitted variables in the complete-data model \(\mathbf{X}_{UE} \beta_E\).
 The estimator \(\hat{\beta}_S\) will have greater bias if the coefficients for the omitted variables \(\beta_E\) are larger and the omitted covariates \(\mathbf{X}_{UE}\) are correlated with the included covariates \(\mathbf{X}_{US}\).
@@ -774,7 +834,7 @@ Figure \ref{fig:omitted-bias} shows the omitted variable bias of \(\hat{\beta}_0
 Both the bias and \(\beta_2\) are shown on the scale of Cohen's \(d\).
 In the left plot \(\pi_{01} = p(X_{i2} = 1 | X_{i1} = 0)\) is the proportion of \(X_{i2} = 1\) when \(X_{i1} = 0\).
 In the right plot, \(\rho_{12} = p(X_{i2} = 1 | X_{i1} = 1) - p(X_{i2} = 1 | X_{i1} = 0)\), which is roughly the correlation between \(X_{i1}\) and \(X_{i2}\).
-Note that because \(\rho_{12}\) can be intuited as (roughly) a Pearson correlation, the values in the figure include 0, 0.1 (i.e., a ``small'' correlation), 0.3 (medium correlation), and 0.5 (large correlation) (Cohen, 1988).
+Note that because \(\rho_{12}\) can be intuited as (roughly) a Pearson correlation, the values in the figure include 0, 0.1 (i.e., a ``small'' correlation), 0.3 (medium correlation), and 0.5 (large correlation).\textsuperscript{40}
 
 The figure shows that if \(\beta_2 = 0\) so that \(X_{i2}\) is independent of \(T_i\) given \(X_{i1}\), that both \(\hat{\beta}_{0S}\) and \(\hat{\beta}_{1S}\) will be unbiased.
 However, when \(\beta_2\) is nonzero, both estimators will be biased.
@@ -811,14 +871,14 @@ First, the missingness mechanism is not known for the substance abuse data.
 Even if we assume that the mechanism follows a log-linear model like that in \eqref{eq:cc-loglinear} or \eqref{eq:logit-sca}, the resulting formulas for the bias depend on quantities, such as \(\psi\) and \(\eta\) that are not known, and cannot be estimated in the presence of missing data without further assumptions.
 
 However, one approach to examining bias in the estimates presented in Table \ref{tab:ccadtexample} would involve stochastically imputing the missing \(X_{ij}\) in the data.
-In the same vein as multiple imputation (MI), each set of imputed values constitutes a ``complete'' dataset from which we can compute the parameters relevant to bias (Little \& Rubin, 2002; Rubin, 1987).
+In the same vein as multiple imputation (MI), each set of imputed values constitutes a ``complete'' dataset from which we can compute the parameters relevant to bias.\textsuperscript{13,45}
 Given an imputed dataset, we can compute (a) the difference in the resulting \(\hat{\beta}^{(i)}\) for the \(i\)th imputed dataset and \(\hat{\beta}_S\), (b) the quantities that govern bias in the formulas above, including \(\psi\), \(H(X)\), and \(\tau^2\).
 This allows us not only to assess the bias, but also to examine which aspects of the missing data are driving it.
 
 As with MI, the accuracy of the resulting estimated quantities depends on the validity of assumptions regarding missingness and the accuracy of the imputation model.
 Thus, we would urge interpretation of the following results as \emph{potential} biases in the CCA and SCA estimators presented earlier in this article, rather than a precise estimate of the bias.
-We generated \(m = 1,000\) imputations using the \texttt{mice} software in the \texttt{R} programming language (van Buuren \& Groothuis-Oudshoorn, 2011).
-Estimates of \(\eta\) were computed using \texttt{metafor}, specifying a Paule-Mandel estimator for the variance component \(\tau^2\) (Viechtbauer, 2010).
+We generated \(m = 1,000\) imputations using the \texttt{mice} software in the \texttt{R} programming language.\textsuperscript{46}
+Estimates of \(\eta\) were computed using \texttt{metafor}, specifying a Paule-Mandel estimator for the variance component \(\tau^2\).\textsuperscript{47}
 To estimate the log-linear model selection parameters \(\psi\) in \eqref{eq:logit-sca}, as well as \(H(X)\), we used a logistic regression with the missingness indicator \(R_{ij}\) and \(T_i\) and \(X_{ij}\) as the predictors.
 
 Here, we focus on results for \(\beta_0\) and \(\beta_1\).
@@ -831,6 +891,7 @@ Figure \ref{fig:bias-box} plots the omitted variable bias, missingness bias, and
 Results are reported on the scale of Cohen's \(d\).
 Omitted variable biases for \(\hat{\beta}_{0S}\) range from -0.05 to 0.02 with a mean of -0.01; omitted variable bias for \(\hat{\beta}_{1S}\) ranges from -0.31 to 0.11 with a mean of -0.05.
 Similarly the bias due to missingness could feasibly range from 0.04 to 0.08 with a mean of 0.06 for \(\hat{\beta}_{0S}\), while the missingness bias of \(\hat{\beta}_{1S}\) might range from 0 to 0.12 with a mean of 0.06.
+Note that while the omitted variable bias and missingness bias are in opposite directions in this example, this need not be the case in general; both biases could feasibly be in the same direction for other data.
 In sum, this amounts to a total bias of -0.01 to 0.10 for \(\hat{\beta}_{0S}\) and from -0.31 to 0.23 for \(\hat{\beta}_{1S}\).
 
 \begin{figure}
@@ -855,29 +916,33 @@ Complete-case estimators are unbiased if the probability that all relevant covar
 Shifting-case estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size.
 When these conditions are not met, the bias of coefficient estimates can be substantial---as large as \(d = 0.4\) to \(d = 0.8\)---depending on the missingness mechanism (i.e., parameters in the selection model), the missingness rate, an the relevance of any omitted covariates.
 
-An important aspect of these results is that bias will depend on unknown parameters and unobserved data.
+Results for both CCA and SCA suggest that bias due to missingness will tend to increase in magnitude as a function of the total variation in the data.
+This means that if studies have small sample sizes (i.e., \(v_i\) are large) or there is substantial residual between-effect heterogeneity \(\tau^2\), the bias of a CCA or SCA will be greater.
+Because meta-regression is used to explain between-effect variation \(\tau^2\), models capable of explaining much of that variation will have lower bias in CCA and SCA estimates.
+However, even very modest amounts of residual variation can still result in substantial bias.
+
+An important aspect of these findings is that bias will depend on unknown parameters and unobserved data.
 This means that it will be impossible to empirically verify the magnitude or direction of the bias.
 Even the estimated biases from the substance abuse data, which were on the order of about \(d = \pm 0.1\) may not be entirely accurate, as so much of that data is missing.
 Further, it will require strong assumptions regarding the missingness mechanism to correct any bias.
 These assumptions may be buttressed by theory about scientific reporting, data collection, and data curation.
 
 In addition, it is not immediately clear how commonly the conditions required for unbiased complete- and shifting-case estimators arise.
-Recent empirical work on examining missingness in meta-analytic datasets found that effect sizes can be strongly correlated with missingness, though this is not always the case (Schauer et al., in press).
-Further, the issues of multicollinearity and confounding in meta-regression, including those discussed by Lipsey (2003), would suggest that omitting variables in a shifting-case analysis are likely to induce bias.
+Recent empirical work on examining missingness in meta-analytic datasets found that effect sizes can be strongly correlated with missingness, though this is not always the case.\textsuperscript{48}
+Further, the issues of multicollinearity and confounding in meta-regression, including those discussed by,\textsuperscript{25} would suggest that omitting variables in a shifting-case analysis are likely to induce bias.
 
 Based on these results, our primary recommendation is that analysts attempt to understand the missingness mechanisms and patterns in their data.
-This can leverage knowledge about standard reporting and coding practices, as well as exploratory analyses (Schauer et al., in press).
+This can leverage knowledge about standard reporting and coding practices, as well as exploratory analyses.\textsuperscript{48}
 If there is very little missingness, or if there is good reason to assume that missingness is uncorrelated with effect size estimates, a complete-case analysis may be a reasonable option.
 However, we would discourage analysts from continuing to use shifting-case analyses because it would seem unlikely that omitted variable biases are zero in practice.
 
-We would also suggest analysts investigate the feasibility of alternative estimation methods.
-Ibrahim (1990) describes an EM algorithm for generalized linear models with missing covariates, and Ibrahim et al. (1999) extend that algorithm when covariates are MNAR.
-In addition, full-information maximum likelihood (FIML) has long been used in linear models (Graham, 2009, 2012), and has shown some promise for meta-regression involving continuous covariates.
-Finally, multiple imputation has become something of a standard approach for handling missing data across a number of fields (Little \& Rubin, 2002; Rubin, 1987; van Buuren, 2018).
+We would also suggest analysts investigate the feasibility of alternative estimation methods.\textsuperscript{32} describes an EM algorithm for generalized linear models with missing covariates, and\textsuperscript{33} extend that algorithm when covariates are MNAR.
+In addition, full-information maximum likelihood (FIML) has long been used in linear models,\textsuperscript{14,49} and has shown some promise for meta-regression involving continuous covariates.
+Finally, multiple imputation has become something of a standard approach for handling missing data across a number of fields.\textsuperscript{13,30,45}
 
 However, employing any of these alternative strategies is not necessarily straightforward for meta-analysts.
 To our knowledge, the EM algorithm for missing covariates has yet to be implemented in standard meta-analytic software.
-Although FIML for meta-regression model is available in SEM framework (Cheung, 2019), the approach has not been empirically validated under various conditions.
+Although FIML for meta-regression model is available in SEM framework,\textsuperscript{50} the approach has not been empirically validated under various conditions.
 How best to specify quality imputation models for MI analyses is something of an open question for meta-regression, as is the potential inaccuracies incurred by using poor imputation models.
 Research on and clear implementation of these methods for meta-regression model would seem to be of great use for meta-analysts.
 
@@ -961,148 +1026,207 @@ In that case, only an approximation of the denominator of the log-linear model i
 \noindent
 
 \hypertarget{refs}{}
-\leavevmode\hypertarget{ref-agrestiCategoricalDataAnalysis2013}{}%
-Agresti, A. (2013). \emph{Categorical data analysis} (3rd ed). Hoboken, NJ: Wiley.
-
-\leavevmode\hypertarget{ref-bennettHowCanDeal2001}{}%
-Bennett, D. A. (2001). How can I deal with missing data in my study? \emph{Australian and New Zealand Journal of Public Health}, \emph{25}(5), 464--469.
-
-\leavevmode\hypertarget{ref-berkeyRandomeffectsRegressionModel1995}{}%
-Berkey, C. S., Hoaglin, D. C., Mosteller, F., \& Colditz, G. A. (1995). A random-effects regression model for meta-analysis. \emph{Statistics in Medicine}, \emph{14}(4), 395--411. \url{https://doi.org/10.1002/sim.4780140406}
-
+\begin{CSLReferences}{0}{0}
 \leavevmode\hypertarget{ref-borensteinIntroductionMetaanalysis2009}{}%
-Borenstein, M. (2009). \emph{Introduction to meta-analysis}. Chichester, U.K.: John Wiley \& Sons. Retrieved from \url{http://public.ebookcentral.proquest.com/choice/publicfullrecord.aspx?p=427912}
-
-\leavevmode\hypertarget{ref-chenHowBigBig2010}{}%
-Chen, H., Cohen, P., \& Chen, S. (2010). How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies. \emph{Communications in Statistics - Simulation and Computation}, \emph{39}(4), 860--864. \url{https://doi.org/10.1080/03610911003650383}
-
-\leavevmode\hypertarget{ref-cheungHandlingMissingCovariates2019}{}%
-Cheung, M. W.-L. (2019). \emph{Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood}. Presented at the Society for Research Synthesis Methods, Chicago, IL. Retrieved from \url{http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf}
-
-\leavevmode\hypertarget{ref-cohenStatisticalPowerAnalysis1988}{}%
-Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences} (2nd ed). Hillsdale, N.J: L. Erlbaum Associates.
-
-\leavevmode\hypertarget{ref-cooperSynthesizingResearchGuide1998}{}%
-Cooper, H. M. (1998). \emph{Synthesizing research: A guide for literature reviews} (3rd ed). Thousand Oaks, Calif: Sage Publications.
-
-\leavevmode\hypertarget{ref-cooperResearchSynthesisMetaanalysis2017}{}%
-Cooper, H. M. (2017). \emph{Research synthesis and meta-analysis: a step-by-step approach} (Fifth Edition). Los Angeles: SAGE.
-
-\leavevmode\hypertarget{ref-cooperHandbookResearchSynthesis2019}{}%
-Cooper, H. M., Hedges, L. V., \& Valentine, J. C. (Eds.). (2019). \emph{Handbook of research synthesis and meta-analysis} (3rd edition). New York: Russell Sage Foundation.
-
-\leavevmode\hypertarget{ref-farrarMulticollinearityRegressionAnalysis1967}{}%
-Farrar, D. E., \& Glauber, R. R. (1967). Multicollinearity in regression analysis: The problem revisited. \emph{The Review of Economics and Statistics}, \emph{49}(1), 92. \url{https://doi.org/10.2307/1937887}
-
-\leavevmode\hypertarget{ref-fergusonEffectSizePrimer2009}{}%
-Ferguson, C. J. (2009). An effect size primer: A guide for clinicians and researchers. \emph{Professional Psychology: Research and Practice}, \emph{40}(5), 532--538. \url{https://doi.org/10.1037/a0015808}
-
-\leavevmode\hypertarget{ref-gelmanBayesianDataAnalysis2014}{}%
-Gelman, A. (2014). \emph{Bayesian data analysis} (Third edition). Boca Raton: CRC Press.
-
-\leavevmode\hypertarget{ref-glynnRegressionEstimatesMissing1986}{}%
-Glynn, R. J., \& Laird, N. M. (1986). Regression estimates and missing data: Complete case analysis. \emph{Cambridge, MA: Harvard School of Public Health, Department of Biostatistics}.
-
-\leavevmode\hypertarget{ref-grahamMissingDataAnalysis2009}{}%
-Graham, J. W. (2009). Missing data analysis: Making it work in the real world. \emph{Annual Review of Psychology}, \emph{60}(1), 549--576. \url{https://doi.org/10.1146/annurev.psych.58.110405.085530}
-
-\leavevmode\hypertarget{ref-grahamMissingData2012}{}%
-Graham, J. W. (2012). \emph{Missing Data}. New York, NY: Springer New York. Retrieved from \url{http://link.springer.com/10.1007/978-1-4614-4018-5}
-
-\leavevmode\hypertarget{ref-haddockUsingOddsRatios1998}{}%
-Haddock, C. K., Rindskopf, D., \& Shadish, W. R. (1998). Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues. \emph{Psychological Methods}, \emph{3}(3), 339--353. \url{https://doi.org/10.1037/1082-989X.3.3.339}
-
-\leavevmode\hypertarget{ref-hedgesRandomEffectsModel1983}{}%
-Hedges, L. V. (1983a). A random effects model for effect sizes. \emph{Psychological Bulletin}, \emph{93}(2), 388--395. \url{https://doi.org/10.1037/0033-2909.93.2.388}
-
-\leavevmode\hypertarget{ref-hedgesCombiningIndependentEstimators1983}{}%
-Hedges, L. V. (1983b). Combining independent estimators in research synthesis. \emph{British Journal of Mathematical and Statistical Psychology}, \emph{36}(1), 123--131. \url{https://doi.org/10.1111/j.2044-8317.1983.tb00768.x}
-
-\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2001}{}%
-Hedges, L. V., \& Pigott, T. D. (2001). The power of statistical tests in meta-analysis. \emph{Psychological Methods}, \emph{6}(3), 203--217. \url{https://doi.org/10.1037/1082-989X.6.3.203}
-
-\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2004}{}%
-Hedges, L. V., \& Pigott, T. D. (2004). The power of statistical tests for moderators in meta-analysis. \emph{Psychological Methods}, \emph{9}(4), 426--445. \url{https://doi.org/10.1037/1082-989X.9.4.426}
-
-\leavevmode\hypertarget{ref-hedgesStatisticalAnalysesStudying2019}{}%
-Hedges, L. V., \& Schauer, J. M. (2019). Statistical analyses for studying replication: Meta-analytic perspectives. \emph{Psychological Methods}, \emph{24}(5), 557--570. \url{https://doi.org/10.1037/met0000189}
-
-\leavevmode\hypertarget{ref-hedgesRobustVarianceEstimation2010}{}%
-Hedges, L. V., Tipton, E., \& Johnson, M. C. (2010). Robust variance estimation in meta-regression with dependent effect size estimates. \emph{Research Synthesis Methods}, \emph{1}(1), 39--65. \url{https://doi.org/10.1002/jrsm.5}
-
-\leavevmode\hypertarget{ref-hedgesFixedRandomeffectsModels1998}{}%
-Hedges, L. V., \& Vevea, J. L. (1998). Fixed- and random-effects models in meta-analysis. \emph{Psychological Methods}, \emph{3}(4), 486--504. \url{https://doi.org/10.1037/1082-989X.3.4.486}
-
-\leavevmode\hypertarget{ref-ibrahimIncompleteDataGeneralized1990}{}%
-Ibrahim, J. G. (1990). Incomplete data in generalized linear models. \emph{Journal of the American Statistical Association}, \emph{85}(411), 765--769. \url{https://doi.org/10.1080/01621459.1990.10474938}
-
-\leavevmode\hypertarget{ref-ibrahimMissingCovariatesGeneralized1999}{}%
-Ibrahim, J. G., Lipsitz, S. R., \& Chen, M.-H. (1999). Missing covariates in generalized linear models when the missing data mechanism is non-ignorable. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, \emph{61}(1), 173--190. \url{https://doi.org/10.1111/1467-9868.00170}
-
-\leavevmode\hypertarget{ref-konstantopoulosFixedEffectsVariance2011}{}%
-Konstantopoulos, S. (2011). Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis. \emph{Research Synthesis Methods}, \emph{2}(1), 61--76. \url{https://doi.org/10.1002/jrsm.35}
-
-\leavevmode\hypertarget{ref-lairdStatisticalMethodsCombining1990}{}%
-Laird, N. M., \& Mosteller, F. (1990). Some statistical methods for combining experimental results. \emph{International Journal of Technology Assessment in Health Care}, \emph{6}(1), 5--30. \url{https://doi.org/10.1017/S0266462300008916}
-
-\leavevmode\hypertarget{ref-lipseyThoseConfoundedModerators2003}{}%
-Lipsey, M. W. (2003). Those confounded moderators in meta-analysis: Good, bad, and ugly. \emph{The ANNALS of the American Academy of Political and Social Science}, \emph{587}(1), 69--81. \url{https://doi.org/10.1177/0002716202250791}
-
-\leavevmode\hypertarget{ref-lipsitzConditionalModelIncomplete1996}{}%
-Lipsitz, S. (1996). A conditional model for incomplete covariates in parametric regression models. \emph{Biometrika}, \emph{83}(4), 916--922. \url{https://doi.org/10.1093/biomet/83.4.916}
-
-\leavevmode\hypertarget{ref-littleRegressionMissingReview1992}{}%
-Little, R. J. A. (1992). Regression with missing \emph{X} 's: A review. \emph{Journal of the American Statistical Association}, \emph{87}(420), 1227--1237. \url{https://doi.org/10.1080/01621459.1992.10476282}
-
-\leavevmode\hypertarget{ref-littleStatisticalAnalysisMissing2002}{}%
-Little, R. J. A., \& Rubin, D. B. (2002). \emph{Statistical Analysis with Missing Data}. Hoboken, NJ, USA: John Wiley \& Sons, Inc. Retrieved from \url{http://doi.wiley.com/10.1002/9781119013563}
-
-\leavevmode\hypertarget{ref-melaImpactCollinearityRegression2002}{}%
-Mela, C. F., \& Kopalle, P. K. (2002). The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations. \emph{Applied Economics}, \emph{34}(6), 667--677. \url{https://doi.org/10.1080/00036840110058482}
-
-\leavevmode\hypertarget{ref-pigottReviewMethodsMissing2001}{}%
-Pigott, T. D. (2001a). A review of methods for missing data. \emph{Educational Research and Evaluation}, \emph{7}(4), 353--383. \url{https://doi.org/10.1076/edre.7.4.353.8937}
-
-\leavevmode\hypertarget{ref-pigottMissingPredictorsModels2001}{}%
-Pigott, T. D. (2001b). Missing predictors in models of effect size. \emph{Evaluation \& the Health Professions}, \emph{24}(3), 277--307. \url{https://doi.org/10.1177/01632780122034920}
-
-\leavevmode\hypertarget{ref-pigottHandlingMissingData2019}{}%
-Pigott, T. D. (2019). Handling missing data. In Harris Cooper, Larry V. Hedges, \& Jeffrey C. Valentine (Eds.), \emph{The Handbook for Research Synthesis and Meta-analysis} (3rd ed.). New York: Russell Sage.
-
-\leavevmode\hypertarget{ref-rubinInferenceMissingData1976}{}%
-Rubin, D. B. (1976). Inference and missing data. \emph{Biometrika}, \emph{63}(3), 581--592. \url{https://doi.org/10.1093/biomet/63.3.581}
-
-\leavevmode\hypertarget{ref-rubinMultipleImputationNonresponse1987}{}%
-Rubin, D. B. (1987). \emph{Multiple imputation for nonresponse in surveys}. New York: Wiley.
-
-\leavevmode\hypertarget{ref-schaferMultipleImputationPrimer1999}{}%
-Schafer, J. L. (1999). Multiple imputation: a primer. \emph{Statistical Methods in Medical Research}, \emph{8}(1), 3--15. \url{https://doi.org/10.1177/096228029900800102}
-
-\leavevmode\hypertarget{ref-schauerExploratoryAnalysesMissingunderreview}{}%
-Schauer, J. M., Dìaz, K., \& Pigott, T. D. (in press). Exploratory analyses for missing data in meta-analyses.
-
-\leavevmode\hypertarget{ref-tanner-smithAdolescentSubstanceUse2016}{}%
-Tanner-Smith, E. E., Steinka-Fry, K. T., Kettrey, H. H., \& Lipsey, M. W. (2016, December). Adolescent substance use treatment effectiveness: A systematic review and meta-analysis. Office of Justice Programs.
+\CSLLeftMargin{1. }
+\CSLRightInline{Borenstein M. \emph{Introduction to meta-analysis}. Chichester, U.K.: John Wiley \& Sons; 2009. \url{http://public.ebookcentral.proquest.com/choice/publicfullrecord.aspx?p=427912}. Accessed May 18, 2020.}
 
 \leavevmode\hypertarget{ref-tiptonHistoryMetaregressionTechnical2019}{}%
-Tipton, E., Pustejovsky, J. E., \& Ahmadi, H. (2019a). A history of meta-regression: Technical, conceptual, and practical developments between 1974 and 2018. \emph{Research Synthesis Methods}, \emph{10}(2), 161--179. \url{https://doi.org/10.1002/jrsm.1338}
+\CSLLeftMargin{2. }
+\CSLRightInline{Tipton E, Pustejovsky JE, Ahmadi H. A history of meta-regression: Technical, conceptual, and practical developments between 1974 and 2018. \emph{Res Syn Meth}. 2019;10(2):161-179. doi:\href{https://doi.org/10.1002/jrsm.1338}{10.1002/jrsm.1338}}
 
-\leavevmode\hypertarget{ref-tiptonCurrentPracticesMetaregression2019}{}%
-Tipton, E., Pustejovsky, J. E., \& Ahmadi, H. (2019b). Current practices in meta-regression in psychology, education, and medicine. \emph{Research Synthesis Methods}, \emph{10}(2), 180--194. \url{https://doi.org/10.1002/jrsm.1339}
+\leavevmode\hypertarget{ref-berkeyRandomeffectsRegressionModel1995}{}%
+\CSLLeftMargin{3. }
+\CSLRightInline{Berkey CS, Hoaglin DC, Mosteller F, Colditz GA. A random-effects regression model for meta-analysis. \emph{Statist Med}. 1995;14(4):395-411. doi:\href{https://doi.org/10.1002/sim.4780140406}{10.1002/sim.4780140406}}
 
-\leavevmode\hypertarget{ref-vanbuurenFlexibleImputationMissing2018}{}%
-van Buuren, S. (2018). \emph{Flexible Imputation of Missing Data, Second Edition} (2nd ed.). Second edition. \textbar{} Boca Raton, Florida : CRC Press, {[}2019{]} \textbar: Chapman and Hall/CRC. Retrieved from \url{https://www.taylorfrancis.com/books/9780429492259}
+\leavevmode\hypertarget{ref-hedgesCombiningIndependentEstimators1983}{}%
+\CSLLeftMargin{4. }
+\CSLRightInline{Hedges LV. Combining independent estimators in research synthesis. \emph{British Journal of Mathematical and Statistical Psychology}. 1983;36(1):123-131. doi:\href{https://doi.org/10.1111/j.2044-8317.1983.tb00768.x}{10.1111/j.2044-8317.1983.tb00768.x}}
 
-\leavevmode\hypertarget{ref-vanbuurenMiceMultivariateImputation2011}{}%
-van Buuren, S. van, \& Groothuis-Oudshoorn, K. (2011). \textbf{mice} : Multivariate Imputation by Chained Equations in \emph{R}. \emph{Journal of Statistical Software}, \emph{45}(3). \url{https://doi.org/10.18637/jss.v045.i03}
+\leavevmode\hypertarget{ref-hedgesRobustVarianceEstimation2010}{}%
+\CSLLeftMargin{5. }
+\CSLRightInline{Hedges LV, Tipton E, Johnson MC. Robust variance estimation in meta-regression with dependent effect size estimates. \emph{Res Synth Method}. 2010;1(1):39-65. doi:\href{https://doi.org/10.1002/jrsm.5}{10.1002/jrsm.5}}
 
-\leavevmode\hypertarget{ref-viechtbauerBiasEfficiencyMetaanalytic2005}{}%
-Viechtbauer, W. (2005). Bias and efficiency of meta-analytic variance estimators in the random-effects model. \emph{Journal of Educational and Behavioral Statistics}, \emph{30}(3), 261--293. \url{https://doi.org/10.3102/10769986030003261}
+\leavevmode\hypertarget{ref-konstantopoulosFixedEffectsVariance2011}{}%
+\CSLLeftMargin{6. }
+\CSLRightInline{Konstantopoulos S. Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis. \emph{Res Syn Meth}. 2011;2(1):61-76. doi:\href{https://doi.org/10.1002/jrsm.35}{10.1002/jrsm.35}}
 
 \leavevmode\hypertarget{ref-viechtbauerAccountingHeterogeneityRandomeffects2007}{}%
-Viechtbauer, W. (2007). Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis. \emph{Zeitschrift Für Psychologie / Journal of Psychology}, \emph{215}(2), 104--121. \url{https://doi.org/10.1027/0044-3409.215.2.104}
+\CSLLeftMargin{7. }
+\CSLRightInline{Viechtbauer W. Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis. \emph{Zeitschrift für Psychologie / Journal of Psychology}. 2007;215(2):104-121. doi:\href{https://doi.org/10.1027/0044-3409.215.2.104}{10.1027/0044-3409.215.2.104}}
+
+\leavevmode\hypertarget{ref-pigottReviewMethodsMissing2001}{}%
+\CSLLeftMargin{8. }
+\CSLRightInline{Pigott TD. A review of methods for missing data. \emph{Educational Research and Evaluation}. 2001;7(4):353-383. doi:\href{https://doi.org/10.1076/edre.7.4.353.8937}{10.1076/edre.7.4.353.8937}}
+
+\leavevmode\hypertarget{ref-pigottMissingPredictorsModels2001}{}%
+\CSLLeftMargin{9. }
+\CSLRightInline{Pigott TD. Missing predictors in models of effect size. \emph{Eval Health Prof}. 2001;24(3):277-307. doi:\href{https://doi.org/10.1177/01632780122034920}{10.1177/01632780122034920}}
+
+\leavevmode\hypertarget{ref-tiptonCurrentPracticesMetaregression2019}{}%
+\CSLLeftMargin{10. }
+\CSLRightInline{Tipton E, Pustejovsky JE, Ahmadi H. Current practices in meta-regression in psychology, education, and medicine. \emph{Res Syn Meth}. 2019;10(2):180-194. doi:\href{https://doi.org/10.1002/jrsm.1339}{10.1002/jrsm.1339}}
+
+\leavevmode\hypertarget{ref-pigottHandlingMissingData2019}{}%
+\CSLLeftMargin{11. }
+\CSLRightInline{Pigott TD. Handling missing data. In: Harris Cooper, Larry V. Hedges, Jeffrey C. Valentine, eds. \emph{The Handbook for Research Synthesis and Meta-Analysis}. 3rd ed. New York: Russell Sage; 2019.}
+
+\leavevmode\hypertarget{ref-cooperResearchSynthesisMetaanalysis2017}{}%
+\CSLLeftMargin{12. }
+\CSLRightInline{Cooper HM. \emph{Research Synthesis and Meta-Analysis: A Step-by-Step Approach}. Fifth Edition. Los Angeles: SAGE; 2017.}
+
+\leavevmode\hypertarget{ref-littleStatisticalAnalysisMissing2002}{}%
+\CSLLeftMargin{13. }
+\CSLRightInline{Little RJA, Rubin DB. \emph{Statistical Analysis with Missing Data}. Hoboken, NJ, USA: John Wiley \& Sons, Inc.; 2002. doi:\href{https://doi.org/10.1002/9781119013563}{10.1002/9781119013563}}
+
+\leavevmode\hypertarget{ref-grahamMissingData2012}{}%
+\CSLLeftMargin{14. }
+\CSLRightInline{Graham JW. \emph{Missing Data}. New York, NY: Springer New York; 2012. doi:\href{https://doi.org/10.1007/978-1-4614-4018-5}{10.1007/978-1-4614-4018-5}}
+
+\leavevmode\hypertarget{ref-tanner-smithAdolescentSubstanceUse2016}{}%
+\CSLLeftMargin{15. }
+\CSLRightInline{Tanner-Smith EE, Steinka-Fry KT, Kettrey HH, Lipsey MW. Adolescent substance use treatment effectiveness: A systematic review and meta-analysis. December 2016.}
+
+\leavevmode\hypertarget{ref-schaferMultipleImputationPrimer1999}{}%
+\CSLLeftMargin{16. }
+\CSLRightInline{Schafer JL. Multiple imputation: a primer. \emph{Stat Methods Med Res}. 1999;8(1):3-15. doi:\href{https://doi.org/10.1177/096228029900800102}{10.1177/096228029900800102}}
+
+\leavevmode\hypertarget{ref-bennettHowCanDeal2001}{}%
+\CSLLeftMargin{17. }
+\CSLRightInline{Bennett DA. How can I deal with missing data in my study? \emph{Aust N Z J Public Health}. 2001;25(5):464-469.}
+
+\leavevmode\hypertarget{ref-cooperSynthesizingResearchGuide1998}{}%
+\CSLLeftMargin{18. }
+\CSLRightInline{Cooper HM. \emph{Synthesizing Research: A Guide for Literature Reviews}. 3rd ed. Thousand Oaks, Calif: Sage Publications; 1998.}
+
+\leavevmode\hypertarget{ref-cooperHandbookResearchSynthesis2019}{}%
+\CSLLeftMargin{19. }
+\CSLRightInline{Cooper HM, Hedges LV, Valentine JC, eds. \emph{Handbook of Research Synthesis and Meta-Analysis}. 3rd edition. New York: Russell Sage Foundation; 2019.}
+
+\leavevmode\hypertarget{ref-hedgesFixedRandomeffectsModels1998}{}%
+\CSLLeftMargin{20. }
+\CSLRightInline{Hedges LV, Vevea JL. Fixed- and random-effects models in meta-analysis. \emph{Psychological Methods}. 1998;3(4):486-504. doi:\href{https://doi.org/10.1037/1082-989X.3.4.486}{10.1037/1082-989X.3.4.486}}
+
+\leavevmode\hypertarget{ref-hedgesRandomEffectsModel1983}{}%
+\CSLLeftMargin{21. }
+\CSLRightInline{Hedges LV. A random effects model for effect sizes. \emph{Psychological Bulletin}. 1983;93(2):388-395. doi:\href{https://doi.org/10.1037/0033-2909.93.2.388}{10.1037/0033-2909.93.2.388}}
+
+\leavevmode\hypertarget{ref-lairdStatisticalMethodsCombining1990}{}%
+\CSLLeftMargin{22. }
+\CSLRightInline{Laird NM, Mosteller F. Some statistical methods for combining experimental results. \emph{Int J Technol Assess Health Care}. 1990;6(1):5-30. doi:\href{https://doi.org/10.1017/S0266462300008916}{10.1017/S0266462300008916}}
+
+\leavevmode\hypertarget{ref-viechtbauerBiasEfficiencyMetaanalytic2005}{}%
+\CSLLeftMargin{23. }
+\CSLRightInline{Viechtbauer W. Bias and efficiency of meta-analytic variance estimators in the random-effects model. \emph{Journal of Educational and Behavioral Statistics}. 2005;30(3):261-293. doi:\href{https://doi.org/10.3102/10769986030003261}{10.3102/10769986030003261}}
+
+\leavevmode\hypertarget{ref-gelmanBayesianDataAnalysis2014}{}%
+\CSLLeftMargin{24. }
+\CSLRightInline{Gelman A. \emph{Bayesian Data Analysis}. Third edition. Boca Raton: CRC Press; 2014.}
+
+\leavevmode\hypertarget{ref-lipseyThoseConfoundedModerators2003}{}%
+\CSLLeftMargin{25. }
+\CSLRightInline{Lipsey MW. Those confounded moderators in meta-analysis: Good, bad, and ugly. \emph{The ANNALS of the American Academy of Political and Social Science}. 2003;587(1):69-81. doi:\href{https://doi.org/10.1177/0002716202250791}{10.1177/0002716202250791}}
+
+\leavevmode\hypertarget{ref-farrarMulticollinearityRegressionAnalysis1967}{}%
+\CSLLeftMargin{26. }
+\CSLRightInline{Farrar DE, Glauber RR. Multicollinearity in regression analysis: The problem revisited. \emph{The Review of Economics and Statistics}. 1967;49(1):92. doi:\href{https://doi.org/10.2307/1937887}{10.2307/1937887}}
+
+\leavevmode\hypertarget{ref-melaImpactCollinearityRegression2002}{}%
+\CSLLeftMargin{27. }
+\CSLRightInline{Mela CF, Kopalle PK. The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations. \emph{Applied Economics}. 2002;34(6):667-677. doi:\href{https://doi.org/10.1080/00036840110058482}{10.1080/00036840110058482}}
+
+\leavevmode\hypertarget{ref-angristpischke2009}{}%
+\CSLLeftMargin{28. }
+\CSLRightInline{Angrist JD, Pischke J-S. \emph{Mostly harmless econometrics}. Princeton, N.J.: Princeton University Press; 2009.}
+
+\leavevmode\hypertarget{ref-rubinInferenceMissingData1976}{}%
+\CSLLeftMargin{29. }
+\CSLRightInline{Rubin DB. Inference and missing data. \emph{Biometrika}. 1976;63(3):581-592. doi:\href{https://doi.org/10.1093/biomet/63.3.581}{10.1093/biomet/63.3.581}}
+
+\leavevmode\hypertarget{ref-vanbuurenFlexibleImputationMissing2018}{}%
+\CSLLeftMargin{30. }
+\CSLRightInline{van Buuren S. \emph{Flexible Imputation of Missing Data, Second Edition}. 2nd ed. Second edition. \textbar{} Boca Raton, Florida : CRC Press, {[}2019{]} \textbar: Chapman and Hall/CRC; 2018. doi:\href{https://doi.org/10.1201/9780429492259}{10.1201/9780429492259}}
+
+\leavevmode\hypertarget{ref-agrestiCategoricalDataAnalysis2013}{}%
+\CSLLeftMargin{31. }
+\CSLRightInline{Agresti A. \emph{Categorical Data Analysis}. 3rd ed. Hoboken, NJ: Wiley; 2013.}
+
+\leavevmode\hypertarget{ref-ibrahimIncompleteDataGeneralized1990}{}%
+\CSLLeftMargin{32. }
+\CSLRightInline{Ibrahim JG. Incomplete data in generalized linear models. \emph{Journal of the American Statistical Association}. 1990;85(411):765-769. doi:\href{https://doi.org/10.1080/01621459.1990.10474938}{10.1080/01621459.1990.10474938}}
+
+\leavevmode\hypertarget{ref-ibrahimMissingCovariatesGeneralized1999}{}%
+\CSLLeftMargin{33. }
+\CSLRightInline{Ibrahim JG, Lipsitz SR, Chen M-H. Missing covariates in generalized linear models when the missing data mechanism is non-ignorable. \emph{J Royal Statistical Soc B}. 1999;61(1):173-190. doi:\href{https://doi.org/10.1111/1467-9868.00170}{10.1111/1467-9868.00170}}
+
+\leavevmode\hypertarget{ref-lipsitzConditionalModelIncomplete1996}{}%
+\CSLLeftMargin{34. }
+\CSLRightInline{Lipsitz S. A conditional model for incomplete covariates in parametric regression models. \emph{Biometrika}. 1996;83(4):916-922. doi:\href{https://doi.org/10.1093/biomet/83.4.916}{10.1093/biomet/83.4.916}}
+
+\leavevmode\hypertarget{ref-glynnRegressionEstimatesMissing1986}{}%
+\CSLLeftMargin{35. }
+\CSLRightInline{Glynn RJ, Laird NM. Regression estimates and missing data: Complete case analysis. \emph{Cambridge, MA: Harvard School of Public Health, Department of Biostatistics}. 1986.}
+
+\leavevmode\hypertarget{ref-littleRegressionMissingReview1992}{}%
+\CSLLeftMargin{36. }
+\CSLRightInline{Little RJA. Regression with missing \emph{X} 's: A review. \emph{Journal of the American Statistical Association}. 1992;87(420):1227-1237. doi:\href{https://doi.org/10.1080/01621459.1992.10476282}{10.1080/01621459.1992.10476282}}
+
+\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2001}{}%
+\CSLLeftMargin{37. }
+\CSLRightInline{Hedges LV, Pigott TD. The power of statistical tests in meta-analysis. \emph{Psychological Methods}. 2001;6(3):203-217. doi:\href{https://doi.org/10.1037/1082-989X.6.3.203}{10.1037/1082-989X.6.3.203}}
+
+\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2004}{}%
+\CSLLeftMargin{38. }
+\CSLRightInline{Hedges LV, Pigott TD. The power of statistical tests for moderators in meta-analysis. \emph{Psychological Methods}. 2004;9(4):426-445. doi:\href{https://doi.org/10.1037/1082-989X.9.4.426}{10.1037/1082-989X.9.4.426}}
+
+\leavevmode\hypertarget{ref-hedgesStatisticalAnalysesStudying2019}{}%
+\CSLLeftMargin{39. }
+\CSLRightInline{Hedges LV, Schauer JM. Statistical analyses for studying replication: Meta-analytic perspectives. \emph{Psychological Methods}. 2019;24(5):557-570. doi:\href{https://doi.org/10.1037/met0000189}{10.1037/met0000189}}
+
+\leavevmode\hypertarget{ref-cohenStatisticalPowerAnalysis1988}{}%
+\CSLLeftMargin{40. }
+\CSLRightInline{Cohen J. \emph{Statistical Power Analysis for the Behavioral Sciences}. 2nd ed. Hillsdale, N.J: L. Erlbaum Associates; 1988.}
+
+\leavevmode\hypertarget{ref-fergusonEffectSizePrimer2009}{}%
+\CSLLeftMargin{41. }
+\CSLRightInline{Ferguson CJ. An effect size primer: A guide for clinicians and researchers. \emph{Professional Psychology: Research and Practice}. 2009;40(5):532-538. doi:\href{https://doi.org/10.1037/a0015808}{10.1037/a0015808}}
+
+\leavevmode\hypertarget{ref-chenHowBigBig2010}{}%
+\CSLLeftMargin{42. }
+\CSLRightInline{Chen H, Cohen P, Chen S. How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies. \emph{Communications in Statistics - Simulation and Computation}. 2010;39(4):860-864. doi:\href{https://doi.org/10.1080/03610911003650383}{10.1080/03610911003650383}}
+
+\leavevmode\hypertarget{ref-haddockUsingOddsRatios1998}{}%
+\CSLLeftMargin{43. }
+\CSLRightInline{Haddock CK, Rindskopf D, Shadish WR. Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues. \emph{Psychological Methods}. 1998;3(3):339-353. doi:\href{https://doi.org/10.1037/1082-989X.3.3.339}{10.1037/1082-989X.3.3.339}}
+
+\leavevmode\hypertarget{ref-hillBenchmarks2008}{}%
+\CSLLeftMargin{44. }
+\CSLRightInline{Hill CJ, Bloom HS, Black AR, Lipsey MW. Empirical benchmarks for interpreting effect sizes in research. \emph{Child Development Perspectives}. 2008;2(3):172-177. doi:\href{https://doi.org/10.1111/j.1750-8606.2008.00061.x}{10.1111/j.1750-8606.2008.00061.x}}
+
+\leavevmode\hypertarget{ref-rubinMultipleImputationNonresponse1987}{}%
+\CSLLeftMargin{45. }
+\CSLRightInline{Rubin DB. \emph{Multiple Imputation for Nonresponse in Surveys}. New York: Wiley; 1987.}
+
+\leavevmode\hypertarget{ref-vanbuurenMiceMultivariateImputation2011}{}%
+\CSLLeftMargin{46. }
+\CSLRightInline{van Buuren S van, Groothuis-Oudshoorn K. \textbf{mice} : Multivariate Imputation by Chained Equations in \emph{R}. \emph{J Stat Soft}. 2011;45(3). doi:\href{https://doi.org/10.18637/jss.v045.i03}{10.18637/jss.v045.i03}}
 
 \leavevmode\hypertarget{ref-viechtbauerConductingMetaanalysesMetafor2010}{}%
-Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. \emph{Journal of Statistical Software}, \emph{36}(3). \url{https://doi.org/10.18637/jss.v036.i03}
+\CSLLeftMargin{47. }
+\CSLRightInline{Viechtbauer W. Conducting meta-analyses in R with the metafor package. \emph{J Stat Soft}. 2010;36(3). doi:\href{https://doi.org/10.18637/jss.v036.i03}{10.18637/jss.v036.i03}}
+
+\leavevmode\hypertarget{ref-schauerExploratoryAnalysesMissingunderreview}{}%
+\CSLLeftMargin{48. }
+\CSLRightInline{Schauer JM, Dìaz K, Pigott TD. Exploratory analyses for missing data in meta-analyses. in press.}
+
+\leavevmode\hypertarget{ref-grahamMissingDataAnalysis2009}{}%
+\CSLLeftMargin{49. }
+\CSLRightInline{Graham JW. Missing data analysis: Making it work in the real world. \emph{Annu Rev Psychol}. 2009;60(1):549-576. doi:\href{https://doi.org/10.1146/annurev.psych.58.110405.085530}{10.1146/annurev.psych.58.110405.085530}}
+
+\leavevmode\hypertarget{ref-cheungHandlingMissingCovariates2019}{}%
+\CSLLeftMargin{50. }
+\CSLRightInline{Cheung MW-L. Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood. Presented at the: Society for Research Synthesis Methods; 2019; Chicago, IL. \url{http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf}. Accessed September 8, 2020.}
+
+\end{CSLReferences}
 
 \end{document}

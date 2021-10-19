@@ -1824,6 +1824,43 @@
 		}
 	},
 	{
+		"id": "angristpischke2009",
+		"type": "book",
+		"abstract": "This text provides a concise and clearly presented discussion of all the elements in a meta-analysis. It is illustrated with worked examples throughout, with visual explanations, using screenshots from Excel spreadsheets and computer programs such as Comprehensive Meta-Analysis (CMA) or Strata.",
+		"event-place": "Princeton, N.J.",
+		"ISBN": "9780691120355",
+		"language": "English",
+		"publisher": "Princeton University Press",
+		"publisher-place": "Princeton, N.J.",
+		"title": "Mostly harmless econometrics",
+		"author": [
+			{
+				"family": "Angrist",
+				"given": "Joshua D."
+			},
+			{
+				"family": "Pischke",
+				"given": "Jörn-Steffen"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					18
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2009"
+				]
+			]
+		}
+	},
+	{
 		"id": "tanner-smithComparativeEffectivenessOutpatient2013",
 		"type": "article-journal",
 		"container-title": "Journal of Substance Abuse Treatment",
@@ -2262,6 +2299,55 @@
 			"date-parts": [
 				[
 					"2017",
+					9,
+					15
+				]
+			]
+		}
+	},
+	{
+		"id": "hillBenchmarks2008",
+		"type": "article-journal",
+		"container-title": "Child Development Perspectives",
+		"DOI": "10.1111/j.1750-8606.2008.00061.x",
+		"issue": "3",
+		"language": "en",
+		"page": "172-177",
+		"source": "DOI.org (Crossref)",
+		"title": "Empirical benchmarks for interpreting effect sizes in research",
+		"URL": "https://doi.org/10.1111/j.1750-8606.2008.00061.x",
+		"volume": "2",
+		"author": [
+			{
+				"family": "Hill",
+				"given": "Carolyn J"
+			},
+			{
+				"family": "Bloom",
+				"given": "Howard S"
+			},
+			{
+				"family": "Black",
+				"given": "Allison R"
+			},
+			{
+				"family": "Lipsey",
+				"given": "Mark W"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					5,
+					19
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2008",
 					9,
 					15
 				]

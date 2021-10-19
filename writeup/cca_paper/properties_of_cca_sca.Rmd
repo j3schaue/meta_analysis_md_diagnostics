@@ -1,7 +1,7 @@
 ---
 title: "On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates"
 # author: 
-csl: ../addons/apa.csl
+csl: ../addons/ama.csl
 output:
   bookdown::pdf_document2: 
     keep_tex: true
@@ -19,8 +19,7 @@ bibliography: ../addons/cca_references.json
 # Introduction
 
 Meta-regression is a useful tool for studying important sources of variation between effects in a meta-analysis [@borensteinIntroductionMetaanalysis2009; @tiptonHistoryMetaregressionTechnical2019].
-Analyses of these models in the absence of missing data have been studied thoroughly in the literature [e.g.,
-@berkeyRandomeffectsRegressionModel1995; @hedgesCombiningIndependentEstimators1983; @hedgesRobustVarianceEstimation2010; @konstantopoulosFixedEffectsVariance2011;
+Analyses of these models in the absence of missing data have been studied thoroughly in the literature [@berkeyRandomeffectsRegressionModel1995; @hedgesCombiningIndependentEstimators1983; @hedgesRobustVarianceEstimation2010; @konstantopoulosFixedEffectsVariance2011;
 @viechtbauerAccountingHeterogeneityRandomeffects2007].
 However, it is common for meta-analytic datasets to be missing data [@pigottReviewMethodsMissing2001]. 
 In the context of meta-regression, issues with missing data frequently involve missing covariates [@pigottMissingPredictorsModels2001; @tiptonCurrentPracticesMetaregression2019].
@@ -30,11 +29,13 @@ Statistical guidance suggests that analyses ought to consider the mechanism that
 However, it appears that doing so is less common in practice for meta-analyses.
 A recent review found that meta-regressions with missing data tend to take one of two strategies [@tiptonCurrentPracticesMetaregression2019]. 
 An analyst may conduct a *complete-case analysis* (CCA) that excludes any effects for which a relevant covariate is missing (i.e., only analyze complete cases). 
+This is often referred to as "listwise deletion" in data analyses.
 However, if there are very few such effects, a common approach is to use *shifting units of analysis*, which we refer to in this article as a *shifting-case analysis* (SCA) [@cooperResearchSynthesisMetaanalysis2017]. 
 In a SCA, analysts fit a series of meta-regression models on subsets of relevant covariates, so that each model selectively omits certain covariates.
+This is equivalent to "pairwise deletion" in data analyses.
 
-Both CCA and SCA in some sense ignore effects for which a covariate is missing.
-Ignoring missing data can potentially lead to biased estimates of parameters of interest [see @littleStatisticalAnalysisMissing2002; @grahamMissingData2012].
+Both CCA and SCA ignore effects for which a covariate is missing.
+Ignoring missing data can potentially lead to biased estimates of parameters of interest [@littleStatisticalAnalysisMissing2002; @grahamMissingData2012].
 Despite authors pointing out such issues in meta-analysis, these methods continue to enjoy widespread use [@pigottHandlingMissingData2019].
 Existing meta-analysis literature on this discussion has yet to detail precisely how much bias can arise in a complete- or shifting-case analysis, nor is there exhaustive guidance on when these methods produce unbiased estimates.
 In short, there is an understanding that these methods *can* induce bias, but less is known about *how much* and *under what conditions*.
@@ -153,18 +154,18 @@ tabcc <- left_join(
   mutate_all(.funs = function(x) gsub("\\(, p = \\)", "", x)) 
 ```
 
-@tanner-smithAdolescentSubstanceUse2016 conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents. 
+Tanner-Smith et al. [@tanner-smithAdolescentSubstanceUse2016] conducted a meta-analysis that examined the effects of substance abuse interventions on future substance use among adolescents. 
 The studies included in this meta-analysis involved a variety of different treatment types (e.g., cognitive behavioral therapy, family therapy, and pharmacological therapy) and treatment intensities (measured in hours per week), and were carried out in a variety of contexts, including in-patient and out-patient centers.
 Tanner-Smith et al. used meta-regression models to study potential moderators of these effects, and their analyses had to contend with a number of effects that were missing covariates. 
 While in practice, models were estimated via the expectation-maximization (EM) algorithm rather than complete- or shifting-case methods, we use a subset of this data in order to illustrate complete- and shifting-case analyses.
 
 Consider a subset of the Tanner-Smith et al. data comprising `r n_effect` effect estimates of substance abuse interventions from `r n_study` studies. 
 These effect estimates involve contrasts between groups in a study that are subjected to different treatment conditions, denoted in the data as *Group 1* and *Group 2*, so that each treatment effect can be thought of as Group 1 minus Group 2.
-Each effect estimate corresponds to a given contrast within a study.
-Effect sizes are measures on the scale of bias-corrected standardized mean differences.
-Often the same group (typically the control group) in a study was used in multiple contrasts, so that effect sizes in this meta-analysis are likely correlated.
+Typically, researchers avoided no-treatment or placebo conditions in studies over ethical concerns surrounding the failure to treat adolescents with substance abuse disorders.
+Thus, contrasts within studies (i.e., effect estimates) tended to focus on a specific treatment of interest to the researcher versus some alternate treatment.
+Effect estimates are reported on the scale of bias-corrected standardized mean differences.
 
-Suppose an analysis of interest involves the impact of high- versus low-intensity interventions on treatment effects, where a high-intensity intervention consisted of more than 1.5 hours per week of treatment. 
+Suppose the analysis of interest involves the impact of high- versus low-intensity interventions on treatment effects, where a high-intensity intervention consisted of more than 1.5 hours per week of treatment. 
 Then this analysis might use a pair of binary covariates for each effect: one would indicate whether group 1 received a high-intensity intervention (i.e., $X_1 = 1$ if group 1 treatment was high-intensity) and the other would indicate whether group 2 received a high intensity (i.e., $X_{2} = 1$ if group 2 treatment was high-intensity).
 The relevant meta-regression model would regress the effect estimates on these two covariates.
 
@@ -204,9 +205,10 @@ Note that the coefficient estimate for Group 1's treatment intensity is still po
 Finally, an analogous model in a shifting-case analysis would include the 55 effects for which Group 2's intensity is observed, and include only that covariate in the model.
 The third column of Table \@ref(tab:ccadtexample) shows that this results in a coefficient estimate for Group 2's treatment intensity (0.16) that is in the opposite direction of the estimate from the complete case analysis (-0.21).
 
-It should be noted that all of these estimates ought to be interpreted with caution. 
+It should be noted that all of these estimates and comparisons between them ought to be interpreted with caution. 
 The complete-case analysis includes only half of the effect sizes, which comprises a missingness rate well beyond what might be considered negligible [@schaferMultipleImputationPrimer1999; @bennettHowCanDeal2001].
 The shifting-case analyses include more of the data, but because each shifting-case model omits one of the covariates, these models are not equivalent to the model that includes both covariates [@cooperSynthesizingResearchGuide1998].
+It could even be argued that the parameters in the model with both covariates are not comparable to parameters in models with only one covariate; coefficients in a model with multiple covariates must be interpreted in relation to other variables in the model.
 The remainder of this article quantifies the bias induced by omitting effect sizes and/or covariates from meta-regressions.
 
 
@@ -214,14 +216,15 @@ The remainder of this article quantifies the bias induced by omitting effect siz
 
 Suppose a meta-analysis involves $k$ effects estimated from collection of studies. 
 For the $i$th effect, let $T_i$ be the estimate of the effect parameter $\theta_i$, and let $v_i$ be the estimation error variance of $T_i$. 
-Denote a vector of covariates that pertain to $T_i$ as $X_i =[1, X_{i1}, \ldots, X_{ip}]$. Note that the first element of $X_i$ is a 1, which corresponds to an intercept term in a meta-regression model, and that $X_{ij}$ for $j = 1, \ldots p$ corresponds to different covariates.
+Denote a vector of covariates that pertain to effect estimate $T_i$ as $X_i =[1, X_{i1}, \ldots, X_{ip}]$. Note that the first element of $X_i$ is a 1, which corresponds to an intercept term in a meta-regression model, and that $X_{ij}$ for $j = 1, \ldots p$ corresponds to different covariates.
 The meta-regression model can be expressed as:
 \begin{equation}
 T_i | X_i, v_i, \eta = X_i \beta + u_i + e_i 
 \label{eq:full-data-reg}
 \end{equation}
 Here, $\beta \in \mathbb{R}^{p+1}$ is the vector of regression coefficients. 
-The estimation errors $e_i$ are typically assumed to be normally distributed with mean zero and variance $V[e_i] = v_i$, which is true of some effect sizes, and is an accurate large-sample approximation for others [@cooperHandbookResearchSynthesis2019].
+The estimation errors $e_i$ are typically assumed to be normally distributed with mean zero and variance $V[e_i] = v_i$. 
+This assumption is true of some effect size indices and is a very accurate large-sample approximation for others [@cooperHandbookResearchSynthesis2019].
 The term $u_i$ represents the random effect such that $u_i \perp e_i$ and $V[u_i] = \tau^2$. 
 This model is equivalent to the standard mixed-effects meta-regression model, and it is also consistent with subgroup analysis models [@hedgesFixedRandomeffectsModels1998; @cooperHandbookResearchSynthesis2019]. 
 The vector $\eta = [\beta, \tau^2]$ refers to the parameters of model. 
@@ -231,6 +234,7 @@ A common assumption in random effects meta-regression is that the random effects
 \[
 u_i \sim N(0, \tau^2).
 \]
+This could correspond to a scenario of $k$ independent effect estimates presumably from $k$ different studies. 
 In that case, the distribution $p(T | X, v, \eta)$ can be written as
 \begin{equation}
 p(T_i | X_i, v_i, \eta) = \frac{1}{\sqrt{2\pi(\tau^2 + v_i)}} e^{-\frac{(T_i - X_i\beta)^2}{2(\tau^2 + v_i)}}
@@ -252,14 +256,20 @@ The vector of regression coefficient estimates for the complete-data model when 
 \hat{\beta} = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W} \mathbf{T}
 \label{eq:betahat-cd}
 \end{equation}
-Here, $\mathbf{W} = \text{diag}[1/(v_i + \tau^2)]$ is the diagonal matrix of weights.
+Here, $\mathbf{W} = \text{diag}[w_i]$ is the diagonal matrix of weights such that $w_i = 1/(v_i + \tau^2)$.
 The covariance matrix of $\hat{\beta}$ is given by
 \begin{equation}
 V[\hat{\beta}] = (\mathbf{X}^T \mathbf{W} \mathbf{X})^{-1} 
 \label{eq:v-betahat-cd}
 \end{equation}
+Note that the weights involve the true variance component $\tau^2$.
+In practice, $\tau^2$ must be estimated by $\hat{\tau}^2$, and the resulting weights used in analyses can be written $\hat{w}_i = 1/(v_i + \hat{\tau}^2)$.
+For the sake of simplicity, we use $w_i$ to derive results in this article, and so results do not depend on variance component estimators.
+Presumably, use of $\hat{w}_i$ would induce additional variation into analyses.
 
-This model can be expanded to account for dependent effect sizes by assuming that $T_i \in \mathbb{R}^{k_i}$ is a vector of $k_i$ effects from the same study, $e_i$ is vector of estimation errors, $u_i$ is a vector of random effects, and $e_i + u_i$ has covariance matrix $\Sigma_i$.
+The substance abuse data contains multiple effect estimates per study that are likely correlated.
+This differs from the model above.
+However, we can expand this model to account for dependent effect sizes by assuming that $T_i \in \mathbb{R}^{k_i}$ is a vector of $k_i$ effects from the same study, $e_i$ is vector of estimation errors, $u_i$ is a vector of random effects, and $e_i + u_i$ has covariance matrix $\Sigma_i$.
 In this model, $X_i$ is a matrix of covariates for each effect in $T_i$.
 The resulting formulas for the complete-data likelihood function and coefficient estimators will be more complex (including a variance-covariance weight matrix), but they will have a similar form as the independent effect size model.
 
@@ -317,8 +327,10 @@ In sum, the SCA demonstrated in the previous section involved two regressions, e
 
 To formalize SCA estimators, consider a single regression in an SCA, and let $S$ index the component of $X_i$ (i.e., the intercept term and relevant covariates) included in that model $S = \{j : j = 0 \text{ or } X_{ij} \text{ in analysis}\}$.
 Let $E$ be the complement of $S$ so that $E$ indexes the covariates excluded from the regression.
-Then the regression is used to estimate and make inferences about $\beta_S$, which is a subset of the full vector of coefficients $\beta$. 
-In the first substance abuse SCA regression, $T_i$ was regressed on only $X_{i1}$, so that $\beta_S = [\beta_0, \beta_1]$.
+Then the regression is used to estimate and make inferences about coefficients $\beta_S$.
+In the following section, we discuss $\beta_S$ and its relationship to $\beta$, but here assume that the target of inference for an SCA is $\beta$ and hence $\beta_S$ comprises a subset of the components of $\beta$.
+For instance, in the first substance abuse SCA regression, $T_i$ was regressed on only $X_{i1}$, so that $\beta_S = [\beta_0, \beta_1]$.
+
 Denote $\mathcal{R}_j$ as the set of missingness patterns such that all included covariates are observed: $\mathcal{R}_j = \{R \in \mathcal{R}: R_S = \mathbbm{1}\}$.
 Note that $\mathcal{R}_j$ contains missingness patterns such that all the included covariates are observed, but any excluded covariates may be either observed or unobserved.
 For instance, in the first substance abuse SCA regression of $T_i$ on $X_{i1}$, the analysis included effects such that $R_i \in \mathcal{R}_1 = \{[1,1], [1,0]\}$.
@@ -331,6 +343,30 @@ Then, the shifting-case estimators for $\beta_S$ are given by:
 \end{equation}
 where $\mathbf{X}_{US}$ contains the columns ($S$) of $\mathbf{X}$ that pertain to the covariates that are included in the SCA regression, and the rows ($U$) for which all of those covariates are observed.
 The matrix $\mathbf{W}_U$ is a square matrix containing the relevant rows and columns of $\mathbf{W}$ for which $X_{iS}$ are observed, while  $\mathbf{T}_U$ contains the effect sizes in $\mathbf{T}$ for which $X_{iS}$ is observed.
+
+
+## Omitted Variables
+
+A common concern in meta-regression is that models may not be able to account for all relevant covariates, either due to sample size constraints or because because some covariates were not observed [@lipseyThoseConfoundedModerators2003].
+Such concerns pertain to meta-regressions both with and without missing data.
+It seems logical that if variables omitted from a model would have been of concern in the absence of missing data, that same concern holds for models estimated with CCA or SCA.
+Moreover, in SCA, the nature of omitted variables requires some additional considerations, since observed covariates are sequentially omitted from each meta-regression in an SCA.
+
+The implication of omitting observed variables in SCA can be understood via the parameter $\beta_S$. 
+It has been noted that there are various conditions under which components of $\beta_S$ are unequal to their counterparts in $\beta$ [@farrarMulticollinearityRegressionAnalysis1967].
+For instance, it can be the case that $\beta_S = [\tilde{\beta}_0, \tilde{\beta}_1] \neq [\beta_0, \beta_1] \subset \beta$ (see section XX).
+The difference between $\beta_S$ and components of $\beta$ is often referred to as *omitted variable bias* in the statistical and econometric literature [@melaImpactCollinearityRegression2002; @angristpischke2009]. 
+This conception inherently assumes that $\beta$ in the full model is of interest to the analyst.
+Alternatively one may assume that $\beta_S$ is of interest, rather than $\beta$, so that the components of $\beta_S$ comprise parameters distinct from $\beta$.
+In this approach, $\beta_S$ characterizes the relationship between $X_{iS}$ and $T_i$ in a more restricted model that does not account for $X_{iE}$.
+
+We refer to the difference between $\beta_S$ and $\beta$ as omitted variable bias, in keeping with the literature. 
+This is consistent with SCA as a missing data analytic strategy, wherein the target of inference is $\beta$, and it reflects the findings of Lipsey (2003), who points out that interpretation of meta-regression coefficients when covariates are omitted can lead to misleading interpretations about the correlates of effective interventions.
+To that end, subsequent sections present findings on bias induced by omitting observed covariates in an SCA.
+However, if the intent of the analysis is to examine restricted models, the omitted variable bias presented in this article may be less applicable, though Lipsey's caveats for interpreting such models still apply.
+
+
+
 
 ## Missingness Mechanisms
 
@@ -402,8 +438,8 @@ E[T_i | X_i, v_i, R_i \in \mathcal{R}_j]
   = X_i \beta + \delta_{ij}
 \label{eq:bias-delta}
 \end{equation}
-Here, we see that the expectation of $T_i$ conditional on $R_i$ can be written as the complete-data expectation $X_i \beta$ plus a bias term $\delta_{ij}$. 
-The bias term $\delta_{ij}$ refers to the bias induced in effect estimate $i$ due to conditioning on missingness pattern $\mathcal{R}_j$.
+Here, we see that the expectation of $T_i$ given $X_i$ and $R_i$ can be written as the complete-data expectation $X_i \beta$ (i.e., the regression model) plus a bias term $\delta_{ij}$. 
+The bias term $\delta_{ij}$ refers to the bias induced in regression model due to conditioning on missingness pattern $\mathcal{R}_j$, which can affect individual components of $\eta$.
 If $\delta_{ij} \neq 0$, it follows that conditioning on $R_i$ induces bias in the distribution of $T_i$ used in an analysis. 
 Because the CCA estimator \@ref(eq:beta-c) and SCA estimator in \@ref(eq:beta-s) are weighted averages of the $T_i$, they can be biased if $\delta_{ij} \neq 0$.
 The precise magnitude of the $\delta_{ij}$ will depend on the selection model in \@ref(eq:selection-model) and hence on the missingness mechanism.
@@ -416,9 +452,15 @@ Thus, one class of models for missingness would involve the logit probability of
 \text{logit}[p(R_i \in \mathcal{R}_j | T_i, X_i, v_i)] = \sum_{m = 0}^{m_j} \psi_{mj} f_{mj}(T_i, X_i, v_i) 
 \label{eq:r-loglinear}
 \end{equation}
-where $f_{0j}(T_i, X_i, v_i) = 1$, so that $\psi_{0j}$ would be the intercept term for the logit model for the set of missingness patterns $\mathcal{R}_j$.
-While log-linear models are not the only applicable or appropriate selection model, we make this assumption at points throughout this article in order to demonstrate conditions under which conditional meta-regressions are inaccurate, and how inaccurate they can be.
+Here, $f_{mj}(T_i, X_i, v_i)$ are assumed to be differentiable basis functions of the data and $m_j$ is the number of terms in the selection model.
+In theory, $m_j$ could be arbitrarily large, but the model is only estimable if $m_j < k$.
+Finally, we assume $f_{0j}(T_i, X_i, v_i) = 1$, so that $\psi_{0j}$ would be the intercept term for the logit model for the set of missingness patterns $\mathcal{R}_j$.
 
+In general, it will be impossible to know whether a selection model is correctly specified, but the formulation in \@ref(eq:r-loglinear) offers a few important advantages. 
+First, it is fairly general: the only assumption made of the basis functions $f_{mj}$ is that they are differentiable, which means model \@ref(eq:r-loglinear) allows for nonlinear or interaction terms.
+Second, it expresses the relationships between the probability of the event $\{R_i \in \mathcal{R}_j\}$ and observed variables on the scale of the log odds ratio, a well-understood scale in meta-analysis.
+Third, it allows for closed-form expressions for the approximate bias of coefficient estimates by virtue of the the logit link function.
+Thus, it comprises a large class of models for selection that can be more clearly interpreted. 
 
 
 ## Approximate Bias for Log-linear Selection Models
@@ -633,17 +675,12 @@ If we assume $T_i$ is on the scale of a standardized mean difference, $v_i \appr
 Various researchers have described conventions for the magnitude of $\tau^2$ that range from $\tau^2 = v/4$ to $\tau^2 = v$ [@hedgesPowerStatisticalTests2001; @hedgesPowerStatisticalTests2004; @hedgesStatisticalAnalysesStudying2019].
 Thus, we can write $\tau^2 + v = 4(1 + r)/n$ from some constant $r$ that ranges from 0 to 1. 
 
-Further, the parameter $\psi_1$ is on a log-odds ratio scale, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
-There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$.
-Conventions used by @cohenStatisticalPowerAnalysis1988 have been interpreted as implying that a "small" odds ratio is about 1.49, a "medium" odds ratio is about 3.45, and a "large" odds ratio is about 9.0. 
-@fergusonEffectSizePrimer2009 suggests 2.0, 3.0, and 4.0 for small, medium, and large odds ratios, while @chenHowBigBig2010 provide a range of conventions for different base rates, and their tables are roughly consistent with about 1.5 being a small odds ratio, 2.4 being medium, and 4.1 being large. 
-@haddockUsingOddsRatios1998 suggests any odds ratio over 3.0 would be considered quite large.
-Thus, consider a range of odds ratios from about 1.5 to 4.5.
-However, the actual size of $\psi_1$ will depend on the scale of $T_i$.
-A difference of $T_i - T_j = 1$ is considered quite large for standardized mean differences. 
-A less extreme difference $D_T = |T_i - T_j|$ for a standardized mean difference would be no larger than the size of an individual $T_i$.
-Conventions for standardized mean differences imply that a "small" effect would be about $T_i = 0.2$, a "medium" effect would be $T_i = 0.5$, and a "large" effect would be $T_i = 0.8$ [@cohenStatisticalPowerAnalysis1988].
-Thus, meaningful values of $D_T$ might feasibly range from 0.2 to 1.0.
+Further, the parameter $\psi_1$ is a log-odds ratio, which reflects the odds of a complete case for $T_i$ versus $T_i - 1$.
+There are various conventions for the size of an odds ratio that depend on base rates $P[R = \mathbbm{1} | T]$ that could be interpreted as ranging from 1.5 to as large as 9.0, though various researchers have noted that odds ratios greater than 3.0 or 4.0 could be considered large [@cohenStatisticalPowerAnalysis1988; @fergusonEffectSizePrimer2009; @chenHowBigBig2010; @haddockUsingOddsRatios1998].
+Thus, we consider a range of odds ratios from about 1.5 to 4.5.
+However, the actual size of $\psi_1$ will depend on the scale of a change in effect size $D_T = |T_i - \tilde{T}_i|$.
+Since it corresponds to a difference, $D_T$ should be no larger than an individual $|T_i|$.
+Based on conventions in the social and medical sciences (some arbitrary, some empirical), meaningful values of $D_T$ might feasibly range from 0.2 to 1.0 [@cohenStatisticalPowerAnalysis1988; @hillBenchmarks2008].
 These conventions for odds ratios and $D_T$ would imply that relevant values of $|\psi_1|$ might range from 0.4 (large $D_T$ with small odds ratio) to over 7.5 (small $D_T$ with large odds ratio).
 
 Based on these conventions, Figure \@ref(fig:delta) shows the potential (approximate) bias of $\hat{\beta}_{0C}$ for this example. 
@@ -693,7 +730,7 @@ Viewed this way, the bias of $\hat{\beta}_{1C}$ will be greatest when there are 
 To gain insight into the magnitude of bias in \@ref(eq:cc-bias-b1-simp), consider the values of $\psi_1 \in [0.4, 7.5]$ and $\tau^2 + v = 4(1 + r)/n$ discussed above. 
 Note that the difference $H_1(1) - H_1(0) = p(R = 0 | X = 1, \eta) - p(R = 0 | X = 0, \eta)$ is a difference in conditional probabilities. 
 For reference, because both $R_i$ and $X_i$ are binary, then $p(R = 0 | X = 1) - p(R = 0 | X = 0)$ would be equal to the correlation between $R_i$ and $X_i$ (assuming equal marginals in a $2 \times 2$ table).
-Thus, $|p(R = 0 | X = 1) - p(R = 0 | X = 0)|$ could be as small as 0, but could possibly be as large as 1, though conventions on the size of correlations suggest that $|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5$ would be a "large" value [@cohenStatisticalPowerAnalysis1988].
+Thus, $|p(R = 0 | X = 1) - p(R = 0 | X = 0)|$ could be as small as 0, but could possibly be as large as 1; arbitrary conventions on the size of correlations suggest that $|p(R = 0 | X = 1) - p(R = 0 | X = 0)| = 0.5$ would be a "large" value [@cohenStatisticalPowerAnalysis1988].
 
 Figure \@ref(fig:b1) shows the potential bias of $\hat{\beta}_{1C}$ for this example assuming the values of $\tau^2 + v$, $\psi_1$, and $H_1(1) - H_1(0)$ discussed above.
 Each panel corresponds to a given amount of heterogeneity $\tau^2 + v$, and within panels the bias is shown as a function of the difference $H_1(1) - H_1(0)$ ($x$-axis) and $\psi_1$ (color).
@@ -820,9 +857,9 @@ Note that the $\delta_{ij}$ are the biases due solely to missingness as in equat
 \]
 
 The expression in \@ref(eq:bias-sca) shows that a shifting-case analysis suffers from two sources of bias. 
-The first source, captured in the first term in \@ref(eq:bias-sca), is a function of the coefficients for the excluded covariates $\beta_E$.
-This is referred to in the statistical and econometric literature as *omitted variable bias* [e.g., @farrarMulticollinearityRegressionAnalysis1967; @melaImpactCollinearityRegression2002]. 
-Omitted variable bias arises even if no $X_{iS}$ are missing, and is related to the issue of multicollinearity in linear models.
+The first source, captured in the first term in \@ref(eq:bias-sca), is a function of the coefficients for the excluded covariates $\beta_E$, which we refer to as as omitted variable bias. 
+Discussion in a previous section argued that the term *omitted variable bias* assumes that $\beta$ is the target of inference in an SCA, which may or may not be the case.
+If $\beta$ is the target of inference, omitted variable bias arises even if no $X_{iS}$ are missing, and is related to the issue of multicollinearity in linear models.
 In fact, if the columns in $\mathbf{X}_{US}$ and $\mathbf{X}_{UE}$ are orthogonal, so that the omitted variables are independent of the included variables, then the omitted variable bias will be zero. 
 When the omitted variables are not orthogonal to the included variables, the bias will be nonzero, and it will depend in large part on the contribution of the omitted variables in the complete-data model $\mathbf{X}_{UE} \beta_E$. 
 The estimator $\hat{\beta}_S$ will have greater bias if the coefficients for the omitted variables $\beta_E$ are larger and the omitted covariates $\mathbf{X}_{UE}$ are correlated with the included covariates $\mathbf{X}_{US}$.
@@ -972,6 +1009,7 @@ Figure \@ref(fig:bias-box) plots the omitted variable bias, missingness bias, an
 Results are reported on the scale of Cohen's $d$.
 Omitted variable biases for $\hat{\beta}_{0S}$ range from -0.05 to 0.02 with a mean of -0.01; omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
 Similarly the bias due to missingness could feasibly range from 0.04 to 0.08 with a mean of 0.06 for $\hat{\beta}_{0S}$, while the missingness bias of $\hat{\beta}_{1S}$ might range from 0 to 0.12 with a mean of 0.06.
+Note that while the omitted variable bias and missingness bias are in opposite directions in this example, this need not be the case in general; both biases could feasibly be in the same direction for other data.
 In sum, this amounts to a total bias of -0.01 to 0.10 for $\hat{\beta}_{0S}$ and from -0.31 to 0.23 for $\hat{\beta}_{1S}$.
 
 \begin{figure}
@@ -1055,7 +1093,12 @@ Complete-case estimators are unbiased if the probability that all relevant covar
 Shifting-case estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
 When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism (i.e., parameters in the selection model), the missingness rate, an the relevance of any omitted covariates.
 
-An important aspect of these results is that bias will depend on unknown parameters and unobserved data. 
+Results for both CCA and SCA suggest that bias due to missingness will tend to increase in magnitude as a function of the total variation in the data.
+This means that if studies have small sample sizes (i.e., $v_i$ are large) or there is substantial residual between-effect heterogeneity $\tau^2$, the bias of a CCA or SCA will be greater.
+Because meta-regression is used to explain between-effect variation $\tau^2$, models capable of explaining much of that variation will have lower bias in CCA and SCA estimates. 
+However, even very modest amounts of residual variation can still result in substantial bias.
+
+An important aspect of these findings is that bias will depend on unknown parameters and unobserved data. 
 This means that it will be impossible to empirically verify the magnitude or direction of the bias.
 Even the estimated biases from the substance abuse data, which were on the order of about $d = \pm 0.1$ may not be entirely accurate, as so much of that data is missing.
 Further, it will require strong assumptions regarding the missingness mechanism to correct any bias. 
