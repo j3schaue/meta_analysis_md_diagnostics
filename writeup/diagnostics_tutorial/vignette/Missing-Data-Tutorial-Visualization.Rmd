@@ -1,6 +1,10 @@
 ---
 title: "Exploratory Analyses of Missingness in Meta-Analysis"
-author: "AUTHOR NAMES REDACTED"
+author: |
+        | Jacob M. Schauer
+        | Karina G. Diaz
+        | Jihyun Lee
+        | Therese D. Pigott
 bibliography: ../../addons/references.json
 csl: ../../addons/alcohol-and-alcoholism.csl
 output: 
@@ -24,8 +28,9 @@ This vignette demonstrates some numerical and visualization tools to summarize a
 The code used in this vignette is implemented in the `R` software language and is based on the `naniar` and `visdat` libraries.
 Additional functions are stored in the `wrappers.R` library.
 
-The purpose of this vignette is to illustrate how to conduct an exploratory missingness analysis (EMA) as described by [AUTHORS].
+The purpose of this vignette is to illustrate how to conduct an exploratory missingness analysis (EMA) as described by [Schauer et al. (2020)](https://academic.oup.com/alcalc/advance-article/doi/10.1093/alcalc/agaa144/6129948).
 Thus, this vignette can be seen as a companion to that article.
+Note that several commands are written specifically for visualizing and quantifying missingness in a meta-analysis and are stored in the `wrappers.R` file downloadable [here](https://github.com/j3schaue/meta_analysis_md_diagnostics/blob/c7b74132cf3005805188cb33cb15f287c50724bf/writeup/diagnostics_tutorial/vignette/wrappers.R).
 However, it is important to note that while the tools presented here can be useful for many datasets, they are not exhaustive.
 
 
