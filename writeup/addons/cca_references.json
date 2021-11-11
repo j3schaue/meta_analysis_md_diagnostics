@@ -4130,6 +4130,9 @@
 		"id": "schauerExploratoryAnalysesMissingunderreview",
 		"type": "article-journal",
 		"title": "Exploratory analyses for missing data in meta-analyses",
+		"page": "1-12",
+		"journalAbbreviation": "Alcohol and Alcoholism",
+		"DOI": "10.1093/alcalc/agaa144",
 		"author": [
 			{
 				"family": "Schauer",
@@ -4142,10 +4145,14 @@
 			{
 				"family": "Pigott",
 				"given": "Therese D."
+			},
+			{
+				"family": "Lee",
+				"given": "Jihyun"
 			}
 		],
 		"issued": {
-			"literal": "in press"
+			"literal": "2021"
 		}
 	},
 	{
