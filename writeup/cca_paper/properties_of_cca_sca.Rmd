@@ -365,7 +365,7 @@ This would be consistent with analyses that focus on specific subgroups of studi
 We refer to the difference between $\beta_S$ and $\beta$ as omitted variable bias, in keeping with the literature on linear models. 
 In doing so, we treat SCA as a missing data analytic strategy, wherein the target of inference is $\beta$.
 Subsequent sections present findings on bias induced by omitting observed covariates in an SCA, which reflect the findings of Lipsey (2003), who points out that interpretation of meta-regression coefficients when covariates are omitted can lead to misleading interpretations about the correlates of effective interventions.
-However, if the intent of the analysis is to examine restricted models, the omitted variable bias presented in this article may be less applicable, though Lipsey's caveats for interpreting such models may still apply.
+However, if the intent of the analysis is to examine restricted models or specific subgroups of effects/studies, the omitted variable bias presented in this article may be less applicable, though Lipsey's caveats for interpreting such models may still apply.
 
 
 
