@@ -349,8 +349,11 @@ The matrix $\mathbf{W}_U$ is a square matrix containing the relevant rows and co
 
 A common concern in meta-regression is that models may not be able to account for all relevant covariates, either due to sample size constraints or because some covariates were not observed [@lipseyThoseConfoundedModerators2003].
 Such concerns pertain to meta-regressions both with and without missing data.
-In contrast to primary data analysis, covariates or moderators in meta-regression are frequently ad-hoc or difficult to measure consistently. 
-Even with key conceptually or theoretically important moderators, meta-regression models must often contend with variation in reporting of such moderators across studies.
+In contrast to primary data analysis, meta-analysts tend to have little control over the availability of covariates relevant for a meta-regression.
+Information regarding covariates must be extracted from primary studies and this process is restricted by the ways in which research is reported.
+Some studies may not clearly report covariates deemed of interest in a meta-regression.
+Even for key conceptually or theoretically important moderators, meta-regression models must often contend with variation in reporting of such moderators across studies.
+Thus, the issue of omitted variables in meta-regression is both prevalent and difficult to overcome (e.g., via additional data collection).
 
 
 The implication of omitting observed variables in SCA can be understood via the parameter $\beta_S$. 
@@ -360,7 +363,7 @@ The difference between $\beta_S$ and components of $\beta$ is often referred to 
 This conception inherently assumes that $\beta$ in the full model is of interest to the analyst, which may not necessarily be the case. 
 Indeed, one may assume that $\beta_S$ is of interest, rather than $\beta$, so that the components of $\beta_S$ comprise parameters distinct from $\beta$.
 In this approach, $\beta_S$ characterizes the relationship between $X_{iS}$ and $T_i$ in a more restricted model that does not account for $X_{iE}$.
-This would be consistent with analyses that focus on specific subgroups of studies.
+This could be consistent with analyses that seek to summarize effects within specific subgroups of studies delineated by covariates.
 
 We refer to the difference between $\beta_S$ and $\beta$ as omitted variable bias, in keeping with the literature on linear models. 
 In doing so, we treat SCA as a missing data analytic strategy, wherein the target of inference is $\beta$.
@@ -877,7 +880,7 @@ It is worth noting, however, that it will almost always be impossible to confirm
 
 ## Example: Shifting-Cases Analysis with Two Binary Covariates
 
-Suppose $X_i = [1, X_{i1}, X_{i2}]$ and $X_{i1}$ and $X_{i2}$ are binary covariates such that 
+Suppose $X_i = [1, X_{i1}, X_{i2}]$ and $X_{i1}$ and $X_{i2}$ are binary covariates such that the regression model of interest is 
 \begin{equation}
 T_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + u_i + e_i
 \label{eq:sca-ex}
@@ -912,7 +915,9 @@ To distinguish from the $\delta_{i1}$ from the complete-case example, we use the
 
 Both the bias of $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$ depend on two terms. 
 The first term in each expression is the omitted variable bias, and the second term in each expression is the missingness bias.
-Consider the omitted variable biases.
+Consider the omitted variable biases, which characterizes differences between $\beta_S$ and $\beta$.
+Note that model \@ref(eq:sca-ex) inherently specifies $\beta_0, \beta_1$, and $\beta_2$ as parameters of interest.
+Because of this, we consider omitted variable bias as relevant to the appraisal of $\hat{\beta}_S$.
 When effects are estimated with roughly the same precision, so that $w_i \approx w$, then the omitted variable biases reduce to 
 \begin{align}
 \text{Omitted Var. Bias}[\hat{\beta}_{0S}]
@@ -1087,7 +1092,7 @@ We found that both CCA and SCA will produce biased coefficient estimates unless 
 While discussion regarding potential bias of these analyses have largely focused on traditional mechanism taxonomy of MCAR, MAR, and MNAR, we found that bias depends more on the precise model for missingness rather than these broader classifications.
 Certain mechanisms that are MAR or MNAR can lead to unbiased estimates with CCA and SCA, while other MAR or MNAR mechanisms can induce substantial bias.
 Complete-case estimators are unbiased if the probability that all relevant covariates are observed is (conditionally) independent of the effect size estimate.
-Shifting-case estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size. 
+Shifting-case estimators are unbiased if, in addition to effect sizes being independent of missingness, the covariates omitted from a model have no relationship with the effect size (assuming the full model involving $\beta$ is of interest). 
 When these conditions are not met, the bias of coefficient estimates can be substantial---as large as $d = 0.4$ to $d = 0.8$---depending on the missingness mechanism (i.e., parameters in the selection model), the missingness rate, an the relevance of any omitted covariates.
 
 Results for both CCA and SCA suggest that bias due to missingness will tend to increase in magnitude as a function of the total variation in the data.
