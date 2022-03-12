@@ -1,35 +1,16 @@
-###-----------------------------------------------------------###
-###-----------------------------------------------------------###
-### Plots generated for CCA paper
-### 
-###-----------------------------------------------------------###
-###-----------------------------------------------------------###
-
-##----------------------------##
-## Libraries
-##----------------------------##
 library(tidyverse)
 library(viridis)
 library(cowplot)
 
-##----------------------------##
-## Template text size for plots
-##----------------------------##
 textsize = theme(axis.title = element_text(size = 20), 
                  axis.text = element_text(size = 18),
                  strip.text = element_text(size = 18), 
                  legend.title = element_text(size = 18), 
                  legend.text = element_text(size = 18))
 
-
-##----------------------------##
-## Versions of figure 1
-##----------------------------##
-
 sort(unlist(lapply(c(.1, .2, .5, .8, 1, 1.5), 
        FUN = function(x) log(seq(1.5, 5, by = .5))/x)))
 
-###---Data for figures
 # fig1 = tibble(odds_ratio = c(1.5, 2, 2.5, 3, 3.5, 4, 4.5)) %>%
 fig1 = tibble(psi = seq(.4, 7.5, length.out = 150)) %>%
   crossing(#delta_t = c(.1, .2, .3), 
@@ -43,7 +24,6 @@ fig1 = tibble(psi = seq(.4, 7.5, length.out = 150)) %>%
          tau2lab = paste0("tau^2/v == ", rr), 
          nlab = fct_relevel(nlab, "v == 4/60", "v == 4/80"))
 
-###---Generate first plot
 p1 = fig1 %>%
   # filter(delta_t == 0.2) %>%
   ggplot() +
@@ -64,11 +44,11 @@ p1 = fig1 %>%
     textsize
 p1
 ggsave(plot = p1,
-       filename = "../graphics/delta_plot_cts.pdf", 
+       filename = "./writeup/cca_paper/graphics/delta_plot_cts.pdf", 
        height = 7, width = 11)
 
 
-###---Plot made for presentation to AERA
+
 p1pres = fig1 %>%
   # filter(delta_t == 0.2) %>%
   ggplot() +
@@ -91,12 +71,8 @@ ggsave(plot = p1pres,
        filename = "./writeup/cca_paper/presentation/delta_plot_cts.jpg", 
        height = 7, width = 11)
 
+###########################################################
 
-##----------------------------##
-## Figure 2
-##----------------------------##
-
-###---Data for plots
 fig2 = tibble(psi1 = seq(0.4, 7.5, length.out = 150)) %>%
   crossing(pd = seq(0, 0.5, length.out = 100), 
            n = c(60, 80, 100, 150), 
@@ -107,7 +83,6 @@ fig2 = tibble(psi1 = seq(0.4, 7.5, length.out = 150)) %>%
          tau2lab = paste0("tau^2/v == ", r), 
          nlab = fct_relevel(nlab, "v == 4/60", "v == 4/80"))
 
-###----Plot for paper
 p2a = ggplot(fig2) + 
   geom_line(aes(pd, bias, color = psi1, group = psi1), size = .9) +
   scale_color_viridis(expression(psi[1]),
@@ -129,7 +104,7 @@ p2a = ggplot(fig2) +
 #         legend.key.height = unit(1.5, "cm"))
 p2a
 ggsave(plot = p2a,
-       filename = "../graphics/bias_beta1_ex1.pdf", 
+       filename = "./writeup/cca_paper/graphics/bias_beta1_ex1.pdf", 
        width = 11, height = 7)
 
 
@@ -157,9 +132,6 @@ ggsave(plot = p2a,
 #        filename = "./writeup/cca_paper/presentation/bias_beta1_ex1.jpg", 
 #        width = 12, height = 8)
 
-##----------------------------##
-## Back-up figures for Fig 2
-##----------------------------##
 fig2b = tibble(psi1 = c(1, 3, 5, 7)) %>%
   crossing(psi3 = c(-1, 0, 1), 
            p1 = seq(0, .99, length.out = 20), 
@@ -177,18 +149,15 @@ ggplot(fig2b) +
 
 
 
-##----------------------------##
-## Figure 3
-##----------------------------##
+############################################################################
 
-###---Data for figure
 fig3 = tibble(beta2 = seq(-.5, .5, length.out = 50)) %>%
   crossing(pi0 = c(0.25, .5, .75),#seq(0.1, .9, by = 0.001), 
            corr = c(0, 0.1, 0.3, 0.5)) %>%
   mutate(bias0 = beta2 * pi0, 
          bias1 = beta2 * corr)
 
-###---Figure 3a
+
 p3a = ggplot(fig3) +
   geom_line(aes(beta2, bias0, color = factor(pi0)), 
             size = 1.1) +
@@ -201,7 +170,6 @@ p3a = ggplot(fig3) +
   textsize
 p3a
 
-###---Figure 3b
 p3b = ggplot(fig3) +
   geom_line(aes(beta2, bias1, color = factor(corr)), size = 1.1) +
   scale_color_viridis(expression(rho[1][2]),
@@ -214,57 +182,21 @@ p3b = ggplot(fig3) +
 
 p3b
 
-###---Combine Figure 3a-b in a grid, save to file
 p3grid = plot_grid(p3a, p3b, ncol = 2)
 p3grid
 ggsave(plot = p3grid,
-       filename = "../graphics/omitted_var_bias.pdf", 
+       filename = "./writeup/cca_paper/graphics/omitted_var_bias.pdf", 
        width = 12, height = 6)
 
+############################################################################
 
+ebp <- read.csv("./data/cca_bias_table.csv") # here to check
 
-##----------------------------##
-## Figure 4
-##----------------------------##
-
-###---Data for figure
-ebp <- read.csv("../../../data/cca_bias_table.csv") # here to check
 cc_ebp <- ebp %>%
   select(`beta[0]` = bias_b0CC, 
          `beta[1]` = bias_b1CC) %>%
   pivot_longer(cols = `beta[0]`:`beta[1]`, names_to = "parameter") 
 
-tot_emp <- sc_ebp %>% rename(vv1 = value) %>%
-  bind_cols(cc_ebp %>% select(vv2 = value)) %>%
-  mutate(
-    value = vv1 + vv2
-  )
-
-###---Figure 4
-p7dat <- tot_emp %>%
-  mutate(bias = "Total") %>%
-  bind_rows(cc_ebp %>% mutate(bias = "Missingness"), 
-            sc_ebp %>% mutate(bias = "Omitted Var."))
-
-p7 <- ggplot(p7dat) + 
-  geom_boxplot(aes(value, bias)) +
-  geom_vline(xintercept = 0) +
-  facet_grid(parameter ~ ., labeller = label_parsed) +
-  labs(x = "Bias", y = "") +
-  theme_bw() + 
-  textsize +
-  theme(strip.text.y = element_text(angle = 0))
-p7
-
-ggsave("../graphics/bias_boxplot.jpg",
-       p7,
-       width = 12, height = 7)
-
-
-
-##----------------------------##
-## Extra versions for figure 4
-##----------------------------##
 p4 <- ggplot(cc_ebp) + 
   stat_density(aes(value)) +
   geom_vline(data = cc_ebp %>% group_by(parameter) %>% summarize(pl = mean(value)),
@@ -276,7 +208,7 @@ p4 <- ggplot(cc_ebp) +
   textsize
 p4
 ggsave(plot = p4,
-       filename = "../graphics/emp_miss_bias.pdf", 
+       filename = "./writeup/cca_paper/graphics/emp_miss_bias.pdf", 
        width = 12, height = 6)
 
 sc_ebp <- ebp %>%
@@ -298,8 +230,15 @@ p5 <- ggplot(sc_ebp) +
 p5
 
 ggsave(plot = p5,
-       filename = "../graphics/emp_omv_bias.pdf", 
+       filename = "./writeup/cca_paper/graphics/emp_omv_bias.pdf", 
        width = 12, height = 6)
+
+
+tot_emp <- sc_ebp %>% rename(vv1 = value) %>%
+  bind_cols(cc_ebp %>% select(vv2 = value)) %>%
+  mutate(
+    value = vv1 + vv2
+    )
 
 p6 <- ggplot(tot_emp) + 
   stat_density(aes(value)) +
@@ -314,8 +253,30 @@ p6 <- ggplot(tot_emp) +
 p6
 
 ggsave(plot = p6,
-       filename = "../graphics/emp_tot_bias.pdf", 
+       filename = "./writeup/cca_paper/graphics/emp_tot_bias.pdf", 
        width = 12, height = 6)
+
+
+p7dat <- tot_emp %>%
+  mutate(bias = "Total") %>%
+  bind_rows(cc_ebp %>% mutate(bias = "Missingness"), 
+            sc_ebp %>% mutate(bias = "Omitted Var."))
+
+p7 <- ggplot(p7dat) + 
+  geom_boxplot(aes(value, bias)) +
+  geom_vline(xintercept = 0) +
+  facet_grid(parameter ~ ., labeller = label_parsed) +
+  labs(x = "Bias", y = "") +
+  theme_bw() + 
+  textsize +
+  theme(strip.text.y = element_text(angle = 0))
+p7
+
+ggsave("./writeup/cca_paper/graphics/bias_boxplot.jpg",
+       p7,
+       width = 12, height = 7)
+
+
 
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
   crossing(pi0 = c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6), 
