@@ -227,12 +227,109 @@ ggsave(plot = p3grid,
 ## Figure 4
 ##----------------------------##
 
+# Read data
+adt <- readRDS("../../data/adt_data.RDS")
+
+set.seed(10)
+# Clean data
+dd <- adt %>%
+  group_by(studyid, groupid1, groupid2) %>%
+  arrange(desc(estimingpost)) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(studyid, es_g, se_g, 
+         g1hrs = g1hrsperweek, g2hrs = g2hrsperweek) %>%
+  mutate(v_g = se_g^2, 
+         g1hi = (g1hrs > 1.5), # dichotomize g1hrs
+         g2hi = (g2hrs > 1.5), 
+         g1_obs = ifelse(is.na(g1hi), 0, 1), 
+         g2_obs = ifelse(is.na(g2hi), 0, 1), 
+         g1_obs = factor(g1_obs), 
+         g2_obs = factor(g2_obs))
+
+# ------------ from Jake's potential cca example.Rmd
+dd_r <- dd %>% # select just the relevant variables
+  select(studyid, es_g, v_g, g1hi, g2hi)
+
+v0_g1 = sum(dd_r$v_g * (dd_r$g1hi == 0), na.rm = T)/sum((dd_r$g1hi == 0), na.rm = T)
+v1_g1 = sum(dd_r$v_g * (dd_r$g1hi == 1), na.rm = T)/sum((dd_r$g1hi == 1), na.rm = T)
+v0_g2 = sum(dd_r$v_g * (dd_r$g2hi == 0), na.rm = T)/sum((dd_r$g2hi == 0), na.rm = T)
+v1_g2 = sum(dd_r$v_g * (dd_r$g2hi == 1), na.rm = T)/sum((dd_r$g2hi == 1), na.rm = T)
+
+
+# generate imputations
+m <- 1000 # number of imputations
+library(mice); set.seed(10)
+
+### Revise Predictor matrix to remove studyid and variance from imputation model.
+ini <- mice(dd_r, print = FALSE, maxit= 0)
+pred <- ini$predictorMatrix
+pred[,c("studyid", "v_g")] <- 0
+
+dd_mi <- mice(dd_r, # impute missing Xs 
+              m = m, 
+              method = "logreg", print = FALSE, predictorMatrix = pred) # Completely random Xs
+
+# extract imputed data
+com <- complete(dd_mi, "long", include = FALSE) %>%
+  mutate(g1hi_na = rep(is.na(dd$g1hi), m), 
+         g2hi_na = rep(is.na(dd$g2hi), m))
+
+# Fit a model to obtain parameter estimates in missingness model (psi1)
+psi1_g1 = glm(I(1-g1hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g1hi_na = is.na(g1hi)))$coefficients[["es_g"]] # psi1 for X1
+psi1_g2 = glm(I(1-g2hi_na) ~ es_g, family = "binomial", data = dd_r %>% mutate(g2hi_na = is.na(g2hi)))$coefficients[["es_g"]] # psi2 for X1
+
+emp_bias_parmas <- com %>% 
+  group_by(.imp) %>%
+  summarize(
+    H0_g1 = sum(g1hi == 0 & g1hi_na==TRUE)/sum(g1hi == 0), # H0 for X1
+    H1_g1 = sum(g1hi == 1 & g1hi_na==TRUE)/sum(g1hi == 1), # H1 for X1
+    H0_g2 = sum(g2hi == 0 & g2hi_na==TRUE)/sum(g2hi == 0), # H0 for X2
+    H1_g2 = sum(g2hi == 1 & g2hi_na==TRUE)/sum(g2hi == 1), # H1 for X2
+    p01 = sum(g2hi == 1 & g1hi == 0)/sum(g1hi == 0), # P[X2 = 1 | X1 = 0]
+    p11 = sum(g2hi == 1 & g1hi == 1)/sum(g1hi == 1) # P[X2 = 1 | X1 = 1]
+  )
+
+# Collect beta coefficients across the imputations
+betas <- lapply(1:m, 
+                FUN = function(i){
+                  dat <- com %>% filter(.imp == i)
+                  fit <- robu(es_g ~ g1hi + g2hi, data = dat, studynum = studyid, var.eff.size = v_g, print = FALSE) # fit MR model
+                  mod <- fit$reg_table # extract coefficients
+                  beta1 <- mod[[2, 2]]
+                  beta2 <- mod[[3, 2]]
+                  tau2 <- as.numeric(fit$mod_info$tau.sq) # extract variance components
+                  return(tibble(beta1 = beta1, beta2 = beta2, tau2 = tau2))
+                }) %>% 
+  bind_rows()
+
+
+
+# aggregate components for bias and compute bias for example
+ebp <- bind_cols(emp_bias_parmas, betas) %>%
+  mutate(
+    bias_b0CC = H0_g1 * (v0_g1 + tau2) * psi1_g1, 
+    bias_b1CC = (H1_g1 * (v1_g1 + tau2) - H0_g1 * (v0_g1 * tau2)) * psi1_g1, 
+    omv_bias_b0 = beta2 * p01, 
+    omv_bias_b1 = beta2 * (p11 - p01)
+  )
+
+
+# Save data
+# write.csv(x = ebp, file = "../data/cca_bias_table.csv")
+
+
 ###---Data for figure
-ebp <- read.csv("../../../data/cca_bias_table.csv") # here to check
 cc_ebp <- ebp %>%
   select(`beta[0]` = bias_b0CC, 
          `beta[1]` = bias_b1CC) %>%
   pivot_longer(cols = `beta[0]`:`beta[1]`, names_to = "parameter") 
+
+sc_ebp <- ebp %>%
+  select(`beta[0]` = omv_bias_b0, 
+         `beta[1]` = omv_bias_b1) %>%
+  pivot_longer(cols = `beta[0]`:`beta[1]`, names_to = "parameter") 
+
 
 tot_emp <- sc_ebp %>% rename(vv1 = value) %>%
   bind_cols(cc_ebp %>% select(vv2 = value)) %>%
@@ -241,26 +338,24 @@ tot_emp <- sc_ebp %>% rename(vv1 = value) %>%
   )
 
 ###---Figure 4
+# Clean data
 p7dat <- tot_emp %>%
   mutate(bias = "Total") %>%
   bind_rows(cc_ebp %>% mutate(bias = "Missingness"), 
             sc_ebp %>% mutate(bias = "Omitted Var."))
 
+# plot
 p7 <- ggplot(p7dat) + 
   geom_boxplot(aes(value, bias)) +
   geom_vline(xintercept = 0) +
   facet_grid(parameter ~ ., labeller = label_parsed) +
   labs(x = "Bias", y = "") +
   theme_bw() + 
-  textsize +
   theme(strip.text.y = element_text(angle = 0))
-p7
 
-ggsave("../graphics/bias_boxplot.jpg",
+ggsave("../writeup/cca_paper/graphics/bias_boxplot.jpg",
        p7,
        width = 12, height = 7)
-
-
 
 ##----------------------------##
 ## Extra versions for figure 4
