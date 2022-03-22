@@ -1009,10 +1009,10 @@ Recall that the bias due to missingness in an SCA under this model will be simil
 
 Figure \@ref(fig:bias-box) plots the omitted variable bias, missingness bias, and total bias for both $\hat{\beta}_{0S}$ and $\hat{\beta}_{1S}$.
 Results are reported on the scale of Cohen's $d$.
-Omitted variable biases for $\hat{\beta}_{0S}$ range from -0.05 to 0.02 with a mean of -0.01; omitted variable bias for $\hat{\beta}_{1S}$ ranges from -0.31 to 0.11 with a mean of -0.05.
-Similarly the bias due to missingness could feasibly range from 0.04 to 0.08 with a mean of 0.06 for $\hat{\beta}_{0S}$, while the missingness bias of $\hat{\beta}_{1S}$ might range from 0 to 0.12 with a mean of 0.06.
+Omitted variable bias for $\hat{\beta}_{0S}$ ranges from `r round(summary(ebp$omv_bias_b0)["Min."], 2)` to `r round(summary(ebp$omv_bias_b0)["Max."], 2)` with a mean of `r round(summary(ebp$omv_bias_b0)["Mean"], 2)`; omitted variable bias for $\hat{\beta}_{1S}$ ranges from `r round(summary(ebp$omv_bias_b1)["Min."], 2)` to `r round(summary(ebp$omv_bias_b1)["Max."], 2)` with a mean of `r round(summary(ebp$omv_bias_b1)["Mean"], 2)`.
+Similarly the bias due to missingness could feasibly range from `r round(summary(ebp$bias_b0CC)["Min."], 2)` to  `r round(summary(ebp$bias_b0CC)["Max."], 2)` with a mean of `r round(summary(ebp$bias_b0CC)["Mean"], 2)` for $\hat{\beta}_{0S}$, while the missingness bias of $\hat{\beta}_{1S}$ might range from `r round(summary(ebp$bias_b1CC)["Min."], 2)` to `r round(summary(ebp$bias_b1CC)["Max."], 2)` with a mean of `r round(summary(ebp$bias_b1CC)["Mean"], 2)`
 Note that while the omitted variable bias and missingness bias are in opposite directions in this example, this need not be the case in general; both biases could feasibly be in the same direction for other data.
-In sum, this amounts to a total bias of -0.01 to 0.10 for $\hat{\beta}_{0S}$ and from -0.31 to 0.23 for $\hat{\beta}_{1S}$.
+In sum, this amounts to a total bias of `r round(summary(ebp$bias_b0CC + ebp$omv_bias_b0)["Min."], 2)` to `r round(summary(ebp$bias_b0CC + ebp$omv_bias_b0)["Max."], 2)` for $\hat{\beta}_{0S}$ and from `r round(summary(ebp$bias_b1CC + ebp$omv_bias_b1)["Min."], 2)` to `r round(summary(ebp$bias_b1CC + ebp$omv_bias_b1)["Max."], 2)` for $\hat{\beta}_{1S}$.
 
 \begin{figure}
 \begin{center}

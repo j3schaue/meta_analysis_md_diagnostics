@@ -4,10 +4,14 @@
 %
 \documentclass[
 ]{article}
+\title{On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates}
+\author{}
+\date{\vspace{-2.5em}}
+
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -68,6 +72,29 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 %%%
 
 %-----------------------------------------------% 
@@ -101,33 +128,9 @@
 % \floatsetup[figure]{capposition=top}
 % \captionsetup{width=.75\textwidth}
 \usepackage{subfig}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-
-\title{On the Bias of Complete- and Shifting-Case Meta-Regressions with Missing Covariates}
-\author{}
-\date{\vspace{-2.5em}}
 
 \begin{document}
 \maketitle
@@ -892,10 +895,10 @@ Recall that the bias due to missingness in an SCA under this model will be simil
 
 Figure \ref{fig:bias-box} plots the omitted variable bias, missingness bias, and total bias for both \(\hat{\beta}_{0S}\) and \(\hat{\beta}_{1S}\).
 Results are reported on the scale of Cohen's \(d\).
-Omitted variable biases for \(\hat{\beta}_{0S}\) range from -0.05 to 0.02 with a mean of -0.01; omitted variable bias for \(\hat{\beta}_{1S}\) ranges from -0.31 to 0.11 with a mean of -0.05.
-Similarly the bias due to missingness could feasibly range from 0.04 to 0.08 with a mean of 0.06 for \(\hat{\beta}_{0S}\), while the missingness bias of \(\hat{\beta}_{1S}\) might range from 0 to 0.12 with a mean of 0.06.
+Omitted variable bias for \(\hat{\beta}_{0S}\) ranges from -0.05 to 0.04 with a mean of -0.01; omitted variable bias for \(\hat{\beta}_{1S}\) ranges from -0.32 to 0.12 with a mean of -0.05.
+Similarly the bias due to missingness could feasibly range from 0.04 to 0.07 with a mean of 0.06 for \(\hat{\beta}_{0S}\), while the missingness bias of \(\hat{\beta}_{1S}\) might range from 0 to 0.12 with a mean of 0.06
 Note that while the omitted variable bias and missingness bias are in opposite directions in this example, this need not be the case in general; both biases could feasibly be in the same direction for other data.
-In sum, this amounts to a total bias of -0.01 to 0.10 for \(\hat{\beta}_{0S}\) and from -0.31 to 0.23 for \(\hat{\beta}_{1S}\).
+In sum, this amounts to a total bias of 0.01 to 0.09 for \(\hat{\beta}_{0S}\) and from -0.25 to 0.18 for \(\hat{\beta}_{1S}\).
 
 \begin{figure}
 \begin{center}
@@ -1030,203 +1033,203 @@ In that case, only an approximation of the denominator of the log-linear model i
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{0}{0}
-\leavevmode\hypertarget{ref-borensteinIntroductionMetaanalysis2009}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-borensteinIntroductionMetaanalysis2009}{}}%
 \CSLLeftMargin{1. }
 \CSLRightInline{Borenstein M. \emph{Introduction to meta-analysis}. Chichester, U.K.: John Wiley \& Sons; 2009. \url{http://public.ebookcentral.proquest.com/choice/publicfullrecord.aspx?p=427912}. Accessed May 18, 2020.}
 
-\leavevmode\hypertarget{ref-tiptonHistoryMetaregressionTechnical2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-tiptonHistoryMetaregressionTechnical2019}{}}%
 \CSLLeftMargin{2. }
 \CSLRightInline{Tipton E, Pustejovsky JE, Ahmadi H. A history of meta-regression: Technical, conceptual, and practical developments between 1974 and 2018. \emph{Res Syn Meth}. 2019;10(2):161-179. doi:\href{https://doi.org/10.1002/jrsm.1338}{10.1002/jrsm.1338}}
 
-\leavevmode\hypertarget{ref-berkeyRandomeffectsRegressionModel1995}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-berkeyRandomeffectsRegressionModel1995}{}}%
 \CSLLeftMargin{3. }
 \CSLRightInline{Berkey CS, Hoaglin DC, Mosteller F, Colditz GA. A random-effects regression model for meta-analysis. \emph{Statist Med}. 1995;14(4):395-411. doi:\href{https://doi.org/10.1002/sim.4780140406}{10.1002/sim.4780140406}}
 
-\leavevmode\hypertarget{ref-hedgesCombiningIndependentEstimators1983}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesCombiningIndependentEstimators1983}{}}%
 \CSLLeftMargin{4. }
 \CSLRightInline{Hedges LV. Combining independent estimators in research synthesis. \emph{British Journal of Mathematical and Statistical Psychology}. 1983;36(1):123-131. doi:\href{https://doi.org/10.1111/j.2044-8317.1983.tb00768.x}{10.1111/j.2044-8317.1983.tb00768.x}}
 
-\leavevmode\hypertarget{ref-hedgesRobustVarianceEstimation2010}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesRobustVarianceEstimation2010}{}}%
 \CSLLeftMargin{5. }
 \CSLRightInline{Hedges LV, Tipton E, Johnson MC. Robust variance estimation in meta-regression with dependent effect size estimates. \emph{Res Synth Method}. 2010;1(1):39-65. doi:\href{https://doi.org/10.1002/jrsm.5}{10.1002/jrsm.5}}
 
-\leavevmode\hypertarget{ref-konstantopoulosFixedEffectsVariance2011}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-konstantopoulosFixedEffectsVariance2011}{}}%
 \CSLLeftMargin{6. }
 \CSLRightInline{Konstantopoulos S. Fixed effects and variance components estimation in three-level meta-analysis: Three-level meta-analysis. \emph{Res Syn Meth}. 2011;2(1):61-76. doi:\href{https://doi.org/10.1002/jrsm.35}{10.1002/jrsm.35}}
 
-\leavevmode\hypertarget{ref-viechtbauerAccountingHeterogeneityRandomeffects2007}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-viechtbauerAccountingHeterogeneityRandomeffects2007}{}}%
 \CSLLeftMargin{7. }
 \CSLRightInline{Viechtbauer W. Accounting for heterogeneity via random-effects models and moderator analyses in meta-analysis. \emph{Zeitschrift für Psychologie / Journal of Psychology}. 2007;215(2):104-121. doi:\href{https://doi.org/10.1027/0044-3409.215.2.104}{10.1027/0044-3409.215.2.104}}
 
-\leavevmode\hypertarget{ref-pigottReviewMethodsMissing2001}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-pigottReviewMethodsMissing2001}{}}%
 \CSLLeftMargin{8. }
 \CSLRightInline{Pigott TD. A review of methods for missing data. \emph{Educational Research and Evaluation}. 2001;7(4):353-383. doi:\href{https://doi.org/10.1076/edre.7.4.353.8937}{10.1076/edre.7.4.353.8937}}
 
-\leavevmode\hypertarget{ref-pigottMissingPredictorsModels2001}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-pigottMissingPredictorsModels2001}{}}%
 \CSLLeftMargin{9. }
 \CSLRightInline{Pigott TD. Missing predictors in models of effect size. \emph{Eval Health Prof}. 2001;24(3):277-307. doi:\href{https://doi.org/10.1177/01632780122034920}{10.1177/01632780122034920}}
 
-\leavevmode\hypertarget{ref-tiptonCurrentPracticesMetaregression2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-tiptonCurrentPracticesMetaregression2019}{}}%
 \CSLLeftMargin{10. }
 \CSLRightInline{Tipton E, Pustejovsky JE, Ahmadi H. Current practices in meta-regression in psychology, education, and medicine. \emph{Res Syn Meth}. 2019;10(2):180-194. doi:\href{https://doi.org/10.1002/jrsm.1339}{10.1002/jrsm.1339}}
 
-\leavevmode\hypertarget{ref-pigottHandlingMissingData2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-pigottHandlingMissingData2019}{}}%
 \CSLLeftMargin{11. }
 \CSLRightInline{Pigott TD. Handling missing data. In: Harris Cooper, Larry V. Hedges, Jeffrey C. Valentine, eds. \emph{The Handbook for Research Synthesis and Meta-Analysis}. 3rd ed. New York: Russell Sage; 2019.}
 
-\leavevmode\hypertarget{ref-cooperResearchSynthesisMetaanalysis2017}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-cooperResearchSynthesisMetaanalysis2017}{}}%
 \CSLLeftMargin{12. }
 \CSLRightInline{Cooper HM. \emph{Research Synthesis and Meta-Analysis: A Step-by-Step Approach}. Fifth Edition. Los Angeles: SAGE; 2017.}
 
-\leavevmode\hypertarget{ref-littleStatisticalAnalysisMissing2002}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-littleStatisticalAnalysisMissing2002}{}}%
 \CSLLeftMargin{13. }
 \CSLRightInline{Little RJA, Rubin DB. \emph{Statistical Analysis with Missing Data}. Hoboken, NJ, USA: John Wiley \& Sons, Inc.; 2002. doi:\href{https://doi.org/10.1002/9781119013563}{10.1002/9781119013563}}
 
-\leavevmode\hypertarget{ref-grahamMissingData2012}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-grahamMissingData2012}{}}%
 \CSLLeftMargin{14. }
 \CSLRightInline{Graham JW. \emph{Missing Data}. New York, NY: Springer New York; 2012. doi:\href{https://doi.org/10.1007/978-1-4614-4018-5}{10.1007/978-1-4614-4018-5}}
 
-\leavevmode\hypertarget{ref-tanner-smithAdolescentSubstanceUse2016}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-tanner-smithAdolescentSubstanceUse2016}{}}%
 \CSLLeftMargin{15. }
 \CSLRightInline{Tanner-Smith EE, Steinka-Fry KT, Kettrey HH, Lipsey MW. Adolescent substance use treatment effectiveness: A systematic review and meta-analysis. December 2016.}
 
-\leavevmode\hypertarget{ref-schaferMultipleImputationPrimer1999}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-schaferMultipleImputationPrimer1999}{}}%
 \CSLLeftMargin{16. }
 \CSLRightInline{Schafer JL. Multiple imputation: a primer. \emph{Stat Methods Med Res}. 1999;8(1):3-15. doi:\href{https://doi.org/10.1177/096228029900800102}{10.1177/096228029900800102}}
 
-\leavevmode\hypertarget{ref-bennettHowCanDeal2001}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-bennettHowCanDeal2001}{}}%
 \CSLLeftMargin{17. }
 \CSLRightInline{Bennett DA. How can I deal with missing data in my study? \emph{Aust N Z J Public Health}. 2001;25(5):464-469.}
 
-\leavevmode\hypertarget{ref-cooperSynthesizingResearchGuide1998}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-cooperSynthesizingResearchGuide1998}{}}%
 \CSLLeftMargin{18. }
 \CSLRightInline{Cooper HM. \emph{Synthesizing Research: A Guide for Literature Reviews}. 3rd ed. Thousand Oaks, Calif: Sage Publications; 1998.}
 
-\leavevmode\hypertarget{ref-cooperHandbookResearchSynthesis2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-cooperHandbookResearchSynthesis2019}{}}%
 \CSLLeftMargin{19. }
 \CSLRightInline{Cooper HM, Hedges LV, Valentine JC, eds. \emph{Handbook of Research Synthesis and Meta-Analysis}. 3rd edition. New York: Russell Sage Foundation; 2019.}
 
-\leavevmode\hypertarget{ref-hedgesFixedRandomeffectsModels1998}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesFixedRandomeffectsModels1998}{}}%
 \CSLLeftMargin{20. }
 \CSLRightInline{Hedges LV, Vevea JL. Fixed- and random-effects models in meta-analysis. \emph{Psychological Methods}. 1998;3(4):486-504. doi:\href{https://doi.org/10.1037/1082-989X.3.4.486}{10.1037/1082-989X.3.4.486}}
 
-\leavevmode\hypertarget{ref-hedgesRandomEffectsModel1983}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesRandomEffectsModel1983}{}}%
 \CSLLeftMargin{21. }
 \CSLRightInline{Hedges LV. A random effects model for effect sizes. \emph{Psychological Bulletin}. 1983;93(2):388-395. doi:\href{https://doi.org/10.1037/0033-2909.93.2.388}{10.1037/0033-2909.93.2.388}}
 
-\leavevmode\hypertarget{ref-lairdStatisticalMethodsCombining1990}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-lairdStatisticalMethodsCombining1990}{}}%
 \CSLLeftMargin{22. }
 \CSLRightInline{Laird NM, Mosteller F. Some statistical methods for combining experimental results. \emph{Int J Technol Assess Health Care}. 1990;6(1):5-30. doi:\href{https://doi.org/10.1017/S0266462300008916}{10.1017/S0266462300008916}}
 
-\leavevmode\hypertarget{ref-viechtbauerBiasEfficiencyMetaanalytic2005}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-viechtbauerBiasEfficiencyMetaanalytic2005}{}}%
 \CSLLeftMargin{23. }
 \CSLRightInline{Viechtbauer W. Bias and efficiency of meta-analytic variance estimators in the random-effects model. \emph{Journal of Educational and Behavioral Statistics}. 2005;30(3):261-293. doi:\href{https://doi.org/10.3102/10769986030003261}{10.3102/10769986030003261}}
 
-\leavevmode\hypertarget{ref-gelmanBayesianDataAnalysis2014}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-gelmanBayesianDataAnalysis2014}{}}%
 \CSLLeftMargin{24. }
 \CSLRightInline{Gelman A. \emph{Bayesian Data Analysis}. Third edition. Boca Raton: CRC Press; 2014.}
 
-\leavevmode\hypertarget{ref-lipseyThoseConfoundedModerators2003}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-lipseyThoseConfoundedModerators2003}{}}%
 \CSLLeftMargin{25. }
 \CSLRightInline{Lipsey MW. Those confounded moderators in meta-analysis: Good, bad, and ugly. \emph{The ANNALS of the American Academy of Political and Social Science}. 2003;587(1):69-81. doi:\href{https://doi.org/10.1177/0002716202250791}{10.1177/0002716202250791}}
 
-\leavevmode\hypertarget{ref-farrarMulticollinearityRegressionAnalysis1967}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-farrarMulticollinearityRegressionAnalysis1967}{}}%
 \CSLLeftMargin{26. }
 \CSLRightInline{Farrar DE, Glauber RR. Multicollinearity in regression analysis: The problem revisited. \emph{The Review of Economics and Statistics}. 1967;49(1):92. doi:\href{https://doi.org/10.2307/1937887}{10.2307/1937887}}
 
-\leavevmode\hypertarget{ref-melaImpactCollinearityRegression2002}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-melaImpactCollinearityRegression2002}{}}%
 \CSLLeftMargin{27. }
 \CSLRightInline{Mela CF, Kopalle PK. The impact of collinearity on regression analysis: The asymmetric effect of negative and positive correlations. \emph{Applied Economics}. 2002;34(6):667-677. doi:\href{https://doi.org/10.1080/00036840110058482}{10.1080/00036840110058482}}
 
-\leavevmode\hypertarget{ref-angristpischke2009}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-angristpischke2009}{}}%
 \CSLLeftMargin{28. }
 \CSLRightInline{Angrist JD, Pischke J-S. \emph{Mostly harmless econometrics}. Princeton, N.J.: Princeton University Press; 2009.}
 
-\leavevmode\hypertarget{ref-rubinInferenceMissingData1976}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-rubinInferenceMissingData1976}{}}%
 \CSLLeftMargin{29. }
 \CSLRightInline{Rubin DB. Inference and missing data. \emph{Biometrika}. 1976;63(3):581-592. doi:\href{https://doi.org/10.1093/biomet/63.3.581}{10.1093/biomet/63.3.581}}
 
-\leavevmode\hypertarget{ref-vanbuurenFlexibleImputationMissing2018}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-vanbuurenFlexibleImputationMissing2018}{}}%
 \CSLLeftMargin{30. }
 \CSLRightInline{van Buuren S. \emph{Flexible Imputation of Missing Data, Second Edition}. 2nd ed. Second edition. \textbar{} Boca Raton, Florida : CRC Press, {[}2019{]} \textbar: Chapman and Hall/CRC; 2018. doi:\href{https://doi.org/10.1201/9780429492259}{10.1201/9780429492259}}
 
-\leavevmode\hypertarget{ref-agrestiCategoricalDataAnalysis2013}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-agrestiCategoricalDataAnalysis2013}{}}%
 \CSLLeftMargin{31. }
 \CSLRightInline{Agresti A. \emph{Categorical Data Analysis}. 3rd ed. Hoboken, NJ: Wiley; 2013.}
 
-\leavevmode\hypertarget{ref-ibrahimIncompleteDataGeneralized1990}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-ibrahimIncompleteDataGeneralized1990}{}}%
 \CSLLeftMargin{32. }
 \CSLRightInline{Ibrahim JG. Incomplete data in generalized linear models. \emph{Journal of the American Statistical Association}. 1990;85(411):765-769. doi:\href{https://doi.org/10.1080/01621459.1990.10474938}{10.1080/01621459.1990.10474938}}
 
-\leavevmode\hypertarget{ref-ibrahimMissingCovariatesGeneralized1999}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-ibrahimMissingCovariatesGeneralized1999}{}}%
 \CSLLeftMargin{33. }
 \CSLRightInline{Ibrahim JG, Lipsitz SR, Chen M-H. Missing covariates in generalized linear models when the missing data mechanism is non-ignorable. \emph{J Royal Statistical Soc B}. 1999;61(1):173-190. doi:\href{https://doi.org/10.1111/1467-9868.00170}{10.1111/1467-9868.00170}}
 
-\leavevmode\hypertarget{ref-lipsitzConditionalModelIncomplete1996}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-lipsitzConditionalModelIncomplete1996}{}}%
 \CSLLeftMargin{34. }
 \CSLRightInline{Lipsitz S. A conditional model for incomplete covariates in parametric regression models. \emph{Biometrika}. 1996;83(4):916-922. doi:\href{https://doi.org/10.1093/biomet/83.4.916}{10.1093/biomet/83.4.916}}
 
-\leavevmode\hypertarget{ref-glynnRegressionEstimatesMissing1986}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-glynnRegressionEstimatesMissing1986}{}}%
 \CSLLeftMargin{35. }
 \CSLRightInline{Glynn RJ, Laird NM. Regression estimates and missing data: Complete case analysis. \emph{Cambridge, MA: Harvard School of Public Health, Department of Biostatistics}. 1986.}
 
-\leavevmode\hypertarget{ref-littleRegressionMissingReview1992}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-littleRegressionMissingReview1992}{}}%
 \CSLLeftMargin{36. }
 \CSLRightInline{Little RJA. Regression with missing \emph{X} 's: A review. \emph{Journal of the American Statistical Association}. 1992;87(420):1227-1237. doi:\href{https://doi.org/10.1080/01621459.1992.10476282}{10.1080/01621459.1992.10476282}}
 
-\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2001}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesPowerStatisticalTests2001}{}}%
 \CSLLeftMargin{37. }
 \CSLRightInline{Hedges LV, Pigott TD. The power of statistical tests in meta-analysis. \emph{Psychological Methods}. 2001;6(3):203-217. doi:\href{https://doi.org/10.1037/1082-989X.6.3.203}{10.1037/1082-989X.6.3.203}}
 
-\leavevmode\hypertarget{ref-hedgesPowerStatisticalTests2004}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesPowerStatisticalTests2004}{}}%
 \CSLLeftMargin{38. }
 \CSLRightInline{Hedges LV, Pigott TD. The power of statistical tests for moderators in meta-analysis. \emph{Psychological Methods}. 2004;9(4):426-445. doi:\href{https://doi.org/10.1037/1082-989X.9.4.426}{10.1037/1082-989X.9.4.426}}
 
-\leavevmode\hypertarget{ref-hedgesStatisticalAnalysesStudying2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hedgesStatisticalAnalysesStudying2019}{}}%
 \CSLLeftMargin{39. }
 \CSLRightInline{Hedges LV, Schauer JM. Statistical analyses for studying replication: Meta-analytic perspectives. \emph{Psychological Methods}. 2019;24(5):557-570. doi:\href{https://doi.org/10.1037/met0000189}{10.1037/met0000189}}
 
-\leavevmode\hypertarget{ref-cohenStatisticalPowerAnalysis1988}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-cohenStatisticalPowerAnalysis1988}{}}%
 \CSLLeftMargin{40. }
 \CSLRightInline{Cohen J. \emph{Statistical Power Analysis for the Behavioral Sciences}. 2nd ed. Hillsdale, N.J: L. Erlbaum Associates; 1988.}
 
-\leavevmode\hypertarget{ref-fergusonEffectSizePrimer2009}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-fergusonEffectSizePrimer2009}{}}%
 \CSLLeftMargin{41. }
 \CSLRightInline{Ferguson CJ. An effect size primer: A guide for clinicians and researchers. \emph{Professional Psychology: Research and Practice}. 2009;40(5):532-538. doi:\href{https://doi.org/10.1037/a0015808}{10.1037/a0015808}}
 
-\leavevmode\hypertarget{ref-chenHowBigBig2010}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-chenHowBigBig2010}{}}%
 \CSLLeftMargin{42. }
 \CSLRightInline{Chen H, Cohen P, Chen S. How big is a big odds ratio? Interpreting the magnitudes of odds ratios in epidemiological studies. \emph{Communications in Statistics - Simulation and Computation}. 2010;39(4):860-864. doi:\href{https://doi.org/10.1080/03610911003650383}{10.1080/03610911003650383}}
 
-\leavevmode\hypertarget{ref-haddockUsingOddsRatios1998}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-haddockUsingOddsRatios1998}{}}%
 \CSLLeftMargin{43. }
 \CSLRightInline{Haddock CK, Rindskopf D, Shadish WR. Using odds ratios as effect sizes for meta-analysis of dichotomous data: A primer on methods and issues. \emph{Psychological Methods}. 1998;3(3):339-353. doi:\href{https://doi.org/10.1037/1082-989X.3.3.339}{10.1037/1082-989X.3.3.339}}
 
-\leavevmode\hypertarget{ref-hillBenchmarks2008}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-hillBenchmarks2008}{}}%
 \CSLLeftMargin{44. }
 \CSLRightInline{Hill CJ, Bloom HS, Black AR, Lipsey MW. Empirical benchmarks for interpreting effect sizes in research. \emph{Child Development Perspectives}. 2008;2(3):172-177. doi:\href{https://doi.org/10.1111/j.1750-8606.2008.00061.x}{10.1111/j.1750-8606.2008.00061.x}}
 
-\leavevmode\hypertarget{ref-rubinMultipleImputationNonresponse1987}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-rubinMultipleImputationNonresponse1987}{}}%
 \CSLLeftMargin{45. }
 \CSLRightInline{Rubin DB. \emph{Multiple Imputation for Nonresponse in Surveys}. New York: Wiley; 1987.}
 
-\leavevmode\hypertarget{ref-vanbuurenMiceMultivariateImputation2011}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-vanbuurenMiceMultivariateImputation2011}{}}%
 \CSLLeftMargin{46. }
 \CSLRightInline{van Buuren S van, Groothuis-Oudshoorn K. \textbf{mice} : Multivariate Imputation by Chained Equations in \emph{R}. \emph{J Stat Soft}. 2011;45(3). doi:\href{https://doi.org/10.18637/jss.v045.i03}{10.18637/jss.v045.i03}}
 
-\leavevmode\hypertarget{ref-viechtbauerConductingMetaanalysesMetafor2010}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-viechtbauerConductingMetaanalysesMetafor2010}{}}%
 \CSLLeftMargin{47. }
 \CSLRightInline{Viechtbauer W. Conducting meta-analyses in R with the metafor package. \emph{J Stat Soft}. 2010;36(3). doi:\href{https://doi.org/10.18637/jss.v036.i03}{10.18637/jss.v036.i03}}
 
-\leavevmode\hypertarget{ref-schauerExploratoryAnalysesMissingunderreview}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-schauerExploratoryAnalysesMissingunderreview}{}}%
 \CSLLeftMargin{48. }
 \CSLRightInline{Schauer JM, Dìaz K, Pigott TD, Lee J. Exploratory analyses for missing data in meta-analyses. \emph{Alcohol and Alcoholism}. 2021:1-12. doi:\href{https://doi.org/10.1093/alcalc/agaa144}{10.1093/alcalc/agaa144}}
 
-\leavevmode\hypertarget{ref-grahamMissingDataAnalysis2009}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-grahamMissingDataAnalysis2009}{}}%
 \CSLLeftMargin{49. }
 \CSLRightInline{Graham JW. Missing data analysis: Making it work in the real world. \emph{Annu Rev Psychol}. 2009;60(1):549-576. doi:\href{https://doi.org/10.1146/annurev.psych.58.110405.085530}{10.1146/annurev.psych.58.110405.085530}}
 
-\leavevmode\hypertarget{ref-cheungHandlingMissingCovariates2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-cheungHandlingMissingCovariates2019}{}}%
 \CSLLeftMargin{50. }
 \CSLRightInline{Cheung MW-L. Handling missing covariates in mixed-effects meta-analysis with full-information maximum likelihood. Presented at the: Society for Research Synthesis Methods; 2019; Chicago, IL. \url{http://www.srsm.org/uploads/4/6/1/3/46138157/abstract_-_mike_cheung.pdf}. Accessed September 8, 2020.}
 
