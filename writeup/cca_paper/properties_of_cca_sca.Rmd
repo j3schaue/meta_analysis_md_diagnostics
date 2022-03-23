@@ -133,6 +133,7 @@ tabcc <- left_join(
   sc2
 ) %>%
   mutate_if(is.numeric, round, 2) %>%
+  mutate_if(is.numeric, as.character) %>%
   replace_na(list(se = "", 
                   p = "", 
                   estimate_sc1 = "--", 
