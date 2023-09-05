@@ -11,6 +11,7 @@
 library(tidyverse)
 library(viridis)
 library(cowplot)
+library(robumeta)
 
 ##----------------------------##
 ## Template text size for plots
@@ -64,7 +65,7 @@ p1 = fig1 %>%
   textsize
 p1
 ggsave(plot = p1,
-       filename = "../graphics/delta_plot_cts.pdf", 
+       filename = "graphics/delta_plot_cts.pdf", 
        height = 7, width = 11)
 
 
@@ -88,7 +89,7 @@ p1pres = fig1 %>%
   theme_bw() +
   textsize
 ggsave(plot = p1pres,
-       filename = "./writeup/cca_paper/presentation/delta_plot_cts.jpg", 
+       filename = "presentation/delta_plot_cts.jpg", 
        height = 7, width = 11)
 
 
@@ -129,7 +130,7 @@ p2a = ggplot(fig2) +
 #         legend.key.height = unit(1.5, "cm"))
 p2a
 ggsave(plot = p2a,
-       filename = "../graphics/bias_beta1_ex1.pdf", 
+       filename = "graphics/bias_beta1_ex1.pdf", 
        width = 11, height = 7)
 
 
@@ -154,7 +155,7 @@ ggsave(plot = p2a,
 #         legend.key.height = unit(1.5, "cm"))
 # p2p
 # ggsave(plot = p2p,
-#        filename = "./writeup/cca_paper/presentation/bias_beta1_ex1.jpg", 
+#        filename = "presentation/bias_beta1_ex1.jpg", 
 #        width = 12, height = 8)
 
 ##----------------------------##
@@ -218,7 +219,7 @@ p3b
 p3grid = plot_grid(p3a, p3b, ncol = 2)
 p3grid
 ggsave(plot = p3grid,
-       filename = "../graphics/omitted_var_bias.pdf", 
+       filename = "graphics/omitted_var_bias.pdf", 
        width = 12, height = 6)
 
 
@@ -316,7 +317,7 @@ ebp <- bind_cols(emp_bias_parmas, betas) %>%
 
 
 # Save data
-# write.csv(x = ebp, file = "../data/cca_bias_table.csv")
+# write.csv(x = ebp, file = "../../data/cca_bias_table.csv")
 
 
 ###---Data for figure
@@ -353,7 +354,7 @@ p7 <- ggplot(p7dat) +
   theme_bw() + 
   theme(strip.text.y = element_text(angle = 0))
 
-ggsave("../writeup/cca_paper/graphics/bias_boxplot.jpg",
+ggsave("graphics/bias_boxplot.jpg",
        p7,
        width = 12, height = 7)
 
@@ -371,7 +372,7 @@ p4 <- ggplot(cc_ebp) +
   textsize
 p4
 ggsave(plot = p4,
-       filename = "../graphics/emp_miss_bias.pdf", 
+       filename = "graphics/emp_miss_bias.pdf", 
        width = 12, height = 6)
 
 sc_ebp <- ebp %>%
@@ -393,7 +394,7 @@ p5 <- ggplot(sc_ebp) +
 p5
 
 ggsave(plot = p5,
-       filename = "../graphics/emp_omv_bias.pdf", 
+       filename = "graphics/emp_omv_bias.pdf", 
        width = 12, height = 6)
 
 p6 <- ggplot(tot_emp) + 
@@ -409,7 +410,7 @@ p6 <- ggplot(tot_emp) +
 p6
 
 ggsave(plot = p6,
-       filename = "../graphics/emp_tot_bias.pdf", 
+       filename = "graphics/emp_tot_bias.pdf", 
        width = 12, height = 6)
 
 dat = tibble(psi2 = c(1.1, 1.45, 2.5, 4.13)) %>%
